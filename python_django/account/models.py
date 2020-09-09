@@ -1,0 +1,35 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+import datetime
+from django.db import models
+
+__author__ = "HymanHu";
+
+'''
+Account models
+'''
+
+# Create your models here.
+class User(models.Model):
+    id = models.AutoField(primary_key=True)
+    # name参数指定列名
+    user_name = models.CharField(name="user_name", max_length=20, blank = True, null = True)
+    password = models.CharField(max_length=20, blank = True, null = True)
+    create_date = models.DateTimeField(auto_now=True, blank = True, null = True)
+
+    # 将 class 转 dict，方便接口返回数据
+    def user_dict(self):
+        user_dict = {}
+        user_dict["id"] = self.id
+        user_dict["user_name"] = self.user_name
+        user_dict["password"] = self.password
+        user_dict["create_date"] = self.create_date
+        return user_dict
+
+    # 指定表名，若不指定，默认生成表名为：app名称_类名，比如account_user
+    class Meta:
+        db_table = ('user')
+
+if __name__ == "__main__":
+    user = User(user_name="hujiang", password="1111", create_date=datetime.datetime.now())
+    print(user.user_dict())
