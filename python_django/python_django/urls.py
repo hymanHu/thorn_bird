@@ -24,5 +24,6 @@ __author__ = "HymanHu";
 urlpatterns = [
     path('admin/', admin.site.urls),
     # ---- account ----
-    re_path(r'^register$', account.views.register),
+    re_path(r'^user$', account.views.user),
+    re_path(r'^user/(\d+)$', account.views.user_),
 ]
