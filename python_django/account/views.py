@@ -65,9 +65,8 @@ def user(request):
 def user_(request, user_id):
     if request.method == "GET":
         user = User.objects.filter(user_id=user_id).first()
-        print(user.user_dict())
         # 序列化 user，需放入 list 中，而且 user 还包含其它属性
-        user_json = serializers.serialize("json", [user])
+        # user_json = serializers.serialize("json", [user])
         # 返回 Json 数据，字典类型可直接返回，非字典类型需要反序列化，并且设置 safe=False 属性
         # 直接返回 json 字符串
         # return JsonResponse(user_json, safe=False)
@@ -75,3 +74,6 @@ def user_(request, user_id):
         # return JsonResponse(json.loads(user_json), safe=False)
         # 返回 user 转 dict 数据
         return JsonResponse(user.user_dict())
+    elif request.method == "DELETE":
+        User.objects.filter(user_id=user_id).delete();
+        return JsonResponse(Result(200, "Delete success.").result());

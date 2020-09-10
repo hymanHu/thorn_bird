@@ -25,5 +25,5 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     # ---- account ----
     re_path(r'^user$', account.views.user),
-    re_path(r'^user/(\d+)$', account.views.user_),
+    re_path(r'^user/(?P<user_id>\d+)$', account.views.user_),
 ]

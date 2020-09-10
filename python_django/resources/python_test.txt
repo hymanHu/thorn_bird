@@ -1,0 +1,125 @@
+一，选择题
+	以下哪个不是python解释器
+		CPython
+		IPython
+		Jython
+		py
+	下列哪个表达式在Python中是非法的？
+		x = y = z = 1
+		x = (y = z + 1)
+		x, y = y, x
+		x += y
+	print("%d %% %d"%(3, 5)) 输出结果是？
+		3 % 5
+		3 %% 5
+		2
+		1
+	“今年第一季度GDP提高了x%”，x为float值，格式化字符串，x保留两位小数，下面哪个是正确的？
+		print("今年第一季度GDP提高了%.2f"%(22.234,))
+		print("今年第一季度GDP提高了%.2f%"%(22.234,))
+		print("今年第一季度GDP提高了%.2f%%"%(22.234,))
+		print("今年第一季度GDP提高了{0}%".format(22.234))
+	l = ["cdsa", 32, 33.2, None, True];l.pop();print(l);打印结果是：
+		["cdsa", 32, 33.2, True]
+		["cdsa", 32, None, True]
+		["cdsa", 32, 33.2, None]
+		[32, 33.2, None, True]
+	print(15 // 2);
+		1
+		7
+		7.5
+		8
+	下面哪个不是 python 的数据类型
+		int
+		str
+		set
+		double
+	*args 代表什么参数
+		位置参数
+		可变参数
+		可变关键字参数
+		命名关键字参数
+	函数多个返回值，实际上返回的是什么数据类型？
+		list
+		set
+		tuple
+		dict
+	安装Django2.0.7版本，使用的什么命令？
+		pip install django
+		pip install django=2.0.7
+		pip install django==2.0.7
+		pip install django version=2.0.7
+
+二、填空题
+	字符串前面添加u、r、b分别代表什么？
+	requests模块请求远程服务器，如何设置相应编码？
+	windows下执行python的方式；
+	创建python package，会自动生成什么文件？
+	python变量作用域有哪些？
+
+三、问答题
+	python命名规则？
+	set删除操作中，pop、remove的区别？
+	list使用+=和append函数的区别？
+	使用bs4解析响应内容，获取某div（class为aaa）下所有span节点；
+	简述Django操作流程、组件的作用；
+
+四、编程题
+	定义一个函数，接受 0 个或多个参数，返回累计乘积；
+	定义一个函数，去掉字符串前后的空格；
+	
+	
+==========================================================
+D、B、A、C、C、B、D、B、C、C
+
+
+print(u'中文'); # 后面字符串是以Unicode编码
+print(r'dddd'); # 后面字符串是普通字符串
+print(b'qwerr'); # 后面是bytes
+----------------------------
+r.encoding = r.apparent_encoding;
+----------------------------------
+cmd ---- python ---- python *.py || python代码
+-----------------------------------
+__init__.py
+---------------------------
+L （Local） ---- 局部作用域；
+E （Enclosing） ---- 闭包函数外的函数中；
+G （Global） ---- 全局作用域；
+B （Built-in） ---- 内建作用域；
+
+
+总规则：英文字母、数字和下划线，不能以数字开头，扩展名 .py；
+------------------------------
+pop：按照索引删除元素，无参数时从排序后第一位删除
+remove：删除首个符合条件的元素，不是索引
+----------------------------------
+append：将参数作为list的一项添加；
++=：将参数元素添加到list
+--------------------------------------
+soup.find(name="div", attrs={"class":"aaaa"}).find_all(name='span');
+------------------------------------
+request ---- urls ---- views ----- modules ---- views ----- template
+
+
+def product(*numbers):
+    if len(numbers) == 0:
+        raise TypeError("Param is error.");
+    count = 1;
+    for i in numbers:
+        count *= i;
+    return count;
+print(product(*[1,2,4,6,7]));
+print(product(1,2,4,6,7));
+
+叶知秋:
+def trim(s):
+    if len(s) == 0 or s.isspace():
+        return '';
+    while s[0] == ' ':
+        s = s[1:];
+    while s[-1] == ' ':
+        s = s[:-1];
+    return s;
+print(trim(""));
+print(trim("  dsadad  "));

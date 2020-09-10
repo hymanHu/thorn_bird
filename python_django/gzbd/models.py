@@ -20,6 +20,20 @@ class Epidemic(models.Model):
     therapy = models.IntegerField(blank = True, null = True)
     observation = models.IntegerField(blank = True, null = True)
 
+    # 将 class 转 dict，方便接口返回数据
+    def epidemic_dict(self):
+        epidemic_dict = {}
+        epidemic_dict["id"] = self.id
+        epidemic_dict["region"] = self.region
+        epidemic_dict["date"] = self.date
+        epidemic_dict["diagnosis"] = self.diagnosis
+        epidemic_dict["overseas_import"] = self.overseas_import
+        epidemic_dict["cure"] = self.cure
+        epidemic_dict["death"] = self.death
+        epidemic_dict["therapy"] = self.therapy
+        epidemic_dict["observation"] = self.observation
+        return epidemic_dict
+
     # 指定表名，若不指定，默认生成表名为：app名称_类名，比如gzbd_epidemic
     class Meta:
         db_table = ('epidemic')
