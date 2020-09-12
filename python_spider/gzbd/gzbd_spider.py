@@ -6,15 +6,15 @@ __author__ = "HymanHu";
 gzbd 数据爬取
 '''
 
-import requests;
-from bs4 import BeautifulSoup;
-import re;
-import spider_util;
+import requests
+from bs4 import BeautifulSoup
+import re
+from utils import spider_util
 
-__wjw_regin = "四川";
-__wjw_domain = "http://wsjkw.sc.gov.cn";
-__wjw_base_url = "/scwsjkw/gzbd01/ztwzlmgl.shtml";
-__wjw_page_count = 1;
+wjw_regin = "四川";
+wjw_domain = "http://wsjkw.sc.gov.cn";
+wjw_base_url = "/scwsjkw/gzbd01/ztwzlmgl.shtml";
+wjw_page_count = 1;
 request_headers = {
     'Host': 'wsjkw.sc.gov.cn',
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:77.0) Gecko/20100101 Firefox/77.0',
@@ -22,7 +22,7 @@ request_headers = {
     'Accept-Language': 'zh-CN,zh;q=0.8,zh-TW;q=0.7,zh-HK;q=0.5,en-US;q=0.3,en;q=0.2',
     'Accept-Encoding': 'gzip, deflate',
     'Connection': 'keep-alive',
-    'Cookie': spider_util.get_cookies("%s%s"%(__wjw_domain, __wjw_base_url)),
+    'Cookie': spider_util.get_cookies("%s%s" % (wjw_domain, wjw_base_url)),
     'Upgrade-Insecure-Requests': '1'
 };
 
@@ -31,12 +31,12 @@ def gzbd_all_data():
     all_data = [];
 
     # 创建 新闻列表页url && 获取列表页的数据
-    news_page_url = __wjw_domain;
-    for i in range(1, __wjw_page_count + 1):
+    news_page_url = wjw_domain;
+    for i in range(1, wjw_page_count + 1):
         if i == 1:
-            news_page_url +=  __wjw_base_url;
+            news_page_url +=  wjw_base_url;
         else:
-            l = __wjw_base_url.split(".");
+            l = wjw_base_url.split(".");
             l.insert(1, "_%d."%(i,));
             news_page_url +=  "".join(l);
 
@@ -45,7 +45,7 @@ def gzbd_all_data():
         print("     %s"%(news_list,));
         all_data += news_list;
 
-        news_page_url = __wjw_domain;
+        news_page_url = wjw_domain;
 
     print(all_data);
     return all_data;
@@ -62,10 +62,10 @@ def news_page_data(url):
     for li in li_list:
         child_span = li.findChildren("span", recursive=False)[0];
         child_a = li.findChildren("a", recursive=False)[0];
-        new_page_url = __wjw_domain + child_a.get("href");
+        new_page_url = wjw_domain + child_a.get("href");
         new_dict = new_page_data(new_page_url);
         new_dict["日期"] = child_span.get_text();
-        new_dict["地区"] = __wjw_regin;
+        new_dict["地区"] = wjw_regin;
         news_list.append(new_dict);
 
     return news_list;

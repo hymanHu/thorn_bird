@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-__author__ = "HymanHu";
+from utils import mysql_util, excel_util
+import gzbd.gzbd_spider
+
+__author__ = "HymanHu"
 
 '''
 gzbd 数据存储
 '''
-
-import mysql_util, excel_util, gzbd.gzbd_spider;
 
 def storage_excel():
     gzbd_all_data = gzbd.gzbd_spider.gzbd_all_data();

@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import pymysql;
+
 __author__ = "HymanHu";
 
 '''
 mysql utils
 '''
 
-import pymysql;
-
-
 def get_connect_cursor():
-    conn = pymysql.connect(host='localhost', user='root', passwd='root', db='test_1', charset='utf8');
+    conn = pymysql.connect(host='localhost', user='root', passwd='root', db='test', charset='utf8');
     return conn, conn.cursor();
 
 def execute_insert_update_delete(cursor, sql):
@@ -23,6 +22,9 @@ def execute_query(cursor, sql):
 
 def commit_(conn):
     conn.commit();
+
+def rollback_(conn):
+    conn.rollback()
 
 def close_connect_cursor(conn, cur):
     cur.close();

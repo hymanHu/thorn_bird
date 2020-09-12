@@ -1,12 +1,12 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+import openpyxl;
+
 __author__ = "HymanHu";
 
 '''
 excel util
 '''
-
-import openpyxl;
 
 def create_excel(header, body, file_path):
     # 获取 workbook 对象

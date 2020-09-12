@@ -6,8 +6,8 @@ __author__ = "HymanHu";
 python base demo
 '''
 
-import re, math;
-import mysql_util;
+import re, math
+import utils.mysql_util
 
 # ==== 输入输出 ====
 # a = input();
