@@ -1,40 +1,34 @@
+--
+-- Table structure for table `university`
+--
+
 DROP TABLE IF EXISTS `university`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!40101 SET character_set_client = utf8 */;
+/*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `university` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `school_no` varchar(55) DEFAULT NULL,
-  `school_id` int(11) DEFAULT NULL,
-  `school_type` int(11) DEFAULT NULL,
-  `school_name` varchar(55) DEFAULT NULL,
-  `type` int(11) DEFAULT NULL,
-  `type_name` varchar(55) DEFAULT NULL,
-  `level` int(11) DEFAULT NULL,
-  `level_name` varchar(55) DEFAULT NULL,
-  `nature` int(11) DEFAULT NULL,
-  `nature_name` varchar(55) DEFAULT NULL,
-  `belong` varchar(55) DEFAULT NULL,
+  `id` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `school_name` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `type` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `level` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `nature` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `belong` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `central` int(11) DEFAULT NULL,
-  `code_enroll` int(11) DEFAULT NULL,
-  `colleges_level` varchar(55) DEFAULT NULL,
   `department` int(11) DEFAULT NULL,
   `doublehigh` int(1) DEFAULT NULL,
   `f211` int(1) DEFAULT NULL,
   `f985` int(1) DEFAULT NULL,
   `is_recruitment` int(1) DEFAULT NULL,
-  `is_top` int(11) DEFAULT NULL,
-  `rank` int(11) DEFAULT NULL,
-  `rank_type` int(11) DEFAULT NULL,
-  `dual_class` int(11) DEFAULT NULL,
-  `dual_class_name` varchar(55) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
-  `province_id` int(11) DEFAULT NULL,
-  `province_name` varchar(55) DEFAULT NULL,
-  `single_province` varchar(55) DEFAULT NULL,
-  `city_id` int(11) DEFAULT NULL,
-  `city_name` varchar(55) DEFAULT NULL,
-  `county_id` int(11) DEFAULT NULL,
-  `county_name` varchar(55) DEFAULT NULL,
+  `dual_class` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `address` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `province_name` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `single_province` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `city_name` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `county_name` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `view_total_number` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3689 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `university`
+--

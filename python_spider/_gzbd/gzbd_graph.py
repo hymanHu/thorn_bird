@@ -3,7 +3,7 @@
 __author__ = "HymanHu";
 
 '''
-gzbd graph
+_gzbd graph
 '''
 
 import plotly;
@@ -74,7 +74,7 @@ def draw_bar_graph(graph_data):
     bar_data = [trace_1, trace_2, trace_3];
 
     # 设置画布布局
-    layout = plotly.graph_objs.Layout(title="gzbd data", xaxis={"title": "时间"}, yaxis={"title": "数值"});
+    layout = plotly.graph_objs.Layout(title="_gzbd data", xaxis={"title": "时间"}, yaxis={"title": "数值"});
     # 融合图轨数据和布局
     figure = plotly.graph_objs.Figure(data=bar_data, layout=layout);
     # 输出

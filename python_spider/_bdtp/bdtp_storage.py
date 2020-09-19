@@ -5,11 +5,11 @@ import os
 
 import requests
 
-__author__ = "HymanHu";
-
 '''
 保存百度图片
 '''
+__author__ = "HymanHu";
+
 base_folder = "/download/"
 def bdtu_storage(folderName, images):
 
@@ -19,13 +19,10 @@ def bdtu_storage(folderName, images):
 
     for image in images:
         if image:
-            image_path = "%s/%s_%s.%s"%(dict_folder, folderName,
-                                        datetime.now().strftime("%Y%m%d%H%M%S"), image.split(".")[-1])
+            image_path = "%s/%s_%s.%s"%(dict_folder, folderName, images.index(image), image.split(".")[-1])
             r = requests.get(image)
             with open(image_path, 'wb') as f:
                 f.write(r.content)
 
 if __name__ == "__main__":
-    print(datetime.now().strftime("%Y%m%d%H%M%S"))
-    temp = "https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=196546764,2351605330&fm=26&gp=0.jpg";
-    print(temp.split(".")[-1])
+    pass

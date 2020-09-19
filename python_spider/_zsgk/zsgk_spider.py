@@ -1,27 +1,27 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import requests
-from zsgk import zsgk_storage
-
-__author__ = "HymanHu";
+from _zsgk import zsgk_storage
 
 '''
 掌上高考数据爬取
 https://gkcx.eol.cn/school/search
 '''
 
+__author__ = "HymanHu";
+
 request_headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0',
 }
-
+base_url_format = 'https://api.eol.cn/gkcx/api/?access_token=&admissions=&central=&department=&dual_class=&' \
+           'f211=&f985=&is_dual_class=&keyword=&page={0}&province_id=&request_type=&school_type=&signsafe=&' \
+           'size=20&sort=view_total&top_school_id=&type=&uri=apidata/api/gk/school/lists'
+url_count = 148
 def universities_data():
     universities = [];
-    urls = ['https://api.eol.cn/gkcx/api/?access_token=&admissions=&central=&department=&dual_class='
-            '&f211=&f985=&is_dual_class=&keyword=&page={0}&province_id=&request_type=&school_type='
-            '&signsafe=&size=20&sort=view_total&top_school_id=&type=&uri=apidata/api/gk/school/lists'
-                .format(i) for i in range(1, 149)]
+    urls = [base_url_format.format(i) for i in range(1, url_count + 1)]
     for url in urls:
-        print(url)
+        print("Visit url: %s"%url)
         try:
             r = requests.get(url, headers=request_headers)
             r.encoding = r.apparent_encoding
@@ -31,9 +31,9 @@ def universities_data():
                 print("Returen error status code(%d)" % (r.status_code,))
         except Exception as e:
             print(e)
-            print("Connection refused by the server..")
 
-    zsgk_storage.university_storage(universities)
+    return universities
 
 if __name__ == "__main__":
-    universities_data()
+    universities = universities_data()
+    zsgk_storage.university_storage(universities)
