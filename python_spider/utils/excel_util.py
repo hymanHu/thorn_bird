@@ -2,11 +2,11 @@
 # -*- coding: utf-8 -*-
 import openpyxl;
 
-__author__ = "HymanHu";
-
 '''
 excel util
 '''
+
+__author__ = "HymanHu";
 
 def create_excel(header, body, file_path):
     # 获取 workbook 对象

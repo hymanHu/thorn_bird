@@ -12,7 +12,6 @@ Account models
 # Create your models here.
 class User(models.Model):
     user_id = models.AutoField(primary_key=True)
-    # name参数指定列名
     user_name = models.CharField(name="user_name", max_length=20, blank = True, null = True)
     password = models.CharField(max_length=20, blank = True, null = True)
     create_date = models.DateTimeField(auto_now=True, blank = True, null = True)

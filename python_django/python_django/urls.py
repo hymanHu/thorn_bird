@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
+
 """python_django URL Configuration
 
 The `urlpatterns` list routes URLs to views. For more information please see:
@@ -17,13 +18,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path, re_path
-import account.views
-
-__author__ = "HymanHu";
+from app_account import views as account_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # ---- account ----
-    re_path(r'^user$', account.views.user),
-    re_path(r'^user/(?P<user_id>\d+)$', account.views.user_),
+    # ==== account ====
+    re_path(r'^helloWorld$', account_views.hello_world),
+    re_path(r'^register$', account_views.register),
+    re_path(r'^login$', account_views.login),
+    re_path(r'^user/(\d+)$', account_views.user),
+    re_path(r'^user$', account_views.user_),
 ]

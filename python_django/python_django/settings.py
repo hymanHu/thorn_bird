@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # See https://docs.djangoproject.com/en/2.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = '*bq+-)kv3hy@1_8kwz=)d@)mfe8slvu5xey)6gf69dw2@x!p1b'
+SECRET_KEY = 'kpk%znc(e)rvr0ovj$$7-1-h-02jj9lgzp2@$rv^*+hx4_fdvv'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,8 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'account',
-    'gzbd',
+    'app_account',
+    'app_spider',
 ]
 
 MIDDLEWARE = [
@@ -56,7 +56,7 @@ ROOT_URLCONF = 'python_django.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': [BASE_DIR + "/templates"],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -85,13 +85,14 @@ DATABASES = {
     'default':
     {
         'ENGINE': 'django.db.backends.mysql', # 数据库引擎
-        'NAME': 'test', # 数据库名称
+        'NAME': 'maindb', # 数据库名称
         'HOST': '127.0.0.1', # 数据库地址，本机 ip 地址 127.0.0.1
         'PORT': 3306, # 端口
         'USER': 'root',  # 数据库用户名
         'PASSWORD': 'root', # 数据库密码
     }
 }
+
 
 # Password validation
 # https://docs.djangoproject.com/en/2.0/ref/settings/#auth-password-validators
