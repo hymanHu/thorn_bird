@@ -8,7 +8,7 @@ import json
 from django.core import serializers
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from common.page_vo import *
 from common.md5_util import *
 from app_account.models import User
@@ -59,11 +59,16 @@ def login(request):
         password = get_md5(user_dict.get("password"), user_dict.get("userName"))
         user = User.objects.filter(user_name=user_name, password=password).first()
         if user:
+            request.session["userId"] = user.user_id
             return JsonResponse(Result(200, "Login success.", user.user_dict()).result())
         else:
             return JsonResponse(Result(500, "User name or password error").result())
     else:
         return JsonResponse(Result(500, "Unsupport this request").result())
+
+def logout(request):
+    del request.session["userId"]
+    return redirect("/login")
 
 def user(request, user_id):
     if request.method == "GET":

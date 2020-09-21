@@ -28,9 +28,12 @@ urlpatterns = [
     re_path(r'^account/test$', account_views.account_test),
     re_path(r'^register$', account_views.register),
     re_path(r'^login$', account_views.login),
+    re_path(r'^logout$', account_views.logout),
     re_path(r'^account/user/(\d+)$', account_views.user),
     re_path(r'^account/user$', account_views.user_),
     re_path(r'^account/users$', account_views.users),
-    # ==== account ====
+    # ==== spider ====
     re_path(r'^spider/universities$', spider_views.universities),
+    re_path(r'^spider/gzbd$', spider_views.gzbd_graph),
+    re_path(r'^spider/coronavirus$', spider_views.coronavirus),
 ]

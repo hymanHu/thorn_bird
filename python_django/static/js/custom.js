@@ -403,9 +403,9 @@ function init_flot_chart() {
     ];
 
 
-    for (var i = 0; i < 30; i++) {
-        chart_plot_02_data.push([new Date(Date.today().add(i).days()).getTime(), randNum() + i + i + 10]);
-    }
+    // for (var i = 0; i < 30; i++) {
+    //     chart_plot_02_data.push([new Date(Date.today().add(i).days()).getTime(), randNum() + i + i + 10]);
+    // }
 
 
     var chart_plot_01_settings = {
@@ -453,7 +453,7 @@ function init_flot_chart() {
         tooltip: false
     }
 
-    var chart_plot_02_settings = {
+    /*var chart_plot_02_settings = {
         grid: {
             show: true,
             aboveData: true,
@@ -515,7 +515,7 @@ function init_flot_chart() {
             min: chart_plot_02_data[0][0],
             max: chart_plot_02_data[20][0]
         }
-    };
+    };*/
 
     var chart_plot_03_settings = {
         series: {

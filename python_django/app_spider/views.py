@@ -6,6 +6,7 @@ Spider views
 '''
 import json
 
+from django.core import serializers
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.http import JsonResponse
 from django.shortcuts import render
@@ -40,4 +41,15 @@ def universities(request):
         return JsonResponse(page_info.result())
     else:
         return JsonResponse(Result(500, "Unsupport this request").result())
+
+def gzbd_graph(request):
+    if request.method == "GET":
+        context = {}
+        return render(request, "spider/gzbd.html", context)
+
+def coronavirus(request):
+    if request.method == "GET":
+        coronavirus = Coronavirus.objects.order_by("-date").all()[0:6]
+        coronavirus_json = list(item.coronavirus_dict() for item in coronavirus)
+        return JsonResponse(coronavirus_json, safe=False)
 
