@@ -19,13 +19,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, re_path
 from app_account import views as account_views
+from app_spider import views as spider_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     # ==== account ====
     re_path(r'^helloWorld$', account_views.hello_world),
+    re_path(r'^account/test$', account_views.account_test),
     re_path(r'^register$', account_views.register),
     re_path(r'^login$', account_views.login),
-    re_path(r'^user/(\d+)$', account_views.user),
-    re_path(r'^user$', account_views.user_),
+    re_path(r'^account/user/(\d+)$', account_views.user),
+    re_path(r'^account/user$', account_views.user_),
+    re_path(r'^account/users$', account_views.users),
+    # ==== account ====
+    re_path(r'^spider/universities$', spider_views.universities),
 ]
