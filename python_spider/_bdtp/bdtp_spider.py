@@ -37,6 +37,6 @@ def bdtp_data(keyword):
     return images
 
 if __name__ == "__main__":
-    keyword = "美女"
+    keyword = "风铃"
     images = bdtp_data(keyword)
     bdtp_storage.bdtu_storage(keyword, images)
