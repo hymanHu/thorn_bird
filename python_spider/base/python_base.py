@@ -185,44 +185,44 @@ while (i < 10):
     i += 1;
 
 # ==== 函数 ====
-def test(a):
+def function(a):
     a += 3;
     return a;
 
-print(test(8));
-f = test(8);
+print(function(8));
+f = function(8);
 print(f);
 
-def test_2(x, y="hujiang"):
+def function_2(x, y="hujiang"):
     print(x, y);
 
-def test_3(*num):
+def function_3(*num):
     count = 0;
     for i in num:
         count += i;
     return count;
 
-def test_4(name, **kv):
+def function_4(name, **kv):
     if "city" in kv:
         print("name:%s, city:%s"%(name,kv.get("city")));
     else:
         print("name:%s, city:%s" % (name, "sichuan"));
 
-def test_5(name, *, city):
+def function_5(name, *, city):
     if not isinstance(name, (str,)):
         raise TypeError("Type error");
     print("name:%s, city:%s"%(name, city));
 
 
 if __name__ == "__main__":
-    test_2("hello", "hyman");
-    test_2("hello");
-    print(test_3());
-    print(test_3(*list(range(1, 9))));
-    print(test_3(1,2,3,4,5));
-    test_4("hujiang", **{"age":33});
-    test_4("hujiang", **{"age":33,"city":"cd"});
-    test_5("hujiang", city="cd");
+    function_2("hello", "hyman");
+    function_2("hello");
+    print(function_3());
+    print(function_3(*list(range(1, 9))));
+    print(function_3(1, 2, 3, 4, 5));
+    function_4("hujiang", **{"age":33});
+    function_4("hujiang", **{"age":33, "city": "cd"});
+    function_5("hujiang", city="cd");
     # test_5(111, city="cd");
 
 # ==== 内置函数 ====
