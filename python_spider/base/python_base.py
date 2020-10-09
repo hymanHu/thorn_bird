@@ -213,18 +213,6 @@ def function_5(name, *, city):
         raise TypeError("Type error");
     print("name:%s, city:%s"%(name, city));
 
-
-if __name__ == "__main__":
-    function_2("hello", "hyman");
-    function_2("hello");
-    print(function_3());
-    print(function_3(*list(range(1, 9))));
-    print(function_3(1, 2, 3, 4, 5));
-    function_4("hujiang", **{"age":33});
-    function_4("hujiang", **{"age":33, "city": "cd"});
-    function_5("hujiang", city="cd");
-    # test_5(111, city="cd");
-
 # ==== 内置函数 ====
 print(int("22")); # 数据类型转换函数，注意，如果定义变量名和函数名一样，则不会调用该函数，会报错
 print(float("22.2"));
@@ -240,7 +228,16 @@ print(sum(range(1, 101))); # 求和
 print(sum(list(range(101))));
 print("cdaDcdsa".capitalize()); # 将字符串第一个字符变成大写，其他小写
 
-
+if __name__ == "__main__":
+    function_2("hello", "hyman");
+    function_2("hello");
+    print(function_3());
+    print(function_3(*list(range(1, 9))));
+    print(function_3(1, 2, 3, 4, 5));
+    function_4("hujiang", **{"age":33});
+    function_4("hujiang", **{"age":33, "city": "cd"});
+    function_5("hujiang", city="cd");
+    # test_5(111, city="cd");
 
 
 
