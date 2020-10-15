@@ -9,6 +9,11 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 
+/**
+ * Description: Response
+ * @author HymanHu
+ * @date 2020-10-15 15:12:51
+ */
 public class Response {
 	private Request request;
 	private OutputStream output;

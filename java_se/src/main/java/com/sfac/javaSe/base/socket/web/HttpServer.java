@@ -20,7 +20,6 @@ public class HttpServer {
 
 	/**
 	 * -项目根目录下webRoot文件夹，放置需要显示的页面文件，txt格式
-	 * http://127.0.0.1:9999/index.html
 	 */
 	public static final String WEB_ROOT = System.getProperty("user.dir") + File.separator + "webRoot";
 	public static final int SERVER_SOCKET_PORT = 9999;

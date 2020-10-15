@@ -5,6 +5,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 
+/**
+ * Description: Request
+ * @author HymanHu
+ * @date 2020-10-15 14:53:53
+ */
 public class Request {
 
 	private InputStream is;
