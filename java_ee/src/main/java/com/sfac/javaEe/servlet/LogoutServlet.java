@@ -23,10 +23,8 @@ public class LogoutServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setCharacterEncoding("utf-8");
 		String name = req.getParameter("name");
-		System.out.println(name);
 		
 		resp.setContentType("text/html;charset:utf-8;");
-		resp.setCharacterEncoding("utf-8");
 		resp.sendRedirect("/login?name=" + URLEncoder.encode(name, "utf-8"));
 	}
 
