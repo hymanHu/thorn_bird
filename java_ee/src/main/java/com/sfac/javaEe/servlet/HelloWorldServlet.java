@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * @author HymanHu
  * @date 2020-10-16 11:21:56
  */
-//@WebServlet(value = "/helloWorld")
+@WebServlet(value = "/helloWorld")
 public class HelloWorldServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -26,20 +26,20 @@ public class HelloWorldServlet extends HttpServlet {
 
 	@Override
 	public void init() throws ServletException {
-		super.init();
 		System.out.println("==== Init HelloWorldServlet ====");
+		super.init();
 	}
 	
 	@Override
 	public void destroy() {
-		super.destroy();
 		System.out.println("==== Destroy HelloWorldServlet ====");
+		super.destroy();
 	}
 	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		super.service(req, resp);
 		System.out.println("==== Call Service Method ====");
+		super.service(req, resp);
 	}
 	
 	@Override
@@ -51,23 +51,25 @@ public class HelloWorldServlet extends HttpServlet {
 		PrintWriter printWriter = resp.getWriter();
 		// 输出流写入响应内容
 		printWriter.write("<h1>Hello World!</h1>");
-		printWriter.append("<p>" + String.format("RemoteAddress: %s | RemoteHost: %s | RemoteHost: %s", 
+		printWriter.append("<p>" + String.format("RemoteAddress: %s | RemoteHost: %s | RemotePort: %s", 
 				req.getRemoteAddr(), req.getRemoteHost(), req.getRemotePort()) + "</p>");
 		printWriter.append("<p>" + String.format("LocalAddr: %s | LocalName: %s | LocalPort: %s", 
 				req.getLocalAddr(), req.getLocalName(), req.getLocalPort()) + "</p>");
-		printWriter.append("<p>" + String.format("Scheme: %s | Protocol: %s | Method: %s", 
-				req.getScheme(), req.getProtocol(), req.getMethod()) + "</p>");
+		printWriter.append("<p>" + String.format("RequestURL: %s | RequestURI: %s | ContextPath: %s", 
+				req.getRequestURL(), req.getRequestURI(), req.getContextPath()) + "</p>");
 		printWriter.append("<p>" + String.format("ServerName: %s | ServletPath: %s | ServerPort: %s", 
 				req.getServerName(), req.getServletPath(), req.getServerPort()) + "</p>");
-		printWriter.append("<p>" + String.format("Parameter: %s | ParameterNames: %s | ParameterMap: %s", 
-				req.getParameter("name"), req.getParameterNames(), req.getParameterMap()) + "</p>");
+		printWriter.append("<p>" + String.format("QueryString: %s | Parameter: %s | ParameterMap: %s", 
+				req.getQueryString(), req.getParameter("name"), req.getParameterMap()) + "</p>");
+		printWriter.append("<p>" + String.format("Scheme: %s | Protocol: %s | Method: %s", 
+				req.getScheme(), req.getProtocol(), req.getMethod()) + "</p>");
 		// flush强制输出
 		printWriter.flush();
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		super.doPost(req, resp);
 		System.out.println("==== Call Post Method ====");
+		super.doPost(req, resp);
 	}
 }

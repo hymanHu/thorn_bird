@@ -5,12 +5,12 @@
 <web-app>
 	<display-name>Archetype Created Web Application</display-name>
 	
-	<servlet>
+	<!-- <servlet>
 	    <servlet-name>HelloWorldServlet</servlet-name>
 	    <servlet-class>com.sfac.javaEe.servlet.HelloWorldServlet</servlet-class>
 	</servlet>
 	<servlet-mapping>
 	    <servlet-name>HelloWorldServlet</servlet-name>
 	    <url-pattern>/helloWorld</url-pattern>
-	</servlet-mapping>
+	</servlet-mapping> -->
 </web-app>
