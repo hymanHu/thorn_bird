@@ -34,7 +34,6 @@ public class LoginServlet extends HttpServlet {
 		System.out.println(req.getParameter("name"));
 		
 		resp.setContentType("text/html;charset:utf-8;");
-		resp.setCharacterEncoding("utf-8");
 		PrintWriter printWriter = resp.getWriter();
 		printWriter.append("<h1>Login page</h1>");
 		printWriter.append("这是登录页面.");
@@ -43,7 +42,6 @@ public class LoginServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
 		ObjectMapper mapper = new ObjectMapper();
 		
 		// 接收 “查询参数” 或 “form表单数据”
@@ -62,6 +60,9 @@ public class LoginServlet extends HttpServlet {
 			sb.append(line);
 		}
 		User userByJson = StringUtils.isNotBlank(sb) ? mapper.readValue(sb.toString(), User.class) : new User();
+		
+		// 将userName 保存在 Session
+		req.getSession().setAttribute("userName", userName);
 		
 		// 包装返回 json 对象
 		Map<String, Object> resultMap = new HashMap<String, Object>();

@@ -5,6 +5,23 @@
 <web-app>
 	<display-name>Archetype Created Web Application</display-name>
 	
+	<!-- <listener>
+		<listener-class>com.sfac.javaEe.listener.WebAppListener</listener-class>
+	</listener> -->
+	
+	<!-- <filter>
+		<filter-name>EncodingFilter</filter-name>
+		<filter-class>com.sfac.javaEe.filter.EncodingFilter</filter-class>
+		<init-param>
+			<param-name>name</param-name>
+			<param-value>HymanHu</param-value>
+		</init-param>
+	</filter>
+	<filter-mapping>
+		<filter-name>EncodingFilter</filter-name>
+		<url-pattern>/*</url-pattern>
+	</filter-mapping> -->
+	
 	<!-- <servlet>
 	    <servlet-name>HelloWorldServlet</servlet-name>
 	    <servlet-class>com.sfac.javaEe.servlet.HelloWorldServlet</servlet-class>
