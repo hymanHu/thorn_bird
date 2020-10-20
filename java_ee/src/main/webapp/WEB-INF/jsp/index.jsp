@@ -13,10 +13,12 @@
 	<%@ include file="./fragment/sidebar.jsp"%>
 	
 	<!-- 内容区 -->
-	${template}
 	<c:if test="${template != '' && template != null}">
+		<!-- include 指令无法使用 el 表达式 -->
+		<%-- <%@ include file="${template}"%> --%>
+		<%-- <jsp:include page="${template}"  flush = "true" /> --%>
 		${template}
-		<%@ include file="/WEB-INF/jsp/test/index.jsp"%>
+		<iframe scrolling="auto" rameborder="0" src="${template}" name="right" width="100%" height="100%"></iframe>
 	</c:if>
 
 	<!-- 尾部 -->
