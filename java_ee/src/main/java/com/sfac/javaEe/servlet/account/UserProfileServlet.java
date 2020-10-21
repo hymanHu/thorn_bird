@@ -1,4 +1,4 @@
-package com.sfac.javaEe.servlet;
+package com.sfac.javaEe.servlet.account;
 
 import java.io.IOException;
 import java.io.PrintWriter;

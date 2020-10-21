@@ -1,4 +1,4 @@
-package com.sfac.javaEe.servlet;
+package com.sfac.javaEe.servlet.test;
 
 import java.io.IOException;
 
@@ -9,18 +9,19 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Description: Morning Servlet
+ * Description: Error Servlet
  * @author HymanHu
- * @date 2020-10-19 16:57:22
+ * @date 2020-10-19 16:15:02
  */
-@WebServlet(value = "/morning")
-public class MorningServlet extends HttpServlet {
+@WebServlet(value = "/error")
+public class ErrorServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.getRequestDispatcher("/helloWorld").forward(req, resp);
+		resp.setContentType("text/html;charset:utf-8;");
+		resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "您的人品问题，无法访问！");
 	}
 
 }

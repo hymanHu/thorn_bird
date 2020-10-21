@@ -1,6 +1,7 @@
-package com.sfac.javaEe.servlet;
+package com.sfac.javaEe.servlet.account;
 
 import java.io.IOException;
+import java.net.URLEncoder;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,19 +10,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Description: Error Servlet
+ * Description: Logout Servlet
  * @author HymanHu
- * @date 2020-10-19 16:15:02
+ * @date 2020-10-19 15:03:26
  */
-@WebServlet(value = "/error")
-public class ErrorServlet extends HttpServlet {
+@WebServlet(value = "/logout")
+public class LogoutServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		resp.setContentType("text/html;charset:utf-8;");
-		resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "您的人品问题，无法访问！");
+		String name = req.getParameter("name");
+		
+		resp.sendRedirect("/login?name=" + URLEncoder.encode(name, "utf-8"));
 	}
 
 }
