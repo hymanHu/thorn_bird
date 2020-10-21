@@ -10,18 +10,18 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * @date 2020-10-19 13:08:24
  */
 public class User {
-	private int id;
+	private int userId;
 	private String userName;
 	private String password;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date createDate;
 
-	public int getId() {
-		return id;
+	public int getUserId() {
+		return userId;
 	}
 
-	public void setId(int id) {
-		this.id = id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 
 	public String getUserName() {

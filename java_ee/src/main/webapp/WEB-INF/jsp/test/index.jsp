@@ -65,13 +65,13 @@
 		<thead><tr><td>Id</td><td>Name</td></tr></thead>
 		<tbody>
 			<c:forEach var="user" items="${users }">
-				<tr><td>${user.id }</td><td>${user.userName }</td></tr>
+				<tr><td>${user.userId }</td><td>${user.userName }</td></tr>
 			</c:forEach>
 		</tbody>
 	</table>
 	<select>
 		<c:forEach var="user" items="${users }">
-			<option id="${user.id }">${user.userName }</option>
+			<option id="${user.userId }">${user.userName }</option>
 		</c:forEach>
 	</select>
 

@@ -35,7 +35,7 @@ public class JspTestServlet extends HttpServlet {
 		List<User> users = new ArrayList<User>();
 		IntStream.range(1, 10).forEach(i -> {
 			User user = new User();
-			user.setId(i);
+			user.setUserId(i);
 			user.setUserName(String.format("Hujiang%d", new Random().nextInt(12)));
 			users.add(user);
 		});
