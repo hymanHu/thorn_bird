@@ -30,14 +30,7 @@ public class LoginServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.setCharacterEncoding("utf-8");
-		System.out.println(req.getParameter("name"));
-		
-		resp.setContentType("text/html;charset:utf-8;");
-		PrintWriter printWriter = resp.getWriter();
-		printWriter.append("<h1>Login page</h1>");
-		printWriter.append("这是登录页面.");
-		printWriter.flush();
+		req.getRequestDispatcher("/WEB-INF/jsp/account/login.jsp").forward(req, resp);
 	}
 
 	@Override

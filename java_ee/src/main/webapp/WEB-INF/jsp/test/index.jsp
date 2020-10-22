@@ -14,7 +14,7 @@
 	<!-- Js -->
 	<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 	<!-- layer -->
-	<script th:src="@{https://cdn.bootcss.com/layer/2.1/layer.js}" type="text/javascript"></script>
+	<script th:src="https://cdn.bootcss.com/layer/2.1/layer.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath}/static/js/custom.js" type="text/javascript"></script>
 </head>
 <body>
