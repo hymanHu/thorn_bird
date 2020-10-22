@@ -3,7 +3,7 @@ package com.sfac.javaEe.servlet.account;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.Date;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sfac.javaEe.dao.UserDao;
 import com.sfac.javaEe.entity.User;
 
 /**
@@ -36,14 +37,8 @@ public class LoginServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		ObjectMapper mapper = new ObjectMapper();
-		
-		// 接收 “查询参数” 或 “form表单数据”
-		String userName = req.getParameter("userName");
-		String password = req.getParameter("password");
-		User userByForm = new User();
-		userByForm.setUserName(userName);
-		userByForm.setPassword(password);
-		userByForm.setCreateDate(new Date());
+		Map<String, Object> resultMap = new HashMap<String, Object>();
+		String resultJson = "";
 		
 		// 接收 request json 数据
 		StringBuffer sb = new StringBuffer();
@@ -52,18 +47,30 @@ public class LoginServlet extends HttpServlet {
 		if ((line = reader.readLine()) != null) {
 			sb.append(line);
 		}
-		User userByJson = StringUtils.isNotBlank(sb) ? mapper.readValue(sb.toString(), User.class) : new User();
+		User user = StringUtils.isNotBlank(sb) ? mapper.readValue(sb.toString(), User.class) : new User();
 		
-		// 将userName 保存在 Session
-		req.getSession().setAttribute("userName", userName);
+		UserDao userDao = new UserDao();
+		User userTemp = null;
+		try {
+			userTemp = userDao.getUserByUserNameAndPassword(user.getUserName(), user.getPassword());
+			if (userTemp == null) {
+				resultMap.put("status", 500);
+				resultMap.put("message", "User name or password error.");
+			} else {
+				// 将 user 保存在 Session
+				req.getSession().setAttribute("userName", userTemp);
+				resultMap.put("status", 200);
+				resultMap.put("message", "Login success.");
+				resultMap.put("data", user);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+			resultMap.put("status", 500);
+			resultMap.put("message", e.getMessage());
+		}
 		
 		// 包装返回 json 对象
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("status", 200);
-		resultMap.put("message", "Login success.");
-		resultMap.put("data1", userByForm);
-		resultMap.put("data2", userByJson);
-		String resultJson = mapper.writeValueAsString(resultMap);
+		resultJson = mapper.writeValueAsString(resultMap);
 		
 		// 输出 json
 		resp.setContentType("text/json;charset=utf-8;");

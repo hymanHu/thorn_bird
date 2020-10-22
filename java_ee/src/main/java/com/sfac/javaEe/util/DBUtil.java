@@ -9,6 +9,11 @@ import java.sql.SQLException;
  * @author: HymanHu
  * @date: 2020年10月21日
  */
+/**
+ * @Description: 
+ * @author: HymanHu
+ * @date: 2020年10月22日
+ */
 public class DBUtil {
 	
 	private static String user ="";
@@ -18,7 +23,7 @@ public class DBUtil {
     private static Connection conn = null;
     
     /**
-     * 初始化连接属性
+     * -初始化连接属性
      */
     static {
     	driver = ConfigUtil.properties.getProperty("jdbc.driverClassName");
@@ -28,8 +33,7 @@ public class DBUtil {
     }
     
     /**
-     * 获取数据库连接
-     * @return
+     * -获取数据库连接
      */
     public static Connection getConnection() {
     	try {
@@ -42,8 +46,7 @@ public class DBUtil {
     }
     
     /**
-     * 关闭数据库连接
-     * @param conn
+     * -关闭数据库连接
      */
     public static void closeConnection(Connection conn) {
     	if (conn != null) {
