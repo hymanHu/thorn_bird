@@ -58,7 +58,7 @@ public class LoginServlet extends HttpServlet {
 				resultMap.put("message", "User name or password error.");
 			} else {
 				// 将 user 保存在 Session
-				req.getSession().setAttribute("userName", userTemp);
+				req.getSession().setAttribute("user", userTemp);
 				resultMap.put("status", 200);
 				resultMap.put("message", "Login success.");
 				resultMap.put("data", user);

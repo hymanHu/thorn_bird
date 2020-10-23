@@ -102,8 +102,7 @@
 			data : JSON.stringify(user),
 			success : function (data) {
 				if (data.status == 200) {
-					alert("Register Success.");
-					//location.href = "/common/dashboard";
+					location.href = "/login";
 				} else {
 					layer.msg(data.message, {icon: 0});
 				}

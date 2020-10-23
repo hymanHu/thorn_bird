@@ -16,7 +16,7 @@
 					alt="User Image">
 			</div>
 			<div class="info">
-				<a href="#" class="d-block">Hyman Hu</a>
+				<a href="#" class="d-block" name="userName">${sessionScope.user.userName} </a>
 			</div>
 		</div>
 
@@ -56,7 +56,13 @@
 						<li class="nav-item">
 							<a href="#" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p>GZBD Graph</p>
+								<p>Universities</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="#" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>Gzbds</p>
 							</a>
 						</li>
 					</ul>

@@ -153,7 +153,7 @@
 									<div class="row">
 										<div class="col-md-8">
 											<p class="text-center">
-												<strong>Sales: 1 Jan, 2014 - 30 Jul, 2014</strong>
+												<strong id="gzbdTitle"></strong>
 											</p>
 		
 											<div class="chart">
@@ -169,34 +169,37 @@
 											</p>
 		
 											<div class="progress-group">
-												Add Products to Cart <span class="float-right"><b>160</b>/200</span>
+												<span class="progress-text">确诊数</span>
+												<span class="float-right"><b name="diagnosisValue">160</b>/200</span>
 												<div class="progress progress-sm">
-													<div class="progress-bar bg-primary" style="width: 80%"></div>
+													<div name="diagnosisProgress" class="progress-bar bg-primary" style="width: 80%"></div>
 												</div>
 											</div>
 											<!-- /.progress-group -->
 		
 											<div class="progress-group">
-												Complete Purchase <span class="float-right"><b>310</b>/400</span>
+												<span class="progress-text">境外输入数</span>
+												<span class="float-right"><b name="overseasImportValue">310</b>/200</span>
 												<div class="progress progress-sm">
-													<div class="progress-bar bg-danger" style="width: 75%"></div>
+													<div name="overseasImportProgress" class="progress-bar bg-warning" style="width: 75%"></div>
 												</div>
 											</div>
 		
 											<!-- /.progress-group -->
 											<div class="progress-group">
-												<span class="progress-text">Visit Premium Page</span> <span
-													class="float-right"><b>480</b>/800</span>
+												<span class="progress-text">治愈数</span>
+												<span class="float-right"><b name="cureValue">480</b>/200</span>
 												<div class="progress progress-sm">
-													<div class="progress-bar bg-success" style="width: 60%"></div>
+													<div name="cureImportProgress" class="progress-bar bg-success" style="width: 60%"></div>
 												</div>
 											</div>
 		
 											<!-- /.progress-group -->
 											<div class="progress-group">
-												Send Inquiries <span class="float-right"><b>250</b>/500</span>
+												<span class="progress-text">死亡数</span>
+												<span class="float-right"><b name="deathValue">480</b>/200</span>
 												<div class="progress progress-sm">
-													<div class="progress-bar bg-warning" style="width: 50%"></div>
+													<div name="deathProgress" class="progress-bar bg-danger" style="width: 50%"></div>
 												</div>
 											</div>
 											<!-- /.progress-group -->
@@ -210,40 +213,44 @@
 									<div class="row">
 										<div class="col-sm-3 col-6">
 											<div class="description-block border-right">
-												<span class="description-percentage text-success"><i
-													class="fas fa-caret-up"></i> 17%</span>
-												<h5 class="description-header">$35,210.43</h5>
-												<span class="description-text">TOTAL REVENUE</span>
+												<span name="diagnosisPercent" class="description-percentage text-success">
+													<i class="fas fa-caret-up"></i> 17%
+												</span>
+												<h5 name="diagnosisValue" class="description-header">$35,210.43</h5>
+												<span class="description-text">确诊病例</span>
 											</div>
 											<!-- /.description-block -->
 										</div>
 										<!-- /.col -->
 										<div class="col-sm-3 col-6">
 											<div class="description-block border-right">
-												<span class="description-percentage text-warning"><i
-													class="fas fa-caret-left"></i> 0%</span>
-												<h5 class="description-header">$10,390.90</h5>
-												<span class="description-text">TOTAL COST</span>
+												<span name="overseasImportPercent" class="description-percentage text-warning">
+													<i class="fas fa-caret-left"></i> 0%
+												</span>
+												<h5 name="overseasImportValue" class="description-header">$10,390.90</h5>
+												<span class="description-text">境外输入</span>
 											</div>
 											<!-- /.description-block -->
 										</div>
 										<!-- /.col -->
 										<div class="col-sm-3 col-6">
 											<div class="description-block border-right">
-												<span class="description-percentage text-success"><i
-													class="fas fa-caret-up"></i> 20%</span>
-												<h5 class="description-header">$24,813.53</h5>
-												<span class="description-text">TOTAL PROFIT</span>
+												<span name="curePercent" class="description-percentage text-success">
+													<i class="fas fa-caret-up"></i> 20%
+												</span>
+												<h5 name="cureValue" class="description-header">$24,813.53</h5>
+												<span class="description-text">治愈</span>
 											</div>
 											<!-- /.description-block -->
 										</div>
 										<!-- /.col -->
 										<div class="col-sm-3 col-6">
 											<div class="description-block">
-												<span class="description-percentage text-danger"><i
-													class="fas fa-caret-down"></i> 18%</span>
-												<h5 class="description-header">1200</h5>
-												<span class="description-text">GOAL COMPLETIONS</span>
+												<span name="deathPercent" class="description-percentage text-danger">
+													<i class="fas fa-caret-down"></i> 18%
+												</span>
+												<h5 name="deathValue" class="description-header">1200</h5>
+												<span class="description-text">死亡</span>
 											</div>
 											<!-- /.description-block -->
 										</div>
@@ -289,60 +296,159 @@
 	
 	<script type="text/javascript">
 		$(document).ready(function() {
-			var salesChart = new Chart(salesChartCanvas, {
-				type : 'line',
-				data : salesChartData,
-				options : salesChartOptions
-			})
+			gzbdLineGraph();
 		});
 		
-		var salesChartCanvas = $('#salesChart').get(0).getContext('2d')
-
-		var salesChartData = {
-			labels : [ 'January', 'February', 'March', 'April', 'May', 'June', 'July' ],
-			datasets : [ {
-				label : 'Digital Goods',
-				backgroundColor : 'rgba(60,141,188,0.9)',
-				borderColor : 'rgba(60,141,188,0.8)',
-				pointRadius : false,
-				pointColor : '#3b8bba',
-				pointStrokeColor : 'rgba(60,141,188,1)',
-				pointHighlightFill : '#fff',
-				pointHighlightStroke : 'rgba(60,141,188,1)',
-				data : [ 28, 48, 40, 19, 86, 27, 90 ]
-			}, {
-				label : 'Electronics',
-				backgroundColor : 'rgba(210, 214, 222, 1)',
-				borderColor : 'rgba(210, 214, 222, 1)',
-				pointRadius : false,
-				pointColor : 'rgba(210, 214, 222, 1)',
-				pointStrokeColor : '#c1c7d1',
-				pointHighlightFill : '#fff',
-				pointHighlightStroke : 'rgba(220,220,220,1)',
-				data : [ 65, 59, 80, 81, 56, 55, 40 ]
-			} ]
-		}
-
-		var salesChartOptions = {
-			maintainAspectRatio : false,
-			responsive : true,
-			legend : {
-				display : false
-			},
-			scales : {
-				xAxes : [ {
-					gridLines : {
-						display : false
+		function gzbdLineGraph() {
+			$.ajax({
+				url: "/gzbds",
+				type: "get",
+				success: function (result) {
+					var labels = [], diagnosis = [], overseasImport = [], cure = [], death = [];
+					$.each(result.reverse(), function(i, item) {
+						labels.push(item.date);
+						diagnosis.push(item.diagnosis);
+						overseasImport.push(item.overseasImport);
+						cure.push(item.cure);
+						death.push(item.death);
+					});
+					
+					$("#gzbdTitle").html("GZBD: " + labels[0] + " ~ " + labels[labels.length - 1]);
+					
+					var gzbdChartData = {
+						labels : labels,
+						datasets : [ {
+							label : '确诊数',
+							backgroundColor : 'rgba(0,123,255,1)',
+							borderColor : 'rgba(0,123,255,1)',
+							pointRadius : false,
+							pointColor : '#3b8bba',
+							pointStrokeColor : 'rgba(60,141,188,1)',
+							pointHighlightFill : '#fff',
+							pointHighlightStroke : 'rgba(60,141,188,1)',
+							data : diagnosis
+						}, {
+							label : '治愈数',
+							backgroundColor : '	rgba(40,167,69,1)',
+							borderColor : '	rgba(40,167,69,1)',
+							pointRadius : false,
+							pointColor : 'rgba(210, 214, 222, 1)',
+							pointStrokeColor : '#c1c7d1',
+							pointHighlightFill : '#fff',
+							pointHighlightStroke : 'rgba(220,220,220,1)',
+							data : cure
+						}, {
+							label : '死亡数',
+							backgroundColor : '	rgba(220,53,69,1)',
+							borderColor : '	rgba(220,53,69,1)',
+							pointRadius : false,
+							pointColor : 'rgba(210, 214, 222, 1)',
+							pointStrokeColor : '#c1c7d1',
+							pointHighlightFill : '#fff',
+							pointHighlightStroke : 'rgba(220,220,220,1)',
+							data : death
+						}, {
+							label : '输入数',
+							backgroundColor : 'rgba(255,193,7,1)',
+							borderColor : 'rgba(255,193,7,1)',
+							pointRadius : false,
+							pointColor : 'rgba(210, 214, 222, 1)',
+							pointStrokeColor : '#c1c7d1',
+							pointHighlightFill : '#fff',
+							pointHighlightStroke : 'rgba(220,220,220,1)',
+							data : overseasImport
+						} ]
+					};
+					
+					var gzbdChartOptions = {
+						maintainAspectRatio : false,
+						responsive : true,
+						legend : {
+							display : false
+						},
+						scales : {
+							xAxes : [ {
+								gridLines : {
+									display : false
+								}
+							} ],
+							yAxes : [ {
+								gridLines : {
+									display : false
+								}
+							} ]
+						}
+					};
+					
+					// draw gzbd lines graph
+					var salesChart = new Chart($('#salesChart'), {
+						type : 'line',
+						data : gzbdChartData,
+						options : gzbdChartOptions
+					});
+					
+					// fill the gzbd data
+					var diagnosisValue = diagnosis[diagnosis.length - 1];
+					var diagnosisPercent = parseFloat(((diagnosis[diagnosis.length - 1] - diagnosis[diagnosis.length - 2]) 
+							/ diagnosis[diagnosis.length - 2]) * 100).toFixed(2) ;
+					var diagnosisString = "<i class='fas fa-caret-up'></i> " + diagnosisPercent + "%";
+					if (diagnosisPercent == 0) {
+						diagnosisString = "<i class='fas fa-caret-left'></i> " + diagnosisPercent + "%";
+					} else if (diagnosisPercent < 0) {
+						diagnosisString = "<i class='fas fa-caret-down'></i> " + diagnosisPercent + "%";
 					}
-				} ],
-				yAxes : [ {
-					gridLines : {
-						display : false
+					$("[name=diagnosisPercent]").html(diagnosisString);
+					$("[name=diagnosisValue]").html(diagnosisValue);
+					
+					var overseasImportValue = overseasImport[overseasImport.length - 1];
+					var overseasImportPercent = parseFloat(((overseasImport[overseasImport.length - 1] - overseasImport[overseasImport.length - 2]) 
+							/ overseasImport[overseasImport.length - 2]) * 100).toFixed(2) ;
+					var overseasImportString = "<i class='fas fa-caret-up'></i> " + overseasImportPercent + "%";
+					if (overseasImportPercent == 0) {
+						overseasImportString = "<i class='fas fa-caret-left'></i> " + overseasImportPercent + "%";
+					} else if (overseasImportPercent < 0) {
+						overseasImportString = "<i class='fas fa-caret-down'></i> " + overseasImportPercent + "%";
 					}
-				} ]
-			}
+					$("[name=overseasImportPercent]").html(overseasImportString);
+					$("[name=overseasImportValue]").html(overseasImportValue);
+					
+					var cureValue = cure[cure.length - 1];
+					var curePercent = parseFloat(((cure[cure.length - 1] - cure[cure.length - 2]) 
+							/ cure[cure.length - 2]) * 100).toFixed(2) ;
+					var cureString = "<i class='fas fa-caret-up'></i> " + curePercent + "%";
+					if (curePercent == 0) {
+						cureString = "<i class='fas fa-caret-left'></i> " + curePercent + "%";
+					} else if (curePercent < 0) {
+						cureString = "<i class='fas fa-caret-down'></i> " + curePercent + "%";
+					}
+					$("[name=curePercent]").html(cureString);
+					$("[name=cureValue]").html(cureValue);
+					
+					var deathValue = death[death.length - 1];
+					var deathPercent = parseFloat(((death[death.length - 1] - death[death.length - 2]) 
+							/ death[death.length - 2]) * 100).toFixed(2) ;
+					var deathString = "<i class='fas fa-caret-up'></i> " + deathPercent + "%";
+					if (deathPercent == 0) {
+						deathString = "<i class='fas fa-caret-left'></i> " + deathPercent + "%";
+					} else if (deathPercent < 0) {
+						deathString = "<i class='fas fa-caret-down'></i> " + deathPercent + "%";
+					}
+					$("[name=deathPercent]").html(deathString);
+					$("[name=deathValue]").html(deathValue);
+					
+					// fill the gzbd progress data
+					$("[name=diagnosisProgress]").css("width", diagnosisValue * 100 / 200 + "%")
+					$("[name=cureProgress]").css("width", cureValue * 100 / 200 + "%")
+					$("[name=overseasImportProgress]").css("width", overseasImportValue * 100 / 200 + "%")
+					$("[name=deathProgress]").css("width", deathValue * 100 / 200 + "%")
+					
+				},
+				error : function (data) {
+					layer.msg(data.responseText, {icon: 0});
+				}
+			});
 		}
-
+		
 	</script>
 </body>
 </html>
