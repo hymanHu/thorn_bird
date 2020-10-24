@@ -17,12 +17,12 @@ import com.sfac.javaEe.dao.CoronavirusDao;
 import com.sfac.javaEe.entity.Coronavirus;
 
 /**
- * Description: Gzbd Servlet
+ * Description: Coronavirus Servlet
  * @author HymanHu
  * @date 2020-10-23 13:48:31
  */
 @WebServlet(value = "/gzbds")
-public class GzbdServlet extends HttpServlet {
+public class CoronavirusServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
