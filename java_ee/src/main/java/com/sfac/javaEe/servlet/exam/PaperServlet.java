@@ -26,13 +26,14 @@ import com.sfac.javaEe.entity.exam.Question;
 public class PaperServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	private PaperDao paperDao = new PaperDao();
+	private QuestionDao questionDao = new QuestionDao();
+	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		int paperId = Integer.parseInt(req.getParameter("paperId"));
-		PaperDao paperDao = new PaperDao();
 		Paper paper = new Paper();
-		QuestionDao questionDao = new QuestionDao();
 		try {
 			paper = paperDao.getPaperById(paperId);
 			List<Question> questions = questionDao.getQuestionsByPaperId(paperId);
@@ -41,7 +42,6 @@ public class PaperServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		ObjectMapper objectMapper = new ObjectMapper();
 		String result = objectMapper.writeValueAsString(paper);
 		
 		resp.setContentType("text/json;charset=utf-8");

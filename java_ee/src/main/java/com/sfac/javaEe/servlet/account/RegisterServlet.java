@@ -29,6 +29,8 @@ import com.sfac.javaEe.entity.account.User;
 public class RegisterServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	private ObjectMapper mapper = new ObjectMapper();
+	private UserDao userDao = new UserDao();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -37,7 +39,6 @@ public class RegisterServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		String resultJson = "";
 		
@@ -51,7 +52,6 @@ public class RegisterServlet extends HttpServlet {
 		User user = StringUtils.isNotBlank(sb) ? mapper.readValue(sb.toString(), User.class) : new User();
 		user.setCreateDate(new Date());
 		
-		UserDao userDao = new UserDao();
 		User userTemp = null;
 		try {
 			userTemp = userDao.getUserByUserName(user.getUserName());
@@ -64,7 +64,6 @@ public class RegisterServlet extends HttpServlet {
 			} else {
 				resultMap.put("status", 500);
 				resultMap.put("message", "User name is repeat.");
-				
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();

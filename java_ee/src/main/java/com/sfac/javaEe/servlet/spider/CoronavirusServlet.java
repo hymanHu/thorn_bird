@@ -25,10 +25,11 @@ import com.sfac.javaEe.entity.spider.Coronavirus;
 public class CoronavirusServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
+	private CoronavirusDao coronavirusDao = new CoronavirusDao();
+	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		CoronavirusDao coronavirusDao = new CoronavirusDao();
 		List<Coronavirus> coronavirusList = new ArrayList<Coronavirus>();
 		
 		try {
@@ -37,7 +38,6 @@ public class CoronavirusServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		ObjectMapper objectMapper = new ObjectMapper();
 		String results = objectMapper.writeValueAsString(coronavirusList);
 		
 		resp.setContentType("text/json;charset=utf-8;");
