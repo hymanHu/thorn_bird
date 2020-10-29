@@ -1,4 +1,4 @@
-package com.sfac.javaEe.dao;
+package com.sfac.javaEe.dao.spider;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -7,7 +7,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.sfac.javaEe.entity.Coronavirus;
+import com.sfac.javaEe.entity.spider.Coronavirus;
 import com.sfac.javaEe.util.DBUtil;
 
 /**

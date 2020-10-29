@@ -1,4 +1,4 @@
-package com.sfac.javaEe.entity;
+package com.sfac.javaEe.entity.account;
 
 import java.util.Date;
 

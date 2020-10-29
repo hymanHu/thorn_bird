@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.sfac.javaEe.entity.User;
+import com.sfac.javaEe.entity.account.User;
 
 /**
  * Description: Jsp Test Servlet

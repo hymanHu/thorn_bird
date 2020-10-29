@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sfac.javaEe.dao.UserDao;
-import com.sfac.javaEe.entity.User;
+import com.sfac.javaEe.dao.account.UserDao;
+import com.sfac.javaEe.entity.account.User;
 
 /**
  * @Description: Register Servlet

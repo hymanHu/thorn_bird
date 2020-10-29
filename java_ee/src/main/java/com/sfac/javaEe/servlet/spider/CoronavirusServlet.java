@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -13,8 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sfac.javaEe.dao.CoronavirusDao;
-import com.sfac.javaEe.entity.Coronavirus;
+import com.sfac.javaEe.dao.spider.CoronavirusDao;
+import com.sfac.javaEe.entity.spider.Coronavirus;
 
 /**
  * Description: Coronavirus Servlet
