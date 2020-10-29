@@ -7,12 +7,12 @@ package com.sfac.javaEe.entity.exam;
  */
 public class Question {
 	private int id;
-	private String content;
 	// 单选题、多选题、填空题、简答题、编程题
 	private String type;
 	// JavaSE、JavaEE、Spring、SpringBoot、SpringCloud、PythonBase、PythonSpider……
 	private String flag;
-	private double score;
+	private Double score;
+	private String content;
 	private String optionA;
 	private String optionB;
 	private String optionC;
@@ -26,14 +26,6 @@ public class Question {
 
 	public void setId(int id) {
 		this.id = id;
-	}
-
-	public String getContent() {
-		return content;
-	}
-
-	public void setContent(String content) {
-		this.content = content;
 	}
 
 	public String getType() {
@@ -52,12 +44,20 @@ public class Question {
 		this.flag = flag;
 	}
 
-	public double getScore() {
+	public Double getScore() {
 		return score;
 	}
 
-	public void setScore(double score) {
+	public void setScore(Double score) {
 		this.score = score;
+	}
+
+	public String getContent() {
+		return content;
+	}
+
+	public void setContent(String content) {
+		this.content = content;
 	}
 
 	public String getOptionA() {

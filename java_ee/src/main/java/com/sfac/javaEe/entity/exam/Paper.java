@@ -1,17 +1,20 @@
 package com.sfac.javaEe.entity.exam;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * Description: 试卷
  * @author HymanHu
  * @date 2020-10-29 11:24:40
  */
-public class Pager {
+public class Paper {
 	private int id;
 	private String subject;
-	private LocalDateTime createDate;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	private Date createDate;
 	private List<Question> questions;
 
 	public int getId() {
@@ -30,11 +33,11 @@ public class Pager {
 		this.subject = subject;
 	}
 
-	public LocalDateTime getCreateDate() {
+	public Date getCreateDate() {
 		return createDate;
 	}
 
-	public void setCreateDate(LocalDateTime createDate) {
+	public void setCreateDate(Date createDate) {
 		this.createDate = createDate;
 	}
 

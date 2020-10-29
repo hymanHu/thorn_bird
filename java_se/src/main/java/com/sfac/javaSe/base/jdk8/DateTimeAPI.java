@@ -10,9 +10,11 @@ import java.time.MonthDay;
 import java.time.Period;
 import java.time.Year;
 import java.time.YearMonth;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoField;
 import java.time.temporal.ChronoUnit;
+import java.util.Date;
 
 /**
  * @Description: DateTime API
@@ -91,6 +93,8 @@ public class DateTimeAPI {
 		System.out.println(ChronoUnit.YEARS.between(birthday2, localDateTime));
 		System.out.println(ChronoUnit.MONTHS.between(birthday2, localDateTime));
 		System.out.println(ChronoUnit.DAYS.between(birthday2, localDateTime));
+		System.out.println("============ Sql.Date && Util.Date && LocalDateTime ==============");
+		System.out.println(new Date().toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime());
 	}
 	
 	public static void main(String[] args) {

@@ -301,7 +301,7 @@
 		
 		function gzbdLineGraph() {
 			$.ajax({
-				url: "/gzbds",
+				url: "/api/gzbds",
 				type: "get",
 				success: function (result) {
 					var labels = [], diagnosis = [], overseasImport = [], cure = [], death = [];

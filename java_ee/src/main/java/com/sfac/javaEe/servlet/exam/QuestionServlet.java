@@ -1,4 +1,4 @@
-package com.sfac.javaEe.servlet.spider;
+package com.sfac.javaEe.servlet.exam;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -13,37 +13,38 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sfac.javaEe.dao.spider.CoronavirusDao;
-import com.sfac.javaEe.entity.spider.Coronavirus;
+import com.sfac.javaEe.dao.exam.QuestionDao;
+import com.sfac.javaEe.entity.exam.Question;
 
 /**
- * Description: Coronavirus Servlet
+ * Description: Question Servlet
+ * /api/questions?paperId=1
  * @author HymanHu
- * @date 2020-10-23 13:48:31
+ * @date 2020-10-29 15:53:14
  */
-@WebServlet(value = "/api/gzbds")
-public class CoronavirusServlet extends HttpServlet {
+@WebServlet(value = "/api/questions")
+public class QuestionServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		CoronavirusDao coronavirusDao = new CoronavirusDao();
-		List<Coronavirus> coronavirusList = new ArrayList<Coronavirus>();
-		
+		int paperId = Integer.parseInt(req.getParameter("paperId"));
+		QuestionDao questionDao = new QuestionDao();
+		List<Question> questions = new ArrayList<Question>();
 		try {
-			coronavirusList = coronavirusDao.getCoronavirusList();
+			questions = questionDao.getQuestionsByPaperId(paperId);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
 		
 		ObjectMapper objectMapper = new ObjectMapper();
-		String results = objectMapper.writeValueAsString(coronavirusList);
+		String result = objectMapper.writeValueAsString(questions);
 		
-		resp.setContentType("text/json;charset=utf-8;");
-		PrintWriter printWriter = resp.getWriter();
-		printWriter.append(results);
-		printWriter.flush();
+		resp.setContentType("text/json;charset=utf-8");
+		PrintWriter pw = resp.getWriter();
+		pw.append(result);
+		pw.flush();
 	}
 
 }

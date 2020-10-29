@@ -13,7 +13,7 @@ public class Exam {
 	private int paperId;
 	// 参考得分
 	private String referenceScore;
-	private int score;
+	private Double score;
 	private int spendTime;
 	private LocalDateTime examDate;
 
@@ -49,11 +49,11 @@ public class Exam {
 		this.referenceScore = referenceScore;
 	}
 
-	public int getScore() {
+	public Double getScore() {
 		return score;
 	}
 
-	public void setScore(int score) {
+	public void setScore(Double score) {
 		this.score = score;
 	}
 
@@ -72,4 +72,5 @@ public class Exam {
 	public void setExamDate(LocalDateTime examDate) {
 		this.examDate = examDate;
 	}
+
 }
