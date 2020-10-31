@@ -11,11 +11,11 @@
 	<!-- Google Font: Source Sans Pro -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" rel="stylesheet" >
 	<!-- Font Awesome -->
-	<link href="${pageContext.request.contextPath}/static/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" >
+	<link href="/static/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" >
 	<!-- overlayScrollbars -->
-	<link href="${pageContext.request.contextPath}/static/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" rel="stylesheet" >
+	<link href="/static/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" rel="stylesheet" >
 	<!-- Theme style -->
-	<link href="${pageContext.request.contextPath}/static/css/adminlte.css" type="text/css" rel="stylesheet">
+	<link href="/static/css/adminlte.css" type="text/css" rel="stylesheet">
 	
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
@@ -113,21 +113,21 @@
 	
 	<!-- Js -->
 	<!-- jQuery -->
-	<script src="${pageContext.request.contextPath}/static/plugins/jquery/jquery.min.js"  type="text/javascript"></script>
+	<script src="/static/plugins/jquery/jquery.min.js"  type="text/javascript"></script>
 	<!-- Bootstrap 4 -->
-	<script src="${pageContext.request.contextPath}/static/plugins/bootstrap/js/bootstrap.bundle.min.js"  type="text/javascript"></script>
+	<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"  type="text/javascript"></script>
 	<!-- overlayScrollbars -->
-	<script src="${pageContext.request.contextPath}/static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"  type="text/javascript"></script>
+	<script src="/static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"  type="text/javascript"></script>
 	<!-- ChartJS -->
-	<script src="${pageContext.request.contextPath}/static/plugins/chart.js/Chart.min.js"  type="text/javascript"></script>
+	<script src="/static/plugins/chart.js/Chart.min.js"  type="text/javascript"></script>
 	<!-- layer -->
 	<script src="https://cdn.bootcss.com/layer/2.1/layer.js" type="text/javascript"></script>
 	<!-- AdminLTE App -->
-	<script src="${pageContext.request.contextPath}/static/js/adminlte.js" type="text/javascript"></script>
+	<script src="/static/js/adminlte.js" type="text/javascript"></script>
 	<!-- demo -->
-	<script src="${pageContext.request.contextPath}/static/js/demo.js" type="text/javascript"></script>
+	<script src="/static/js/demo.js" type="text/javascript"></script>
 	<!-- custom -->
-	<script src="${pageContext.request.contextPath}/static/js/custom.js" type="text/javascript"></script>
+	<script src="/static/js/custom.js" type="text/javascript"></script>
 	
 	<script type="text/javascript">
 		$(document).ready(function() {

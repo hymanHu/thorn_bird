@@ -31,6 +31,7 @@ public class PaperDao {
 				paper.setId(rs.getInt("id"));
 				paper.setSubject(rs.getString("subject"));
 				paper.setCreateDate(new Date(rs.getDate("create_date").getTime()));
+				paper.setTotalTime(rs.getInt("total_time"));
 			}
 		} finally {
 			DBUtil.closeConnection(connection);

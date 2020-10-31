@@ -6,6 +6,8 @@
 	<meta charset="UTF-8">
 	<title>Java EE</title>
 	
+	<!-- Font Awesome -->
+	<link href="${pageContext.request.contextPath}/static/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" >
 	<script src="http://cdn.bootcss.com/jquery/1.11.1/jquery.min.js"></script>
 </head>
 <body>

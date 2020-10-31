@@ -15,6 +15,7 @@ public class Paper {
 	private String subject;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date createDate;
+	private Integer totalTime;
 	private List<Question> questions;
 
 	public int getId() {
@@ -47,5 +48,13 @@ public class Paper {
 
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
+	}
+
+	public Integer getTotalTime() {
+		return totalTime;
+	}
+
+	public void setTotalTime(Integer totalTime) {
+		this.totalTime = totalTime;
 	}
 }
