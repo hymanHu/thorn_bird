@@ -20714,7 +20714,7 @@ html.maximized-card {
 .select2-container--default .select2-selection--single .select2-selection__rendered {
   padding-left: 0;
   height: auto;
-  margin-top: -3px;
+  margin-top: -5px;
 }
 
 .select2-container--default[dir="rtl"] .select2-selection--single .select2-selection__rendered {

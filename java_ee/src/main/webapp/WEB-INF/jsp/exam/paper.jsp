@@ -6,18 +6,18 @@
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Exam Paper</title>
+	<title>Online Paper</title>
 	
 	<!-- css -->
-	<!-- Google Font: Source Sans Pro -->
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" rel="stylesheet" >
-	<!-- Font Awesome -->
-	<link href="/static/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" >
 	<!-- Exam -->
-	<link href="/static/css/exam/main.css" rel="stylesheet" >
-	<link href="/static/css/exam/test.css" rel="stylesheet" >
-	<!-- Theme style -->
-	<link href="/static/css/exam/adminlte.css" type="text/css" rel="stylesheet">
+	<link href="/static/css/exam/main.css" rel="stylesheet" />
+	<link href="/static/css/exam/test.css" rel="stylesheet" />
+	<!-- Google Font: Source Sans Pro -->
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" rel="stylesheet" />
+	<!-- Font Awesome -->
+	<link href="/static/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+	<!-- admin -->
+	<link href="/static/css/exam/adminlte.css" type="text/css" rel="stylesheet" />
 	<style>
 		.hasBeenAnswer {
 			background: #5d9cec;
@@ -45,7 +45,7 @@
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
-								<li class="breadcrumb-item active">Exam</li>
+								<li class="breadcrumb-item active">Paper</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -75,41 +75,12 @@
 								</div>
 								<div class="nr_right">
 									<div class="nr_rt_main">
-										<div class="rt_nr1">
+										<div name="answerSheet" class="rt_nr1">
 											<div class="rt_nr1_title">
 												<h1>
 													答题卡
 												</h1>
-												<p name="totalTime" class="test_time">
-												</p>
-											</div>
-											<div class="rt_content">
-												<div class="rt_content_tt">
-													<h2>单选题</h2>
-													<p>
-														<span>共</span><i class="content_lit">60</i><span>题</span>
-													</p>
-												</div>
-												<div class="rt_content_nr answerSheet">
-													<ul>
-														<li><a href="#qu_0_0">1</a></li>
-														<li><a href="#qu_0_1">2</a></li>
-													</ul>
-												</div>
-											</div>
-											<div class="rt_content">
-												<div class="rt_content_tt">
-													<h2>多选题</h2>
-													<p>
-														<span>共</span><i class="content_lit">30</i><span>题</span>
-													</p>
-												</div>
-												<div class="rt_content_nr answerSheet">
-													<ul>
-														<li><a href="#qu_1_0">1</a></li>
-														<li><a href="#qu_1_1">2</a></li>
-													</ul>
-												</div>
+												<p name="totalTime" class="test_time"></p>
 											</div>
 										</div>
 									</div>
@@ -129,22 +100,18 @@
 	<!-- js -->
 	<!-- jQuery -->
 	<script src="/static/plugins/jquery/jquery.min.js"  type="text/javascript"></script>
+	<!-- bootstrap -->
 	<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"  type="text/javascript"></script>
+	<!-- countdown -->
 	<script src="/static/js/exam/jquery.countdown.js"  type="text/javascript"></script>
+	<!-- admin -->
 	<script src="/static/js/adminlte.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			initPaper();
-			
-			$('li.option').bind("click", function(){
-				var examId = $(this).closest('.test_content_nr_main').closest('li').attr('id');
-				var cardLi = $("a[href='#" + examId + "']");
-				if(!cardLi.hasClass('hasBeenAnswer')){
-					cardLi.addClass('hasBeenAnswer');
-				}
-			});
 		})
 		
+		// 初始化试题和答题卡
 		function initPaper() {
 			var paperId = $("#paperId").val();
 			$.ajax({
@@ -189,11 +156,21 @@
 						}
 					});
 					if (singleChoice.length > 0) {
-						$("[name='questions']").append(buildQuestionsString("单选题", singleChoice, singleChoiceScore));
+						$("[name='questions']").append(buildChoiceString("单选题", singleChoice, singleChoiceScore));
+						$("[name='answerSheet']").append(buildAnswerSheetString("单选题", singleChoice));
 					}
 					if (multipleChoice.length > 0) {
-						$("[name='questions']").append(buildQuestionsString("多选题", multipleChoice, multipleChoiceScore));
+						$("[name='questions']").append(buildChoiceString("多选题", multipleChoice, multipleChoiceScore));
+						$("[name='answerSheet']").append(buildAnswerSheetString("多选题", multipleChoice));
 					}
+					
+					$('li.option').bind("click", function(){
+						var examId = $(this).closest('.test_content_nr_main').closest('li').attr('id');
+						var cardLi = $("a[href='#" + examId + "']");
+						if(!cardLi.hasClass('hasBeenAnswer')){
+							cardLi.addClass('hasBeenAnswer');
+						}
+					});
 				},
 				error : function (data) {
 					layer.msg(data.responseText, {icon: 0});
@@ -201,7 +178,8 @@
 			});
 		}
 		
-		function buildQuestionsString(questionType, questions, score) {
+		// 创建选择题字符串
+		function buildChoiceString(questionType, questions, score) {
 			var temp = "";
 			temp += "<div class='test_content'>";
 			temp += "<div class='test_content_title'>";
@@ -215,41 +193,67 @@
 			temp += "<div class='test_content_nr'>";
 			temp += "<ul>";
 			$.each(questions, function(i, item) {
-				temp += "<li id='" + questionType + "_" + i + "'>";
+				temp += "<li id='" + item.type + "_" + i + "'>";
 				temp += "<div class='test_content_nr_tt'>";
 				temp += "<i>" + (i + 1) + "</i><span>(" + item.score + "分)</span><font>" + item.content + "</font>";
 				temp += "</div>";
 				temp += "<div class='test_content_nr_main'>";
 				temp += "<ul>";
-				temp += "<li class='option'>";
-				temp += "<input type='radio' class='radioOrCheck' name='answer" + i + "' id='" + questionType + "_answer_" + i + "_option_1' />";
-				temp += "<label for='" + questionType + "_answer_" + i + "_option_1'> A. ";
-				temp += "<p class='ue' style='display: inline;'>" + item.optionA + "</p>";
-				temp += "</label>";
-				temp += "</li>";
-				temp += "<li class='option'>";
-				temp += "<input type='radio' class='radioOrCheck' name='answer" + i + "' id='" + questionType + "_answer_" + i + "_option_2' />";
-				temp += "<label for='" + questionType + "_answer_" + i + "_option_2'> B. ";
-				temp += "<p class='ue' style='display: inline;'>" + item.optionB + "</p>";
-				temp += "</label>";
-				temp += "</li>";
-				temp += "<li class='option'>";
-				temp += "<input type='radio' class='radioOrCheck' name='answer" + i + "' id='" + questionType + "_answer_" + i + "_option_3' />";
-				temp += "<label for='" + questionType + "_answer_" + i + "_option_3'> C. ";
-				temp += "<p class='ue' style='display: inline;'>" + item.optionC + "</p>";
-				temp += "</label>";
-				temp += "</li>";
-				temp += "<li class='option'>";
-				temp += "<input type='radio' class='radioOrCheck' name='answer" + i + "' id='" + questionType + "_answer_" + i + "_option_4' />";
-				temp += "<label for='" + questionType + "_answer_" + i + "_option_4'> D. ";
-				temp += "<p class='ue' style='display: inline;'>" + item.optionD + "</p>";
-				temp += "</label>";
-				temp += "</li>";
+				temp += buildOption(i, item, "A");
+				temp += buildOption(i, item, "B");
+				temp += buildOption(i, item, "C");
+				temp += buildOption(i, item, "D");
 				temp += "</ul>";
 				temp += "</div>";
 				temp += "</li>";
 			});
 			temp += "</ul>";
+			temp += "</div>";
+			
+			return temp;
+		}
+		
+		// 创建选项字符串
+		function buildOption(i, item, optionName) {
+			var optionValue = "";
+			if (optionName == "A") {
+				optionValue = item.optionA;
+			} else if (optionName == "B") {
+				optionValue = item.optionB;
+			} else if (optionName == "C") {
+				optionValue = item.optionC;
+			} else if (optionName == "D") {
+				optionValue = item.optionD;
+			}
+			var temp = "";
+			temp += "<li class='option'>";
+			if (item.type == "singleChoice") {
+				temp += "<input type='radio' class='radioOrCheck' name='answer" + i + "' id='" + item.type + "_answer_" + i + "_option_" + optionName + "' />";
+			} else if (item.type == "multipleChoice") {
+				temp += "<input type='checkbox' class='radioOrCheck' name='answer" + i + "' id='" + item.type + "_answer_" + i + "_option_" + optionName + "' />";
+			}
+			temp += "<label for='" + item.type + "_answer_" + i + "_option_" + optionName + "'> " + optionName + ". ";
+			temp += "<p class='ue' style='display: inline;'>" + optionValue + "</p>";
+			temp += "</label>";
+			temp += "</li>";
+			return temp;
+		}
+		
+		// 创建答题卡字符串
+		function buildAnswerSheetString(questionType, questions) {
+			var temp = "";
+			temp += "<div class='rt_content'>";
+			temp += "<div class='rt_content_tt'>";
+			temp += "<h2>" + questionType + "</h2>";
+			temp += "<p><span>共</span><i class='content_lit'> " + questions.length + " </i><span>题</span></p>";
+			temp += "</div>";
+			temp += "<div class='rt_content_nr answerSheet'>";
+			temp += "<ul>";
+			$.each(questions, function(i, item) {
+				temp += "<li><a href='#" + item.type + "_" + i + "'>" + (i + 1) + "</a></li>";
+			});
+			temp += "</ul>";
+			temp += "</div>";
 			temp += "</div>";
 			
 			return temp;

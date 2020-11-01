@@ -8,6 +8,7 @@ package com.sfac.javaEe.entity.exam;
 public enum QuestionType {
 	SINGLE_CHOICE("singleChoice"), 
 	MULTIPLE_CHOICE("multipleChoice"),
+	JUDGE("judge"),
 	FILL_BLANK("fillBlank"),
 	SHORT_ANSWER("shortAnswer"),
 	PROGRAMMING("programming");
