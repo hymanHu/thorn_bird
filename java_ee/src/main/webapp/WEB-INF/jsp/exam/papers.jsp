@@ -86,6 +86,10 @@
 											<option>Front_Js</option>
 										</select>
 									</div>
+									<div class="form-group">
+										<label>试卷标题</label>
+										<input type="text" class="form-control">
+									</div>
 								</div>
 								<div class="col-md-4">
 									<div class="form-group">
@@ -118,16 +122,14 @@
 						</div>
 						<!-- /.card-body -->
 						<div class="card-footer">
-							<button type="submit" class="btn btn-primary btn-lg">Submit</button>
+							<button type="submit" class="btn btn-primary btn-lg">创建</button>
 						</div>
 					</div>
-					<!-- /.card -->
 					
 					<div class="card">
 						<div class="card-header">
 							<h3 class="card-title">试卷列表</h3>
 						</div>
-						<!-- /.card-header -->
 						<div class="card-body">
 							<table id="datatable" class="table table-bordered table-striped">
 								<thead>
