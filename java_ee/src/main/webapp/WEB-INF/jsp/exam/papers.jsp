@@ -142,20 +142,6 @@
 									</tr>
 								</thead>
 								<tbody>
-									<tr>
-										<td>Trident</td>
-										<td>Internet Explorer 4.0</td>
-										<td>Win 95+</td>
-										<td>4</td>
-										<td>X</td>
-									</tr>
-									<tr>
-										<td>Trident</td>
-										<td>Internet Explorer 5.0</td>
-										<td>Win 95+</td>
-										<td>5</td>
-										<td>C</td>
-									</tr>
 								</tbody>
 							</table>
 						</div>
@@ -180,9 +166,10 @@
 	<script src="/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"  type="text/javascript"></script>
 	<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"  type="text/javascript"></script>
 	<!-- admin -->
-	<script src="/static/js/adminlte.js"></script>
+	<!-- <script src="/static/js/adminlte.js"></script> -->
 	
 	<script type="text/javascript">
+		PAGE_SIZE = 5;
 		$(document).ready(function() {
 		    //Initialize Select2 Elements
 			$('.select2').select2();
@@ -190,10 +177,7 @@
 				theme: 'bootstrap4'
 		    });
 		    
-	    	$("#datatable").DataTable({
-	    		"responsive" : true,
-	    		"autoWidth" : false,
-	    	});
+		    initTable(PAGE_SIZE);
 		})
 		
 		function initTable(pageSize) {
@@ -224,7 +208,7 @@
 					searchVo.keyWord = data.search.value;
 		
 					$.ajax({
-						url : "/api/users",
+						url : "/api/papers",
 						type : "post",
 						contentType: "application/json",
 						data : JSON.stringify(searchVo),
@@ -250,8 +234,8 @@
 							var gearDatas = [];
 							for (var i = 0; i < rs.list.length; i++) {
 								//包装行数据
-								var rowData = new TData(rs.list[i].userId, rs.list[i].userName, 
-										rs.list[i].password, rs.list[i].createDate);
+								var rowData = new TData(rs.list[i].id, rs.list[i].subject, 
+										rs.list[i].totalTime, rs.list[i].createDate);
 								// 将行数据放到数组里
 								gearDatas.push(rowData);
 							}
@@ -266,9 +250,9 @@
 					});
 				},
 				"columns": [ //定义行数据字段
-					{data: 'userId', name: "user_id", sortable: true}, 
-					{data: 'userName', name: "user_name", sortable: true}, 
-					{data: 'password', name: "password", sortable: true}, 
+					{data: 'id', name: "id", sortable: true}, 
+					{data: 'subject', name: "subject", sortable: true}, 
+					{data: 'totalTime', name: "total_time", sortable: true}, 
 					{data: 'createDate', name: "create_date", sortable: true}, 
 					{data: 'operate', width: '80px', sortable: false}
 				]
@@ -276,15 +260,13 @@
 		}
 		
 		//行数据结构
-		function TData(userId, userName, password, createDate) {
-			this.userId = userId;
-			this.userName = userName;
-			this.password = password;
+		function TData(id, subject, totalTime, createDate) {
+			this.id = id;
+			this.subject = subject;
+			this.totalTime = totalTime;
 			this.createDate = createDate;
 			this.operate = function () {
-				return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#userEditModal' " + 
-					"onclick='initEditModal(\"" + userId + "\")'>编辑</a>&nbsp;" + 
-					"<a href='javascript:void(0);' onclick='deleteUser(\"" + userId + "\")' class='btn_editcolor'>删除</a>";
+				return "<a href='/paper?paperId=" + id + "' class='btn_editcolor'>考试</a>&nbsp;";
 			}
 		}
 	</script>

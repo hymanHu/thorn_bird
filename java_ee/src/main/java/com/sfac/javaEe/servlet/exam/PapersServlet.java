@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sfac.javaEe.dao.exam.PaperDao;
+import com.sfac.javaEe.entity.common.PageInfo;
 import com.sfac.javaEe.entity.common.SearchVo;
 import com.sfac.javaEe.entity.exam.Paper;
 
@@ -45,12 +46,18 @@ public class PapersServlet extends HttpServlet {
 		
 		searchVo.initSearchVo();
 		List<Paper> papers = new ArrayList<Paper>();
+		int count = 0;
 		try {
 			papers = paperDao.getPapersBySearchVo(searchVo);
+			count = paperDao.getPapersCountBySearchVo(searchVo);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		String result = objectMapper.writeValueAsString(papers);
+		
+		PageInfo<Paper> pageInfo = new PageInfo<Paper>();
+		pageInfo.setTotal(count);
+		pageInfo.setList(papers);
+		String result = objectMapper.writeValueAsString(pageInfo);
 		
 		resp.setContentType("text/json;charset=utf-8");
 		PrintWriter pw = resp.getWriter();

@@ -14,8 +14,8 @@ public class Paper {
 	private int id;
 	private String subject;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private Date createDate;
 	private Integer totalTime;
+	private Date createDate;
 	private List<Question> questions;
 
 	public int getId() {

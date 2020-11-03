@@ -78,5 +78,26 @@ public class PaperDao {
 		
 		return papers;
 	}
-
+	
+	public int getPapersCountBySearchVo(SearchVo searchVo) throws SQLException {
+		Connection connection = DBUtil.getConnection();
+		StringBuffer sql = new StringBuffer("select count(*) from paper ");
+		if (StringUtils.isNotBlank(searchVo.getKeyWord())) {
+			sql.append("where subject like '%" + searchVo.getKeyWord() + "%' ");
+		}
+		
+		PreparedStatement ps = null;
+		int count = 0;
+		try {
+			ps = connection.prepareStatement(sql.toString());
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			count = rs.getInt(1);
+		} finally {
+			DBUtil.closeConnection(connection);
+		}
+		
+		return count;
+	}
+	
 }
