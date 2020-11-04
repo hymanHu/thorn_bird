@@ -131,7 +131,7 @@
 							<h3 class="card-title">试卷列表</h3>
 						</div>
 						<div class="card-body">
-							<table id="datatable" class="table table-bordered table-striped">
+							<table id="papersTable" class="table table-bordered table-striped">
 								<thead>
 									<tr>
 										<th>试卷 ID</th>
@@ -141,8 +141,7 @@
 										<th>操作</th>
 									</tr>
 								</thead>
-								<tbody>
-								</tbody>
+								<tbody></tbody>
 							</table>
 						</div>
 						<!-- /.card-body -->
@@ -161,12 +160,14 @@
 	<!-- Select2 -->
 	<script src="/static/plugins/select2/js/select2.full.min.js"  type="text/javascript"></script>
 	<!-- DataTables -->
-	<script src="/static/plugins/datatables/jquery.dataTables.min.js"  type="text/javascript"></script>
+	<script src="/static/plugins/datatables/jquery.dataTables.js"  type="text/javascript"></script>
 	<script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"  type="text/javascript"></script>
 	<script src="/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"  type="text/javascript"></script>
 	<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"  type="text/javascript"></script>
+	<!-- layer -->
+	<script src="https://cdn.bootcss.com/layer/2.1/layer.js" type="text/javascript"></script>
 	<!-- admin -->
-	<!-- <script src="/static/js/adminlte.js"></script> -->
+	<script src="/static/js/adminlte.js"></script>
 	
 	<script type="text/javascript">
 		PAGE_SIZE = 5;
@@ -181,7 +182,7 @@
 		})
 		
 		function initTable(pageSize) {
-			$('#datatable').DataTable({
+			$('#papersTable').DataTable({
 				'paging': true, //分页
 				"serverSide": true, //开启后端分页
 				"pagingType": "full_numbers", //分页样式的类型simple/simple_numbers/full/full_numbers

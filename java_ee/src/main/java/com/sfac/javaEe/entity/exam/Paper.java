@@ -13,8 +13,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 public class Paper {
 	private int id;
 	private String subject;
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Integer totalTime;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date createDate;
 	private List<Question> questions;
 
@@ -34,6 +34,14 @@ public class Paper {
 		this.subject = subject;
 	}
 
+	public Integer getTotalTime() {
+		return totalTime;
+	}
+
+	public void setTotalTime(Integer totalTime) {
+		this.totalTime = totalTime;
+	}
+
 	public Date getCreateDate() {
 		return createDate;
 	}
@@ -50,11 +58,4 @@ public class Paper {
 		this.questions = questions;
 	}
 
-	public Integer getTotalTime() {
-		return totalTime;
-	}
-
-	public void setTotalTime(Integer totalTime) {
-		this.totalTime = totalTime;
-	}
 }
