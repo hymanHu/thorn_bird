@@ -14,13 +14,13 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2020-11-01 15:43:42
  */
 @WebServlet(value = "/papers")
-public class PapersPageServlet extends HttpServlet {
+public class OnlinePapersPageServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/html;charset=utf-8");
-		req.getRequestDispatcher("/WEB-INF/jsp/exam/papers.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/jsp/exam/onlinePapers.jsp").forward(req, resp);
 	}
 }

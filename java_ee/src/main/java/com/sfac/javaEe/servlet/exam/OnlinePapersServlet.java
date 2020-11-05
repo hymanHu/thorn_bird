@@ -27,7 +27,7 @@ import com.sfac.javaEe.entity.exam.Paper;
  * @date 2020-11-01 19:21:51
  */
 @WebServlet(value = "/api/papers")
-public class PapersServlet extends HttpServlet {
+public class OnlinePapersServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private PaperDao paperDao = new PaperDao();

@@ -23,7 +23,7 @@ import com.sfac.javaEe.entity.exam.Question;
  * @date 2020-10-29 16:26:51
  */
 @WebServlet(value = "/api/paper")
-public class PaperServlet extends HttpServlet {
+public class OnlinePaperServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private PaperDao paperDao = new PaperDao();

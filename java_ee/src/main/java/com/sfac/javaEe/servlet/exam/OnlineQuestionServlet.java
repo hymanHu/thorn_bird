@@ -23,7 +23,7 @@ import com.sfac.javaEe.entity.exam.Question;
  * @date 2020-10-29 15:53:14
  */
 @WebServlet(value = "/api/questions")
-public class QuestionServlet extends HttpServlet {
+public class OnlineQuestionServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private QuestionDao questionDao = new QuestionDao();

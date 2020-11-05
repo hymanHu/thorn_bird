@@ -47,6 +47,22 @@
 				</li>
 				<li class="nav-item has-treeview">
 					<a href="#" class="nav-link">
+						<i class="nav-icon fas fa-list-ol"></i>
+						<p>
+							Exam <i class="right fas fa-angle-left"></i>
+						</p>
+					</a>
+					<ul class="nav nav-treeview">
+						<li class="nav-item">
+							<a href="/exam/questions" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>Questions</p>
+							</a>
+						</li>
+					</ul>
+				</li>
+				<li class="nav-item has-treeview">
+					<a href="#" class="nav-link">
 						<i class="nav-icon fas fa-cubes"></i>
 						<p>
 							Spider <i class="right fas fa-angle-left"></i>

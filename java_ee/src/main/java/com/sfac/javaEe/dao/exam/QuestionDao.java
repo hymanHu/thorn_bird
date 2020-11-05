@@ -7,9 +7,17 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
+import com.sfac.javaEe.entity.common.SearchVo;
 import com.sfac.javaEe.entity.exam.Question;
 import com.sfac.javaEe.util.DBUtil;
 
+/**
+ * Description: Question Dao
+ * @author HymanHu
+ * @date 2020-11-05 21:48:16
+ */
 public class QuestionDao {
 
 	public List<Question> getQuestionsByPaperId(int paperId) throws SQLException {
@@ -40,5 +48,78 @@ public class QuestionDao {
 		}
 		
 		return questions;
+	}
+	
+	public List<Question> getQuestionsBySearchVo(SearchVo searchVo) throws SQLException {
+		List<Question> questions = new ArrayList<Question>();
+		Connection connection = DBUtil.getConnection();
+		StringBuffer sql = new StringBuffer("select * from question ");
+		if (StringUtils.isNotBlank(searchVo.getKeyWord())) {
+			sql.append("where content like '%" + searchVo.getKeyWord() + "%' or ");
+			sql.append("where type like '%" + searchVo.getKeyWord() + "%' or ");
+			sql.append("where flag like '%" + searchVo.getKeyWord() + "%' ");
+		}
+		sql.append("order by ")
+			.append(StringUtils.isNotBlank(searchVo.getOrderBy()) ? searchVo.getOrderBy() + " " : " id ")
+			.append(StringUtils.isNotBlank(searchVo.getSort()) ? searchVo.getSort() + " " : " ASC ")
+			.append("limit ")
+			.append((searchVo.getCurrentPage() - 1) * searchVo.getPageSize())
+			.append(" , ")
+			.append(searchVo.getCurrentPage() * searchVo.getPageSize());
+		
+		PreparedStatement ps = null;
+		try {
+			ps = connection.prepareStatement(sql.toString());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Question question = new Question();
+				question.setId(rs.getInt("id"));
+				question.setType(rs.getString("type"));
+				question.setFlag(rs.getString("flag"));
+				question.setContent(rs.getString("content"));
+				question.setOptionA(rs.getString("option_a"));
+				question.setOptionB(rs.getString("option_b"));
+				question.setOptionC(rs.getString("option_c"));
+				question.setOptionD(rs.getString("option_d"));
+				question.setReferenceAnswer(rs.getString("reference_answer"));
+				question.setComment(rs.getString("comment"));
+				question.setScore(rs.getDouble("score"));
+				questions.add(question);
+			}
+		} finally {
+			DBUtil.closeConnection(connection);
+		}
+		
+		return questions;
+	}
+	
+	public int getQuestionsCountBySearchVo(SearchVo searchVo) throws SQLException {
+		Connection connection = DBUtil.getConnection();
+		StringBuffer sql = new StringBuffer("select * from question ");
+		if (StringUtils.isNotBlank(searchVo.getKeyWord())) {
+			sql.append("where content like '%" + searchVo.getKeyWord() + "%' or ");
+			sql.append("where type like '%" + searchVo.getKeyWord() + "%' or ");
+			sql.append("where flag like '%" + searchVo.getKeyWord() + "%' ");
+		}
+		sql.append("order by ")
+			.append(StringUtils.isNotBlank(searchVo.getOrderBy()) ? searchVo.getOrderBy() + " " : " id ")
+			.append(StringUtils.isNotBlank(searchVo.getSort()) ? searchVo.getSort() + " " : " ASC ")
+			.append("limit ")
+			.append((searchVo.getCurrentPage() - 1) * searchVo.getPageSize())
+			.append(" , ")
+			.append(searchVo.getCurrentPage() * searchVo.getPageSize());
+		
+		PreparedStatement ps = null;
+		int count = 0;
+		try {
+			ps = connection.prepareStatement(sql.toString());
+			ResultSet rs = ps.executeQuery();
+			rs.next();
+			count = rs.getInt(1);
+		} finally {
+			DBUtil.closeConnection(connection);
+		}
+		
+		return count;
 	}
 }

@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2020-10-29 19:34:09
  */
 @WebServlet(value = "/paper")
-public class PaperPageServlet extends HttpServlet {
+public class OnlinePaperPageServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 
@@ -22,7 +22,7 @@ public class PaperPageServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		req.setAttribute("paperId", req.getParameter("paperId"));
 		resp.setContentType("text/html;charset=utf-8");
-		req.getRequestDispatcher("/WEB-INF/jsp/exam/paper.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/jsp/exam/onlinePaper.jsp").forward(req, resp);
 	}
 
 }
