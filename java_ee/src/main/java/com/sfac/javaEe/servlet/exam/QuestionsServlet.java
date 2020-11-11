@@ -26,6 +26,7 @@ public class QuestionsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private QuestionDao questionDao = new QuestionDao();
+	private ObjectMapper objectMapper = new ObjectMapper();
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -36,7 +37,6 @@ public class QuestionsServlet extends HttpServlet {
 			sb.append(line);
 		}
 		
-		ObjectMapper objectMapper = new ObjectMapper();
 		SearchVo searchVo = objectMapper.readValue(sb.toString(), SearchVo.class);
 		
 		searchVo.initSearchVo();
