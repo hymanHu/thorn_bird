@@ -57,7 +57,7 @@
 				<div class="container">
 					<div class="card card-default">
 						<div class="card-header">
-							<h3 class="card-title">试卷生成器（随机生成对应阶段的试卷，100 分制）</h3>
+							<h3 class="card-title">试卷生成器</h3>
 							<div class="card-tools">
 								<button type="button" class="btn btn-tool" data-card-widget="collapse">
 									<i class="fas fa-minus"></i>
@@ -157,6 +157,8 @@
 	<script src="/static/plugins/jquery/jquery.min.js"  type="text/javascript"></script>
 	<!-- bootstrap -->
 	<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"  type="text/javascript"></script>
+	<!-- layer -->
+	<script src="https://cdn.bootcss.com/layer/2.1/layer.js" type="text/javascript"></script>
 	<!-- Select2 -->
 	<script src="/static/plugins/select2/js/select2.full.min.js"  type="text/javascript"></script>
 	<!-- DataTables -->
@@ -164,8 +166,6 @@
 	<script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"  type="text/javascript"></script>
 	<script src="/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"  type="text/javascript"></script>
 	<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"  type="text/javascript"></script>
-	<!-- layer -->
-	<script src="https://cdn.bootcss.com/layer/2.1/layer.js" type="text/javascript"></script>
 	<!-- admin -->
 	<script src="/static/js/adminlte.js"></script>
 	
@@ -243,6 +243,7 @@
 							fData.data = gearDatas;
 							fData.recordsTotal = rs.total;
 							fData.recordsFiltered = rs.total;
+							console.log(fData);
 							callback(fData);
 						},
 						error : function (data) {

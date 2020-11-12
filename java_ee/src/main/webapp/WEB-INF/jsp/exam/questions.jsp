@@ -57,10 +57,10 @@
 				<div class="container">
 					<div class="card">
 						<div class="card-header">
-							<h3 class="card-title">试卷列表</h3>
+							<h3 class="card-title">试题列表</h3>
 						</div>
 						<div class="card-body">
-							<table id="papersTable" class="table table-bordered table-striped">
+							<table id="questionsTable" class="table table-bordered table-striped">
 								<thead>
 									<tr>
 										<th>类型</th>
@@ -81,7 +81,6 @@
 		<!-- 尾部 -->
 		<%@ include file="../fragment/footer.jsp"%>
 	</div>
-	
 	
 	<!-- js -->
 	<!-- jQuery -->
@@ -105,10 +104,11 @@
 	<script type="text/javascript">
 		PAGE_SIZE = 5;
 		$(document).ready(function() {
+			initTable(PAGE_SIZE);
 		})
 		
 		function initTable(pageSize) {
-			$('#papersTable').DataTable({
+			$('#questionsTable').DataTable({
 				'paging': true, //分页
 				"serverSide": true, //开启后端分页
 				"pagingType": "full_numbers", //分页样式的类型simple/simple_numbers/full/full_numbers
@@ -135,7 +135,7 @@
 					searchVo.keyWord = data.search.value;
 		
 					$.ajax({
-						url : "/api/papers",
+						url : "/api/questions",
 						type : "post",
 						contentType: "application/json",
 						data : JSON.stringify(searchVo),
@@ -161,8 +161,8 @@
 							var gearDatas = [];
 							for (var i = 0; i < rs.list.length; i++) {
 								//包装行数据
-								var rowData = new TData(rs.list[i].id, rs.list[i].subject, 
-										rs.list[i].totalTime, rs.list[i].createDate);
+								var rowData = new TData(rs.list[i].id, rs.list[i].type, 
+										rs.list[i].flag, rs.list[i].score, rs.list[i].content);
 								// 将行数据放到数组里
 								gearDatas.push(rowData);
 							}
@@ -177,21 +177,22 @@
 					});
 				},
 				"columns": [ //定义行数据字段
-					{data: 'id', name: "id", sortable: true}, 
-					{data: 'subject', name: "subject", sortable: true}, 
-					{data: 'totalTime', name: "total_time", sortable: true}, 
-					{data: 'createDate', name: "create_date", sortable: true}, 
+					{data: 'type', name: "type", sortable: true}, 
+					{data: 'flag', name: "flag", sortable: true}, 
+					{data: 'score', name: "score", sortable: true}, 
+					{data: 'content', name: "content", sortable: true}, 
 					{data: 'operate', width: '80px', sortable: false}
 				]
 			});
 		}
 		
 		//行数据结构
-		function TData(id, subject, totalTime, createDate) {
+		function TData(id, type, flag, score, content) {
 			this.id = id;
-			this.subject = subject;
-			this.totalTime = totalTime;
-			this.createDate = createDate;
+			this.type = type;
+			this.flag = flag;
+			this.score = score;
+			this.content = content;
 			this.operate = function () {
 				return "<a href='/paper?paperId=" + id + "' class='btn_editcolor'>考试</a>&nbsp;";
 			}
