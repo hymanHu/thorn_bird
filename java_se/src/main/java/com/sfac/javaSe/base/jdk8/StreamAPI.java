@@ -44,6 +44,9 @@ public class StreamAPI {
 		System.out.println();
 		IntStream.range(0, 10).forEach(System.out :: print);
 		System.out.println();
+		// 集合不存储基本数据类型，boxed 将基本数据类型转化为包装类
+		list = IntStream.range(1, 10).boxed().collect(Collectors.toList());
+		System.out.println(list);
 		
 		System.out.println("========= 流操作 ==========");
 		List<Integer> list2 = Arrays.asList(1, 2, 4, 5, 6, 12, 34, 8);
