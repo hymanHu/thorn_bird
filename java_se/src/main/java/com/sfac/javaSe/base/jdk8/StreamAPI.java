@@ -49,6 +49,8 @@ public class StreamAPI {
 		System.out.println(list);
 		
 		System.out.println("========= 流操作 ==========");
+		Integer first = list.stream().filter(i -> i == 4).findFirst().orElse(null);
+		System.out.println(first);
 		List<Integer> list2 = Arrays.asList(1, 2, 4, 5, 6, 12, 34, 8);
 		list2 = list2.stream().sorted(Comparator.reverseOrder()).collect(Collectors.toList());
 		list2 = list2.stream().sorted(Comparator.comparing(Integer :: intValue).reversed())
