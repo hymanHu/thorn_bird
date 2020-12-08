@@ -1,33 +1,47 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
-<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="OFF" monitorInterval="1800">
 
-	<!-- 控制台输出 -->
-	<appender name="CONSOLE_ALL" class="org.apache.log4j.ConsoleAppender">
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%m %x %n" />
-		</layout>
-	</appender>
+	<!-- 配置常量 -->
+	<properties>
+		<property name="env">dev</property>
+		<property name="project">java_spring_mvc</property>
+		<property name="root">/log</property>
+		<property name="fileSize">50MB</property>
+		<property name="maxHistory">100</property>
+		<property name="dateTime">yyyy-MM-dd HH:mm:ss</property>
+		<property name="pattern">%d{${dateTime}} [%t] %-5level %logger{36} - %msg%n</property>
+	</properties>
 
-	<!-- 文件输出 -->
-	<appender name="ROLLING_FILE" class="org.apache.log4j.RollingFileAppender">
-		<param name="File" value="/log/springMvc.log" />
-		<param name="MaxFileSize" value="200MB" />
-		<param name="MaxBackupIndex" value="100" />
-		<param name="Append" value="false" />
-		<layout class="org.apache.log4j.PatternLayout">
-			<param name="ConversionPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS}[%-5p]: %m%n" />
-		</layout>
-		<filter class="org.apache.log4j.varia.LevelRangeFilter">
-			<param name="LevelMin" value="DEBUG" />
-			<param name="LevelMax" value="INFO" />
-		</filter>
-	</appender>
-	
-	<!-- 指定级别 -->
-	<root>
-		<priority value="DEBUG" />
-		<appender-ref ref="CONSOLE_ALL" />
-		<appender-ref ref="ROLLING_FILE" />
-	</root>
-</log4j:configuration>
+	<!-- 配置控制台输出和文件输出 -->
+	<Appenders>
+		<Console name="Console" target="SYSTEM_OUT">
+			<PatternLayout pattern="${pattern}" />
+		</Console>
+
+		<RollingFile name="running-log"
+			fileName="${root}/${project}_${env}.log"
+			filePattern="${root}/${project}_${env}_%d.%i.log"
+			immediateFlush="true">
+			<PatternLayout pattern="${pattern}" />
+			<Policies>
+				<TimeBasedTriggeringPolicy />
+				<SizeBasedTriggeringPolicy size="${fileSize}" />
+			</Policies>
+			<DefaultRolloverStrategy max="${maxHistory}" />
+		</RollingFile>
+	</Appenders>
+	<Loggers>
+
+		<!-- 指定第三方 jar 或自定义包的输出级别 -->
+		<Logger name="org.springframework" level="info" additivity="true"> 
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="running-log" />
+		</Logger>
+
+		<!-- 指定根日志级别TRACE<DEBUG<INFO<WARN<ERROR -->
+		<Root level="debug">
+			<AppenderRef ref="Console" />
+			<AppenderRef ref="running-log" />
+		</Root>
+	</Loggers>
+</Configuration>
