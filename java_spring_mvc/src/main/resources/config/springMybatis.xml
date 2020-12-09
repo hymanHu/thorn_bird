@@ -6,11 +6,35 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd 
         http://www.springframework.org/schema/tx   
         http://www.springframework.org/schema/tx/spring-tx-3.0.xsd">
+        
+	<!-- 数据源，spring jdbc || c3p0 jdbc -->
+	<!-- <bean id="dataSourceForMybatis" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName" value="${jdbc.driverClassName}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.username}"/>
+        <property name="password" value="${jdbc.password}"/>
+	</bean> -->
+	<!-- 配置 c3p0 数据源 -->
+	<bean id="dataSourceForMybatis" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+        <property name="driverClass" value="${jdbc.driverClassName}" />  
+        <property name="jdbcUrl" value="${jdbc.url}" />  
+        <property name="user" value="${jdbc.username}" />  
+        <property name="password" value="${jdbc.password}" /> 
+        
+        <!-- 连接池中连接用完时，c3p0 一次性创建的连接数 -->
+        <property name="acquireIncrement" value="${pool.acquireIncrement}" />
+        <!-- 初始化连接数，在 minPoolSize 和 maxPoolSize 之间 -->
+        <property name="initialPoolSize" value="${pool.initialPoolSize}" />
+        <property name="minPoolSize" value="${pool.minPoolSize}" />
+        <property name="maxPoolSize" value="${pool.maxPoolSize}" />
+        <!-- 连接关闭时默认将所有未提交的操作回滚,默认为 false -->
+        <property name="autoCommitOnClose" value="${pool.autoCommitOnClose}"/>
+    </bean>
 
     <!-- sqlSessionFactory -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
-		<property name="dataSource" ref="dataSource"/>
-		<!-- 指定mybatis的 XML映射器文件地址 -->
+		<property name="dataSource" ref="dataSourceForMybatis"/>
+		<!-- 指定 mybatis 的 XML 映射器文件地址 -->
 		<property name="mapperLocations" value="classpath*:mybatis/*.xml" />
 		<!-- 开启自动驼峰命名规则 -->
 		<property name="configuration">
@@ -29,13 +53,13 @@
 		</property>
 	</bean>
 	
-	<!-- 配置一个可以执行批量的sqlSessionTemplate -->
+	<!-- 配置一个可以执行批量的 sqlSessionTemplate -->
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
         <constructor-arg name="sqlSessionFactory" ref="sqlSessionFactory"/>
         <constructor-arg name="executorType" value="BATCH"/>
     </bean>
     
-    <!-- 开启自动扫描dao接口 -->
+    <!-- 开启自动扫描 dao 接口 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 		<property name="basePackage" value="com.sfac.springMvc.dao" />
@@ -43,7 +67,7 @@
 	
 	<!-- 配置事务管理器 -->
 	<bean id="mybatisTransactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource"/>
+		<property name="dataSource" ref="dataSourceForMybatis"/>
 	</bean>
 	
 	<!-- 开启事务注解 -->
