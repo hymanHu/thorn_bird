@@ -31,26 +31,14 @@
         <property name="autoCommitOnClose" value="${pool.autoCommitOnClose}"/>
     </bean>
 
-    <!-- sqlSessionFactory -->
+    <!-- sqlSessionFactory 单个数据库映射关系经过编译后的内存镜像 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<!-- 注入 dataSource -->
 		<property name="dataSource" ref="dataSourceForMybatis"/>
-		<!-- 指定 mybatis 的 XML 映射器文件地址 -->
+		<!-- 扫描 Mybatis 配置文件 -->
+		<property name="configLocation" value="classpath:config/mybatis-config.xml"></property>
+		<!-- 扫描 *Mapper.xml 文件 -->
 		<property name="mapperLocations" value="classpath*:mybatis/*.xml" />
-		<!-- 开启自动驼峰命名规则 -->
-		<property name="configuration">
-			<bean class="org.apache.ibatis.session.Configuration">
-				<property name="mapUnderscoreToCamelCase" value="true"/>
-			</bean>
-		</property>
-		<property name="plugins">
-			<array>
-				<bean class="com.github.pagehelper.PageHelper">
-					<property name="properties">
-						<value>dialect=mysql</value>
-					</property>
-				</bean>
-			</array>
-		</property>
 	</bean>
 	
 	<!-- 配置一个可以执行批量的 sqlSessionTemplate -->

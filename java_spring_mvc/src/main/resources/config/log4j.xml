@@ -33,7 +33,7 @@
 	<Loggers>
 
 		<!-- 指定第三方 jar 或自定义包的输出级别 -->
-		<Logger name="org.springframework" level="info" additivity="true"> 
+		<Logger name="org.springframework" level="debug" additivity="true"> 
 			<AppenderRef ref="Console" />
 			<AppenderRef ref="running-log" />
 		</Logger>
