@@ -26,7 +26,8 @@ public class CityController {
 
 	/**
 	 * 127.0.0.1/api/city ---- post
-	 * {"cityName":"dreamCity", "localCityName":"梦想城市", "countryId":522, "district":"sichuan", "population":1780000}
+	 * {"cityName":"dreamCity", "localCityName":"梦想城市", "countryId":522, 
+	 * "district":"sichuan", "population":1780000}
 	 */
 	@PostMapping(value = "/city", consumes = "application/json")
 	public ResultEntity<City> insertCity(@RequestBody City city) {

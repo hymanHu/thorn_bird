@@ -25,7 +25,6 @@ public interface CityDao {
 	
 	@Update("update city set city_name = #{cityName}, local_city_name = #{localCityName}, "
 			+ "country_id = #{countryId}, district = #{district}, population = #{population}, "
-			+ "date_modified = #{dateModified}, date_created = #{dateCreated} "
-			+ "where city_id = #{cityId}")
+			+ "date_modified = #{dateModified} where city_id = #{cityId}")
 	void updateCity(City city);
 }
