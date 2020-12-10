@@ -20,7 +20,7 @@ public class JavaSpringMvcApplication {
     private static String CONTEXT_PATH = "/";
 
 	public static void main(String[] args) throws LifecycleException {
-//		String baseDir = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+		//String baseDir = Thread.currentThread().getContextClassLoader().getResource("").getPath();
 		String baseDir = new File("target/classes").getAbsolutePath();
 		String appDir = new File("src/main/webapp").getAbsolutePath();
 		System.out.println(baseDir);
@@ -33,13 +33,13 @@ public class JavaSpringMvcApplication {
 		tomcat.getConnector();
 		
 		// 添加 webapp
-        Context context = tomcat.addWebapp(CONTEXT_PATH, appDir);
-        WebResourceRoot resources = new StandardRoot(context);
-        resources.addPreResources(new DirResourceSet(resources, "/WEB-INF/classes", baseDir, "/"));
-        context.setResources(resources);
-        
-        // 启动服务器
-        tomcat.start();
-        tomcat.getServer().await();
+		Context context = tomcat.addWebapp(CONTEXT_PATH, appDir);
+		WebResourceRoot resources = new StandardRoot(context);
+		resources.addPreResources(new DirResourceSet(resources, "/WEB-INF/classes", baseDir, "/"));
+		context.setResources(resources);
+		
+		// 启动服务器
+		tomcat.start();
+		tomcat.getServer().await();
 	}
 }
