@@ -1,5 +1,6 @@
 package com.sfac.springMvc.dao;
 
+import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
@@ -27,4 +28,7 @@ public interface CityDao {
 			+ "country_id = #{countryId}, district = #{district}, population = #{population}, "
 			+ "date_modified = #{dateModified} where city_id = #{cityId}")
 	void updateCity(City city);
+	
+	@Delete("delete from city where city_id = #{cityId}")
+	void deleteCityByCityId(int cityId);
 }

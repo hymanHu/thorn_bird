@@ -52,4 +52,11 @@ public class CityServiceImpl implements CityService {
 		return new ResultEntity<City>(ResultStatus.SUCCESS.status, "Update city success.", city);
 	}
 
+	@Override
+	@Transactional
+	public ResultEntity<Object> deleteCityByCityId(int cityId) {
+		cityDao.deleteCityByCityId(cityId);
+		return new ResultEntity<Object>(ResultStatus.SUCCESS.status, "Delete city success.");
+	}
+
 }

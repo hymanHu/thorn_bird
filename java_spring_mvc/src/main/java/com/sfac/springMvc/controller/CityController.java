@@ -1,7 +1,9 @@
 package com.sfac.springMvc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -42,5 +44,13 @@ public class CityController {
 	@PutMapping(value = "/city", consumes = "application/x-www-form-urlencoded")
 	public ResultEntity<City> updateCity(@ModelAttribute City city) {
 		return cityService.updateCity(city);
+	}
+	
+	/**
+	 * 127.0.0.1/api/city/2260 ---- delete
+	 */
+	@DeleteMapping("/city/{cityId}")
+	public ResultEntity<Object> deleteCityByCityId(@PathVariable int cityId) {
+		return cityService.deleteCityByCityId(cityId);
 	}
 }
