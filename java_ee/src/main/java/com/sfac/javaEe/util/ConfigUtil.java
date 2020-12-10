@@ -18,7 +18,7 @@ public class ConfigUtil {
 	static {
 		InputStream is = null;
 		try {
-			is = ConfigUtil.class.getClassLoader().getResourceAsStream("jdbc-parms.properties");
+			is = ConfigUtil.class.getClassLoader().getResourceAsStream("jdbcParms.properties");
 			properties.load(is);
 		} catch (Exception e) {
 			e.printStackTrace();

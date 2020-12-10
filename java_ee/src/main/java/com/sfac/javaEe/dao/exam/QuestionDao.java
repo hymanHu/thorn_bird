@@ -67,6 +67,8 @@ public class QuestionDao {
 			.append(" , ")
 			.append(searchVo.getCurrentPage() * searchVo.getPageSize());
 		
+		System.out.println(sql.toString());
+		
 		PreparedStatement ps = null;
 		try {
 			ps = connection.prepareStatement(sql.toString());
@@ -109,6 +111,7 @@ public class QuestionDao {
 			.append(" , ")
 			.append(searchVo.getCurrentPage() * searchVo.getPageSize());
 		
+		System.out.println(sql.toString());
 		PreparedStatement ps = null;
 		int count = 0;
 		try {

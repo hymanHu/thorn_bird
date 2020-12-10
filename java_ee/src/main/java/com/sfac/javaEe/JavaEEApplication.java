@@ -16,7 +16,7 @@ import org.apache.catalina.webresources.StandardRoot;
  */
 public class JavaEEApplication {
 	
-    private static int PORT = 8080;
+    private static int PORT = 80;
     private static String CONTEXT_PATH = "/";
 
 	public static void main(String[] args) throws LifecycleException {

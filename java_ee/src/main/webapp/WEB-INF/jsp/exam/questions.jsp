@@ -16,8 +16,9 @@
 	<!-- overlayScrollbars -->
 	<link href="/static/plugins/overlayScrollbars/css/OverlayScrollbars.min.css" rel="stylesheet" >
 	<!-- DataTables -->
-	<link href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-	<link href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
+	<link href="/static/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
+	<!-- <link href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+	<link href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" /> -->
 	<!-- admin -->
 	<link href="/static/css/exam/adminlte.css" type="text/css" rel="stylesheet" />
 	
@@ -88,10 +89,12 @@
 	<!-- bootstrap -->
 	<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"  type="text/javascript"></script>
 	<!-- DataTables -->
-	<script src="/static/plugins/datatables/jquery.dataTables.js"  type="text/javascript"></script>
+	<script src="/static/plugins/datatables.net/js/jquery.dataTables.min.js"  type="text/javascript"></script>
+	<script src="/static/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"  type="text/javascript"></script>
+	<!-- <script src="/static/plugins/datatables/jquery.dataTables.js"  type="text/javascript"></script>
 	<script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"  type="text/javascript"></script>
 	<script src="/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"  type="text/javascript"></script>
-	<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"  type="text/javascript"></script>
+	<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"  type="text/javascript"></script> -->
 	<!-- layer -->
 	<script src="https://cdn.bootcss.com/layer/2.1/layer.js" type="text/javascript"></script>
 	<!-- confirm-->

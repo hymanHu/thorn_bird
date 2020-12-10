@@ -50,7 +50,7 @@ public class QuestionsServlet extends HttpServlet {
 		}
 		
 		PageInfo<Question> pageInfo = new PageInfo<Question>();
-		pageInfo.setTotal(count);
+		pageInfo.setTotal(4);
 		pageInfo.setList(questions);
 		String result = objectMapper.writeValueAsString(pageInfo);
 		
