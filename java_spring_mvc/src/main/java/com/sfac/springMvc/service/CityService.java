@@ -1,7 +1,9 @@
 package com.sfac.springMvc.service;
 
+import com.github.pagehelper.PageInfo;
 import com.sfac.springMvc.entity.City;
-import com.sfac.springMvc.vo.ResultEntity;
+import com.sfac.springMvc.entity.ResultEntity;
+import com.sfac.springMvc.entity.SearchBean;
 
 /**
  * Description: City Service
@@ -17,4 +19,6 @@ public interface CityService {
 	ResultEntity<Object> deleteCityByCityId(int cityId);
 	
 	City getCityByCityId(int cityId);
+	
+	PageInfo<City> getCitiesBySearchBean(SearchBean searchBean);
 }

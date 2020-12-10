@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
 import com.sfac.springMvc.entity.City;
+import com.sfac.springMvc.entity.SearchBean;
 
 /**
  * Description: City Dao
@@ -42,4 +43,25 @@ public interface CityDao {
 	
 	@Select("select * from city where country_id = #{countryId}")
 	List<City> getCitiesByCountryId(int countryId);
+	
+	@Select("<script>"
+		+ "select ci.*, co.country_name from city ci left join country co "
+		+ "on ci.country_id = co.country_id "
+		+ "<where> "
+		+ "<if test='keyWord != \"\" and keyWord != null'>"
+		+ " and (ci.city_name like '%${keyWord}%' "
+		+ "or ci.local_city_name like '%${keyWord}%' "
+		+ "or co.country_name like '%${keyWord}%') "
+		+ "</if>"
+		+ "</where>"
+		+ "<choose>"
+		+ "<when test='orderBy != \"\" and orderBy != null'>"
+		+ " order by ${orderBy} ${direction}"
+		+ "</when>"
+		+ "<otherwise>"
+		+ " order by city_id desc"
+		+ "</otherwise>"
+		+ "</choose>"
+		+ "</script>")
+	List<City> getCitiesBySearchBean(SearchBean searchBean);
 }

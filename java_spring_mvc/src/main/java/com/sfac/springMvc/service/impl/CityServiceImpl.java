@@ -1,19 +1,22 @@
 package com.sfac.springMvc.service.impl;
 
+import java.util.Collections;
 import java.util.Date;
+import java.util.Optional;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Options;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import com.sfac.springMvc.dao.CityDao;
 import com.sfac.springMvc.dao.CityMapper;
 import com.sfac.springMvc.entity.City;
+import com.sfac.springMvc.entity.ResultEntity;
+import com.sfac.springMvc.entity.ResultEntity.ResultStatus;
+import com.sfac.springMvc.entity.SearchBean;
 import com.sfac.springMvc.service.CityService;
-import com.sfac.springMvc.vo.ResultEntity;
-import com.sfac.springMvc.vo.ResultEntity.ResultStatus;
 
 /**
  * Description: City Service Impl
@@ -63,6 +66,14 @@ public class CityServiceImpl implements CityService {
 	@Override
 	public City getCityByCityId(int cityId) {
 		return cityDao.getCityByCityId(cityId);
+	}
+
+	@Override
+	public PageInfo<City> getCitiesBySearchBean(SearchBean searchBean) {
+		searchBean.initSearchBean();
+		PageHelper.startPage(searchBean.getCurrentPage(), searchBean.getPageSize());
+		return new PageInfo<City>(Optional.ofNullable(cityDao.getCitiesBySearchBean(searchBean))
+				.orElse(Collections.emptyList()));
 	}
 
 }

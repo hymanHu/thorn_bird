@@ -11,9 +11,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pagehelper.PageInfo;
 import com.sfac.springMvc.entity.City;
+import com.sfac.springMvc.entity.ResultEntity;
+import com.sfac.springMvc.entity.SearchBean;
 import com.sfac.springMvc.service.CityService;
-import com.sfac.springMvc.vo.ResultEntity;
 
 /**
  * Description: City Controller
@@ -61,5 +63,14 @@ public class CityController {
 	@GetMapping("/city/{cityId}")
 	public City getCityByCityId(@PathVariable int cityId) {
 		return cityService.getCityByCityId(cityId);
+	}
+	
+	/**
+	 * 127.0.0.1/api/cities ---- post
+	 * {"currentPage":1, "pageSize":5, "keyWord":"china", "orderBy":"ci.city_id", "direction":"desc"}
+	 */
+	@PostMapping(value = "/cities", consumes = "application/json")
+	public PageInfo<City> getCitiesBySearchBean(@RequestBody SearchBean searchBean) {
+		return cityService.getCitiesBySearchBean(searchBean);
 	}
 }
