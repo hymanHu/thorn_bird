@@ -1,6 +1,7 @@
 package com.sfac.springMvc.entity;
 
 import java.util.Date;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 
@@ -32,6 +33,8 @@ public class Country {
     private Date dateModified;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
     private Date dateCreated;
+    
+    private List<City> cities;
 
     public Integer getCountryId() {
         return countryId;
@@ -192,4 +195,12 @@ public class Country {
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
+
+	public List<City> getCities() {
+		return cities;
+	}
+
+	public void setCities(List<City> cities) {
+		this.cities = cities;
+	}
 }

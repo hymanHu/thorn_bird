@@ -1,5 +1,7 @@
 package com.sfac.springMvc.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
@@ -37,4 +39,7 @@ public interface CityDao {
 			+ "left join country co on ci.country_id = co.country_id "
 			+ "where ci.city_id = #{cityId}")
 	City getCityByCityId(int cityId);
+	
+	@Select("select * from city where country_id = #{countryId}")
+	List<City> getCitiesByCountryId(int countryId);
 }
