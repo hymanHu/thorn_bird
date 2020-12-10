@@ -59,4 +59,9 @@ public class CityServiceImpl implements CityService {
 		return new ResultEntity<Object>(ResultStatus.SUCCESS.status, "Delete city success.");
 	}
 
+	@Override
+	public City getCityByCityId(int cityId) {
+		return cityDao.getCityByCityId(cityId);
+	}
+
 }

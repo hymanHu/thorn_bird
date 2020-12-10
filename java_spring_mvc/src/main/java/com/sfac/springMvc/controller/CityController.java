@@ -2,6 +2,7 @@ package com.sfac.springMvc.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -52,5 +53,13 @@ public class CityController {
 	@DeleteMapping("/city/{cityId}")
 	public ResultEntity<Object> deleteCityByCityId(@PathVariable int cityId) {
 		return cityService.deleteCityByCityId(cityId);
+	}
+	
+	/**
+	 * 127.0.0.1/api/city/2261 ---- get
+	 */
+	@GetMapping("/city/{cityId}")
+	public City getCityByCityId(@PathVariable int cityId) {
+		return cityService.getCityByCityId(cityId);
 	}
 }

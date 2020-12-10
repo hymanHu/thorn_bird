@@ -15,4 +15,6 @@ public interface CityService {
 	ResultEntity<City> updateCity(City city);
 	
 	ResultEntity<Object> deleteCityByCityId(int cityId);
+	
+	City getCityByCityId(int cityId);
 }
