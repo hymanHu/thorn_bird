@@ -52,7 +52,7 @@ public class QuestionDao {
 	
 	public List<Question> getQuestionsBySearchVo(SearchVo searchVo) throws SQLException {
 		List<Question> questions = new ArrayList<Question>();
-		Connection connection = DBUtil.getConnection();
+		Connection connection = null;
 		StringBuffer sql = new StringBuffer("select * from question ");
 		if (StringUtils.isNotBlank(searchVo.getKeyWord())) {
 			sql.append("where content like '%" + searchVo.getKeyWord() + "%' or ");
@@ -71,6 +71,7 @@ public class QuestionDao {
 		
 		PreparedStatement ps = null;
 		try {
+			connection = DBUtil.getConnection();
 			ps = connection.prepareStatement(sql.toString());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {

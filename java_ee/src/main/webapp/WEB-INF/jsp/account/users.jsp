@@ -6,7 +6,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Questions</title>
+	<title>Users</title>
 	
 	<!-- css -->
 	<!-- Google Font: Source Sans Pro -->
@@ -36,13 +36,13 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0 text-dark">Questions</h1>
+							<h1 class="m-0 text-dark">Users</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="/dashboard">Home</a></li>
-								<li class="breadcrumb-item active">Questions</li>
+								<li class="breadcrumb-item active">Users</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -57,16 +57,23 @@
 				<div class="container">
 					<div class="card">
 						<div class="card-header">
-							<h3 class="card-title">试题列表</h3>
+							<!-- <h3 class="card-title">试题列表</h3> -->
+							<ul class="nav panel_toolbox" style="margin-left:0; float: left;">
+								<li>
+									<button type="button" class="btn btn-primary" id="addModuleBtn"
+										data-toggle="modal" data-target="#addModal">新    增</button>
+								</li>
+							</ul>
+							<div class="clearfix"></div>
 						</div>
 						<div class="card-body">
 							<table id="questionsTable" class="table table-bordered table-striped">
 								<thead>
 									<tr>
-										<th>类型</th>
-										<th>标识</th>
-										<th>内容</th>
-										<th>分数</th>
+										<th>ID</th>
+										<th>用户名</th>
+										<th>密码</th>
+										<th>创建时间</th>
 										<th>操作</th>
 									</tr>
 								</thead>
@@ -80,6 +87,10 @@
 		
 		<!-- 尾部 -->
 		<%@ include file="../fragment/footer.jsp"%>
+		
+		<!-- 新增、修改页面 -->
+		<%@ include file="./userAdd.jsp"%>
+		<%@ include file="./userEdit.jsp"%>
 	</div>
 	
 	<!-- js -->
@@ -103,6 +114,17 @@
 		PAGE_SIZE = 5;
 		$(document).ready(function() {
 			initTable(PAGE_SIZE);
+			
+			// 绑定页面按钮
+			$("#addModuleBtn").bind("click", function() {
+				initAddModal();
+			});
+			$("#addBtn").bind("click", function() {
+				insertModule();
+			});
+			$("#editBtn").bind("click", function() {
+				updateModule();
+			});
 		})
 		
 		function initTable(pageSize) {
@@ -133,7 +155,7 @@
 					searchVo.keyWord = data.search.value;
 		
 					$.ajax({
-						url : "/api/questions",
+						url : "/api/users",
 						type : "post",
 						contentType: "application/json",
 						data : JSON.stringify(searchVo),
@@ -159,8 +181,8 @@
 							var gearDatas = [];
 							for (var i = 0; i < rs.list.length; i++) {
 								//包装行数据
-								var rowData = new TData(rs.list[i].id, rs.list[i].type, 
-										rs.list[i].flag, rs.list[i].score, rs.list[i].content);
+								var rowData = new TData(rs.list[i].userId, rs.list[i].userName, 
+										rs.list[i].password, rs.list[i].createDate);
 								// 将行数据放到数组里
 								gearDatas.push(rowData);
 							}
@@ -175,25 +197,122 @@
 					});
 				},
 				"columns": [ //定义行数据字段
-					{data: 'type', name: "type", sortable: true}, 
-					{data: 'flag', name: "flag", sortable: true}, 
-					{data: 'score', name: "score", sortable: true}, 
-					{data: 'content', name: "content", sortable: true}, 
+					{data: 'userId', name: "user_id", sortable: true}, 
+					{data: 'userName', name: "user_name", sortable: true}, 
+					{data: 'password', name: "password", sortable: true}, 
+					{data: 'createDate', name: "create_date", sortable: true}, 
 					{data: 'operate', width: '80px', sortable: false}
 				]
 			});
 		}
 		
 		//行数据结构
-		function TData(id, type, flag, score, content) {
-			this.id = id;
-			this.type = type;
-			this.flag = flag;
-			this.score = score;
-			this.content = content;
+		function TData(userId, userName, password, createDate) {
+			this.userId = userId;
+			this.userName = userName;
+			this.password = password;
+			this.createDate = createDate;
 			this.operate = function () {
-				return "<a href='/paper?paperId=" + id + "' class='btn_editcolor'>考试</a>&nbsp;";
+				return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#editModal' " + 
+					"onclick='initEditModal(\"" + userId + "\")'>编辑</a>&nbsp;" + 
+					"<a href='javascript:void(0);' onclick='deleteModule(\"" + userId + "\")' class='btn_editcolor'>删除</a>";
 			}
+		}
+		
+		// 初始化添加页面
+		function initAddModal() {
+			$("#userNameForAddPage").val("");
+			$("#passwordForAddPage").val("");
+		}
+		
+		// 添加模型
+		function insertModule() {
+			var user = {};
+			user.userName = $("#userNameForAddPage").val();
+			user.password = $("#passwordForAddPage").val();
+			
+			$.ajax({
+				url : "/api/user",
+				type : "post",
+				contentType: "application/json",
+				data : JSON.stringify(user),
+				success : function (data) {
+					if (data.status == 200) {
+						initTable(PAGE_SIZE);
+					} else {
+						layer.msg(data.message, {icon: 0});
+					}
+				},
+				error : function (data) {
+					layer.msg(data.responseText, {icon: 0});
+				}
+			});
+		}
+		
+		// 初始化编辑页面
+		function initEditModal(id) {
+			$.ajax({
+				url : "/api/user?userId=" + id,
+				type : "get",
+				contentType: "application/json",
+				success : function (rs) {
+					$("#userIdForEditPage").val(rs.data.userId);
+					$("#userNameForEditPage").val(rs.data.userName);
+					$("#passwordForEditPage").val(rs.data.password);
+				},
+				error : function (data) {
+					layer.alert(data.responseText, {icon: 0});
+				}
+			});
+		}
+		
+		// 修改模型
+		function updateModule() {
+			var user = {};
+			user.userId = $("#userIdForEditPage").val();
+			user.userName = $("#userNameForEditPage").val();
+			user.password = $("#passwordForEditPage").val();
+			
+			$.ajax({
+				url : "/api/user",
+				type : "put",
+				contentType: "application/json",
+				data : JSON.stringify(user),
+				success : function (data) {
+					if (data.status == 200) {
+						initTable(PAGE_SIZE);
+					} else {
+						layer.msg(data.message, {icon: 0});
+					}
+				},
+				error : function (data) {
+					layer.msg(data.responseText, {icon: 0});
+				}
+			});
+		}
+		
+		// 删除模型
+		function deleteModule(id) {
+			bootbox.confirm("Are you sure?", function(result) {
+				if(result) {
+					$.ajax({
+						url : "/api/user?userId=" + id,
+						type : "delete",
+						contentType: "application/json",
+						success : function (data) {
+							if (data.status == 200) {
+								initTable(PAGE_SIZE);
+							} else {
+								//window.location.href = data.object;
+								layer.msg(data.message, {icon: 0});
+							}
+						},
+						error : function (data) {
+							layer.msg(data.responseText, {icon: 0});
+						}
+					});
+				}
+			});
 		}
 	</script>
 </body>

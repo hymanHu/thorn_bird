@@ -43,6 +43,12 @@
 								<p>User Profile</p>
 							</a>
 						</li>
+						<li class="nav-item">
+							<a href="/account/users" class="nav-link">
+								<i class="far fa-circle nav-icon"></i>
+								<p>Users</p>
+							</a>
+						</li>
 					</ul>
 				</li>
 				<li class="nav-item has-treeview">

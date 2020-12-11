@@ -9,7 +9,10 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
+
 import com.sfac.javaEe.entity.account.User;
+import com.sfac.javaEe.entity.common.SearchVo;
 import com.sfac.javaEe.util.DBUtil;
 
 
@@ -20,9 +23,7 @@ import com.sfac.javaEe.util.DBUtil;
  */
 public class UserDao {
 
-	/**
-	 * -根据userName查询user
-	 */
+	// 根据 userName 查询 user
 	public User getUserByUserName(String userName) throws SQLException {
 		Connection conn = DBUtil.getConnection();
 		String sql = "select * from user where user_name = ?";
@@ -46,9 +47,7 @@ public class UserDao {
 		return user;
 	}
 	
-	/**
-	 * -根据用户名和密码查询 user
-	 */
+	// 根据用户名和密码查询 user
 	public User getUserByUserNameAndPassword(String userName, String password) throws SQLException {
 		Connection conn = DBUtil.getConnection();
 		String sql = "select * from user where user_name = ? and password = ?";
@@ -73,9 +72,7 @@ public class UserDao {
 		return user;
 	}
 	
-	/**
-	 * -根据userId查询user
-	 */
+	// 根据 userId 查询 user
 	public User getUserByUserId(int userId) throws SQLException {
 		Connection conn = DBUtil.getConnection();
 		String sql = "select * from user where user_id = ?";
@@ -99,9 +96,7 @@ public class UserDao {
 		return user;
 	}
 	
-	/**
-	 * -插入user，并返回有id的user
-	 */
+	// 插入user，并返回有 id 的 user
 	public User insertUser(User user) throws SQLException {
 		Connection conn = DBUtil.getConnection();
 		String sql = "insert into user (user_name, password, create_date) values (?, ?, ?)";
@@ -133,9 +128,7 @@ public class UserDao {
 		return user;
 	}
 	
-	/**
-	 * -更新user
-	 */
+	// 更新 user
 	public User updateUser(User user) throws SQLException {
 		Connection conn = DBUtil.getConnection();
 		String sql = "update user set user_name = ?, password = ? where user_id = ?";
@@ -154,9 +147,7 @@ public class UserDao {
 		return user;
 	}
 	
-	/**
-	 * -删除 user
-	 */
+	// 删除 user
 	public void deleteUser(int userId) throws SQLException {
 		Connection conn = DBUtil.getConnection();
 		String sql = "delete from user where user_id = ?";
@@ -171,17 +162,25 @@ public class UserDao {
 		}
 	}
 	
-	/**
-	 * -查询所有users
-	 */
-	public List<User> getUsers() throws SQLException {
-		Connection connection = null;
-		String sql = "select * from user";
+	// 根据 searchBean 查询所有 users
+	public List<User> getUsersBySearchVo(SearchVo searchVo) throws SQLException {
 		List<User> users = new ArrayList<User>();
+		Connection connection = null;
+		StringBuffer sql = new StringBuffer("select * from user ");
+		if (StringUtils.isNotBlank(searchVo.getKeyWord())) {
+			sql.append("where user_name like '%" + searchVo.getKeyWord() + "%'");
+		}
+		sql.append("order by ")
+			.append(StringUtils.isNotBlank(searchVo.getOrderBy()) ? searchVo.getOrderBy() + " " : " user_id ")
+			.append(StringUtils.isNotBlank(searchVo.getSort()) ? searchVo.getSort() + " " : " ASC ")
+			.append("limit ")
+			.append((searchVo.getCurrentPage() - 1) * searchVo.getPageSize())
+			.append(" , ")
+			.append(searchVo.getCurrentPage() * searchVo.getPageSize());
 		
 		try {
 			connection = DBUtil.getConnection();
-			PreparedStatement ps = connection.prepareStatement(sql);
+			PreparedStatement ps = connection.prepareStatement(sql.toString());
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				User user = new User();
@@ -196,5 +195,33 @@ public class UserDao {
 		}
 		
 		return users;
+	}
+	
+	// 根据 searchVo 查询 users 总数
+	public int getUsersCountBySearchVo(SearchVo searchVo) throws SQLException {
+		List<User> users = new ArrayList<User>();
+		Connection connection = null;
+		StringBuffer sql = new StringBuffer("select * from user ");
+		if (StringUtils.isNotBlank(searchVo.getKeyWord())) {
+			sql.append("where user_name like '%" + searchVo.getKeyWord() + "%'");
+		}
+		
+		try {
+			connection = DBUtil.getConnection();
+			PreparedStatement ps = connection.prepareStatement(sql.toString());
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				User user = new User();
+				user.setUserId(rs.getInt("user_id"));
+				user.setUserName(rs.getString("user_name"));
+				user.setPassword(rs.getString("password"));
+				user.setCreateDate(rs.getDate("create_date"));
+				users.add(user);
+			}
+		} finally {
+			DBUtil.closeConnection(connection);
+		}
+		
+		return users.size();
 	}
 }

@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  * @date 2020-10-20 10:06:17
  */
 @WebServlet(value = "/user/profile")
-public class UserProfileServlet extends HttpServlet{
+public class UserProfilePageServlet extends HttpServlet{
 
 	private static final long serialVersionUID = 1L;
 

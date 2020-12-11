@@ -96,7 +96,7 @@
 		user.userName = $("[name='userName']").val();
 		user.password = $("[name='password']").val();
 		$.ajax({
-			url : "/register",
+			url : "/api/user",
 			type : "post",
 			contentType: "application/json",
 			data : JSON.stringify(user),
