@@ -1,4 +1,4 @@
-package com.sfac.springMvc.entity;
+package com.sfac.springMvc.module.common.entity;
 
 import org.apache.commons.lang3.StringUtils;
 

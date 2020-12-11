@@ -1,4 +1,4 @@
-package com.sfac.springMvc.entity;
+package com.sfac.springMvc.module.common.entity;
 
 /**
  * Description: Result Entity

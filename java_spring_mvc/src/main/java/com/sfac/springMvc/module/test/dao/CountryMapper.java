@@ -1,15 +1,10 @@
-package com.sfac.springMvc.dao;
+package com.sfac.springMvc.module.test.dao;
 
-import com.sfac.springMvc.entity.Country;
-import com.sfac.springMvc.entity.CountryExample;
+import com.sfac.springMvc.module.test.entity.Country;
+import com.sfac.springMvc.module.test.entity.CountryExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-/**
- * Description: Country Mapper
- * @author HymanHu
- * @date 2020-12-09 11:18:06
- */
 public interface CountryMapper {
     long countByExample(CountryExample example);
 

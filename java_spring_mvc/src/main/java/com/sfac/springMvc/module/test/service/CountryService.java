@@ -1,6 +1,6 @@
-package com.sfac.springMvc.service;
+package com.sfac.springMvc.module.test.service;
 
-import com.sfac.springMvc.entity.Country;
+import com.sfac.springMvc.module.test.entity.Country;
 
 /**
  * Description: Country Service

@@ -1,4 +1,4 @@
-package com.sfac.springMvc.controller;
+package com.sfac.springMvc.module.test.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -7,8 +7,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.sfac.springMvc.entity.Country;
-import com.sfac.springMvc.service.CountryService;
+import com.sfac.springMvc.module.test.entity.Country;
+import com.sfac.springMvc.module.test.service.CountryService;
 
 /**
  * Description: Country Controller

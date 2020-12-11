@@ -1,4 +1,4 @@
-package com.sfac.springMvc.controller;
+package com.sfac.springMvc.module.test.controller;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

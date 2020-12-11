@@ -50,7 +50,7 @@
     <!-- 开启自动扫描 dao 接口 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
-		<property name="basePackage" value="com.sfac.springMvc.dao" />
+		<property name="basePackage" value="com.sfac.springMvc.module.*.dao" />
 	</bean>
 	
 	<!-- 配置事务管理器 -->

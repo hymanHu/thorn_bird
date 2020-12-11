@@ -1,15 +1,10 @@
-package com.sfac.springMvc.dao;
+package com.sfac.springMvc.module.test.dao;
 
-import com.sfac.springMvc.entity.City;
-import com.sfac.springMvc.entity.CityExample;
+import com.sfac.springMvc.module.test.entity.City;
+import com.sfac.springMvc.module.test.entity.CityExample;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
 
-/**
- * Description: City Mapper
- * @author HymanHu
- * @date 2020-12-09 11:17:50
- */
 public interface CityMapper {
     long countByExample(CityExample example);
 

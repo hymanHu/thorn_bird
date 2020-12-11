@@ -1,28 +1,24 @@
-package com.sfac.springMvc.entity;
+package com.sfac.springMvc.module.test.entity;
 
 import java.util.Date;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-/**
- * Description: City
- * @author HymanHu
- * @date 2020-12-09 11:14:51
- */
 public class City {
     private Integer cityId;
+
     private String cityName;
+
     private String localCityName;
+
     private Integer countryId;
+
     private String district;
+
     private Integer population;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+
     private Date dateModified;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+
     private Date dateCreated;
-    
-    private String countryName;
-    
+
     public Integer getCityId() {
         return cityId;
     }
@@ -86,12 +82,4 @@ public class City {
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
-
-	public String getCountryName() {
-		return countryName;
-	}
-
-	public void setCountryName(String countryName) {
-		this.countryName = countryName;
-	}
 }

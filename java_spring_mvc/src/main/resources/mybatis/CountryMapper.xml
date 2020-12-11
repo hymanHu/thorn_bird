@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sfac.springMvc.dao.CountryMapper">
-  <resultMap id="BaseResultMap" type="com.sfac.springMvc.entity.Country">
+<mapper namespace="com.sfac.springMvc.module.test.dao.CountryMapper">
+  <resultMap id="BaseResultMap" type="com.sfac.springMvc.module.test.entity.Country">
     <id column="country_id" jdbcType="INTEGER" property="countryId" />
     <result column="country_name" jdbcType="VARCHAR" property="countryName" />
     <result column="local_country_name" jdbcType="VARCHAR" property="localCountryName" />
@@ -86,7 +86,7 @@
     region, surface_area, indep_year, population, life_expectancy, gnp, government_form, 
     head_of_state, capital, time_zone, language_id, currency_id, date_modified, date_created
   </sql>
-  <select id="selectByExample" parameterType="com.sfac.springMvc.entity.CountryExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.sfac.springMvc.module.test.entity.CountryExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -110,13 +110,13 @@
     delete from country
     where country_id = #{countryId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.sfac.springMvc.entity.CountryExample">
+  <delete id="deleteByExample" parameterType="com.sfac.springMvc.module.test.entity.CountryExample">
     delete from country
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.sfac.springMvc.entity.Country">
+  <insert id="insert" parameterType="com.sfac.springMvc.module.test.entity.Country">
     insert into country (country_id, country_name, local_country_name, 
       country_code, country_code2, continent, 
       region, surface_area, indep_year, 
@@ -132,7 +132,7 @@
       #{timeZone,jdbcType=VARCHAR}, #{languageId,jdbcType=INTEGER}, #{currencyId,jdbcType=INTEGER}, 
       #{dateModified,jdbcType=TIMESTAMP}, #{dateCreated,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.sfac.springMvc.entity.Country">
+  <insert id="insertSelective" parameterType="com.sfac.springMvc.module.test.entity.Country">
     insert into country
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="countryId != null">
@@ -259,7 +259,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.sfac.springMvc.entity.CountryExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.sfac.springMvc.module.test.entity.CountryExample" resultType="java.lang.Long">
     select count(*) from country
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -359,7 +359,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sfac.springMvc.entity.Country">
+  <update id="updateByPrimaryKeySelective" parameterType="com.sfac.springMvc.module.test.entity.Country">
     update country
     <set>
       <if test="countryName != null">
@@ -422,7 +422,7 @@
     </set>
     where country_id = #{countryId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sfac.springMvc.entity.Country">
+  <update id="updateByPrimaryKey" parameterType="com.sfac.springMvc.module.test.entity.Country">
     update country
     set country_name = #{countryName,jdbcType=VARCHAR},
       local_country_name = #{localCountryName,jdbcType=VARCHAR},

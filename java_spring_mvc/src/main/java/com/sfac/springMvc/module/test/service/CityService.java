@@ -1,9 +1,9 @@
-package com.sfac.springMvc.service;
+package com.sfac.springMvc.module.test.service;
 
 import com.github.pagehelper.PageInfo;
-import com.sfac.springMvc.entity.City;
-import com.sfac.springMvc.entity.ResultEntity;
-import com.sfac.springMvc.entity.SearchBean;
+import com.sfac.springMvc.module.common.entity.ResultEntity;
+import com.sfac.springMvc.module.common.entity.SearchBean;
+import com.sfac.springMvc.module.test.entity.City;
 
 /**
  * Description: City Service

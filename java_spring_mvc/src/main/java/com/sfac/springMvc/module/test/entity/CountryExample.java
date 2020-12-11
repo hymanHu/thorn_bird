@@ -1,17 +1,14 @@
-package com.sfac.springMvc.entity;
+package com.sfac.springMvc.module.test.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Description: Country Example
- * @author HymanHu
- * @date 2020-12-09 11:16:49
- */
 public class CountryExample {
     protected String orderByClause;
+
     protected boolean distinct;
+
     protected List<Criteria> oredCriteria;
 
     public CountryExample() {

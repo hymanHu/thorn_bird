@@ -1,4 +1,4 @@
-package com.sfac.springMvc.controller;
+package com.sfac.springMvc.module.test.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -12,10 +12,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
-import com.sfac.springMvc.entity.City;
-import com.sfac.springMvc.entity.ResultEntity;
-import com.sfac.springMvc.entity.SearchBean;
-import com.sfac.springMvc.service.CityService;
+import com.sfac.springMvc.module.common.entity.ResultEntity;
+import com.sfac.springMvc.module.common.entity.SearchBean;
+import com.sfac.springMvc.module.test.entity.City;
+import com.sfac.springMvc.module.test.service.CityService;
 
 /**
  * Description: City Controller

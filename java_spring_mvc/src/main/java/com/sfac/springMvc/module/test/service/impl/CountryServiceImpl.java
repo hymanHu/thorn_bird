@@ -1,11 +1,11 @@
-package com.sfac.springMvc.service.impl;
+package com.sfac.springMvc.module.test.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sfac.springMvc.dao.CountryDao;
-import com.sfac.springMvc.entity.Country;
-import com.sfac.springMvc.service.CountryService;
+import com.sfac.springMvc.module.test.dao.CountryDao;
+import com.sfac.springMvc.module.test.entity.Country;
+import com.sfac.springMvc.module.test.service.CountryService;
 
 /**
  * Description: Country Service Impl

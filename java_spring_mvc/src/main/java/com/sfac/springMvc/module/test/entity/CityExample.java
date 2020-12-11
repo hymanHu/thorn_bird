@@ -1,4 +1,4 @@
-package com.sfac.springMvc.entity;
+package com.sfac.springMvc.module.test.entity;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -6,7 +6,9 @@ import java.util.List;
 
 public class CityExample {
     protected String orderByClause;
+
     protected boolean distinct;
+
     protected List<Criteria> oredCriteria;
 
     public CityExample() {

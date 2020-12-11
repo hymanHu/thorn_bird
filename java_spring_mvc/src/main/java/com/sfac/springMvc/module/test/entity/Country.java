@@ -1,40 +1,47 @@
-package com.sfac.springMvc.entity;
+package com.sfac.springMvc.module.test.entity;
 
 import java.util.Date;
-import java.util.List;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-
-/**
- * Description: Country
- * @author HymanHu
- * @date 2020-12-09 11:16:24
- */
 public class Country {
     private Integer countryId;
+
     private String countryName;
+
     private String localCountryName;
+
     private String countryCode;
+
     private String countryCode2;
+
     private String continent;
+
     private String region;
+
     private Float surfaceArea;
+
     private Integer indepYear;
+
     private Integer population;
+
     private Float lifeExpectancy;
+
     private Float gnp;
+
     private String governmentForm;
+
     private String headOfState;
+
     private Integer capital;
+
     private String timeZone;
+
     private Integer languageId;
+
     private Integer currencyId;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+
     private Date dateModified;
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+
     private Date dateCreated;
-    
-    private List<City> cities;
 
     public Integer getCountryId() {
         return countryId;
@@ -195,12 +202,4 @@ public class Country {
     public void setDateCreated(Date dateCreated) {
         this.dateCreated = dateCreated;
     }
-
-	public List<City> getCities() {
-		return cities;
-	}
-
-	public void setCities(List<City> cities) {
-		this.cities = cities;
-	}
 }

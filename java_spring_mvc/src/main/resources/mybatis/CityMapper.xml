@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.sfac.springMvc.dao.CityMapper">
-  <resultMap id="BaseResultMap" type="com.sfac.springMvc.entity.City">
+<mapper namespace="com.sfac.springMvc.module.test.dao.CityMapper">
+  <resultMap id="BaseResultMap" type="com.sfac.springMvc.module.test.entity.City">
     <id column="city_id" jdbcType="INTEGER" property="cityId" />
     <result column="city_name" jdbcType="VARCHAR" property="cityName" />
     <result column="local_city_name" jdbcType="VARCHAR" property="localCityName" />
@@ -73,7 +73,7 @@
     city_id, city_name, local_city_name, country_id, district, population, date_modified, 
     date_created
   </sql>
-  <select id="selectByExample" parameterType="com.sfac.springMvc.entity.CityExample" resultMap="BaseResultMap">
+  <select id="selectByExample" parameterType="com.sfac.springMvc.module.test.entity.CityExample" resultMap="BaseResultMap">
     select
     <if test="distinct">
       distinct
@@ -97,13 +97,13 @@
     delete from city
     where city_id = #{cityId,jdbcType=INTEGER}
   </delete>
-  <delete id="deleteByExample" parameterType="com.sfac.springMvc.entity.CityExample">
+  <delete id="deleteByExample" parameterType="com.sfac.springMvc.module.test.entity.CityExample">
     delete from city
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.sfac.springMvc.entity.City" useGeneratedKeys="true" keyProperty="cityId">
+  <insert id="insert" parameterType="com.sfac.springMvc.module.test.entity.City">
     insert into city (city_id, city_name, local_city_name, 
       country_id, district, population, 
       date_modified, date_created)
@@ -111,7 +111,7 @@
       #{countryId,jdbcType=INTEGER}, #{district,jdbcType=VARCHAR}, #{population,jdbcType=INTEGER}, 
       #{dateModified,jdbcType=TIMESTAMP}, #{dateCreated,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.sfac.springMvc.entity.City">
+  <insert id="insertSelective" parameterType="com.sfac.springMvc.module.test.entity.City">
     insert into city
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="cityId != null">
@@ -166,7 +166,7 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.sfac.springMvc.entity.CityExample" resultType="java.lang.Long">
+  <select id="countByExample" parameterType="com.sfac.springMvc.module.test.entity.CityExample" resultType="java.lang.Long">
     select count(*) from city
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
@@ -218,7 +218,7 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.sfac.springMvc.entity.City">
+  <update id="updateByPrimaryKeySelective" parameterType="com.sfac.springMvc.module.test.entity.City">
     update city
     <set>
       <if test="cityName != null">
@@ -245,7 +245,7 @@
     </set>
     where city_id = #{cityId,jdbcType=INTEGER}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.sfac.springMvc.entity.City">
+  <update id="updateByPrimaryKey" parameterType="com.sfac.springMvc.module.test.entity.City">
     update city
     set city_name = #{cityName,jdbcType=VARCHAR},
       local_city_name = #{localCityName,jdbcType=VARCHAR},

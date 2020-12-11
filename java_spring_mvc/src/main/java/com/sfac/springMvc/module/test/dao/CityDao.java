@@ -1,4 +1,4 @@
-package com.sfac.springMvc.dao;
+package com.sfac.springMvc.module.test.dao;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
-import com.sfac.springMvc.entity.City;
-import com.sfac.springMvc.entity.SearchBean;
+import com.sfac.springMvc.module.common.entity.SearchBean;
+import com.sfac.springMvc.module.test.entity.City;
 
 /**
  * Description: City Dao

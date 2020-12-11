@@ -1,4 +1,4 @@
-package com.sfac.springMvc.service.impl;
+package com.sfac.springMvc.module.test.service.impl;
 
 import java.util.Collections;
 import java.util.Date;
@@ -10,13 +10,13 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.sfac.springMvc.dao.CityDao;
-import com.sfac.springMvc.dao.CityMapper;
-import com.sfac.springMvc.entity.City;
-import com.sfac.springMvc.entity.ResultEntity;
-import com.sfac.springMvc.entity.ResultEntity.ResultStatus;
-import com.sfac.springMvc.entity.SearchBean;
-import com.sfac.springMvc.service.CityService;
+import com.sfac.springMvc.module.common.entity.ResultEntity;
+import com.sfac.springMvc.module.common.entity.SearchBean;
+import com.sfac.springMvc.module.common.entity.ResultEntity.ResultStatus;
+import com.sfac.springMvc.module.test.dao.CityDao;
+import com.sfac.springMvc.module.test.dao.CityMapper;
+import com.sfac.springMvc.module.test.entity.City;
+import com.sfac.springMvc.module.test.service.CityService;
 
 /**
  * Description: City Service Impl
