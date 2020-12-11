@@ -10,14 +10,14 @@
 	
 	<!-- css -->
 	<!-- Exam -->
-	<link href="/static/css/exam/main.css" rel="stylesheet" />
-	<link href="/static/css/exam/test.css" rel="stylesheet" />
+	<link href="/static/_exam/css/main.css" rel="stylesheet" />
+	<link href="/static/_exam/css/test.css" rel="stylesheet" />
 	<!-- Google Font: Source Sans Pro -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" rel="stylesheet" />
 	<!-- Font Awesome -->
 	<link href="/static/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
 	<!-- admin -->
-	<link href="/static/css/exam/adminlte.css" type="text/css" rel="stylesheet" />
+	<link href="/static/_exam/css/adminlte.css" type="text/css" rel="stylesheet" />
 	<style>
 		.hasBeenAnswer {
 			background: #5d9cec;
@@ -102,7 +102,7 @@
 	<!-- bootstrap -->
 	<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"  type="text/javascript"></script>
 	<!-- countdown -->
-	<script src="/static/js/exam/jquery.countdown.js"  type="text/javascript"></script>
+	<script src="/static/_exam/js/jquery.countdown.js"  type="text/javascript"></script>
 	<!-- admin -->
 	<script src="/static/js/adminlte.js"></script>
 	<script type="text/javascript">
@@ -112,7 +112,6 @@
 			// 监测滚动条事件，设置答题卡样式
 			$(window).scroll(function () {
 				var top = $(this).scrollTop();
-				console.log(top);
 				if (top > 120) {
 					$('.rt_nr1').addClass("fix_position");
 				} else {

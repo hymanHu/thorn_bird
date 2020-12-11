@@ -10,7 +10,7 @@
 	
 	<!-- css -->
 	<!-- Exam -->
-	<link href="/static/css/exam/main.css" rel="stylesheet" />
+	<link href="/static/_exam/css/main.css" rel="stylesheet" />
 	<!-- Google Font: Source Sans Pro -->
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" rel="stylesheet" />
 	<!-- Font Awesome -->
@@ -22,7 +22,7 @@
 	<link href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 	<link href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 	<!-- admin -->
-	<link href="/static/css/exam/adminlte.css" type="text/css" rel="stylesheet" />
+	<link href="/static/_exam/css/adminlte.css" type="text/css" rel="stylesheet" />
 	
 </head>
 <body class="hold-transition layout-top-nav">

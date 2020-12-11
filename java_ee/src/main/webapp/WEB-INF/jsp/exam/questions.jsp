@@ -17,7 +17,7 @@
 	<link href="/static/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 	<link href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
 	<!-- admin -->
-	<link href="/static/css/exam/adminlte.css" type="text/css" rel="stylesheet" />
+	<link href="/static/css/adminlte.css" type="text/css" rel="stylesheet" />
 	<!-- custom -->
 	<link href="/static/css/custom.css" type="text/css" rel="stylesheet" />
 	
