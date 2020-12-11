@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.sfac.javaEe.entity.common.SearchVo;
+import com.sfac.javaEe.entity.common.SearchBean;
 import com.sfac.javaEe.entity.exam.Question;
 import com.sfac.javaEe.util.DBUtil;
 
@@ -50,22 +50,22 @@ public class QuestionDao {
 		return questions;
 	}
 	
-	public List<Question> getQuestionsBySearchVo(SearchVo searchVo) throws SQLException {
+	public List<Question> getQuestionsBySearchBean(SearchBean searchBean) throws SQLException {
 		List<Question> questions = new ArrayList<Question>();
 		Connection connection = null;
 		StringBuffer sql = new StringBuffer("select * from question ");
-		if (StringUtils.isNotBlank(searchVo.getKeyWord())) {
-			sql.append("where content like '%" + searchVo.getKeyWord() + "%' or ");
-			sql.append("type like '%" + searchVo.getKeyWord() + "%' or ");
-			sql.append("flag like '%" + searchVo.getKeyWord() + "%' ");
+		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
+			sql.append("where content like '%" + searchBean.getKeyWord() + "%' or ");
+			sql.append("type like '%" + searchBean.getKeyWord() + "%' or ");
+			sql.append("flag like '%" + searchBean.getKeyWord() + "%' ");
 		}
 		sql.append("order by ")
-			.append(StringUtils.isNotBlank(searchVo.getOrderBy()) ? searchVo.getOrderBy() + " " : " id ")
-			.append(StringUtils.isNotBlank(searchVo.getSort()) ? searchVo.getSort() + " " : " ASC ")
+			.append(StringUtils.isNotBlank(searchBean.getOrderBy()) ? searchBean.getOrderBy() + " " : " id ")
+			.append(StringUtils.isNotBlank(searchBean.getDirection()) ? searchBean.getDirection() + " " : " ASC ")
 			.append("limit ")
-			.append((searchVo.getCurrentPage() - 1) * searchVo.getPageSize())
+			.append((searchBean.getCurrentPage() - 1) * searchBean.getPageSize())
 			.append(" , ")
-			.append(searchVo.getCurrentPage() * searchVo.getPageSize());
+			.append(searchBean.getCurrentPage() * searchBean.getPageSize());
 		
 		System.out.println(sql.toString());
 		
@@ -96,13 +96,13 @@ public class QuestionDao {
 		return questions;
 	}
 	
-	public int getQuestionsCountBySearchVo(SearchVo searchVo) throws SQLException {
+	public int getQuestionsCountBySearchBean(SearchBean searchBean) throws SQLException {
 		Connection connection = DBUtil.getConnection();
 		StringBuffer sql = new StringBuffer("select * from question ");
-		if (StringUtils.isNotBlank(searchVo.getKeyWord())) {
-			sql.append("where content like '%" + searchVo.getKeyWord() + "%' or ");
-			sql.append("type like '%" + searchVo.getKeyWord() + "%' or ");
-			sql.append("flag like '%" + searchVo.getKeyWord() + "%' ");
+		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
+			sql.append("where content like '%" + searchBean.getKeyWord() + "%' or ");
+			sql.append("type like '%" + searchBean.getKeyWord() + "%' or ");
+			sql.append("flag like '%" + searchBean.getKeyWord() + "%' ");
 		}
 		System.out.println(sql.toString());
 		

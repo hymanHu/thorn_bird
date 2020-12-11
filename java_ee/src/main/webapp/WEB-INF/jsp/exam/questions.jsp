@@ -121,22 +121,22 @@
 				"ajax": function (data, callback, settings) {
 					// 从data获取查询数据
 					var columIndex = data.order[0].column;
-					var sort = data.order[0].dir;
+					var direction = data.order[0].dir;
 					var orderBy = data.columns[columIndex].name;
 					pageSize = data.length == undefined  ? pageSize : data.length;
 					
-					var searchVo = {};
-					searchVo.currentPage = (data.start / pageSize) + 1;
-					searchVo.pageSize = pageSize;
-					searchVo.orderBy = orderBy;
-					searchVo.sort = sort;
-					searchVo.keyWord = data.search.value;
+					var searchBean = {};
+					searchBean.currentPage = (data.start / pageSize) + 1;
+					searchBean.pageSize = pageSize;
+					searchBean.orderBy = orderBy;
+					searchBean.direction = direction;
+					searchBean.keyWord = data.search.value;
 		
 					$.ajax({
 						url : "/api/questions",
 						type : "post",
 						contentType: "application/json",
-						data : JSON.stringify(searchVo),
+						data : JSON.stringify(searchBean),
 						success : function (rs) {
 							var fData = {
 								draw :0,

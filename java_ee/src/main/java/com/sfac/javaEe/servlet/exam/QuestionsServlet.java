@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sfac.javaEe.dao.exam.QuestionDao;
 import com.sfac.javaEe.entity.common.PageInfo;
-import com.sfac.javaEe.entity.common.SearchVo;
+import com.sfac.javaEe.entity.common.SearchBean;
 import com.sfac.javaEe.entity.exam.Question;
 
 @WebServlet(value = "/api/questions")
@@ -37,14 +37,14 @@ public class QuestionsServlet extends HttpServlet {
 			sb.append(line);
 		}
 		
-		SearchVo searchVo = objectMapper.readValue(sb.toString(), SearchVo.class);
+		SearchBean searchBean = objectMapper.readValue(sb.toString(), SearchBean.class);
 		
-		searchVo.initSearchVo();
+		searchBean.initSearchBean();
 		List<Question> questions = new ArrayList<Question>();
 		int count = 0;
 		try {
-			questions = questionDao.getQuestionsBySearchVo(searchVo);
-			count = questionDao.getQuestionsCountBySearchVo(searchVo);
+			questions = questionDao.getQuestionsBySearchBean(searchBean);
+			count = questionDao.getQuestionsCountBySearchBean(searchBean);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

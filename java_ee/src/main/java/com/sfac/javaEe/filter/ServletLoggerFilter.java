@@ -11,12 +11,12 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 
 /**
- * Description: Log Filter
+ * Description: Servlet Logger Filter
  * @author HymanHu
  * @date 2020-10-20 09:58:10
  */
-@WebFilter(filterName = "LogFilter", urlPatterns = "/*")
-public class LogFilter implements Filter {
+@WebFilter(filterName = "ServletLoggerFilter", urlPatterns = "/*")
+public class ServletLoggerFilter implements Filter {
 
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)

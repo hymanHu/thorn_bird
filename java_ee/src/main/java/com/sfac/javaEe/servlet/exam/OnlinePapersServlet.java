@@ -18,7 +18,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sfac.javaEe.dao.exam.PaperDao;
 import com.sfac.javaEe.entity.common.PageInfo;
-import com.sfac.javaEe.entity.common.SearchVo;
+import com.sfac.javaEe.entity.common.SearchBean;
 import com.sfac.javaEe.entity.exam.Paper;
 
 /**
@@ -42,14 +42,14 @@ public class OnlinePapersServlet extends HttpServlet {
 		}
 		
 		ObjectMapper objectMapper = new ObjectMapper();
-		SearchVo searchVo = objectMapper.readValue(sb.toString(), SearchVo.class);
+		SearchBean searchBean = objectMapper.readValue(sb.toString(), SearchBean.class);
 		
-		searchVo.initSearchVo();
+		searchBean.initSearchBean();
 		List<Paper> papers = new ArrayList<Paper>();
 		int count = 0;
 		try {
-			papers = paperDao.getPapersBySearchVo(searchVo);
-			count = paperDao.getPapersCountBySearchVo(searchVo);
+			papers = paperDao.getPapersBySearchBean(searchBean);
+			count = paperDao.getPapersCountBySearchBean(searchBean);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

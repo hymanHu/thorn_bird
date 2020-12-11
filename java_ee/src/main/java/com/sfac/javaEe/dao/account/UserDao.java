@@ -12,7 +12,7 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.sfac.javaEe.entity.account.User;
-import com.sfac.javaEe.entity.common.SearchVo;
+import com.sfac.javaEe.entity.common.SearchBean;
 import com.sfac.javaEe.util.DBUtil;
 
 
@@ -163,20 +163,20 @@ public class UserDao {
 	}
 	
 	// 根据 searchBean 查询所有 users
-	public List<User> getUsersBySearchVo(SearchVo searchVo) throws SQLException {
+	public List<User> getUsersBySearchBean(SearchBean searchBean) throws SQLException {
 		List<User> users = new ArrayList<User>();
 		Connection connection = null;
 		StringBuffer sql = new StringBuffer("select * from user ");
-		if (StringUtils.isNotBlank(searchVo.getKeyWord())) {
-			sql.append("where user_name like '%" + searchVo.getKeyWord() + "%'");
+		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
+			sql.append("where user_name like '%" + searchBean.getKeyWord() + "%'");
 		}
 		sql.append("order by ")
-			.append(StringUtils.isNotBlank(searchVo.getOrderBy()) ? searchVo.getOrderBy() + " " : " user_id ")
-			.append(StringUtils.isNotBlank(searchVo.getSort()) ? searchVo.getSort() + " " : " ASC ")
+			.append(StringUtils.isNotBlank(searchBean.getOrderBy()) ? searchBean.getOrderBy() + " " : " user_id ")
+			.append(StringUtils.isNotBlank(searchBean.getDirection()) ? searchBean.getDirection() + " " : " ASC ")
 			.append("limit ")
-			.append((searchVo.getCurrentPage() - 1) * searchVo.getPageSize())
+			.append((searchBean.getCurrentPage() - 1) * searchBean.getPageSize())
 			.append(" , ")
-			.append(searchVo.getCurrentPage() * searchVo.getPageSize());
+			.append(searchBean.getCurrentPage() * searchBean.getPageSize());
 		
 		try {
 			connection = DBUtil.getConnection();
@@ -197,13 +197,13 @@ public class UserDao {
 		return users;
 	}
 	
-	// 根据 searchVo 查询 users 总数
-	public int getUsersCountBySearchVo(SearchVo searchVo) throws SQLException {
+	// 根据 searchBean 查询 users 总数
+	public int getUsersCountBySearchBean(SearchBean searchBean) throws SQLException {
 		List<User> users = new ArrayList<User>();
 		Connection connection = null;
 		StringBuffer sql = new StringBuffer("select * from user ");
-		if (StringUtils.isNotBlank(searchVo.getKeyWord())) {
-			sql.append("where user_name like '%" + searchVo.getKeyWord() + "%'");
+		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
+			sql.append("where user_name like '%" + searchBean.getKeyWord() + "%'");
 		}
 		
 		try {

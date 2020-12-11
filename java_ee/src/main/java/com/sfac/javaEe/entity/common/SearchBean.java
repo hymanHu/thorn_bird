@@ -1,20 +1,28 @@
 package com.sfac.javaEe.entity.common;
 
-public class SearchVo {
+import org.apache.commons.lang3.StringUtils;
+
+/**
+ * @Description: Search Bean
+ * @author: HymanHu
+ * @date: 2020年12月11日
+ */
+public class SearchBean {
 
 	public final static int DEFAULT_CURRENT_PAGE = 1;
 	public final static int DEFAULT_PAGE_SIZE = 5;
-	
+
 	private int currentPage;
 	private int pageSize;
 	private String keyWord;
 	private String orderBy;
-	private String sort;
+	private String direction;
 
-	public void initSearchVo() {
+	public void initSearchBean() {
 		if (this != null) {
 			this.setCurrentPage(this.getCurrentPage() == 0 ? DEFAULT_CURRENT_PAGE : this.getCurrentPage());
 			this.setPageSize(this.getPageSize() == 0 ? DEFAULT_PAGE_SIZE : this.getPageSize());
+			this.setDirection(StringUtils.isBlank(this.getDirection()) ? "asc" : this.getDirection());
 		}
 	}
 
@@ -50,11 +58,11 @@ public class SearchVo {
 		this.orderBy = orderBy;
 	}
 
-	public String getSort() {
-		return sort;
+	public String getDirection() {
+		return direction;
 	}
 
-	public void setSort(String sort) {
-		this.sort = sort;
+	public void setDirection(String direction) {
+		this.direction = direction;
 	}
 }

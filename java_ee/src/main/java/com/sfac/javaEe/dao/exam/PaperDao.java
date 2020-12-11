@@ -10,7 +10,7 @@ import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
 
-import com.sfac.javaEe.entity.common.SearchVo;
+import com.sfac.javaEe.entity.common.SearchBean;
 import com.sfac.javaEe.entity.exam.Paper;
 import com.sfac.javaEe.util.DBUtil;
 
@@ -45,20 +45,20 @@ public class PaperDao {
 		return paper;
 	}
 	
-	public List<Paper> getPapersBySearchVo(SearchVo searchVo) throws SQLException {
+	public List<Paper> getPapersBySearchBean(SearchBean searchBean) throws SQLException {
 		List<Paper> papers = new ArrayList<Paper>();
 		Connection connection = DBUtil.getConnection();
 		StringBuffer sql = new StringBuffer("select * from paper ");
-		if (StringUtils.isNotBlank(searchVo.getKeyWord())) {
-			sql.append("where subject like '%" + searchVo.getKeyWord() + "%' ");
+		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
+			sql.append("where subject like '%" + searchBean.getKeyWord() + "%' ");
 		}
 		sql.append("order by ")
-			.append(StringUtils.isNotBlank(searchVo.getOrderBy()) ? searchVo.getOrderBy() + " " : " id ")
-			.append(StringUtils.isNotBlank(searchVo.getSort()) ? searchVo.getSort() + " " : " ASC ")
+			.append(StringUtils.isNotBlank(searchBean.getOrderBy()) ? searchBean.getOrderBy() + " " : " id ")
+			.append(StringUtils.isNotBlank(searchBean.getDirection()) ? searchBean.getDirection() + " " : " ASC ")
 			.append("limit ")
-			.append((searchVo.getCurrentPage() - 1) * searchVo.getPageSize())
+			.append((searchBean.getCurrentPage() - 1) * searchBean.getPageSize())
 			.append(" , ")
-			.append(searchVo.getCurrentPage() * searchVo.getPageSize());
+			.append(searchBean.getCurrentPage() * searchBean.getPageSize());
 		
 		PreparedStatement ps = null;
 		try {
@@ -79,11 +79,11 @@ public class PaperDao {
 		return papers;
 	}
 	
-	public int getPapersCountBySearchVo(SearchVo searchVo) throws SQLException {
+	public int getPapersCountBySearchBean(SearchBean searchBean) throws SQLException {
 		Connection connection = DBUtil.getConnection();
 		StringBuffer sql = new StringBuffer("select count(*) from paper ");
-		if (StringUtils.isNotBlank(searchVo.getKeyWord())) {
-			sql.append("where subject like '%" + searchVo.getKeyWord() + "%' ");
+		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
+			sql.append("where subject like '%" + searchBean.getKeyWord() + "%' ");
 		}
 		
 		PreparedStatement ps = null;

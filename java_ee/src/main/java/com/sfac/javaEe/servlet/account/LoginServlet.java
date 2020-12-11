@@ -25,7 +25,7 @@ import com.sfac.javaEe.entity.account.User;
  * @date 2020-10-19 13:20:02
  */
 @WebServlet(value = "/login")
-public class LoginPageServlet extends HttpServlet {
+public class LoginServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
 	private UserDao userDao = new UserDao();

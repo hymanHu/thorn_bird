@@ -11,14 +11,14 @@ import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.apache.commons.lang3.StringUtils;
+import com.sfac.javaEe.entity.account.User;
 
 /**
  * Description: Login Filter
  * @author HymanHu
  * @date 2020-10-20 10:26:14
  */
-@WebFilter(filterName = "LoginFilter", urlPatterns = "/user/*")
+@WebFilter(filterName = "LoginFilter", urlPatterns = "/account/*")
 public class LoginFilter implements Filter {
 
 	@Override
@@ -27,12 +27,14 @@ public class LoginFilter implements Filter {
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpServletResponse resp = (HttpServletResponse) response;
 		
-		String userName = (String) req.getSession().getAttribute("userName");
-		if (StringUtils.isBlank(userName)) {
+		User user = (User) req.getSession().getAttribute("user");
+		if (user == null) {
 			resp.sendRedirect("/login");
+			//重定向后，需要返回语句，不然会继续执行，进入目标 Servlet
+			return;
 		}
 		
-		chain.doFilter(request, response);
+		chain.doFilter(req, resp);
 	}
 
 }

@@ -19,7 +19,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sfac.javaEe.dao.account.UserDao;
 import com.sfac.javaEe.entity.account.User;
 import com.sfac.javaEe.entity.common.PageInfo;
-import com.sfac.javaEe.entity.common.SearchVo;
+import com.sfac.javaEe.entity.common.SearchBean;
 
 /**
  * Description: Users Servlet
@@ -42,13 +42,13 @@ public class UsersServlet extends HttpServlet {
 		while (StringUtils.isNotBlank(line = reader.readLine())) {
 			sb.append(line);
 		}
-		SearchVo searchVo = objectMapper.readValue(sb.toString(), SearchVo.class);
+		SearchBean searchBean = objectMapper.readValue(sb.toString(), SearchBean.class);
 		
 		List<User> users = new ArrayList<User>();
 		int total = 0;
 		try {
-			users = userDao.getUsersBySearchVo(searchVo);
-			total = userDao.getUsersCountBySearchVo(searchVo);
+			users = userDao.getUsersBySearchBean(searchBean);
+			total = userDao.getUsersCountBySearchBean(searchBean);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
