@@ -71,7 +71,6 @@
 											<font><input type="button" name="test_jiaojuan" value="交卷"></font>
 										</div>
 									</div>
-					
 								</div>
 								<div class="nr_right">
 									<div class="nr_rt_main">
@@ -109,6 +108,17 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			initPaper();
+			
+			// 监测滚动条事件，设置答题卡样式
+			$(window).scroll(function () {
+				var top = $(this).scrollTop();
+				console.log(top);
+				if (top > 120) {
+					$('.rt_nr1').addClass("fix_position");
+				} else {
+					$('.rt_nr1').removeClass("fix_position");
+				}
+			});
 		})
 		
 		// 初始化试题和答题卡

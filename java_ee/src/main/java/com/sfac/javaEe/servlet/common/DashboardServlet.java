@@ -1,4 +1,4 @@
-package com.sfac.javaEe.servlet;
+package com.sfac.javaEe.servlet.common;
 
 import java.io.IOException;
 
@@ -20,7 +20,7 @@ public class DashboardServlet extends HttpServlet {
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		req.getRequestDispatcher("/WEB-INF/jsp/dashboard.jsp").forward(req, resp);
+		req.getRequestDispatcher("/WEB-INF/jsp/common/dashboard.jsp").forward(req, resp);
 	}
 
 }

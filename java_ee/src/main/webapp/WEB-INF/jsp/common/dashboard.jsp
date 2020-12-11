@@ -21,9 +21,9 @@
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 	<div class="wrapper">
 		<!-- 导航条 -->
-		<%@ include file="./fragment/header.jsp"%>
+		<%@ include file="../fragment/header.jsp"%>
 		<!-- 左侧栏 -->
-		<%@ include file="./fragment/sidebar.jsp"%>
+		<%@ include file="../fragment/sidebar.jsp"%>
 		
 		<!-- Content Wrapper. Contains page content -->
 		<div class="content-wrapper">
@@ -273,7 +273,7 @@
 		<!-- /.content-wrapper -->
 		
 		<!-- 尾部 -->
-		<%@ include file="./fragment/footer.jsp"%>
+		<%@ include file="../fragment/footer.jsp"%>
 	</div>
 	
 	<!-- Js -->
@@ -283,14 +283,14 @@
 	<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"  type="text/javascript"></script>
 	<!-- overlayScrollbars -->
 	<script src="/static/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"  type="text/javascript"></script>
+	<!-- ChartJS -->
+	<script src="/static/plugins/chart.js/Chart.min.js"  type="text/javascript"></script>
 	<!-- layer -->
 	<script src="https://cdn.bootcss.com/layer/2.1/layer.js" type="text/javascript"></script>
 	<!-- AdminLTE App -->
 	<script src="/static/js/adminlte.js" type="text/javascript"></script>
 	<!-- demo -->
 	<script src="/static/js/demo.js" type="text/javascript"></script>
-	<!-- ChartJS -->
-	<script src="/static/plugins/chart.js/Chart.min.js"  type="text/javascript"></script>
 	<!-- custom -->
 	<script src="/static/js/custom.js" type="text/javascript"></script>
 	

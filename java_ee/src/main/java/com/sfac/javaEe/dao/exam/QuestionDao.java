@@ -56,8 +56,8 @@ public class QuestionDao {
 		StringBuffer sql = new StringBuffer("select * from question ");
 		if (StringUtils.isNotBlank(searchVo.getKeyWord())) {
 			sql.append("where content like '%" + searchVo.getKeyWord() + "%' or ");
-			sql.append("where type like '%" + searchVo.getKeyWord() + "%' or ");
-			sql.append("where flag like '%" + searchVo.getKeyWord() + "%' ");
+			sql.append("type like '%" + searchVo.getKeyWord() + "%' or ");
+			sql.append("flag like '%" + searchVo.getKeyWord() + "%' ");
 		}
 		sql.append("order by ")
 			.append(StringUtils.isNotBlank(searchVo.getOrderBy()) ? searchVo.getOrderBy() + " " : " id ")
@@ -100,18 +100,11 @@ public class QuestionDao {
 		StringBuffer sql = new StringBuffer("select * from question ");
 		if (StringUtils.isNotBlank(searchVo.getKeyWord())) {
 			sql.append("where content like '%" + searchVo.getKeyWord() + "%' or ");
-			sql.append("where type like '%" + searchVo.getKeyWord() + "%' or ");
-			sql.append("where flag like '%" + searchVo.getKeyWord() + "%' ");
+			sql.append("type like '%" + searchVo.getKeyWord() + "%' or ");
+			sql.append("flag like '%" + searchVo.getKeyWord() + "%' ");
 		}
-		sql.append("order by ")
-			.append(StringUtils.isNotBlank(searchVo.getOrderBy()) ? searchVo.getOrderBy() + " " : " id ")
-			.append(StringUtils.isNotBlank(searchVo.getSort()) ? searchVo.getSort() + " " : " ASC ")
-			.append("limit ")
-			.append((searchVo.getCurrentPage() - 1) * searchVo.getPageSize())
-			.append(" , ")
-			.append(searchVo.getCurrentPage() * searchVo.getPageSize());
-		
 		System.out.println(sql.toString());
+		
 		PreparedStatement ps = null;
 		int count = 0;
 		try {
