@@ -38,7 +38,7 @@ public class UserDao {
 				user.setUserId(rs.getInt("user_id"));
 				user.setUserName(rs.getString("user_name"));
 				user.setPassword(rs.getString("password"));
-				user.setCreateDate(rs.getDate("create_date"));
+				user.setCreateDate(rs.getTimestamp("create_date"));
 			}
 		} finally {
 			DBUtil.closeConnection(conn);
@@ -63,7 +63,7 @@ public class UserDao {
 				user.setUserId(rs.getInt("user_id"));
 				user.setUserName(rs.getString("user_name"));
 				user.setPassword(rs.getString("password"));
-				user.setCreateDate(rs.getDate("create_date"));
+				user.setCreateDate(rs.getTimestamp("create_date"));
 			}
 		} finally {
 			DBUtil.closeConnection(conn);
@@ -87,7 +87,7 @@ public class UserDao {
 				user.setUserId(rs.getInt("user_id"));
 				user.setUserName(rs.getString("user_name"));
 				user.setPassword(rs.getString("password"));
-				user.setCreateDate(rs.getDate("create_date"));
+				user.setCreateDate(rs.getTimestamp("create_date"));
 			}
 		} finally {
 			DBUtil.closeConnection(conn);
@@ -187,7 +187,7 @@ public class UserDao {
 				user.setUserId(rs.getInt("user_id"));
 				user.setUserName(rs.getString("user_name"));
 				user.setPassword(rs.getString("password"));
-				user.setCreateDate(rs.getDate("create_date"));
+				user.setCreateDate(rs.getTimestamp("create_date"));
 				users.add(user);
 			}
 		} finally {
@@ -215,7 +215,7 @@ public class UserDao {
 				user.setUserId(rs.getInt("user_id"));
 				user.setUserName(rs.getString("user_name"));
 				user.setPassword(rs.getString("password"));
-				user.setCreateDate(rs.getDate("create_date"));
+				user.setCreateDate(rs.getTimestamp("create_date"));
 				users.add(user);
 			}
 		} finally {
