@@ -34,27 +34,22 @@ public class DBUtil {
     
     /**
      * -获取数据库连接
+     * @throws ClassNotFoundException 
+     * @throws SQLException 
      */
-    public static Connection getConnection() {
-    	try {
-    		Class.forName(driver);
-    		conn = DriverManager.getConnection(url, user, password);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+    public static Connection getConnection() throws ClassNotFoundException, SQLException {
+    	Class.forName(driver);
+    	conn = DriverManager.getConnection(url, user, password);
     	return conn;
     }
     
     /**
      * -关闭数据库连接
+     * @throws SQLException 
      */
-    public static void closeConnection(Connection conn) {
+    public static void closeConnection(Connection conn) throws SQLException {
     	if (conn != null) {
-    		try {
-				conn.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
+    		conn.close();
     	}
     }
 }

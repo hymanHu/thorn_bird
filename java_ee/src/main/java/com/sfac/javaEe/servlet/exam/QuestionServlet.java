@@ -21,7 +21,7 @@ import com.sfac.javaEe.entity.exam.Question;
  * @author HymanHu
  * @date 2020-12-19 19:42:11
  */
-@WebServlet(value = "/api/question")
+@WebServlet(value = "/api/question/*")
 public class QuestionServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

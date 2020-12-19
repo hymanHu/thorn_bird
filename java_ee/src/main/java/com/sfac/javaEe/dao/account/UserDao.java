@@ -24,12 +24,13 @@ import com.sfac.javaEe.util.DBUtil;
 public class UserDao {
 
 	// 根据 userName 查询 user
-	public User getUserByUserName(String userName) throws SQLException {
-		Connection conn = DBUtil.getConnection();
+	public User getUserByUserName(String userName) throws SQLException, ClassNotFoundException {
+		Connection conn = null;
 		String sql = "select * from user where user_name = ?";
 		User user = null;
 		
 		try {
+			conn = DBUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, userName);
 			ResultSet rs = ps.executeQuery();
@@ -48,12 +49,14 @@ public class UserDao {
 	}
 	
 	// 根据用户名和密码查询 user
-	public User getUserByUserNameAndPassword(String userName, String password) throws SQLException {
-		Connection conn = DBUtil.getConnection();
+	public User getUserByUserNameAndPassword(String userName, String password) 
+			throws SQLException, ClassNotFoundException {
+		Connection conn = null;
 		String sql = "select * from user where user_name = ? and password = ?";
 		User user = null;
 		
 		try {
+			conn = DBUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, userName);
 			ps.setString(2, password);
@@ -73,12 +76,13 @@ public class UserDao {
 	}
 	
 	// 根据 userId 查询 user
-	public User getUserByUserId(int userId) throws SQLException {
-		Connection conn = DBUtil.getConnection();
+	public User getUserByUserId(int userId) throws SQLException, ClassNotFoundException {
+		Connection conn = null;
 		String sql = "select * from user where user_id = ?";
 		User user = null;
 		
 		try {
+			conn = DBUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, userId);
 			ResultSet rs = ps.executeQuery();
@@ -97,11 +101,12 @@ public class UserDao {
 	}
 	
 	// 插入user，并返回有 id 的 user
-	public User insertUser(User user) throws SQLException {
-		Connection conn = DBUtil.getConnection();
+	public User insertUser(User user) throws SQLException, ClassNotFoundException {
+		Connection conn = null;
 		String sql = "insert into user (user_name, password, create_date) values (?, ?, ?)";
 		
 		try {
+			conn = DBUtil.getConnection();
 			/*
 			 * -从5.1.17版本之后的mysql-connector增加了返回GeneratedKeys的条件，
 			 * -如果需要返回GeneratedKeys，则PreparedStatement需要显示添加一个参数
@@ -129,12 +134,13 @@ public class UserDao {
 	}
 	
 	// 更新 user
-	public User updateUser(User user) throws SQLException {
-		Connection conn = DBUtil.getConnection();
+	public User updateUser(User user) throws SQLException, ClassNotFoundException {
+		Connection conn = null;
 		String sql = "update user set user_name = ?, password = ? where user_id = ?";
 		System.out.println(sql);
 		
 		try {
+			conn = DBUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, user.getUserName());
 			ps.setString(2, user.getPassword());
@@ -149,11 +155,12 @@ public class UserDao {
 	}
 	
 	// 删除 user
-	public void deleteUser(int userId) throws SQLException {
-		Connection conn = DBUtil.getConnection();
+	public void deleteUser(int userId) throws SQLException, ClassNotFoundException {
+		Connection conn = null;
 		String sql = "delete from user where user_id = ?";
 		
 		try {
+			conn = DBUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, userId);
 			ps.execute();
@@ -164,7 +171,7 @@ public class UserDao {
 	}
 	
 	// 根据 searchBean 查询所有 users
-	public List<User> getUsersBySearchBean(SearchBean searchBean) throws SQLException {
+	public List<User> getUsersBySearchBean(SearchBean searchBean) throws SQLException, ClassNotFoundException {
 		List<User> users = new ArrayList<User>();
 		Connection connection = null;
 		StringBuffer sql = new StringBuffer("select * from user ");
@@ -199,7 +206,7 @@ public class UserDao {
 	}
 	
 	// 根据 searchBean 查询 users 总数
-	public int getUsersCountBySearchBean(SearchBean searchBean) throws SQLException {
+	public int getUsersCountBySearchBean(SearchBean searchBean) throws SQLException, ClassNotFoundException {
 		Connection connection = null;
 		StringBuffer sql = new StringBuffer("select count(*) from user ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {

@@ -38,7 +38,7 @@ public class OnlinePaperServlet extends HttpServlet {
 			paper = paperDao.getPaperById(paperId);
 			List<Question> questions = questionDao.getQuestionsByPaperId(paperId);
 			paper.setQuestions(questions);
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		

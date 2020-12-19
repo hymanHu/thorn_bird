@@ -49,7 +49,7 @@ public class UsersServlet extends HttpServlet {
 		try {
 			users = userDao.getUsersBySearchBean(searchBean);
 			total = userDao.getUsersCountBySearchBean(searchBean);
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		

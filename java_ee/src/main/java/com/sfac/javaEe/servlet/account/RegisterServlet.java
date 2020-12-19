@@ -64,7 +64,7 @@ public class RegisterServlet extends HttpServlet {
 				resultMap.put("status", 500);
 				resultMap.put("message", "User name is repeat.");
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			resultMap.put("status", 500);
 			resultMap.put("message", e.getMessage());

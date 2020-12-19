@@ -63,7 +63,7 @@ public class LoginServlet extends HttpServlet {
 				resultMap.put("message", "Login success.");
 				resultMap.put("data", user);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			resultMap.put("status", 500);
 			resultMap.put("message", e.getMessage());

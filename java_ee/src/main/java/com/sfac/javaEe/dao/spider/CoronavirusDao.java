@@ -17,12 +17,13 @@ import com.sfac.javaEe.util.DBUtil;
  */
 public class CoronavirusDao {
 
-	public List<Coronavirus> getCoronavirusList() throws SQLException {
-		Connection connection = DBUtil.getConnection();
+	public List<Coronavirus> getCoronavirusList() throws SQLException, ClassNotFoundException {
+		Connection connection = null;
 		String sql = "select * from coronavirus order by date desc limit 7";
 		List<Coronavirus> coronavirusList = new ArrayList<Coronavirus>();
 		
 		try {
+			connection = DBUtil.getConnection();
 			PreparedStatement preparedStatement = connection.prepareStatement(sql);
 			ResultSet rs = preparedStatement.executeQuery();
 			while (rs.next()) {

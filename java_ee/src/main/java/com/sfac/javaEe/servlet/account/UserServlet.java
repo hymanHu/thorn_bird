@@ -47,7 +47,7 @@ public class UserServlet extends HttpServlet {
 			user = userDao.getUserByUserId(Integer.parseInt(userId));
 			resultMap.put("status", 200);
 			resultMap.put("data", user);
-		} catch (NumberFormatException | SQLException e) {
+		} catch (NumberFormatException | SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			resultMap.put("status", 500);
 			resultMap.put("message", e.getMessage());
@@ -88,7 +88,7 @@ public class UserServlet extends HttpServlet {
 				resultMap.put("message", "Register success.");
 				resultMap.put("data", user);
 			}
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			resultMap.put("status", 500);
 			resultMap.put("message", e.getMessage());
@@ -116,7 +116,7 @@ public class UserServlet extends HttpServlet {
 			userDao.deleteUser(Integer.parseInt(userId));
 			resultMap.put("status", 200);
 			resultMap.put("message", "Delete success.");
-		} catch (NumberFormatException | SQLException e) {
+		} catch (NumberFormatException | SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 			resultMap.put("status", 500);
 			resultMap.put("message", e.getMessage());

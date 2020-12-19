@@ -34,7 +34,7 @@ public class CoronavirusServlet extends HttpServlet {
 		
 		try {
 			coronavirusList = coronavirusDao.getCoronavirusList();
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		

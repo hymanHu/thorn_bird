@@ -21,13 +21,14 @@ import com.sfac.javaEe.util.DBUtil;
  */
 public class PaperDao {
 	
-	public Paper getPaperById(int id) throws SQLException {
+	public Paper getPaperById(int id) throws SQLException, ClassNotFoundException {
 		Paper paper = null;
-		Connection connection = DBUtil.getConnection();
 		String sql = "select * from paper where id = ?";
 		
+		Connection connection = null;
 		PreparedStatement ps = null;
 		try {
+			connection = DBUtil.getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
@@ -45,9 +46,8 @@ public class PaperDao {
 		return paper;
 	}
 	
-	public List<Paper> getPapersBySearchBean(SearchBean searchBean) throws SQLException {
+	public List<Paper> getPapersBySearchBean(SearchBean searchBean) throws SQLException, ClassNotFoundException {
 		List<Paper> papers = new ArrayList<Paper>();
-		Connection connection = DBUtil.getConnection();
 		StringBuffer sql = new StringBuffer("select * from paper ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where subject like '%" + searchBean.getKeyWord() + "%' ");
@@ -61,7 +61,9 @@ public class PaperDao {
 			.append(searchBean.getCurrentPage() * searchBean.getPageSize());
 		
 		PreparedStatement ps = null;
+		Connection connection = null;
 		try {
+			connection = DBUtil.getConnection();
 			ps = connection.prepareStatement(sql.toString());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
@@ -79,16 +81,17 @@ public class PaperDao {
 		return papers;
 	}
 	
-	public int getPapersCountBySearchBean(SearchBean searchBean) throws SQLException {
-		Connection connection = DBUtil.getConnection();
+	public int getPapersCountBySearchBean(SearchBean searchBean) throws SQLException, ClassNotFoundException {
 		StringBuffer sql = new StringBuffer("select count(*) from paper ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where subject like '%" + searchBean.getKeyWord() + "%' ");
 		}
 		
+		Connection connection = null;
 		PreparedStatement ps = null;
 		int count = 0;
 		try {
+			connection = DBUtil.getConnection();
 			ps = connection.prepareStatement(sql.toString());
 			ResultSet rs = ps.executeQuery();
 			rs.next();

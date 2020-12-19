@@ -21,13 +21,14 @@ import com.sfac.javaEe.util.DBUtil;
  */
 public class QuestionDao {
 	
-	public void insertQuestion(Question question) throws SQLException {
-		Connection connection = DBUtil.getConnection();
+	public void insertQuestion(Question question) throws SQLException, ClassNotFoundException {
+		Connection connection = null;
 		String sql = "insert into question (type, flag, content, score, option_a, option_b, option_c, "
 				+ "option_d, reference_answer, comment) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		System.out.println(sql);
 		
 		try {
+			connection = DBUtil.getConnection();
 			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, question.getType());
 			ps.setString(2, question.getFlag());
@@ -49,13 +50,19 @@ public class QuestionDao {
 			DBUtil.closeConnection(connection);
 		}
 	}
+	
+	public Question getQuestionById(int id) {
+		
+		return null;
+	}
 
-	public List<Question> getQuestionsByPaperId(int paperId) throws SQLException {
+	public List<Question> getQuestionsByPaperId(int paperId) throws SQLException, ClassNotFoundException {
 		List<Question> questions = new ArrayList<Question>();
-		Connection connection = DBUtil.getConnection();
+		Connection connection = null;
 		String sql = "select * from question q left join paper_question pq on q.id = pq.question_id "
 				+ "where pq.paper_id = ?";
 		try {
+			connection = DBUtil.getConnection();
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, paperId);
 			ResultSet rs = ps.executeQuery();
@@ -81,7 +88,7 @@ public class QuestionDao {
 		return questions;
 	}
 	
-	public List<Question> getQuestionsBySearchBean(SearchBean searchBean) throws SQLException {
+	public List<Question> getQuestionsBySearchBean(SearchBean searchBean) throws SQLException, ClassNotFoundException {
 		List<Question> questions = new ArrayList<Question>();
 		Connection connection = null;
 		StringBuffer sql = new StringBuffer("select * from question ");
@@ -127,8 +134,8 @@ public class QuestionDao {
 		return questions;
 	}
 	
-	public int getQuestionsCountBySearchBean(SearchBean searchBean) throws SQLException {
-		Connection connection = DBUtil.getConnection();
+	public int getQuestionsCountBySearchBean(SearchBean searchBean) throws SQLException, ClassNotFoundException {
+		Connection connection = null;
 		StringBuffer sql = new StringBuffer("select count(*) from question ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where content like '%" + searchBean.getKeyWord() + "%' or ");
@@ -140,6 +147,7 @@ public class QuestionDao {
 		PreparedStatement ps = null;
 		int count = 0;
 		try {
+			connection = DBUtil.getConnection();
 			ps = connection.prepareStatement(sql.toString());
 			ResultSet rs = ps.executeQuery();
 			rs.next();

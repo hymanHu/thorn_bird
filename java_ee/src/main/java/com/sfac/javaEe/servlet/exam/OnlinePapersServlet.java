@@ -50,7 +50,7 @@ public class OnlinePapersServlet extends HttpServlet {
 		try {
 			papers = paperDao.getPapersBySearchBean(searchBean);
 			count = paperDao.getPapersCountBySearchBean(searchBean);
-		} catch (SQLException e) {
+		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}
 		
