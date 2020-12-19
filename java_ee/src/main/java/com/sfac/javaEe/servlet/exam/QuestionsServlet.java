@@ -20,8 +20,9 @@ import com.sfac.javaEe.dao.exam.QuestionDao;
 import com.sfac.javaEe.entity.common.PageInfo;
 import com.sfac.javaEe.entity.common.SearchBean;
 import com.sfac.javaEe.entity.exam.Question;
+import com.sfac.javaEe.entity.exam.QuestionType;
 
-@WebServlet(value = "/api/questions")
+@WebServlet(value = "/api/questions/*")
 public class QuestionsServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -45,6 +46,7 @@ public class QuestionsServlet extends HttpServlet {
 		try {
 			questions = questionDao.getQuestionsBySearchBean(searchBean);
 			count = questionDao.getQuestionsCountBySearchBean(searchBean);
+			questions.stream().forEach(item -> item.setType(QuestionType.getLocalName(item.getType())));
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}

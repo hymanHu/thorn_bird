@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,11 +20,41 @@ import com.sfac.javaEe.util.DBUtil;
  * @date 2020-11-05 21:48:16
  */
 public class QuestionDao {
+	
+	public void insertQuestion(Question question) throws SQLException {
+		Connection connection = DBUtil.getConnection();
+		String sql = "insert into question (type, flag, content, score, option_a, option_b, option_c, "
+				+ "option_d, reference_answer, comment) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		System.out.println(sql);
+		
+		try {
+			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, question.getType());
+			ps.setString(2, question.getFlag());
+			ps.setString(3, question.getContent());
+			ps.setFloat(4, question.getScore().floatValue());
+			ps.setString(5, question.getOptionA());
+			ps.setString(6, question.getOptionB());
+			ps.setString(7, question.getOptionC());
+			ps.setString(8, question.getOptionD());
+			ps.setString(9, question.getReferenceAnswer());
+			ps.setString(10, question.getComment());
+			ps.execute();
+			
+			ResultSet rs = ps.getGeneratedKeys();
+			while (rs.next()) {
+				question.setId(rs.getInt(1));
+			}
+		} finally {
+			DBUtil.closeConnection(connection);
+		}
+	}
 
 	public List<Question> getQuestionsByPaperId(int paperId) throws SQLException {
 		List<Question> questions = new ArrayList<Question>();
 		Connection connection = DBUtil.getConnection();
-		String sql = "select * from question q left join paper_question pq on q.id = pq.question_id where pq.paper_id = ?";
+		String sql = "select * from question q left join paper_question pq on q.id = pq.question_id "
+				+ "where pq.paper_id = ?";
 		try {
 			PreparedStatement ps = connection.prepareStatement(sql);
 			ps.setInt(1, paperId);
@@ -65,7 +96,7 @@ public class QuestionDao {
 			.append("limit ")
 			.append((searchBean.getCurrentPage() - 1) * searchBean.getPageSize())
 			.append(" , ")
-			.append(searchBean.getCurrentPage() * searchBean.getPageSize());
+			.append(searchBean.getPageSize());
 		
 		System.out.println(sql.toString());
 		
@@ -98,7 +129,7 @@ public class QuestionDao {
 	
 	public int getQuestionsCountBySearchBean(SearchBean searchBean) throws SQLException {
 		Connection connection = DBUtil.getConnection();
-		StringBuffer sql = new StringBuffer("select * from question ");
+		StringBuffer sql = new StringBuffer("select count(*) from question ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where content like '%" + searchBean.getKeyWord() + "%' or ");
 			sql.append("type like '%" + searchBean.getKeyWord() + "%' or ");

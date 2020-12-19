@@ -11,8 +11,8 @@ public class Question {
 	private String type;
 	// JavaSE、JavaEE、Spring、SpringBoot、SpringCloud、PythonBase、PythonSpider……
 	private String flag;
-	private Double score;
 	private String content;
+	private Double score;
 	private String optionA;
 	private String optionB;
 	private String optionC;

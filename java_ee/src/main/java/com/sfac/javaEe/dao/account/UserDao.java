@@ -132,6 +132,7 @@ public class UserDao {
 	public User updateUser(User user) throws SQLException {
 		Connection conn = DBUtil.getConnection();
 		String sql = "update user set user_name = ?, password = ? where user_id = ?";
+		System.out.println(sql);
 		
 		try {
 			PreparedStatement ps = conn.prepareStatement(sql);
@@ -199,29 +200,23 @@ public class UserDao {
 	
 	// 根据 searchBean 查询 users 总数
 	public int getUsersCountBySearchBean(SearchBean searchBean) throws SQLException {
-		List<User> users = new ArrayList<User>();
 		Connection connection = null;
-		StringBuffer sql = new StringBuffer("select * from user ");
+		StringBuffer sql = new StringBuffer("select count(*) from user ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where user_name like '%" + searchBean.getKeyWord() + "%'");
 		}
 		
+		int count = 0;
 		try {
 			connection = DBUtil.getConnection();
 			PreparedStatement ps = connection.prepareStatement(sql.toString());
 			ResultSet rs = ps.executeQuery();
-			while(rs.next()) {
-				User user = new User();
-				user.setUserId(rs.getInt("user_id"));
-				user.setUserName(rs.getString("user_name"));
-				user.setPassword(rs.getString("password"));
-				user.setCreateDate(rs.getTimestamp("create_date"));
-				users.add(user);
-			}
+			rs.next();
+			count = rs.getInt(1);
 		} finally {
 			DBUtil.closeConnection(connection);
 		}
 		
-		return users.size();
+		return count;
 	}
 }

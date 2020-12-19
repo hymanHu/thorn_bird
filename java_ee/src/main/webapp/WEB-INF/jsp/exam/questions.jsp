@@ -6,7 +6,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Users</title>
+	<title>Questions</title>
 	
 	<!-- css -->
 	<!-- Google Font: Source Sans Pro -->
@@ -112,8 +112,12 @@
 	
 	<script type="text/javascript">
 		PAGE_SIZE = 5;
-		$(document).ready(function() {
+		$(function() {
 			initTable(PAGE_SIZE);
+			
+			//初始化试题类型、试题阶段下拉列表
+			initQuestionType();
+			initQuestionFlag();
 			
 			// 绑定页面按钮
 			$("#addModuleBtn").bind("click", function() {
@@ -234,26 +238,42 @@
 		
 		// 初始化添加页面
 		function initAddModal() {
-			$("#userNameForAddPage").val("");
-			$("#passwordForAddPage").val("");
+			$('#typeForAddPage option:first').prop('selected', 'selected');
+			$('#flagForAddPage option:first').prop('selected', 'selected');
+			$("#contentForAddPage").val("");
+			$("#scoreForAddPage").val("");
+			$("#optionAForAddPage").val("");
+			$("#optionBForAddPage").val("");
+			$("#optionCForAddPage").val("");
+			$("#optionDForAddPage").val("");
+			$("#referenceAnswerForAddPage").val("");
+			$("#commentForAddPage").val("");
 		}
 		
 		// 添加模型
 		function insertModule() {
-			var user = {};
-			user.userName = $("#userNameForAddPage").val();
-			user.password = $("#passwordForAddPage").val();
+			var question = {};
+			question.type = $("#typeForAddPage").val();
+			question.flag = $("#flagForAddPage").val();
+			question.content = $("#contentForAddPage").val();
+			question.score = $("#scoreForAddPage").val();
+			question.optionA = $("#optionAForAddPage").val();
+			question.optionB = $("#optionBForAddPage").val();
+			question.optionC = $("#optionCForAddPage").val();
+			question.optionD = $("#optionDForAddPage").val();
+			question.referenceAnswer = $("#referenceAnswerForAddPage").val();
+			question.comment = $("#commentForAddPage").val();
 			
 			$.ajax({
-				url : "/register",
+				url : "/api/question",
 				type : "post",
 				contentType: "application/json",
-				data : JSON.stringify(user),
-				success : function (data) {
-					if (data.status == 200) {
+				data : JSON.stringify(question),
+				success : function (rs) {
+					if (rs.status == 200) {
 						initTable(PAGE_SIZE);
 					} else {
-						layer.msg(data.message, {icon: 0});
+						layer.msg(rs.message, {icon: 0});
 					}
 				},
 				error : function (data) {

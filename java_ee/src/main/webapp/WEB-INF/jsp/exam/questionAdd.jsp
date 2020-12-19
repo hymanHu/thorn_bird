@@ -71,6 +71,13 @@
 								type="text" placeholder="Enter reference Answer">
 						</div>
 					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">备注</label>
+						<div class="col-md-8">
+							<input id="commentForAddPage" name="comment" class="form-control" 
+								type="text" placeholder="Enter reference Answer">
+						</div>
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer">

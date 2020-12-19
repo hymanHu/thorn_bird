@@ -1,5 +1,7 @@
 package com.sfac.javaEe.entity.exam;
 
+import java.util.Arrays;
+
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
@@ -9,16 +11,30 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  */
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum QuestionType {
-	SINGLE_CHOICE("singleChoice"), 
-	MULTIPLE_CHOICE("multipleChoice"),
-	JUDGE("judge"),
-	FILL_BLANK("fillBlank"),
-	SHORT_ANSWER("shortAnswer"),
-	PROGRAMMING("programming");
+	SINGLE_CHOICE("singleChoice", "单选题"), 
+	MULTIPLE_CHOICE("multipleChoice", "多选题"),
+	JUDGE("judge", "判断题"),
+	FILL_BLANK("fillBlank", "填空题"),
+	SHORT_ANSWER("shortAnswer", "简答题"),
+	PROGRAMMING("programming", "编程题");
 	
 	public String name;
+	public String localName;
 
-	private QuestionType(String name) {
+	private QuestionType(String name, String localName) {
 		this.name = name;
+		this.localName = localName;
+	}
+	
+	public static String getLocalName(String name) {
+		QuestionType questionType = Arrays.asList(QuestionType.values()).stream()
+			.filter(item -> item.name.equals(name))
+			.findFirst()
+			.orElse(null);
+		return questionType == null ? null : questionType.localName;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(QuestionType.getLocalName("judge"));
 	}
 }
