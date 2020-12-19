@@ -15,13 +15,13 @@ public class WebAppListener implements ServletContextListener {
 	// 初始化监听器，实现如打开数据库连接池等功能
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		System.out.println("==== Init webapp listener ====");
+		System.out.println("==== Init Webapp Listener ====");
 	}
 
 	// 销毁监听器，实现关闭数据库连接池等功能
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		System.out.println("==== Destroy webapp listener ====");
+		System.out.println("==== Destroy Webapp Listener ====");
 	}
 
 }

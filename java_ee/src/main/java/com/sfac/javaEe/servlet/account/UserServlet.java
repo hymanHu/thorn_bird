@@ -62,49 +62,6 @@ public class UserServlet extends HttpServlet {
 	}
 
 	@Override
-	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		Map<String, Object> resultMap = new HashMap<String, Object>();
-		
-		// 接收 request json 数据
-		StringBuffer sb = new StringBuffer();
-		String line = null;
-		BufferedReader reader = req.getReader();
-		if ((line = reader.readLine()) != null) {
-			sb.append(line);
-		}
-		User user = StringUtils.isNotBlank(sb) ? objectMapper.readValue(sb.toString(), User.class) : new User();
-		user.setCreateDate(new Date());
-		
-		User userTemp = null;
-		try {
-			userTemp = userDao.getUserByUserName(user.getUserName());
-			if (userTemp == null) {
-				userDao.insertUser(user);
-				req.getSession().setAttribute("userName", userTemp);
-				resultMap.put("status", 200);
-				resultMap.put("message", "Register success.");
-				resultMap.put("data", user);
-			} else {
-				resultMap.put("status", 500);
-				resultMap.put("message", "User name is repeat.");
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-			resultMap.put("status", 500);
-			resultMap.put("message", e.getMessage());
-		}
-		
-		// 包装返回 json 对象
-		String resultJson = objectMapper.writeValueAsString(resultMap);
-		
-		// 输出 json
-		resp.setContentType("text/json;charset=utf-8;");
-		PrintWriter printWriter = resp.getWriter();
-		printWriter.append(resultJson);
-		printWriter.flush();
-	}
-
-	@Override
 	protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		

@@ -232,7 +232,7 @@
 			user.password = $("#passwordForAddPage").val();
 			
 			$.ajax({
-				url : "/api/user",
+				url : "/register",
 				type : "post",
 				contentType: "application/json",
 				data : JSON.stringify(user),

@@ -20,26 +20,26 @@ public class JavaSpringMvcApplication {
     private static String CONTEXT_PATH = "/";
 
 	public static void main(String[] args) throws LifecycleException {
-		//String baseDir = Thread.currentThread().getContextClassLoader().getResource("").getPath();
-		String baseDir = new File("target/classes").getAbsolutePath();
+//		String classesDir = Thread.currentThread().getContextClassLoader().getResource("").getPath();
+		String classesDir = new File("target/classes").getAbsolutePath();
 		String appDir = new File("src/main/webapp").getAbsolutePath();
-		System.out.println(baseDir);
-		System.out.println(appDir);
+		System.out.println(String.format("Classes Dir: %s", classesDir));
+		System.out.println(String.format("Webapp Dir: %s", classesDir));
 		
 		// 创建 Tomcat，并设置基础目录、端口、连接器
 		Tomcat tomcat = new Tomcat();
-		tomcat.setBaseDir(baseDir);
+		tomcat.setBaseDir(classesDir);
 		tomcat.setPort(PORT);
 		tomcat.getConnector();
 		
 		// 添加 webapp
-		Context context = tomcat.addWebapp(CONTEXT_PATH, appDir);
-		WebResourceRoot resources = new StandardRoot(context);
-		resources.addPreResources(new DirResourceSet(resources, "/WEB-INF/classes", baseDir, "/"));
-		context.setResources(resources);
-		
-		// 启动服务器
-		tomcat.start();
-		tomcat.getServer().await();
+        Context context = tomcat.addWebapp(CONTEXT_PATH, appDir);
+        WebResourceRoot resources = new StandardRoot(context);
+        resources.addPreResources(new DirResourceSet(resources, "/WEB-INF/classes", classesDir, "/"));
+        context.setResources(resources);
+        
+        // 启动服务器
+        tomcat.start();
+        tomcat.getServer().await();
 	}
 }

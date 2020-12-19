@@ -20,12 +20,12 @@ public class EncodingFilter implements Filter {
 
 	@Override
 	public void init(FilterConfig filterConfig) throws ServletException {
-		System.out.println("==== Init EncodingFilter ====");
+		System.out.println("==== Init Encoding Filter ====");
 	}
 
 	@Override
 	public void destroy() {
-		System.out.println("==== Destroy EncodingFilter ====");
+		System.out.println("==== Destroy Encoding Filter ====");
 	}
 
 	@Override
