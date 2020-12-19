@@ -6,7 +6,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Questions</title>
+	<title>Users</title>
 	
 	<!-- css -->
 	<!-- Google Font: Source Sans Pro -->
@@ -57,16 +57,23 @@
 				<div class="container">
 					<div class="card">
 						<div class="card-header">
-							<h3 class="card-title">试题列表</h3>
+							<ul class="nav panel_toolbox" style="margin-left:0; float: left;">
+								<li>
+									<button type="button" class="btn btn-primary" id="addModuleBtn"
+										data-toggle="modal" data-target="#addModal">新    增</button>
+								</li>
+							</ul>
+							<div class="clearfix"></div>
 						</div>
 						<div class="card-body">
-							<table id="questionsTable" class="table table-bordered table-striped">
+							<table id="moduleTable" class="table table-bordered table-striped">
 								<thead>
 									<tr>
-										<th>类型</th>
-										<th>标识</th>
-										<th>内容</th>
-										<th>分数</th>
+										<th>ID</th>
+										<th>试题类型</th>
+										<th>试题阶段</th>
+										<th>试题内容</th>
+										<th>试题分值</th>
 										<th>操作</th>
 									</tr>
 								</thead>
@@ -80,6 +87,10 @@
 		
 		<!-- 尾部 -->
 		<%@ include file="../fragment/footer.jsp"%>
+		
+		<!-- 新增、修改页面 -->
+		<%@ include file="./questionAdd.jsp"%>
+		<%@ include file="./questionEdit.jsp"%>
 	</div>
 	
 	<!-- js -->
@@ -103,10 +114,21 @@
 		PAGE_SIZE = 5;
 		$(document).ready(function() {
 			initTable(PAGE_SIZE);
+			
+			// 绑定页面按钮
+			$("#addModuleBtn").bind("click", function() {
+				initAddModal();
+			});
+			$("#addBtn").bind("click", function() {
+				insertModule();
+			});
+			$("#editBtn").bind("click", function() {
+				updateModule();
+			});
 		})
 		
 		function initTable(pageSize) {
-			$('#questionsTable').DataTable({
+			$('#moduleTable').DataTable({
 				'paging': true, //分页
 				"serverSide": true, //开启后端分页
 				"pagingType": "full_numbers", //分页样式的类型simple/simple_numbers/full/full_numbers
@@ -138,7 +160,7 @@
 						contentType: "application/json",
 						data : JSON.stringify(searchBean),
 						success : function (rs) {
-							var fData = {
+							var tableData = {
 								draw :0,
 								recordsTotal: 0,
 								recordsFiltered: 0,
@@ -146,28 +168,32 @@
 							};
 							if (!rs) {
 								layer.alert("请求出错，请稍后重试" + rs.errmsg, {icon: 2});
-								callback(fData);
+								callback(tableData);
 								return;
 							};
 							if (rs.list == null) {
-								$('#datatable tbody tr').remove();
+								$('#moduleTable tbody tr').remove();
 								$('#loading').remove();
-								callback(fData);
+								callback(tableData);
 								return;
 							}
 							$('#loading').remove();
-							var gearDatas = [];
+							var rowsDatas = [];
 							for (var i = 0; i < rs.list.length; i++) {
 								//包装行数据
-								var rowData = new TData(rs.list[i].id, rs.list[i].type, 
-										rs.list[i].flag, rs.list[i].score, rs.list[i].content);
+								var rowData = new RowData(rs.list[i].id, rs.list[i].type, 
+										rs.list[i].flag, rs.list[i].score, 
+										rs.list[i].content, rs.list[i].optionA, 
+										rs.list[i].optionB, rs.list[i].optionC, 
+										rs.list[i].optionD, rs.list[i].referenceAnswer, 
+										rs.list[i].comment);
 								// 将行数据放到数组里
-								gearDatas.push(rowData);
+								rowsDatas.push(rowData);
 							}
-							fData.data = gearDatas;
-							fData.recordsTotal = rs.total;
-							fData.recordsFiltered = rs.total;
-							callback(fData);
+							tableData.data = rowsDatas;
+							tableData.recordsTotal = rs.total;
+							tableData.recordsFiltered = rs.total;
+							callback(tableData);
 						},
 						error : function (data) {
 							layer.alert(data.responseText, {icon: 0});
@@ -175,25 +201,131 @@
 					});
 				},
 				"columns": [ //定义行数据字段
+					{data: 'id', name: "id", sortable: true}, 
 					{data: 'type', name: "type", sortable: true}, 
 					{data: 'flag', name: "flag", sortable: true}, 
-					{data: 'score', name: "score", sortable: true}, 
 					{data: 'content', name: "content", sortable: true}, 
+					{data: 'score', name: "score", sortable: true}, 
 					{data: 'operate', width: '80px', sortable: false}
 				]
 			});
 		}
 		
 		//行数据结构
-		function TData(id, type, flag, score, content) {
+		function RowData(id, type, flag, score, content, optionA, 
+				optionB, optionC, optionD, referenceAnswer, comment) {
 			this.id = id;
 			this.type = type;
 			this.flag = flag;
 			this.score = score;
 			this.content = content;
+			this.optionA = optionA;
+			this.optionB = optionB;
+			this.optionC = optionC;
+			this.optionD = optionD;
+			this.referenceAnswer = referenceAnswer;
+			this.comment = comment;
 			this.operate = function () {
-				return "<a href='/paper?paperId=" + id + "' class='btn_editcolor'>考试</a>&nbsp;";
+				return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#editModal' " + 
+					"onclick='initEditModal(\"" + id + "\")'>编辑</a>&nbsp;" + 
+					"<a href='javascript:void(0);' onclick='deleteModule(\"" + id + "\")' class='btn_editcolor'>删除</a>";
 			}
+		}
+		
+		// 初始化添加页面
+		function initAddModal() {
+			$("#userNameForAddPage").val("");
+			$("#passwordForAddPage").val("");
+		}
+		
+		// 添加模型
+		function insertModule() {
+			var user = {};
+			user.userName = $("#userNameForAddPage").val();
+			user.password = $("#passwordForAddPage").val();
+			
+			$.ajax({
+				url : "/register",
+				type : "post",
+				contentType: "application/json",
+				data : JSON.stringify(user),
+				success : function (data) {
+					if (data.status == 200) {
+						initTable(PAGE_SIZE);
+					} else {
+						layer.msg(data.message, {icon: 0});
+					}
+				},
+				error : function (data) {
+					layer.msg(data.responseText, {icon: 0});
+				}
+			});
+		}
+		
+		// 初始化编辑页面
+		function initEditModal(id) {
+			$.ajax({
+				url : "/api/user?userId=" + id,
+				type : "get",
+				contentType: "application/json",
+				success : function (rs) {
+					$("#userIdForEditPage").val(rs.data.userId);
+					$("#userNameForEditPage").val(rs.data.userName);
+					$("#passwordForEditPage").val(rs.data.password);
+				},
+				error : function (data) {
+					layer.alert(data.responseText, {icon: 0});
+				}
+			});
+		}
+		
+		// 修改模型
+		function updateModule() {
+			var user = {};
+			user.userId = $("#userIdForEditPage").val();
+			user.userName = $("#userNameForEditPage").val();
+			user.password = $("#passwordForEditPage").val();
+			
+			$.ajax({
+				url : "/api/user",
+				type : "put",
+				contentType: "application/json",
+				data : JSON.stringify(user),
+				success : function (data) {
+					if (data.status == 200) {
+						initTable(PAGE_SIZE);
+					} else {
+						layer.msg(data.message, {icon: 0});
+					}
+				},
+				error : function (data) {
+					layer.msg(data.responseText, {icon: 0});
+				}
+			});
+		}
+		
+		// 删除模型
+		function deleteModule(id) {
+			bootbox.confirm("Are you sure?", function(result) {
+				if(result) {
+					$.ajax({
+						url : "/api/user?userId=" + id,
+						type : "delete",
+						contentType: "application/json",
+						success : function (data) {
+							if (data.status == 200) {
+								initTable(PAGE_SIZE);
+							} else {
+								//window.location.href = data.object;
+								layer.msg(data.message, {icon: 0});
+							}
+						},
+						error : function (data) {
+							layer.msg(data.responseText, {icon: 0});
+						}
+					});
+				}
+			});
 		}
 	</script>
 </body>

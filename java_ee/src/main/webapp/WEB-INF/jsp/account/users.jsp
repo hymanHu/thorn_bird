@@ -57,7 +57,6 @@
 				<div class="container">
 					<div class="card">
 						<div class="card-header">
-							<!-- <h3 class="card-title">试题列表</h3> -->
 							<ul class="nav panel_toolbox" style="margin-left:0; float: left;">
 								<li>
 									<button type="button" class="btn btn-primary" id="addModuleBtn"
@@ -67,7 +66,7 @@
 							<div class="clearfix"></div>
 						</div>
 						<div class="card-body">
-							<table id="questionsTable" class="table table-bordered table-striped">
+							<table id="moduleTable" class="table table-bordered table-striped">
 								<thead>
 									<tr>
 										<th>ID</th>
@@ -128,7 +127,7 @@
 		})
 		
 		function initTable(pageSize) {
-			$('#questionsTable').DataTable({
+			$('#moduleTable').DataTable({
 				'paging': true, //分页
 				"serverSide": true, //开启后端分页
 				"pagingType": "full_numbers", //分页样式的类型simple/simple_numbers/full/full_numbers
@@ -160,7 +159,8 @@
 						contentType: "application/json",
 						data : JSON.stringify(searchBean),
 						success : function (rs) {
-							var fData = {
+							// 定义表格数据结构
+							var tableData = {
 								draw :0,
 								recordsTotal: 0,
 								recordsFiltered: 0,
@@ -168,28 +168,28 @@
 							};
 							if (!rs) {
 								layer.alert("请求出错，请稍后重试" + rs.errmsg, {icon: 2});
-								callback(fData);
+								callback(tableData);
 								return;
 							};
 							if (rs.list == null) {
-								$('#datatable tbody tr').remove();
+								$('#moduleTable tbody tr').remove();
 								$('#loading').remove();
-								callback(fData);
+								callback(tableData);
 								return;
 							}
 							$('#loading').remove();
-							var gearDatas = [];
+							var rowsData = [];
 							for (var i = 0; i < rs.list.length; i++) {
 								//包装行数据
-								var rowData = new TData(rs.list[i].userId, rs.list[i].userName, 
+								var rowData = new RowData(rs.list[i].userId, rs.list[i].userName, 
 										rs.list[i].password, rs.list[i].createDate);
 								// 将行数据放到数组里
-								gearDatas.push(rowData);
+								rowsData.push(rowData);
 							}
-							fData.data = gearDatas;
-							fData.recordsTotal = rs.total;
-							fData.recordsFiltered = rs.total;
-							callback(fData);
+							tableData.data = rowsData;
+							tableData.recordsTotal = rs.total;
+							tableData.recordsFiltered = rs.total;
+							callback(tableData);
 						},
 						error : function (data) {
 							layer.alert(data.responseText, {icon: 0});
@@ -207,7 +207,7 @@
 		}
 		
 		//行数据结构
-		function TData(userId, userName, password, createDate) {
+		function RowData(userId, userName, password, createDate) {
 			this.userId = userId;
 			this.userName = userName;
 			this.password = password;

@@ -176,7 +176,7 @@ public class UserDao {
 			.append("limit ")
 			.append((searchBean.getCurrentPage() - 1) * searchBean.getPageSize())
 			.append(" , ")
-			.append(searchBean.getCurrentPage() * searchBean.getPageSize());
+			.append(searchBean.getPageSize());
 		
 		try {
 			connection = DBUtil.getConnection();

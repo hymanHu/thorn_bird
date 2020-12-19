@@ -1,10 +1,13 @@
 package com.sfac.javaEe.entity.exam;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 /**
  * Description: 试题标识
  * @author HymanHu
  * @date 2020-10-29 13:44:45
  */
+@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum QuestionFlag {
 	JAVA_SE("Java_SE"),
 	JAVA_EE("Java_EE"),

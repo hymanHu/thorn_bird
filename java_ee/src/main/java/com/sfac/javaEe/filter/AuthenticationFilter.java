@@ -21,15 +21,15 @@ import com.sfac.javaEe.entity.account.User;
  * @author HymanHu
  * @date 2020-12-19 10:05:33
  */
+@SuppressWarnings("serial")
 @WebFilter(filterName = "authenticationFilter", urlPatterns = "/*")
 public class AuthenticationFilter implements Filter {
 	
-	private static List<String> ANON_URL = new ArrayList<String>();
-	static {
-		ANON_URL.add("/login");
-		ANON_URL.add("/register");
-		ANON_URL.add("/static");
-	}
+	private static List<String> ANON_URL = new ArrayList<String>() {{
+		add("/login");
+		add("/register");
+		add("/static");
+	}};
 	
 	/**
 	 * -判断请求路径是否在 ANON_URL 内
@@ -61,7 +61,10 @@ public class AuthenticationFilter implements Filter {
 		HttpServletResponse response = (HttpServletResponse) resp;
 		
 		String servletPath = request.getServletPath();
-		System.out.println(String.format("Servlet Path: %s", servletPath));
+		String requestUri = request.getRequestURI();
+		if (!servletPath.contains("dict.do")) {
+			System.out.println(String.format("Servlet Path: %s; Request URI: %s", servletPath, requestUri));
+		}
 		
 		User user = (User) request.getSession().getAttribute("user");
 		if (checkServletPath(servletPath) && user == null) {
