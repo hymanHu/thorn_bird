@@ -1,11 +1,11 @@
 package com.sfac.javaEe.dao.account;
 
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -115,7 +115,7 @@ public class UserDao {
 			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, user.getUserName());
 			ps.setString(2, user.getPassword());
-			ps.setDate(3, new Date(user.getCreateDate().getTime()));
+			ps.setTimestamp(3, new Timestamp(user.getCreateDate().getTime()));
 			ps.execute();
 			
 			ResultSet rs = ps.getGeneratedKeys();

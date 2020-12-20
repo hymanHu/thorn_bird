@@ -19,10 +19,12 @@
 	<link href="/static/plugins/select2/css/select2.min.css" rel="stylesheet">
 	<link href="/static/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" rel="stylesheet" />
 	<!-- DataTables -->
+	<link href="/static/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 	<link href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-	<link href="/static/plugins/datatables-responsive/css/responsive.bootstrap4.min.css" rel="stylesheet" />
 	<!-- admin -->
 	<link href="/static/_exam/css/adminlte.css" type="text/css" rel="stylesheet" />
+	<!-- custom -->
+	<link href="/static/css/custom.css" type="text/css" rel="stylesheet" />
 	
 </head>
 <body class="hold-transition layout-top-nav">
@@ -162,10 +164,12 @@
 	<!-- Select2 -->
 	<script src="/static/plugins/select2/js/select2.full.min.js"  type="text/javascript"></script>
 	<!-- DataTables -->
-	<script src="/static/plugins/datatables/jquery.dataTables.js"  type="text/javascript"></script>
-	<script src="/static/plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"  type="text/javascript"></script>
-	<script src="/static/plugins/datatables-responsive/js/dataTables.responsive.min.js"  type="text/javascript"></script>
-	<script src="/static/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"  type="text/javascript"></script>
+	<script src="/static/plugins/datatables.net/js/jquery.dataTables.min.js"  type="text/javascript"></script>
+	<script src="/static/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"  type="text/javascript"></script>
+	<!-- layer -->
+	<script src="https://cdn.bootcss.com/layer/2.1/layer.js" type="text/javascript"></script>
+	<!-- confirm-->
+	<script src="/static/js/bootbox.js" type="text/javascript"></script>
 	<!-- admin -->
 	<script src="/static/js/adminlte.js"></script>
 	
@@ -214,7 +218,7 @@
 						contentType: "application/json",
 						data : JSON.stringify(searchBean),
 						success : function (rs) {
-							var fData = {
+							var tableData = {
 								draw :0,
 								recordsTotal: 0,
 								recordsFiltered: 0,
@@ -222,29 +226,29 @@
 							};
 							if (!rs) {
 								layer.alert("请求出错，请稍后重试" + rs.errmsg, {icon: 2});
-								callback(fData);
+								callback(tableData);
 								return;
 							};
 							if (rs.list == null) {
 								$('#datatable tbody tr').remove();
 								$('#loading').remove();
-								callback(fData);
+								callback(tableData);
 								return;
 							}
 							$('#loading').remove();
-							var gearDatas = [];
+							var rowsDatas = [];
 							for (var i = 0; i < rs.list.length; i++) {
 								//包装行数据
-								var rowData = new TData(rs.list[i].id, rs.list[i].subject, 
+								var rowData = new RowData(rs.list[i].id, rs.list[i].subject, 
 										rs.list[i].totalTime, rs.list[i].createDate);
 								// 将行数据放到数组里
-								gearDatas.push(rowData);
+								rowsDatas.push(rowData);
 							}
-							fData.data = gearDatas;
-							fData.recordsTotal = rs.total;
-							fData.recordsFiltered = rs.total;
-							console.log(fData);
-							callback(fData);
+							tableData.data = rowsDatas;
+							tableData.recordsTotal = rs.total;
+							tableData.recordsFiltered = rs.total;
+							console.log(tableData);
+							callback(tableData);
 						},
 						error : function (data) {
 							layer.alert(data.responseText, {icon: 0});
@@ -262,14 +266,38 @@
 		}
 		
 		//行数据结构
-		function TData(id, subject, totalTime, createDate) {
+		function RowData(id, subject, totalTime, createDate) {
 			this.id = id;
 			this.subject = subject;
 			this.totalTime = totalTime;
 			this.createDate = createDate;
 			this.operate = function () {
-				return "<a href='/paper?paperId=" + id + "' class='btn_editcolor'>考试</a>&nbsp;";
+				return "<a href='/exam/paper/" + id + "' class='btn_editcolor' target='_blank'>考试</a>&nbsp;&nbsp;" + 
+					"<a href='javascript:void(0);' onclick='deleteModule(\"" + id + "\")' class='btn_editcolor'>删除</a>";
 			}
+		}
+		
+		// 删除模型
+		function deleteModule(id) {
+			bootbox.confirm("Are you sure?", function(result) {
+				if(result) {
+					$.ajax({
+						url : "/api/paper/" + id,
+						type : "delete",
+						success : function (data) {
+							if (data.status == 200) {
+								initTable(PAGE_SIZE);
+							} else {
+								//window.location.href = data.object;
+								layer.msg(data.message, {icon: 0});
+							}
+						},
+						error : function (data) {
+							layer.msg(data.responseText, {icon: 0});
+						}
+					});
+				}
+			});
 		}
 	</script>
 </body>

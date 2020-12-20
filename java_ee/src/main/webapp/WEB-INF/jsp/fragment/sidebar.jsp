@@ -32,9 +32,7 @@
 				<li class="nav-item has-treeview">
 					<a href="#" class="nav-link">
 						<i class="nav-icon fas fa-user-circle"></i>
-						<p>
-							Account <i class="right fas fa-angle-left"></i>
-						</p>
+						<p>Account<i class="right fas fa-angle-left"></i></p>
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
@@ -54,9 +52,7 @@
 				<li class="nav-item has-treeview">
 					<a href="#" class="nav-link">
 						<i class="nav-icon fas fa-list-ol"></i>
-						<p>
-							Exam <i class="right fas fa-angle-left"></i>
-						</p>
+						<p>Exam<i class="right fas fa-angle-left"></i></p>
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
@@ -65,14 +61,18 @@
 								<p>Questions</p>
 							</a>
 						</li>
+						<li class="nav-item">
+							<a href="/exam/papers" class="nav-link" target="blank">
+								<i class="far fa-circle nav-icon"></i>
+								<p>Papers</p>
+							</a>
+						</li>
 					</ul>
 				</li>
 				<li class="nav-item has-treeview">
 					<a href="#" class="nav-link">
 						<i class="nav-icon fas fa-cubes"></i>
-						<p>
-							Spider <i class="right fas fa-angle-left"></i>
-						</p>
+						<p>Spider<i class="right fas fa-angle-left"></i></p>
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
@@ -92,9 +92,7 @@
 				<li class="nav-item has-treeview">
 					<a href="#" class="nav-link">
 						<i class="nav-icon fas fa-leaf"></i>
-						<p>
-							Test <i class="right fas fa-angle-left"></i>
-						</p>
+						<p>Test <i class="right fas fa-angle-left"></i></p>
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">

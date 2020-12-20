@@ -58,7 +58,7 @@ public class PaperDao {
 			.append("limit ")
 			.append((searchBean.getCurrentPage() - 1) * searchBean.getPageSize())
 			.append(" , ")
-			.append(searchBean.getCurrentPage() * searchBean.getPageSize());
+			.append(searchBean.getPageSize());
 		
 		PreparedStatement ps = null;
 		Connection connection = null;
@@ -101,6 +101,36 @@ public class PaperDao {
 		}
 		
 		return count;
+	}
+	
+	public void deletePaperById(int id) throws ClassNotFoundException, SQLException {
+		String sql = "delete from paper where id = ?";
+		System.out.println(sql);
+		
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			ps.execute();
+		} finally {
+			DBUtil.closeConnection(conn);
+		}
+	}
+	
+	public void deletePaperQuestionByPaperId(int paperId) throws ClassNotFoundException, SQLException {
+		String sql = "delete from paper_question where paper_id = ?";
+		System.out.println(sql);
+		
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, paperId);
+			ps.execute();
+		} finally {
+			DBUtil.closeConnection(conn);
+		}
 	}
 	
 }

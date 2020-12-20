@@ -124,7 +124,7 @@
 		function initPaper() {
 			var paperId = $("#paperId").val();
 			$.ajax({
-				url : "/api/paper?paperId=" + paperId,
+				url : "/api/paper/" + paperId,
 				type : "get",
 				success : function (data) {
 					$("[name='subject']").html(data.subject);
