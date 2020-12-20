@@ -19,7 +19,7 @@ jQuery(function($) {
 // 初始字典下拉列表
 function initQuestionType() {
 	$.ajax({
-		url : "/api/dic/questionType",
+		url : "/api/dict/questionType",
 		type : "get",
 		success : function (data) {
 			var type = $("[name=type]");
@@ -35,14 +35,15 @@ function initQuestionType() {
 }
 function initQuestionFlag() {
 	$.ajax({
-		url : "/api/dic/questionFlag",
+		url : "/api/dict/questionFlag",
 		type : "get",
 		success : function (data) {
-			var type = $("[name=flag]");
-			type.empty();
+			var flag = $("[name=flag]");
+			flag.empty();
 			$.each(data, function(i, item) {
-				type.append("<option value='" + item.flag + "'>" + item.flag + "</option>");
+				flag.append("<option value='" + item.flag + "'>" + item.flag + "</option>");
 			});
+			$(".titlePrefix").html(data[0].flag + "_");
 		},
 		error : function (data) {
 			layer.msg(data.responseText, {icon: 0});

@@ -26,9 +26,11 @@ import com.sfac.javaEe.entity.account.User;
 public class AuthenticationFilter implements Filter {
 	
 	private static List<String> ANON_URL = new ArrayList<String>() {{
+		add("/favicon.ico");
 		add("/login");
 		add("/register");
 		add("/static");
+		add("/api/dict");
 		add("/exam/paper");
 		add("/api/paper");
 		add("/exam/papers");

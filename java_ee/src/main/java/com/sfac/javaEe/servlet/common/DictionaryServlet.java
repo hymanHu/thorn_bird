@@ -21,13 +21,13 @@ import com.sfac.javaEe.entity.exam.QuestionType;
 
 /**
  * Description: Dictionary Servlet
- * http://127.0.0.1/api/dic/questionFlag
- * http://127.0.0.1/api/dic/questionType
+ * http://127.0.0.1/api/dict/questionFlag
+ * http://127.0.0.1/api/dict/questionType
  * @author HymanHu
  * @date 2020-12-19 15:38:05
  */
 @SuppressWarnings({ "rawtypes", "unchecked", "serial" })
-@WebServlet(value = "/api/dic/*")
+@WebServlet(value = "/api/dict/*")
 public class DictionaryServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;

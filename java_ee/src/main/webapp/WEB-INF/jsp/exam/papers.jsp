@@ -75,22 +75,16 @@
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>测试阶段</label>
-										<select class="form-control select2" style="width: 100%;">
-											<option selected="selected">Java_SE</option>
-											<option>Java_EE</option>
-											<option>Java_Framework</option>
-											<option>Python_Base</option>
-											<option>Python_Spider</option>
-											<option>DB_Sql</option>
-											<option>DB_NoSql</option>
-											<option>Front_Html</option>
-											<option>Front_Css</option>
-											<option>Front_Js</option>
-										</select>
+										<select name="flag" class="form-control select2" style="width: 100%;"></select>
 									</div>
 									<div class="form-group">
 										<label>试卷标题</label>
-										<input type="text" class="form-control">
+										<div class="input-group">
+											<div class="input-group-prepend">
+												<span class="input-group-text titlePrefix">@</span>
+											</div>
+											<input type="text" class="form-control" placeholder="">
+										</div>
 									</div>
 								</div>
 								<div class="col-md-4">
@@ -172,14 +166,22 @@
 	<script src="/static/js/bootbox.js" type="text/javascript"></script>
 	<!-- admin -->
 	<script src="/static/js/adminlte.js"></script>
+	<!-- custom -->
+	<script src="/static/js/custom.js" type="text/javascript"></script>
 	
 	<script type="text/javascript">
 		PAGE_SIZE = 5;
 		$(document).ready(function() {
-		    //Initialize Select2 Elements
+		    // Initialize Select2 Elements
 			$('.select2').select2();
 		    $('.select2bs4').select2({
 				theme: 'bootstrap4'
+		    });
+		    
+		    // 初始化试题阶段下拉列表、绑定 change 事件
+		    initQuestionFlag();
+		    $("[name=flag]").bind("change", function() {
+		    	$(".titlePrefix").html($(this).val() + "_");
 		    });
 		    
 		    initTable(PAGE_SIZE);
