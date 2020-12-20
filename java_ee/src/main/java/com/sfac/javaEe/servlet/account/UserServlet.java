@@ -38,7 +38,7 @@ public class UserServlet extends HttpServlet {
 			throws ServletException, IOException {
 		String userId = req.getParameter("userId");
 		if (StringUtils.isBlank(userId) || !userId.matches("^[0-9]*$")) {
-			throw new ServletException("User Id is null or not number.");
+			throw new ServletException("User id is null or not number.");
 		}
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		

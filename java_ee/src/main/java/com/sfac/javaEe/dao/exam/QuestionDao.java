@@ -22,11 +22,11 @@ import com.sfac.javaEe.util.DBUtil;
 public class QuestionDao {
 	
 	public void insertQuestion(Question question) throws SQLException, ClassNotFoundException {
-		Connection connection = null;
 		String sql = "insert into question (type, flag, content, score, option_a, option_b, option_c, "
 				+ "option_d, reference_answer, comment) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		System.out.println(sql);
 		
+		Connection connection = null;
 		try {
 			connection = DBUtil.getConnection();
 			PreparedStatement ps = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
@@ -51,16 +51,87 @@ public class QuestionDao {
 		}
 	}
 	
-	public Question getQuestionById(int id) {
+	public Question getQuestionById(int id) throws ClassNotFoundException, SQLException {
+		Question question = null;
+		String sql = "select * from question where id = ?";
+		System.out.println(sql);
 		
-		return null;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			ResultSet rs = ps.executeQuery();
+			while(rs.next()) {
+				question = new Question();
+				question.setId(rs.getInt("id"));
+				question.setType(rs.getString("type"));
+				question.setFlag(rs.getString("flag"));
+				question.setContent(rs.getString("content"));
+				question.setScore(rs.getDouble("score"));
+				question.setOptionA(rs.getString("option_a"));
+				question.setOptionB(rs.getString("option_b"));
+				question.setOptionC(rs.getString("option_c"));
+				question.setOptionD(rs.getString("option_d"));
+				question.setReferenceAnswer(rs.getString("reference_answer"));
+				question.setComment(rs.getString("comment"));
+				break;
+			}
+		} finally {
+			conn.close();
+		}
+		
+		return question;
+	}
+	
+	public void updateQuestion(Question question) throws ClassNotFoundException, SQLException {
+		String sql = "update question set type = ?, flag = ?, content = ?, score = ?, option_a = ?, "
+				+ "option_b = ?, option_c = ?, option_d = ?, reference_answer = ?, comment = ? where id = ?";
+		System.out.println(sql);
+		
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setString(1, question.getType());
+			ps.setString(2, question.getFlag());
+			ps.setString(3, question.getContent());
+			ps.setDouble(4, question.getScore());
+			ps.setString(5, question.getOptionA());
+			ps.setString(6, question.getOptionB());
+			ps.setString(7, question.getOptionC());
+			ps.setString(8, question.getOptionD());
+			ps.setString(9, question.getReferenceAnswer());
+			ps.setString(10, question.getComment());
+			ps.setInt(11, question.getId());
+			ps.execute();
+		} finally {
+			DBUtil.closeConnection(conn);
+		}
+	}
+	
+	public void deleteQuestionById(int id) throws ClassNotFoundException, SQLException {
+		String sql = "delete from question where id = ?";
+		System.out.println(sql);
+		
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			ps.execute();
+		} finally {
+			DBUtil.closeConnection(conn);
+		}
 	}
 
 	public List<Question> getQuestionsByPaperId(int paperId) throws SQLException, ClassNotFoundException {
 		List<Question> questions = new ArrayList<Question>();
-		Connection connection = null;
 		String sql = "select * from question q left join paper_question pq on q.id = pq.question_id "
 				+ "where pq.paper_id = ?";
+		System.out.println(sql);
+		
+		Connection connection = null;
 		try {
 			connection = DBUtil.getConnection();
 			PreparedStatement ps = connection.prepareStatement(sql);
@@ -90,7 +161,6 @@ public class QuestionDao {
 	
 	public List<Question> getQuestionsBySearchBean(SearchBean searchBean) throws SQLException, ClassNotFoundException {
 		List<Question> questions = new ArrayList<Question>();
-		Connection connection = null;
 		StringBuffer sql = new StringBuffer("select * from question ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where content like '%" + searchBean.getKeyWord() + "%' or ");
@@ -104,13 +174,12 @@ public class QuestionDao {
 			.append((searchBean.getCurrentPage() - 1) * searchBean.getPageSize())
 			.append(" , ")
 			.append(searchBean.getPageSize());
-		
 		System.out.println(sql.toString());
 		
-		PreparedStatement ps = null;
+		Connection connection = null;
 		try {
 			connection = DBUtil.getConnection();
-			ps = connection.prepareStatement(sql.toString());
+			PreparedStatement ps = connection.prepareStatement(sql.toString());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Question question = new Question();
@@ -135,7 +204,6 @@ public class QuestionDao {
 	}
 	
 	public int getQuestionsCountBySearchBean(SearchBean searchBean) throws SQLException, ClassNotFoundException {
-		Connection connection = null;
 		StringBuffer sql = new StringBuffer("select count(*) from question ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where content like '%" + searchBean.getKeyWord() + "%' or ");
@@ -144,11 +212,11 @@ public class QuestionDao {
 		}
 		System.out.println(sql.toString());
 		
-		PreparedStatement ps = null;
+		Connection connection = null;
 		int count = 0;
 		try {
 			connection = DBUtil.getConnection();
-			ps = connection.prepareStatement(sql.toString());
+			PreparedStatement ps = connection.prepareStatement(sql.toString());
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			count = rs.getInt(1);

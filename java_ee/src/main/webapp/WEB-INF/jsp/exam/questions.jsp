@@ -285,13 +285,20 @@
 		// 初始化编辑页面
 		function initEditModal(id) {
 			$.ajax({
-				url : "/api/user?userId=" + id,
+				url : "/api/question/" + id,
 				type : "get",
-				contentType: "application/json",
 				success : function (rs) {
-					$("#userIdForEditPage").val(rs.data.userId);
-					$("#userNameForEditPage").val(rs.data.userName);
-					$("#passwordForEditPage").val(rs.data.password);
+					$("#questionIdForEditPage").val(rs.id);
+					$("#typeForEditPage").val(rs.type);
+					$("#flagForEditPage").val(rs.flag);
+					$("#contentForEditPage").val(rs.content);
+					$("#scoreForEditPage").val(rs.score);
+					$("#optionAForEditPage").val(rs.optionA);
+					$("#optionBForEditPage").val(rs.optionB);
+					$("#optionCForEditPage").val(rs.optionC);
+					$("#optionDForEditPage").val(rs.optionD);
+					$("#referenceAnswerForEditPage").val(rs.referenceAnswer);
+					$("#commentForEditPage").val(rs.comment);
 				},
 				error : function (data) {
 					layer.alert(data.responseText, {icon: 0});
@@ -301,16 +308,24 @@
 		
 		// 修改模型
 		function updateModule() {
-			var user = {};
-			user.userId = $("#userIdForEditPage").val();
-			user.userName = $("#userNameForEditPage").val();
-			user.password = $("#passwordForEditPage").val();
+			var question = {};
+			question.id = $("#questionIdForEditPage").val();
+			question.type = $("#typeForEditPage").val();
+			question.flag = $("#flagForEditPage").val();
+			question.content = $("#contentForEditPage").val();
+			question.score = $("#scoreForEditPage").val();
+			question.optionA = $("#optionAForEditPage").val();
+			question.optionB = $("#optionBForEditPage").val();
+			question.optionC = $("#optionCForEditPage").val();
+			question.optionD = $("#optionDForEditPage").val();
+			question.referenceAnswer = $("#referenceAnswerForEditPage").val();
+			question.comment = $("#commentForEditPage").val();
 			
 			$.ajax({
-				url : "/api/user",
+				url : "/api/question",
 				type : "put",
 				contentType: "application/json",
-				data : JSON.stringify(user),
+				data : JSON.stringify(question),
 				success : function (data) {
 					if (data.status == 200) {
 						initTable(PAGE_SIZE);
@@ -329,9 +344,8 @@
 			bootbox.confirm("Are you sure?", function(result) {
 				if(result) {
 					$.ajax({
-						url : "/api/user?userId=" + id,
+						url : "/api/question/" + id,
 						type : "delete",
-						contentType: "application/json",
 						success : function (data) {
 							if (data.status == 200) {
 								initTable(PAGE_SIZE);
