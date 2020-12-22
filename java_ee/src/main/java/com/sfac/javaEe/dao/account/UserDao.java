@@ -33,6 +33,7 @@ public class UserDao {
 			conn = DBUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, userName);
+			System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				user = new User();
@@ -60,6 +61,7 @@ public class UserDao {
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, userName);
 			ps.setString(2, password);
+			System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				user = new User();
@@ -85,6 +87,7 @@ public class UserDao {
 			conn = DBUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, userId);
+			System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				user = new User();
@@ -116,6 +119,7 @@ public class UserDao {
 			ps.setString(1, user.getUserName());
 			ps.setString(2, user.getPassword());
 			ps.setTimestamp(3, new Timestamp(user.getCreateDate().getTime()));
+			System.out.println(ps.toString());
 			ps.execute();
 			
 			ResultSet rs = ps.getGeneratedKeys();
@@ -137,7 +141,6 @@ public class UserDao {
 	public User updateUser(User user) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
 		String sql = "update user set user_name = ?, password = ? where user_id = ?";
-		System.out.println(sql);
 		
 		try {
 			conn = DBUtil.getConnection();
@@ -145,6 +148,7 @@ public class UserDao {
 			ps.setString(1, user.getUserName());
 			ps.setString(2, user.getPassword());
 			ps.setInt(3, user.getUserId());
+			System.out.println(ps.toString());
 			ps.execute();
 			
 		} finally {
@@ -163,6 +167,7 @@ public class UserDao {
 			conn = DBUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, userId);
+			System.out.println(ps.toString());
 			ps.execute();
 			
 		} finally {
@@ -189,6 +194,7 @@ public class UserDao {
 		try {
 			connection = DBUtil.getConnection();
 			PreparedStatement ps = connection.prepareStatement(sql.toString());
+			System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				User user = new User();
@@ -217,6 +223,7 @@ public class UserDao {
 		try {
 			connection = DBUtil.getConnection();
 			PreparedStatement ps = connection.prepareStatement(sql.toString());
+			System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			count = rs.getInt(1);

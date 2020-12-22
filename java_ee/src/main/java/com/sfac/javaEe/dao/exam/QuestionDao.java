@@ -26,7 +26,6 @@ public class QuestionDao {
 	public void insertQuestion(Question question) throws SQLException, ClassNotFoundException {
 		String sql = "insert into question (type, flag, content, score, option_a, option_b, option_c, "
 				+ "option_d, reference_answer, comment) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
-		System.out.println(sql);
 		
 		Connection connection = null;
 		try {
@@ -42,6 +41,7 @@ public class QuestionDao {
 			ps.setString(8, question.getOptionD());
 			ps.setString(9, question.getReferenceAnswer());
 			ps.setString(10, question.getComment());
+			System.out.println(ps.toString());
 			ps.execute();
 			
 			ResultSet rs = ps.getGeneratedKeys();
@@ -56,7 +56,6 @@ public class QuestionDao {
 	public Question getQuestionById(int id) throws ClassNotFoundException, SQLException {
 		Question question = null;
 		String sql = "select * from question where id = ?";
-		System.out.println(sql);
 		
 		Connection conn = null;
 		try {
@@ -77,6 +76,7 @@ public class QuestionDao {
 				question.setOptionD(rs.getString("option_d"));
 				question.setReferenceAnswer(rs.getString("reference_answer"));
 				question.setComment(rs.getString("comment"));
+				System.out.println(ps.toString());
 				break;
 			}
 		} finally {
@@ -89,7 +89,6 @@ public class QuestionDao {
 	public void updateQuestion(Question question) throws ClassNotFoundException, SQLException {
 		String sql = "update question set type = ?, flag = ?, content = ?, score = ?, option_a = ?, "
 				+ "option_b = ?, option_c = ?, option_d = ?, reference_answer = ?, comment = ? where id = ?";
-		System.out.println(sql);
 		
 		Connection conn = null;
 		try {
@@ -106,6 +105,7 @@ public class QuestionDao {
 			ps.setString(9, question.getReferenceAnswer());
 			ps.setString(10, question.getComment());
 			ps.setInt(11, question.getId());
+			System.out.println(ps.toString());
 			ps.execute();
 		} finally {
 			DBUtil.closeConnection(conn);
@@ -114,13 +114,13 @@ public class QuestionDao {
 	
 	public void deleteQuestionById(int id) throws ClassNotFoundException, SQLException {
 		String sql = "delete from question where id = ?";
-		System.out.println(sql);
 		
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
+			System.out.println(ps.toString());
 			ps.execute();
 		} finally {
 			DBUtil.closeConnection(conn);
@@ -131,7 +131,6 @@ public class QuestionDao {
 		List<Question> questions = new ArrayList<Question>();
 		String sql = "select * from question q left join paper_question pq on q.id = pq.question_id "
 				+ "where pq.paper_id = ?";
-		System.out.println(sql);
 		
 		Connection connection = null;
 		try {
@@ -152,6 +151,7 @@ public class QuestionDao {
 				question.setOptionD(rs.getString("option_D"));
 				question.setReferenceAnswer(rs.getString("reference_answer"));
 				question.setComment(rs.getString("comment"));
+				System.out.println(ps.toString());
 				questions.add(question);
 			}
 		} finally {
@@ -176,12 +176,12 @@ public class QuestionDao {
 			.append((searchBean.getCurrentPage() - 1) * searchBean.getPageSize())
 			.append(" , ")
 			.append(searchBean.getPageSize());
-		System.out.println(sql.toString());
 		
 		Connection connection = null;
 		try {
 			connection = DBUtil.getConnection();
 			PreparedStatement ps = connection.prepareStatement(sql.toString());
+			System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Question question = new Question();
@@ -212,13 +212,13 @@ public class QuestionDao {
 			sql.append("type like '%" + searchBean.getKeyWord() + "%' or ");
 			sql.append("flag like '%" + searchBean.getKeyWord() + "%' ");
 		}
-		System.out.println(sql.toString());
 		
 		Connection connection = null;
 		int count = 0;
 		try {
 			connection = DBUtil.getConnection();
 			PreparedStatement ps = connection.prepareStatement(sql.toString());
+			System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			count = rs.getInt(1);
@@ -242,13 +242,13 @@ public class QuestionDao {
 				.append(") ");
 		}
 		sb.append("order by type");
-		System.out.println(sb.toString());
 		
 		List<Question> questions = new ArrayList<Question>();
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sb.toString());
+			System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Question question = new Question();

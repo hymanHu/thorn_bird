@@ -24,8 +24,9 @@ public class CoronavirusDao {
 		
 		try {
 			connection = DBUtil.getConnection();
-			PreparedStatement preparedStatement = connection.prepareStatement(sql);
-			ResultSet rs = preparedStatement.executeQuery();
+			PreparedStatement ps = connection.prepareStatement(sql);
+			System.out.println(ps.toString());
+			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Coronavirus coronavirus = new Coronavirus();
 				coronavirus.setId(rs.getInt("id"));

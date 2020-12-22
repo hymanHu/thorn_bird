@@ -56,6 +56,7 @@ public class PaperDao {
 			connection = DBUtil.getConnection();
 			ps = connection.prepareStatement(sql);
 			ps.setInt(1, id);
+			System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				paper = new Paper();
@@ -91,6 +92,7 @@ public class PaperDao {
 		try {
 			connection = DBUtil.getConnection();
 			ps = connection.prepareStatement(sql.toString());
+			System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				Paper paper = new Paper();
@@ -120,6 +122,7 @@ public class PaperDao {
 		try {
 			connection = DBUtil.getConnection();
 			ps = connection.prepareStatement(sql.toString());
+			System.out.println(ps.toString());
 			ResultSet rs = ps.executeQuery();
 			rs.next();
 			count = rs.getInt(1);
@@ -132,13 +135,13 @@ public class PaperDao {
 	
 	public void deletePaperById(int id) throws ClassNotFoundException, SQLException {
 		String sql = "delete from paper where id = ?";
-		System.out.println(sql);
 		
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
+			System.out.println(ps.toString());
 			ps.execute();
 		} finally {
 			DBUtil.closeConnection(conn);
