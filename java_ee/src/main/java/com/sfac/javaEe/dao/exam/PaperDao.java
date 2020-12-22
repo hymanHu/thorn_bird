@@ -100,7 +100,7 @@ public class PaperDao {
 				paper.setSubject(rs.getString("subject"));
 				paper.setTotalTime(rs.getInt("total_time"));
 				paper.setTotalScore(rs.getDouble("total_score"));
-				paper.setCreateDate(rs.getDate("create_date"));
+				paper.setCreateDate(rs.getTimestamp("create_date"));
 				papers.add(paper);
 			}
 		} finally {

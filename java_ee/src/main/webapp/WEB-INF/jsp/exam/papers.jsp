@@ -81,9 +81,12 @@
 										<label>试卷标题</label>
 										<div class="input-group">
 											<div class="input-group-prepend">
-												<span class="input-group-text titlePrefix">@</span>
+												<span name="titlePrefix" class="input-group-text"></span>
 											</div>
-											<input type="text" class="form-control" placeholder="">
+											<input name="title" type="text" class="form-control" placeholder="">
+											<div name="titleSuffix" class="input-group-append">
+												<span class="input-group-text">_${sessionScope.user.userName}</span>
+											</div>
 										</div>
 									</div>
 								</div>
@@ -100,7 +103,7 @@
 								<div class="col-md-4">
 									<div class="form-group">
 										<label>测试时间</label>
-										<select class="form-control select2" style="width: 100%;">
+										<select name="paperTime" class="form-control select2" style="width: 100%;">
 											<option selected="selected">45 分钟</option>
 											<option>60 分钟</option>
 											<option>90 分钟</option>
@@ -112,7 +115,7 @@
 						</div>
 						<!-- /.card-body -->
 						<div class="card-footer">
-							<button type="submit" class="btn btn-primary btn-lg">创建</button>
+							<button name="paperBuilderBtn" type="button" class="btn btn-primary btn-lg">创建</button>
 						</div>
 					</div>
 					
@@ -175,12 +178,18 @@
 		    // 初始化试题阶段下拉列表、绑定 change 事件
 		    initQuestionFlag();
 		    $("[name=flag]").bind("change", function() {
-		    	$(".titlePrefix").html($(this).val() + "_");
+		    	$("[name=titlePrefix]").html($(this).val() + "_");
 		    });
 		    // 初始化试卷类型下拉框
 		    initQuestionType();
 		    
+		    // 初始化试卷列表
 		    initTable(PAGE_SIZE);
+		    
+		    // 绑定新增按钮
+		    $("[name=paperBuilderBtn]").bind("click", function() {
+				addPaper();
+			});
 		})
 		
 		function initTable(pageSize) {
@@ -294,6 +303,33 @@
 							layer.msg(data.responseText, {icon: 0});
 						}
 					});
+				}
+			});
+		}
+		
+		// Add Paper
+		function addPaper() {
+			var paperBuilder = {};
+			paperBuilder.paperTitle = $("[name=titlePrefix]").html() + 
+				$("[name=title]").val() + $("[name=titleSuffix]").html();
+			paperBuilder.flag = $("[name=flag]").val();
+			paperBuilder.paperTime = $("[name=paperTime]").val();
+			paperBuilder.type = $("[name=type]").val();
+			
+			$.ajax({
+				url : "/api/paper",
+				type : "post",
+				contentType: "application/json",
+				data : JSON.stringify(paperBuilder),
+				success : function (data) {
+					if (data.status == 200) {
+						initTable(PAGE_SIZE);
+					} else {
+						layer.msg(data.message, {icon: 0});
+					}
+				},
+				error : function (data) {
+					layer.msg(data.responseText, {icon: 0});
 				}
 			});
 		}

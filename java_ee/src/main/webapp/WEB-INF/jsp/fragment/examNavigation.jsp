@@ -1,9 +1,7 @@
-
-
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
 	<div class="container">
-		<a href="#" class="navbar-brand">
+		<a href="/dashboard" class="navbar-brand">
 		<img src="/static/img/AdminLTELogo.png" alt="AdminLTE Logo"
 			class="brand-image img-circle elevation-3" style="opacity: .8">
 			<span class="brand-text font-weight-light">Online Exam</span>
@@ -19,7 +17,7 @@
 		<div class="collapse navbar-collapse order-3" id="navbarCollapse">
 			<!-- Left navbar links -->
 			<ul class="navbar-nav">
-				<li class="nav-item"><a href="/papers" class="nav-link">Papers</a></li>
+				<li class="nav-item"><a href="/exam/papers" class="nav-link">Papers</a></li>
 				<li class="nav-item"><a href="#" class="nav-link">Exams</a></li>
 			</ul>
 

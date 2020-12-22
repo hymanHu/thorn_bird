@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -76,46 +77,46 @@ public class PaperServlet extends HttpServlet {
 			
 			/*
 			 * -遍历 map，按照如下规则为试卷添加试题
-			 * -编程题 30 分，随机在对应集合中选择 2 道，不足则全部添加
-			 * -简答题 10 分，随机在对应集合中选择 2 道，不足则全部添加
-			 * -多选题 10 分，随机在对应集合中选择 2 道，不足则全部添加
-			 * -填空题 10 分，随机在对应集合中选择 4 道，不足则全部添加
-			 * -判断题 10 分，随机在对应集合中选择 4 道，不足则全部添加
-			 * -剩余分数全安排给单选题，随机从对应集合中选择 x 道，不足则全部添加
+			 * -编程题 30 分，随机在对应集合中选择 2 道，对应集合不足 2 道则全部添加
+			 * -简答题 10 分，随机在对应集合中选择 2 道，对应集合不足 2 道则全部添加
+			 * -多选题 20 分，随机在对应集合中选择 4 道，对应集合不足 4 道则全部添加
+			 * -填空题 10 分，随机在对应集合中选择 4 道，对应集合不足 4 道则全部添加
+			 * -判断题 10 分，随机在对应集合中选择 4 道，对应集合不足 4 道则全部添加
+			 * -单选题 20 分，随机在对应集合中选择 8 道，对应集合不足 8 道则全部添加
+			 * ------------------
+			 * -当所选类型不足时，随机从所有试题集中选择试题，补足 100 分
 			 */
-			// 填充非单选题
 			List<Question> questions = new ArrayList<Question>();
+			
+			// 随机填充各类型试题
 			questionsMap.entrySet().forEach(item -> {
-				int max = 0;
 				List<Question> tempList = item.getValue();
-				if (item.getKey().equals(QuestionType.PROGRAMMING.name) || 
-						item.getKey().equals(QuestionType.SHORT_ANSWER.name) || 
-						item.getKey().equals(QuestionType.MULTIPLE_CHOICE.name)) {
-					max = tempList.size() >= 2 ? 2 : tempList.size();
-					randomAddQuestions(tempList, questions, max);
-				} else if (item.getKey().equals(QuestionType.FILL_BLANK.name) || 
-						item.getKey().equals(QuestionType.JUDGE.name)) {
-					max = tempList.size() >= 4 ? 4 : tempList.size();
-					randomAddQuestions(tempList, questions, max);
-				}
-			});
-			// 计算单选题数量
-			int singleChoiceCount = 
-					(int)((100 - questions.stream().map(item -> item.getScore()).reduce((i, j) -> i + j).get()) / 
-					QuestionType.SINGLE_CHOICE.score);
-			// 填充单选题
-			questionsMap.entrySet().forEach(item -> {
-				int max = 0;
-				List<Question> tempList = item.getValue();
-				if (item.getKey().equals(QuestionType.SINGLE_CHOICE.name)) {
-					max = tempList.size() >= singleChoiceCount ? singleChoiceCount : tempList.size();
-					randomAddQuestions(tempList, questions, max);
-				}
+				QuestionType questionType = QuestionType.getQuestionType(item.getKey());
+				int loopCount = tempList.size() >= questionType.baseNumber ? questionType.baseNumber : tempList.size();
+				double totalScore = questions.stream()
+						.map(question -> question.getScore())
+						.reduce((i, j) -> i + j).orElse(0.0);
+				randomAddQuestions(tempList, questions, loopCount, totalScore);
 			});
 			
+			// 总分不足 100 时，从总试题集中随机添加，补足 100 分
+			double totalScore = questions.stream()
+					.map(question -> question.getScore())
+					.reduce((i, j) -> i + j)
+					.orElse(0.0);
+			double allQuestionsScore = allQuestions.stream()
+					.map(question -> question.getScore())
+					.reduce((i, j) -> i + j)
+					.orElse(0.0);
+			while (totalScore < Paper.DEFAULT_TOTAL_SCORE && totalScore < allQuestionsScore) {
+				totalScore = randomAddQuestions(allQuestions, questions, 0, totalScore);
+			}
+			
 			// 设置试卷试题集和分数
-			paper.setQuestions(questions);
-			paper.setTotalScore(questions.stream().map(item -> item.getScore()).reduce((i, j) -> i + j).get());
+			paper.setQuestions(questions.stream()
+					.sorted(Comparator.comparing(Question :: getType))
+					.collect(Collectors.toList()));
+			paper.setTotalScore(totalScore);
 			
 			// 插入试卷
 			paperDao.insertPager(paper);
@@ -143,17 +144,38 @@ public class PaperServlet extends HttpServlet {
 		pw.flush();
 	}
 	
-	// 随机添加试题集
-	public void randomAddQuestions(List<Question> fromList, List<Question> toList, int max) {
-		for (int i = 0; i < max; i ++) {
+	/**
+	 * -从源头集合随机添加试题到目标集合
+	 * @param fromList		源头集合
+	 * @param toList		目标集合
+	 * @param loopCount		添加试题数量，0 表示不知添加次数，需要用总分判断
+	 * @param totalScore	试题总分
+	 * @return				试题总分
+	 */
+	public double randomAddQuestions(List<Question> fromList, List<Question> toList, int loopCount, double totalScore) {
+		// 已知试题数量
+		if (loopCount > 0) {
+			for (int i = 0; i < loopCount; i ++) {
+				Random random = new Random();
+				Question question = fromList.get(random.nextInt(fromList.size()));
+				// 当 toList 已经包含该试题 || 分数超过 100 时候不添加
+				if (toList.contains(question) || ((totalScore + question.getScore()) > Paper.DEFAULT_TOTAL_SCORE)) {
+					i --;
+				} else {
+					toList.add(question);
+					totalScore += question.getScore();
+				}
+			}
+		} else { // 未知试题数量
 			Random random = new Random();
 			Question question = fromList.get(random.nextInt(fromList.size()));
-			if (toList.contains(question)) {
-				i --;
-			} else {
+			while (!toList.contains(question) && ((totalScore + question.getScore()) <= Paper.DEFAULT_TOTAL_SCORE)) {
 				toList.add(question);
+				totalScore += question.getScore();
 			}
 		}
+		
+		return totalScore;
 	}
 	
 	@Override

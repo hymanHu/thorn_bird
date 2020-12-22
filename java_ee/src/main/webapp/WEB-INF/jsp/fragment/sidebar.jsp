@@ -62,7 +62,7 @@
 							</a>
 						</li>
 						<li class="nav-item">
-							<a href="/exam/papers" class="nav-link" target="blank">
+							<a href="/exam/papers" class="nav-link" target="_blank">
 								<i class="far fa-circle nav-icon"></i>
 								<p>Papers</p>
 							</a>

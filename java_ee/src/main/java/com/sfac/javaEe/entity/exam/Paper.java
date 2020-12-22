@@ -11,6 +11,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
  * @date 2020-10-29 11:24:40
  */
 public class Paper {
+	public final static double DEFAULT_TOTAL_SCORE = 100;
 	private int id;
 	private String subject;
 	private Integer totalTime;

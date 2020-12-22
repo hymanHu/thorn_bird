@@ -30,11 +30,7 @@ public class AuthenticationFilter implements Filter {
 		add("/login");
 		add("/register");
 		add("/static");
-		add("/api/dict");
-		add("/exam/paper");
-		add("/api/paper");
-		add("/exam/papers");
-		add("/api/papers");
+		add("/api");
 	}};
 	
 	/**

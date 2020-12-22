@@ -46,7 +46,7 @@ public class QuestionsServlet extends HttpServlet {
 		try {
 			questions = questionDao.getQuestionsBySearchBean(searchBean);
 			count = questionDao.getQuestionsCountBySearchBean(searchBean);
-			questions.stream().forEach(item -> item.setType(QuestionType.getLocalName(item.getType())));
+			questions.stream().forEach(item -> item.setType(QuestionType.getQuestionType(item.getType()).localName));
 		} catch (SQLException | ClassNotFoundException e) {
 			e.printStackTrace();
 		}

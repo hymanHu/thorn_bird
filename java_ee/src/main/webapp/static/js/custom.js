@@ -44,7 +44,7 @@ function initQuestionFlag() {
 			$.each(data, function(i, item) {
 				flag.append("<option value='" + item.flag + "'>" + item.flag + "</option>");
 			});
-			$(".titlePrefix").html(data[0].flag + "_");
+			$("[name=titlePrefix]").html(data[0].flag + "_");
 		},
 		error : function (data) {
 			layer.msg(data.responseText, {icon: 0});
