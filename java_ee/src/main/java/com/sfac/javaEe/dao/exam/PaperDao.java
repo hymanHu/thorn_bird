@@ -24,7 +24,7 @@ import com.sfac.javaEe.util.DBUtil;
 public class PaperDao {
 	
 	public void insertPager(Paper paper) throws ClassNotFoundException, SQLException {
-		String sql = "insert into paper (subject, total_time, create_date) value (?, ?, ?)";
+		String sql = "insert into paper (subject, total_time, total_score, create_date) value (?, ?, ?, ?)";
 		
 		Connection conn = null;
 		try {
@@ -32,13 +32,14 @@ public class PaperDao {
 			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
 			ps.setString(1, paper.getSubject());
 			ps.setInt(2, paper.getTotalTime());
-			ps.setTimestamp(3, new Timestamp(paper.getCreateDate().getTime()));
+			ps.setDouble(3, paper.getTotalScore());
+			ps.setTimestamp(4, new Timestamp(paper.getCreateDate().getTime()));
 			System.out.println(ps.toString());
 			ps.execute();
 			
-			ResultSet rs = ps.getResultSet();
+			ResultSet rs = ps.getGeneratedKeys();
 			while (rs.next()) {
-				paper.setId(rs.getInt("id"));
+				paper.setId(rs.getInt(1));
 			}
 		} finally {
 			DBUtil.closeConnection(conn);
@@ -60,8 +61,9 @@ public class PaperDao {
 				paper = new Paper();
 				paper.setId(rs.getInt("id"));
 				paper.setSubject(rs.getString("subject"));
-				paper.setCreateDate(new Date(rs.getDate("create_date").getTime()));
 				paper.setTotalTime(rs.getInt("total_time"));
+				paper.setTotalScore(rs.getDouble("total_score"));
+				paper.setCreateDate(new Date(rs.getDate("create_date").getTime()));
 			}
 		} finally {
 			DBUtil.closeConnection(connection);
@@ -95,6 +97,7 @@ public class PaperDao {
 				paper.setId(rs.getInt("id"));
 				paper.setSubject(rs.getString("subject"));
 				paper.setTotalTime(rs.getInt("total_time"));
+				paper.setTotalScore(rs.getDouble("total_score"));
 				paper.setCreateDate(rs.getDate("create_date"));
 				papers.add(paper);
 			}

@@ -14,7 +14,7 @@ import com.sfac.javaEe.util.DBUtil;
 public class PaperQuestionDao {
 	
 	public void insertPaperQestion(int paperId, int questionId) throws ClassNotFoundException, SQLException {
-		String sql = "insert into paper_question (paper_id, questionId) values (?, ?)";
+		String sql = "insert into paper_question (paper_id, question_id) values (?, ?)";
 		
 		Connection conn = null;
 		try {

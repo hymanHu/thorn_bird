@@ -14,6 +14,7 @@ public class Paper {
 	private int id;
 	private String subject;
 	private Integer totalTime;
+	private Double totalScore;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date createDate;
 	private List<Question> questions;
@@ -56,6 +57,14 @@ public class Paper {
 
 	public void setQuestions(List<Question> questions) {
 		this.questions = questions;
+	}
+
+	public Double getTotalScore() {
+		return totalScore;
+	}
+
+	public void setTotalScore(Double totalScore) {
+		this.totalScore = totalScore;
 	}
 
 }
