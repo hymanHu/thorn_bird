@@ -34,7 +34,7 @@
 						<label class="control-label col-md-3">试题分值</label>
 						<div class="col-md-8">
 							<input id="scoreForEditPage" name="score" class="form-control" 
-								type="number" placeholder="Enter score">
+								type="number" disabled="disabled" placeholder="Enter score">
 						</div>
 					</div>
 					<div class="form-group row">

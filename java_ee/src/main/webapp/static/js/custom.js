@@ -25,7 +25,8 @@ function initQuestionType() {
 			var type = $("[name=type]");
 			type.empty();
 			$.each(data, function(i, item) {
-				type.append("<option value='" + item.name + "'>" + item.localName + "</option>");
+				type.append("<option score='" + item.score + "' value='" + item.name + "'>" 
+						+ item.localName + "</option>");
 			});
 		},
 		error : function (data) {

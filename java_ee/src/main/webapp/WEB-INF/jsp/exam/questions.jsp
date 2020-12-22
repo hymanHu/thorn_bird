@@ -119,6 +119,14 @@
 			initQuestionType();
 			initQuestionFlag();
 			
+			// 绑定试卷类型下拉列表变更事件
+			$("#typeForAddPage").bind("change", function() {
+				$("#scoreForAddPage").val($("#typeForAddPage").find("option:selected").attr("score"));
+			});
+			$("#typeForEditPage").bind("change", function() {
+				$("#scoreForEditPage").val($("#typeForEditPage").find("option:selected").attr("score"));
+			});
+			
 			// 绑定页面按钮
 			$("#addModuleBtn").bind("click", function() {
 				initAddModal();
@@ -241,7 +249,7 @@
 			$('#typeForAddPage option:first').prop('selected', 'selected');
 			$('#flagForAddPage option:first').prop('selected', 'selected');
 			$("#contentForAddPage").val("");
-			$("#scoreForAddPage").val("");
+			$("#scoreForAddPage").val($("#typeForAddPage").find("option:selected").attr("score"));
 			$("#optionAForAddPage").val("");
 			$("#optionBForAddPage").val("");
 			$("#optionCForAddPage").val("");
