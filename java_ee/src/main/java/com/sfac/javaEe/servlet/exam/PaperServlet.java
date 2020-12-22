@@ -1,11 +1,15 @@
 package com.sfac.javaEe.servlet.exam;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -17,9 +21,11 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sfac.javaEe.dao.exam.PaperDao;
+import com.sfac.javaEe.dao.exam.PaperQuestionDao;
 import com.sfac.javaEe.dao.exam.QuestionDao;
 import com.sfac.javaEe.entity.account.User;
 import com.sfac.javaEe.entity.exam.Paper;
+import com.sfac.javaEe.entity.exam.PaperBuilder;
 import com.sfac.javaEe.entity.exam.Question;
 
 /**
@@ -33,7 +39,37 @@ public class PaperServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private PaperDao paperDao = new PaperDao();
 	private QuestionDao questionDao = new QuestionDao();
-	private ObjectMapper objectMapper = new ObjectMapper();
+	private PaperQuestionDao paperQuestionDao = new PaperQuestionDao();
+	private ObjectMapper mapper = new ObjectMapper();
+
+	@Override
+	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		StringBuffer sb = new StringBuffer();
+		String line = null;
+		BufferedReader br = req.getReader();
+		while ((line = br.readLine()) != null) {
+			sb.append(line);
+		}
+		
+		PaperBuilder paperBuilder = mapper.readValue(sb.toString(), PaperBuilder.class);
+		Paper paper = new Paper();
+		paper.setSubject(paperBuilder.getPaperTitle());
+		paper.setTotalTime(paperBuilder.getPaperTime());
+		paper.setCreateDate(new Date());
+		
+		try {
+			// 查询出满足条件的所有试题集合
+			List<Question> allQuestions = questionDao.getQuestionsByPaperBuilder(paperBuilder);
+			// 按照试题类型分组，拆分成小集合，装到 map 中
+			Map<String, List<Question>> questionsMap = 
+					allQuestions.stream().collect(Collectors.groupingBy(Question :: getType));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -52,7 +88,7 @@ public class PaperServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
-		String result = objectMapper.writeValueAsString(paper);
+		String result = mapper.writeValueAsString(paper);
 		
 		resp.setContentType("text/json;charset=utf-8");
 		PrintWriter pw = resp.getWriter();
@@ -76,7 +112,7 @@ public class PaperServlet extends HttpServlet {
 		} else {
 			try {
 				paperDao.deletePaperById(Integer.parseInt(paperId));
-				paperDao.deletePaperQuestionByPaperId(Integer.parseInt(paperId));
+				paperQuestionDao.deletePaperQuestionByPaperId(Integer.parseInt(paperId));
 				result.put("status", 200);
 				result.put("message", "Delete success.");
 			} catch (Exception e) {
@@ -85,7 +121,7 @@ public class PaperServlet extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
-		String resultJson = objectMapper.writeValueAsString(result);
+		String resultJson = mapper.writeValueAsString(result);
 		
 		resp.setContentType("text/json;charset=utf-8");
 		PrintWriter pw = resp.getWriter();

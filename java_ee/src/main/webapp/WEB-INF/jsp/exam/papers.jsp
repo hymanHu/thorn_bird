@@ -91,14 +91,8 @@
 									<div class="form-group">
 										<label>试题类型</label>
 										<div class="select2-purple">
-											<select class="select2bs4" multiple="multiple"
+											<select name="type" class="select2bs4" multiple="multiple"
 												data-placeholder="选择题型" style="width: 100%;">
-												<option>单选题</option>
-												<option>多选题</option>
-												<option>判断题</option>
-												<option>填空题</option>
-												<option>简答题</option>
-												<option>编程题</option>
 											</select>
 										</div>
 									</div>
@@ -183,6 +177,8 @@
 		    $("[name=flag]").bind("change", function() {
 		    	$(".titlePrefix").html($(this).val() + "_");
 		    });
+		    // 初始化试卷类型下拉框
+		    initQuestionType();
 		    
 		    initTable(PAGE_SIZE);
 		})

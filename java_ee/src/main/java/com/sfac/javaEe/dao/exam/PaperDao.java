@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,6 +22,28 @@ import com.sfac.javaEe.util.DBUtil;
  * @date 2020-10-29 15:58:30
  */
 public class PaperDao {
+	
+	public void insertPager(Paper paper) throws ClassNotFoundException, SQLException {
+		String sql = "insert into paper (subject, total_time, create_date) value (?, ?, ?)";
+		
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
+			ps.setString(1, paper.getSubject());
+			ps.setInt(2, paper.getTotalTime());
+			ps.setTimestamp(3, new Timestamp(paper.getCreateDate().getTime()));
+			System.out.println(ps.toString());
+			ps.execute();
+			
+			ResultSet rs = ps.getResultSet();
+			while (rs.next()) {
+				paper.setId(rs.getInt("id"));
+			}
+		} finally {
+			DBUtil.closeConnection(conn);
+		}
+	}
 	
 	public Paper getPaperById(int id) throws SQLException, ClassNotFoundException {
 		Paper paper = null;
@@ -112,21 +136,6 @@ public class PaperDao {
 			conn = DBUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setInt(1, id);
-			ps.execute();
-		} finally {
-			DBUtil.closeConnection(conn);
-		}
-	}
-	
-	public void deletePaperQuestionByPaperId(int paperId) throws ClassNotFoundException, SQLException {
-		String sql = "delete from paper_question where paper_id = ?";
-		System.out.println(sql);
-		
-		Connection conn = null;
-		try {
-			conn = DBUtil.getConnection();
-			PreparedStatement ps = conn.prepareStatement(sql);
-			ps.setInt(1, paperId);
 			ps.execute();
 		} finally {
 			DBUtil.closeConnection(conn);

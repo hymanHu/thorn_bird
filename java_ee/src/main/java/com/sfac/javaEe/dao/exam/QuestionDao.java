@@ -7,10 +7,12 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 
 import com.sfac.javaEe.entity.common.SearchBean;
+import com.sfac.javaEe.entity.exam.PaperBuilder;
 import com.sfac.javaEe.entity.exam.Question;
 import com.sfac.javaEe.util.DBUtil;
 
@@ -225,5 +227,48 @@ public class QuestionDao {
 		}
 		
 		return count;
+	}
+	
+	public List<Question> getQuestionsByPaperBuilder(PaperBuilder paperBuilder) 
+			throws ClassNotFoundException, SQLException {
+		StringBuffer sb = new StringBuffer();
+		sb.append("select * from question where flag = '")
+			.append(paperBuilder.getPaperFlage())
+			.append("' ");
+		if (paperBuilder.getPaperTypes() != null && !paperBuilder.getPaperTypes().isEmpty()) {
+			sb.append("and type in (")
+				.append(String.join(",", paperBuilder.getPaperTypes()
+						.stream().map(item -> String.format("'%s'", item)).collect(Collectors.toList())))
+				.append(") ");
+		}
+		sb.append("order by type");
+		System.out.println(sb.toString());
+		
+		List<Question> questions = new ArrayList<Question>();
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sb.toString());
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Question question = new Question();
+				question.setId(rs.getInt("id"));
+				question.setType(rs.getString("type"));
+				question.setFlag(rs.getString("flag"));
+				question.setContent(rs.getString("content"));
+				question.setOptionA(rs.getString("option_a"));
+				question.setOptionB(rs.getString("option_b"));
+				question.setOptionC(rs.getString("option_c"));
+				question.setOptionD(rs.getString("option_d"));
+				question.setReferenceAnswer(rs.getString("reference_answer"));
+				question.setComment(rs.getString("comment"));
+				question.setScore(rs.getDouble("score"));
+				questions.add(question);
+			}
+		} finally {
+			DBUtil.closeConnection(conn);
+		}
+			
+		return questions;
 	}
 }
