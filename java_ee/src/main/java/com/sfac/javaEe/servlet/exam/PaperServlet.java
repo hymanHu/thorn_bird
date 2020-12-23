@@ -109,7 +109,11 @@ public class PaperServlet extends HttpServlet {
 					.reduce((i, j) -> i + j)
 					.orElse(0.0);
 			while (totalScore < Paper.DEFAULT_TOTAL_SCORE && totalScore < allQuestionsScore) {
-				totalScore = randomAddQuestions(allQuestions, questions, 0, totalScore);
+				randomAddQuestions(allQuestions, questions, 0, totalScore);
+				totalScore = questions.stream()
+						.map(question -> question.getScore())
+						.reduce((i, j) -> i + j)
+						.orElse(0.0);
 			}
 			
 			// 设置试卷试题集和分数
@@ -152,7 +156,7 @@ public class PaperServlet extends HttpServlet {
 	 * @param totalScore	试题总分
 	 * @return				试题总分
 	 */
-	public double randomAddQuestions(List<Question> fromList, List<Question> toList, int loopCount, double totalScore) {
+	public void randomAddQuestions(List<Question> fromList, List<Question> toList, int loopCount, double totalScore) {
 		// 已知试题数量
 		if (loopCount > 0) {
 			for (int i = 0; i < loopCount; i ++) {
@@ -174,8 +178,6 @@ public class PaperServlet extends HttpServlet {
 				totalScore += question.getScore();
 			}
 		}
-		
-		return totalScore;
 	}
 	
 	@Override

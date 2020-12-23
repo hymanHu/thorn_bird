@@ -21,6 +21,8 @@
 	<!-- DataTables -->
 	<link href="/static/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 	<link href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
+	<!-- loading -->
+	<link href="/static/plugins/jquery.mloading/src/jquery.mloading.css" rel="stylesheet" />
 	<!-- admin -->
 	<link href="/static/_exam/css/adminlte.css" type="text/css" rel="stylesheet" />
 	<!-- custom -->
@@ -158,6 +160,8 @@
 	<!-- DataTables -->
 	<script src="/static/plugins/datatables.net/js/jquery.dataTables.min.js"  type="text/javascript"></script>
 	<script src="/static/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"  type="text/javascript"></script>
+	<!-- loading -->
+	<script src="/static/plugins/jquery.mloading/src/jquery.mloading.js"  type="text/javascript"></script>
 	<!-- layer -->
 	<script src="https://cdn.bootcss.com/layer/2.1/layer.js" type="text/javascript"></script>
 	<!-- confirm-->
@@ -319,12 +323,14 @@
 			paperBuilder.paperTime = $("[name=paperTime]").val();
 			paperBuilder.paperTypes = $("[name=type]").val();
 			
+			$("body").mLoading("show");
 			$.ajax({
 				url : "/api/paper",
 				type : "post",
 				contentType: "application/json",
 				data : JSON.stringify(paperBuilder),
 				success : function (data) {
+					$("body").mLoading("hide");
 					if (data.status == 200) {
 						initTable(PAGE_SIZE);
 					} else {
@@ -332,6 +338,7 @@
 					}
 				},
 				error : function (data) {
+					$("body").mLoading("hide");
 					layer.msg(data.responseText, {icon: 0});
 				}
 			});

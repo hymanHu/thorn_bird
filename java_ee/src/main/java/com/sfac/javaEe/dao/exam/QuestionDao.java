@@ -130,7 +130,7 @@ public class QuestionDao {
 	public List<Question> getQuestionsByPaperId(int paperId) throws SQLException, ClassNotFoundException {
 		List<Question> questions = new ArrayList<Question>();
 		String sql = "select * from question q left join paper_question pq on q.id = pq.question_id "
-				+ "where pq.paper_id = ?";
+				+ "where pq.paper_id = ? order by type";
 		
 		Connection connection = null;
 		try {
