@@ -84,8 +84,8 @@
 												<span name="titlePrefix" class="input-group-text"></span>
 											</div>
 											<input name="title" type="text" class="form-control" placeholder="">
-											<div name="titleSuffix" class="input-group-append">
-												<span class="input-group-text">_${sessionScope.user.userName}</span>
+											<div class="input-group-append">
+												<span name="titleSuffix" class="input-group-text">_${sessionScope.user.userName}</span>
 											</div>
 										</div>
 									</div>
@@ -104,10 +104,10 @@
 									<div class="form-group">
 										<label>测试时间</label>
 										<select name="paperTime" class="form-control select2" style="width: 100%;">
-											<option selected="selected">45 分钟</option>
-											<option>60 分钟</option>
-											<option>90 分钟</option>
-											<option>120 分钟</option>
+											<option value="45" selected="selected">45 分钟</option>
+											<option value="60">60 分钟</option>
+											<option value="90">90 分钟</option>
+											<option value="120">120 分钟</option>
 										</select>
 									</div>
 								</div>
@@ -130,6 +130,7 @@
 										<th>试卷 ID</th>
 										<th>试卷标题</th>
 										<th>考试时间</th>
+										<th>总分</th>
 										<th>创建日期</th>
 										<th>操作</th>
 									</tr>
@@ -247,7 +248,7 @@
 							for (var i = 0; i < rs.list.length; i++) {
 								//包装行数据
 								var rowData = new RowData(rs.list[i].id, rs.list[i].subject, 
-										rs.list[i].totalTime, rs.list[i].createDate);
+										rs.list[i].totalTime, rs.list[i].totalScore, rs.list[i].createDate);
 								// 将行数据放到数组里
 								rowsDatas.push(rowData);
 							}
@@ -266,6 +267,7 @@
 					{data: 'id', name: "id", sortable: true}, 
 					{data: 'subject', name: "subject", sortable: true}, 
 					{data: 'totalTime', name: "total_time", sortable: true}, 
+					{data: 'totalScore', name: "total_score", sortable: true}, 
 					{data: 'createDate', name: "create_date", sortable: true}, 
 					{data: 'operate', width: '80px', sortable: false}
 				]
@@ -273,10 +275,11 @@
 		}
 		
 		//行数据结构
-		function RowData(id, subject, totalTime, createDate) {
+		function RowData(id, subject, totalTime, totalScore, createDate) {
 			this.id = id;
 			this.subject = subject;
 			this.totalTime = totalTime;
+			this.totalScore = totalScore;
 			this.createDate = createDate;
 			this.operate = function () {
 				return "<a href='/exam/paper/" + id + "' class='btn_editcolor' target='_blank'>考试</a>&nbsp;&nbsp;" + 
@@ -312,9 +315,9 @@
 			var paperBuilder = {};
 			paperBuilder.paperTitle = $("[name=titlePrefix]").html() + 
 				$("[name=title]").val() + $("[name=titleSuffix]").html();
-			paperBuilder.flag = $("[name=flag]").val();
+			paperBuilder.paperFlage = $("[name=flag]").val();
 			paperBuilder.paperTime = $("[name=paperTime]").val();
-			paperBuilder.type = $("[name=type]").val();
+			paperBuilder.paperTypes = $("[name=type]").val();
 			
 			$.ajax({
 				url : "/api/paper",
