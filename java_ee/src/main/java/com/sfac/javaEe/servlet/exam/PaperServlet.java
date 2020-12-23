@@ -88,39 +88,24 @@ public class PaperServlet extends HttpServlet {
 			 */
 			List<Question> questions = new ArrayList<Question>();
 			
-			// 随机填充各类型试题
+			// 随机填充各类型试题，每种类型设定有基础数量，题库不足时添加题库对应类型数量
 			questionsMap.entrySet().forEach(item -> {
 				List<Question> tempList = item.getValue();
 				QuestionType questionType = QuestionType.getQuestionType(item.getKey());
 				int loopCount = tempList.size() >= questionType.baseNumber ? questionType.baseNumber : tempList.size();
-				double totalScore = questions.stream()
-						.map(question -> question.getScore())
-						.reduce((i, j) -> i + j).orElse(0.0);
-				randomAddQuestions(tempList, questions, loopCount, totalScore);
+				randomAddQuestions(tempList, questions, loopCount);
 			});
 			
 			// 总分不足 100 时，从总试题集中随机添加，补足 100 分
-			double totalScore = questions.stream()
-					.map(question -> question.getScore())
-					.reduce((i, j) -> i + j)
-					.orElse(0.0);
-			double allQuestionsScore = allQuestions.stream()
-					.map(question -> question.getScore())
-					.reduce((i, j) -> i + j)
-					.orElse(0.0);
-			while (totalScore < Paper.DEFAULT_TOTAL_SCORE && totalScore < allQuestionsScore) {
-				randomAddQuestions(allQuestions, questions, 0, totalScore);
-				totalScore = questions.stream()
-						.map(question -> question.getScore())
-						.reduce((i, j) -> i + j)
-						.orElse(0.0);
-			}
+			randomAddQuestions(allQuestions, questions, 0);
 			
-			// 设置试卷试题集和分数
+			// 设置试题集和分数
 			paper.setQuestions(questions.stream()
 					.sorted(Comparator.comparing(Question :: getType))
 					.collect(Collectors.toList()));
-			paper.setTotalScore(totalScore);
+			paper.setTotalScore(questions.stream()
+					.map(question -> question.getScore())
+					.reduce((i, j) -> i + j).orElse(0.0));
 			
 			// 插入试卷
 			paperDao.insertPager(paper);
@@ -153,12 +138,13 @@ public class PaperServlet extends HttpServlet {
 	 * @param fromList		源头集合
 	 * @param toList		目标集合
 	 * @param loopCount		添加试题数量，0 表示不知添加次数，需要用总分判断
-	 * @param totalScore	试题总分
-	 * @return				试题总分
 	 */
-	public void randomAddQuestions(List<Question> fromList, List<Question> toList, int loopCount, double totalScore) {
-		// 已知试题数量
+	public void randomAddQuestions(List<Question> fromList, List<Question> toList, int loopCount) {
+		// 已知循环次数
 		if (loopCount > 0) {
+			double totalScore = toList.stream()
+					.map(question -> question.getScore())
+					.reduce((i, j) -> i + j).orElse(0.0);
 			for (int i = 0; i < loopCount; i ++) {
 				Random random = new Random();
 				Question question = fromList.get(random.nextInt(fromList.size()));
@@ -170,13 +156,29 @@ public class PaperServlet extends HttpServlet {
 					totalScore += question.getScore();
 				}
 			}
-		} else { // 未知试题数量
-			Random random = new Random();
-			Question question = fromList.get(random.nextInt(fromList.size()));
-			while (!toList.contains(question) && ((totalScore + question.getScore()) <= Paper.DEFAULT_TOTAL_SCORE)) {
-				toList.add(question);
-				totalScore += question.getScore();
+			System.out.println(String.format("====填充基础数量，%s类型，总分%s====", fromList.get(0).getType(), totalScore));
+		} else { // 未知循环次数
+			double totalScore = toList.stream()
+					.map(question -> question.getScore())
+					.reduce((i, j) -> i + j)
+					.orElse(0.0);
+			double allQuestionsScore = fromList.stream()
+					.map(question -> question.getScore())
+					.reduce((i, j) -> i + j)
+					.orElse(0.0);
+			System.out.println(String.format("====开始补分，总分%s，题库分数%s====", totalScore, allQuestionsScore));
+			while (totalScore < Paper.DEFAULT_TOTAL_SCORE && 
+					totalScore < allQuestionsScore) {
+				Random random = new Random();
+				Question questionRandom = fromList.get(random.nextInt(fromList.size()));
+				if (!toList.contains(questionRandom) && 
+						(totalScore + questionRandom.getScore()) <= Paper.DEFAULT_TOTAL_SCORE) {
+					toList.add(questionRandom);
+					totalScore += questionRandom.getScore();
+					System.out.println(String.format("====添加%s,总分%s====", questionRandom.getScore(), totalScore));
+				}
 			}
+			System.out.println(String.format("====总分%s====", totalScore));
 		}
 	}
 	
