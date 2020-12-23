@@ -66,8 +66,7 @@
 								<div class="nr_left">
 									<div name="questions" class="test">
 										<div class="test_title">
-											<p name="totalTime" class="test_time">
-											</p>
+											<p name="totalTime" class="test_time"></p>
 											<font><input type="button" name="test_jiaojuan" value="交卷"></font>
 										</div>
 									</div>
@@ -143,6 +142,7 @@
 					});
 					var singleChoice = [], singleChoiceScore = 0, 
 						multipleChoice = [], multipleChoiceScore = 0, 
+						judge = [], judgeScore = 0, 
 						fillBlank = [], fillBlankScore = 0, 
 						shortAnswer = [], shortAnswerScore = 0, 
 						programming = [], programmingScore = 0;
@@ -153,6 +153,9 @@
 						} else if (item.type == 'multipleChoice') {
 							multipleChoice.push(item);
 							multipleChoiceScore += item.score;
+						} else if (item.type == 'judge') {
+							judge.push(item);
+							judgeScore += item.score;
 						} else if (item.type == 'fillBlank') {
 							fillBlank.push(item);
 							fillBlankScore += item.score;
@@ -165,12 +168,28 @@
 						}
 					});
 					if (singleChoice.length > 0) {
-						$("[name='questions']").append(buildChoiceString("单选题", singleChoice, singleChoiceScore));
+						$("[name='questions']").append(buildQuestionString("单选题", singleChoice, singleChoiceScore));
 						$("[name='answerSheet']").append(buildAnswerSheetString("单选题", singleChoice));
 					}
 					if (multipleChoice.length > 0) {
-						$("[name='questions']").append(buildChoiceString("多选题", multipleChoice, multipleChoiceScore));
+						$("[name='questions']").append(buildQuestionString("多选题", multipleChoice, multipleChoiceScore));
 						$("[name='answerSheet']").append(buildAnswerSheetString("多选题", multipleChoice));
+					}
+					if (judge.length > 0) {
+						$("[name='questions']").append(buildQuestionString("判断题", judge, multipleChoiceScore));
+						$("[name='answerSheet']").append(buildAnswerSheetString("判断题", judge));
+					}
+					if (judge.length > 0) {
+						$("[name='questions']").append(buildQuestionString("填空题", fillBlank, fillBlankScore));
+						$("[name='answerSheet']").append(buildAnswerSheetString("填空题", fillBlank));
+					}
+					if (judge.length > 0) {
+						$("[name='questions']").append(buildQuestionString("简答题", shortAnswer, shortAnswerScore));
+						$("[name='answerSheet']").append(buildAnswerSheetString("简答题", shortAnswer));
+					}
+					if (judge.length > 0) {
+						$("[name='questions']").append(buildQuestionString("编程题", programming, programmingScore));
+						$("[name='answerSheet']").append(buildAnswerSheetString("编程题", programming));
 					}
 					
 					$('li.option').bind("click", function(){
@@ -187,8 +206,8 @@
 			});
 		}
 		
-		// 创建选择题字符串
-		function buildChoiceString(questionType, questions, score) {
+		// 创建试题字符串
+		function buildQuestionString(questionType, questions, score) {
 			var temp = "";
 			temp += "<div class='test_content'>";
 			temp += "<div class='test_content_title'>";
@@ -199,31 +218,69 @@
 			temp += "</p>";
 			temp += "</div>";
 			temp += "</div>";
-			temp += "<div class='test_content_nr'>";
-			temp += "<ul>";
-			$.each(questions, function(i, item) {
-				temp += "<li id='" + item.type + "_" + i + "'>";
-				temp += "<div class='test_content_nr_tt'>";
-				temp += "<i>" + (i + 1) + "</i><span>(" + item.score + "分)</span><font>" + item.content + "</font>";
-				temp += "</div>";
-				temp += "<div class='test_content_nr_main'>";
+			if (questions[0].type == 'singleChoice' || questions[0].type == 'multipleChoice') {
+				temp += "<div class='test_content_nr'>";
 				temp += "<ul>";
-				temp += buildOption(i, item, "A");
-				temp += buildOption(i, item, "B");
-				temp += buildOption(i, item, "C");
-				temp += buildOption(i, item, "D");
+				$.each(questions, function(i, item) {
+					temp += "<li id='" + item.type + "_" + i + "'>";
+					temp += "<div class='test_content_nr_tt'>";
+					temp += "<i>" + (i + 1) + "</i><span>(" + item.score + "分)</span><font>" + item.content + "</font>";
+					temp += "</div>";
+					temp += "<div class='test_content_nr_main'>";
+					temp += "<ul>";
+					temp += buildChoiceOption(i, item, "A");
+					temp += buildChoiceOption(i, item, "B");
+					temp += buildChoiceOption(i, item, "C");
+					temp += buildChoiceOption(i, item, "D");
+					temp += "</ul>";
+					temp += "</div>";
+					temp += "</li>";
+				});
 				temp += "</ul>";
 				temp += "</div>";
-				temp += "</li>";
-			});
-			temp += "</ul>";
-			temp += "</div>";
+			} else if (questions[0].type == 'judge') {
+				temp += "<div class='test_content_nr'>";
+				temp += "<ul>";
+				$.each(questions, function(i, item) {
+					temp += "<li id='" + item.type + "_" + i + "'>";
+					temp += "<div class='test_content_nr_tt'>";
+					temp += "<i>" + (i + 1) + "</i><span>(" + item.score + "分)</span><font>" + item.content + "</font>";
+					temp += "</div>";
+					temp += "<div class='test_content_nr_main'>";
+					temp += "<ul>";
+					temp += buildJudgeString(i, item, "A");
+					temp += buildJudgeString(i, item, "B");
+					temp += "</ul>";
+					temp += "</div>";
+					temp += "</li>";
+				});
+				temp += "</ul>";
+				temp += "</div>";
+			} else if (questions[0].type == 'fillBlank' || 
+					questions[0].type == 'shortAnswer' || questions[0].type == 'programming') {
+				temp += "<div class='test_content_nr'>";
+				temp += "<ul>";
+				$.each(questions, function(i, item) {
+					temp += "<li id='" + item.type + "_" + i + "'>";
+					temp += "<div class='test_content_nr_tt'>";
+					temp += "<i>" + (i + 1) + "</i><span>(" + item.score + "分)</span><font>" + item.content + "</font>";
+					temp += "</div>";
+					temp += "<div class='test_content_nr_main'>";
+					//temp += "<ul>";
+					temp += buildTextString(i, item);
+					//temp += "</ul>";
+					temp += "</div>";
+					temp += "</li>";
+				});
+				temp += "</ul>";
+				temp += "</div>";
+			}
 			
 			return temp;
 		}
 		
 		// 创建选项字符串
-		function buildOption(i, item, optionName) {
+		function buildChoiceOption(i, item, optionName) {
 			var optionValue = "";
 			if (optionName == "A") {
 				optionValue = item.optionA;
@@ -245,6 +302,31 @@
 			temp += "<p class='ue' style='display: inline;'>" + optionValue + "</p>";
 			temp += "</label>";
 			temp += "</li>";
+			return temp;
+		}
+		
+		// 创建判断题字符串
+		function buildJudgeString(i, item, optionName) {
+			var optionValue = "";
+			if (optionName == "A") {
+				optionValue = "True";
+			} else if (optionName == "B") {
+				optionValue = "False";
+			}
+			var temp = "";
+			temp += "<li class='option'>";
+			temp += "<input type='radio' class='radioOrCheck' name='answer" + i + "' id='" + item.type + "_answer_" + i + "_option_" + optionName + "' />";
+			temp += "<label for='" + item.type + "_answer_" + i + "_option_" + optionName + "'> " + optionName + ". ";
+			temp += "<p class='ue' style='display: inline;'>" + optionValue + "</p>";
+			temp += "</label>";
+			temp += "</li>";
+			return temp;
+		}
+		
+		// 创建填空简答编程字符串
+		function buildTextString(i, item) {
+			var temp = "";
+			temp += "<textarea rows='6' cols='100' name='answer" + i + "'></textarea>";
 			return temp;
 		}
 		
