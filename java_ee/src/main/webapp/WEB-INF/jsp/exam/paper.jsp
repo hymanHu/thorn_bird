@@ -125,7 +125,7 @@
 			});
 		})
 		
-		// 初始化 countDown 插件
+		// 初始化时间计数插件
 		function initCountDown() {
 			$('time').countDown({
 	            with_separators: false
@@ -159,6 +159,7 @@
 					// 初始化倒计时时间插件
 					initCountDown();
 					
+					// 计算各类型题目集合以及分数
 					var singleChoice = [], singleChoiceScore = 0, 
 						multipleChoice = [], multipleChoiceScore = 0, 
 						judge = [], judgeScore = 0, 
@@ -186,6 +187,8 @@
 							programmingScore += item.score;
 						}
 					});
+					
+					// 填充试卷和答题卡
 					if (singleChoice.length > 0) {
 						$("[name='questions']").append(buildQuestionString("单选题", singleChoice, singleChoiceScore));
 						$("[name='answerSheet']").append(buildAnswerSheetString("单选题", singleChoice));
@@ -211,8 +214,17 @@
 						$("[name='answerSheet']").append(buildAnswerSheetString("编程题", programming));
 					}
 					
+					// 绑定试卷和答题卡颜色变化事件
 					$('li.option').bind("click", function(){
 						var examId = $(this).closest('.test_content_nr_main').closest('li').attr('id');
+						var cardLi = $("a[href='#" + examId + "']");
+						if(!cardLi.hasClass('hasBeenAnswer')){
+							cardLi.addClass('hasBeenAnswer');
+						}
+					});
+					$('textarea').bind("change", function() {
+						var examId = $(this).closest('.test_content_nr_main').closest('li').attr('id');
+						console.log(examId);
 						var cardLi = $("a[href='#" + examId + "']");
 						if(!cardLi.hasClass('hasBeenAnswer')){
 							cardLi.addClass('hasBeenAnswer');
@@ -242,7 +254,7 @@
 			if (questions[0].type == 'singleChoice' || questions[0].type == 'multipleChoice') {
 				$.each(questions, function(i, item) {
 					temp += "<li id='" + item.type + "_" + i + "'>";
-					temp += "<div id='" + item.id + "' type='" + item.type + "' class='test_content_nr_tt'>";
+					temp += "<div name='question' id='" + item.id + "' type='" + item.type + "' class='test_content_nr_tt'>";
 					temp += "<i>" + (i + 1) + "</i><span>(" + item.score + "分)</span><font>" + item.content + "</font>";
 					temp += "</div>";
 					temp += "<div class='test_content_nr_main'>";
@@ -258,7 +270,7 @@
 			} else if (questions[0].type == 'judge') {
 				$.each(questions, function(i, item) {
 					temp += "<li id='" + item.type + "_" + i + "'>";
-					temp += "<div class='test_content_nr_tt'>";
+					temp += "<div name='question' id='" + item.id + "' type='" + item.type + "' class='test_content_nr_tt'>";
 					temp += "<i>" + (i + 1) + "</i><span>(" + item.score + "分)</span><font>" + item.content + "</font>";
 					temp += "</div>";
 					temp += "<div class='test_content_nr_main'>";
@@ -273,7 +285,7 @@
 					questions[0].type == 'shortAnswer' || questions[0].type == 'programming') {
 				$.each(questions, function(i, item) {
 					temp += "<li id='" + item.type + "_" + i + "'>";
-					temp += "<div class='test_content_nr_tt'>";
+					temp += "<div name='question' id='" + item.id + "' type='" + item.type + "' class='test_content_nr_tt'>";
 					temp += "<i>" + (i + 1) + "</i><span>(" + item.score + "分)</span><font>" + item.content + "</font>";
 					temp += "</div>";
 					temp += "<div class='test_content_nr_main'>";
@@ -305,9 +317,11 @@
 			var temp = "";
 			temp += "<li class='option'>";
 			if (item.type == "singleChoice") {
-				temp += "<input type='radio' class='radioOrCheck' name='answer" + i + "' id='" + item.type + "_answer_" + i + "_option_" + optionName + "' />";
+				temp += "<input type='radio' class='radioOrCheck' name='answer" + item.id + "' id='" + 
+					item.type + "_answer_" + i + "_option_" + optionName + "' value='" + optionName + "' />";
 			} else if (item.type == "multipleChoice") {
-				temp += "<input type='checkbox' class='radioOrCheck' name='answer" + i + "' id='" + item.type + "_answer_" + i + "_option_" + optionName + "' />";
+				temp += "<input type='checkbox' class='radioOrCheck' name='answer" + item.id + "' id='" + 
+					item.type + "_answer_" + i + "_option_" + optionName + "' value='" + optionName + "' />";
 			}
 			temp += "<label for='" + item.type + "_answer_" + i + "_option_" + optionName + "'> " + optionName + ". ";
 			temp += "<p class='ue' style='display: inline;'>" + optionValue + "</p>";
@@ -326,7 +340,8 @@
 			}
 			var temp = "";
 			temp += "<li class='option'>";
-			temp += "<input type='radio' class='radioOrCheck' name='answer" + i + "' id='" + item.type + "_answer_" + i + "_option_" + optionName + "' />";
+			temp += "<input type='radio' class='radioOrCheck' name='answer" + item.id + "' id='" + 
+				item.type + "_answer_" + i + "_option_" + optionName + "' value='" + optionValue + "'/>";
 			temp += "<label for='" + item.type + "_answer_" + i + "_option_" + optionName + "'> " + optionName + ". ";
 			temp += "<p class='ue' style='display: inline;'>" + optionValue + "</p>";
 			temp += "</label>";
@@ -337,7 +352,7 @@
 		// 创建填空简答编程字符串
 		function buildAnswerString(i, item) {
 			var temp = "";
-			temp += "<textarea rows='6' cols='100' name='answer" + i + "'></textarea>";
+			temp += "<textarea name='answer" + item.id + "' rows='6' cols='100' name='answer" + i + "'></textarea>";
 			return temp;
 		}
 		
@@ -370,6 +385,29 @@
 			exam.totalTime = totalTime;
 			exam.spendTime = spendTime;
 			var answers = [];
+			$.each($("[name=question]"), function(i, item) {
+				var answer = {};
+				var questionId = $(this).attr("id");
+				var questionType = $(this).attr("type");
+				var userAnswer = '';
+				if (questionType == 'singleChoice' || questionType == 'judge') {
+					userAnswer = $("[name='answer" + questionId + "']:checked").val() == undefined ? "" : 
+						$("[name='answer" + questionId + "']:checked").val();
+				} else if (questionType == 'multipleChoice') {
+					var checkboxValues = [];
+					$.each($("[name='answer" + questionId + "']"), function(){
+						if(this.checked){
+							checkboxValues.push($(this).val());
+						}
+					});
+					userAnswer = checkboxValues.join();
+				} else {
+					userAnswer = $("[name='answer" + questionId + "']").val()
+				}
+				answer.questionId = questionId;
+				answer.userAnswer = userAnswer;
+				answers.push(answer);
+			});
 			exam.answers = answers;
 			console.log(exam);
 		}
