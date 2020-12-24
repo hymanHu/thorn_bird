@@ -38,8 +38,7 @@
 				<div class="container">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 name="subject" class="m-0 text-dark">
-							</h1>
+							<h1 name="subject" totalScore="" subject="" class="m-0 text-dark"></h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
@@ -66,8 +65,8 @@
 								<div class="nr_left">
 									<div name="questions" class="test">
 										<div class="test_title">
-											<p name="totalTime" class="test_time"></p>
-											<font><input type="button" name="test_jiaojuan" value="交卷"></font>
+											<p name="totalTime" totalTime="" class="test_time"></p>
+											<font><input type="button" name="handInBtn" value="交卷"></font>
 										</div>
 									</div>
 								</div>
@@ -75,9 +74,7 @@
 									<div class="nr_rt_main">
 										<div name="answerSheet" class="rt_nr1">
 											<div class="rt_nr1_title">
-												<h1>
-													答题卡
-												</h1>
+												<h1>答题卡</h1>
 												<p name="totalTime" class="test_time"></p>
 											</div>
 										</div>
@@ -100,11 +97,15 @@
 	<script src="/static/plugins/jquery/jquery.min.js"  type="text/javascript"></script>
 	<!-- bootstrap -->
 	<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"  type="text/javascript"></script>
+	<!-- layer -->
+	<script src="https://cdn.bootcss.com/layer/2.1/layer.js" type="text/javascript"></script>
 	<!-- countdown -->
-	<script src="/static/_exam/js/jquery.countdown.js"  type="text/javascript"></script>
+	<script src="/static/plugins/jquery.countdown/jquery.countdown.js"  type="text/javascript"></script>
 	<!-- admin -->
 	<script src="/static/js/adminlte.js"></script>
 	<script type="text/javascript">
+		var spendTime = 0;
+		var totalTime = 0;
 		$(document).ready(function() {
 			initPaper();
 			
@@ -117,7 +118,29 @@
 					$('.rt_nr1').removeClass("fix_position");
 				}
 			});
+			
+			// 交卷按钮点击事件
+			$("[name=handInBtn]").bind("click", function() {
+				handInPaper();
+			});
 		})
+		
+		// 初始化 countDown 插件
+		function initCountDown() {
+			$('time').countDown({
+	            with_separators: false
+	        });
+	        $('.alt-1').countDown({
+	            css_class: 'countdown-alt-1',
+	            with_labels: false,
+	        });
+	        $('.alt-1').on('time.elapsed', function () {
+	        	console.log(spendTime);
+	        });
+	        $('.alt-1').on('time.tick', function (ev, ms) {
+	            spendTime = totalTime - Math.ceil(ms / (1000 * 60));
+	        });
+		}
 		
 		// 初始化试题和答题卡
 		function initPaper() {
@@ -126,20 +149,16 @@
 				url : "/api/paper/" + paperId,
 				type : "get",
 				success : function (data) {
-					$("[name='subject']").html(data.subject);
+					$("[name='subject']").html(data.subject + "(" + data.totalScore + "分)");
+					$("[name='subject']").attr("totalScore", data.totalScore);
+					$("[name='subject']").attr("subject", data.subject);
 					$("[name='totalTime']").html("<b class='alt-1'>00:" + data.totalTime + ":00</b>");
-					window.jQuery(function($) {
-						"use strict";
-						$('time').countDown({
-							with_separators : false
-						});
-						$('.alt-1').countDown({
-							css_class : 'countdown-alt-1'
-						});
-						$('.alt-2').countDown({
-							css_class : 'countdown-alt-2'
-						});
-					});
+					$("[name='totalTime']").attr("totalTime", data.totalTime);
+					totalTime = data.totalTime;
+					
+					// 初始化倒计时时间插件
+					initCountDown();
+					
 					var singleChoice = [], singleChoiceScore = 0, 
 						multipleChoice = [], multipleChoiceScore = 0, 
 						judge = [], judgeScore = 0, 
@@ -218,12 +237,12 @@
 			temp += "</p>";
 			temp += "</div>";
 			temp += "</div>";
+			temp += "<div class='test_content_nr'>";
+			temp += "<ul>";
 			if (questions[0].type == 'singleChoice' || questions[0].type == 'multipleChoice') {
-				temp += "<div class='test_content_nr'>";
-				temp += "<ul>";
 				$.each(questions, function(i, item) {
 					temp += "<li id='" + item.type + "_" + i + "'>";
-					temp += "<div class='test_content_nr_tt'>";
+					temp += "<div id='" + item.id + "' type='" + item.type + "' class='test_content_nr_tt'>";
 					temp += "<i>" + (i + 1) + "</i><span>(" + item.score + "分)</span><font>" + item.content + "</font>";
 					temp += "</div>";
 					temp += "<div class='test_content_nr_main'>";
@@ -236,11 +255,7 @@
 					temp += "</div>";
 					temp += "</li>";
 				});
-				temp += "</ul>";
-				temp += "</div>";
 			} else if (questions[0].type == 'judge') {
-				temp += "<div class='test_content_nr'>";
-				temp += "<ul>";
 				$.each(questions, function(i, item) {
 					temp += "<li id='" + item.type + "_" + i + "'>";
 					temp += "<div class='test_content_nr_tt'>";
@@ -254,12 +269,8 @@
 					temp += "</div>";
 					temp += "</li>";
 				});
-				temp += "</ul>";
-				temp += "</div>";
 			} else if (questions[0].type == 'fillBlank' || 
 					questions[0].type == 'shortAnswer' || questions[0].type == 'programming') {
-				temp += "<div class='test_content_nr'>";
-				temp += "<ul>";
 				$.each(questions, function(i, item) {
 					temp += "<li id='" + item.type + "_" + i + "'>";
 					temp += "<div class='test_content_nr_tt'>";
@@ -267,14 +278,14 @@
 					temp += "</div>";
 					temp += "<div class='test_content_nr_main'>";
 					//temp += "<ul>";
-					temp += buildTextString(i, item);
+					temp += buildAnswerString(i, item);
 					//temp += "</ul>";
 					temp += "</div>";
 					temp += "</li>";
 				});
-				temp += "</ul>";
-				temp += "</div>";
 			}
+			temp += "</ul>";
+			temp += "</div>";
 			
 			return temp;
 		}
@@ -324,7 +335,7 @@
 		}
 		
 		// 创建填空简答编程字符串
-		function buildTextString(i, item) {
+		function buildAnswerString(i, item) {
 			var temp = "";
 			temp += "<textarea rows='6' cols='100' name='answer" + i + "'></textarea>";
 			return temp;
@@ -348,6 +359,19 @@
 			temp += "</div>";
 			
 			return temp;
+		}
+		
+		// 交卷
+		function handInPaper() {
+			var exam = {};
+			exam.userId = $("#userId").val();
+			exam.subject = $("[name=subject]").attr("subject");
+			exam.totalScore = $("[name=subject]").attr("totalScore");
+			exam.totalTime = totalTime;
+			exam.spendTime = spendTime;
+			var answers = [];
+			exam.answers = answers;
+			console.log(exam);
 		}
 	</script>
 </body>

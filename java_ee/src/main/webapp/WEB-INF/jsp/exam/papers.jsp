@@ -316,6 +316,15 @@
 		
 		// Add Paper
 		function addPaper() {
+			if ($("[name=type]").val().length == 0) {
+				layer.msg("请选择试题类型", {icon: 0});
+				return;
+			}
+			if ($("[name=title]").val() == "") {
+				layer.msg("请选择试题标题", {icon: 0});
+				return;
+			}
+			
 			var paperBuilder = {};
 			paperBuilder.paperTitle = $("[name=titlePrefix]").html() + 
 				$("[name=title]").val() + $("[name=titleSuffix]").html();

@@ -1,21 +1,31 @@
 package com.sfac.javaEe.entity.exam;
 
-import java.time.LocalDateTime;
+import java.util.Date;
+import java.util.List;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
  * Description: 考试
+ * 
  * @author HymanHu
  * @date 2020-10-29 11:41:30
  */
 public class Exam {
 	private int id;
 	private int userId;
-	private int paperId;
+	private String subject;
+	// 试卷总分
+	private Double totalScore;
 	// 参考得分
 	private String referenceScore;
+	// 得分
 	private Double score;
-	private int spendTime;
-	private LocalDateTime examDate;
+	private Integer totalTime;
+	private Integer spendTime;
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	private Date examDate;
+	private List<Answer> answers;
 
 	public int getId() {
 		return id;
@@ -33,12 +43,20 @@ public class Exam {
 		this.userId = userId;
 	}
 
-	public int getPaperId() {
-		return paperId;
+	public String getSubject() {
+		return subject;
 	}
 
-	public void setPaperId(int paperId) {
-		this.paperId = paperId;
+	public void setSubject(String subject) {
+		this.subject = subject;
+	}
+
+	public Double getTotalScore() {
+		return totalScore;
+	}
+
+	public void setTotalScore(Double totalScore) {
+		this.totalScore = totalScore;
 	}
 
 	public String getReferenceScore() {
@@ -57,20 +75,36 @@ public class Exam {
 		this.score = score;
 	}
 
-	public int getSpendTime() {
+	public Integer getTotalTime() {
+		return totalTime;
+	}
+
+	public void setTotalTime(Integer totalTime) {
+		this.totalTime = totalTime;
+	}
+
+	public Integer getSpendTime() {
 		return spendTime;
 	}
 
-	public void setSpendTime(int spendTime) {
+	public void setSpendTime(Integer spendTime) {
 		this.spendTime = spendTime;
 	}
 
-	public LocalDateTime getExamDate() {
+	public Date getExamDate() {
 		return examDate;
 	}
 
-	public void setExamDate(LocalDateTime examDate) {
+	public void setExamDate(Date examDate) {
 		this.examDate = examDate;
+	}
+
+	public List<Answer> getAnswers() {
+		return answers;
+	}
+
+	public void setAnswers(List<Answer> answers) {
+		this.answers = answers;
 	}
 
 }
