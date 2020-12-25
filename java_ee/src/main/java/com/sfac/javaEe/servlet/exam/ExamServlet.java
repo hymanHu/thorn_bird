@@ -73,7 +73,11 @@ public class ExamServlet extends HttpServlet {
 			// 参考分值 = 客观题分值 ~ （客观题分值 + 主观题总分）
 			exam.setReferenceScore(String.format("%s ~ %s", 
 					objectiveQuestionsScore, (objectiveQuestionsScore + subjectiveQuestionsScore)));
-			exam.setScore(0.0);
+			if (subjectiveQuestionsScore == 0) {
+				exam.setScore(objectiveQuestionsScore);
+			} else {
+				exam.setScore(0.0);
+			}
 			exam.setExamDate(new Date());
 			examDao.insertExam(exam);
 			

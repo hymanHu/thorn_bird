@@ -16,6 +16,8 @@
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" rel="stylesheet" />
 	<!-- Font Awesome -->
 	<link href="/static/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
+	<!-- loading -->
+	<link href="/static/plugins/jquery.mloading/src/jquery.mloading.css" rel="stylesheet" />
 	<!-- admin -->
 	<link href="/static/_exam/css/adminlte.css" type="text/css" rel="stylesheet" />
 	<style>
@@ -28,6 +30,7 @@
 </head>
 <body class="hold-transition layout-top-nav">
 	<input type="hidden" id="paperId" value="${paperId }"/>
+	<input type="hidden" id="userName" value="${user.userName }"/>
 	<div class="wrapper">
 		<!-- 导航条 -->
 		<%@ include file="../fragment/examNavigation.jsp"%>
@@ -92,11 +95,69 @@
 		</div>
 	</div>
 	
+	<div class="modal fade" id="examResult" tabindex="-1" role="dialog" 
+		aria-labelledby="examResultLabel" aria-hidden="true">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h4 class="modal-title" id="examResultLabel" style="font-size: 18px; 
+						font-weight: 500;">考试结果</h4>
+					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
+				</div>
+				<div class="modal-body">
+					<div class="form-group row">
+						<label class="control-label col-md-3">试卷名称</label>
+						<div class="col-md-8">
+							<div id="examSubject"></div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">考试人</label>
+						<div class="col-md-8">
+							<div id="examUserName"></div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">耗时</label>
+						<div class="col-md-8">
+							<div id="examSpendTime"></div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">总分</label>
+						<div class="col-md-8">
+							<div id="examTotalScore"></div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">参考得分</label>
+						<div class="col-md-8">
+							<div id="examReferenceScore"></div>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">最终得分</label>
+						<div class="col-md-8">
+							<div id="examScore"></div>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<a href="/exam/papers" class="btn btn-primary">
+						<i class="fa fa-fw fa-lg fa-check-circle"></i>确定
+					</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	
 	<!-- js -->
 	<!-- jQuery -->
 	<script src="/static/plugins/jquery/jquery.min.js"  type="text/javascript"></script>
 	<!-- bootstrap -->
 	<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"  type="text/javascript"></script>
+	<!-- loading -->
+	<script src="/static/plugins/jquery.mloading/src/jquery.mloading.js"  type="text/javascript"></script>
 	<!-- layer -->
 	<script src="https://cdn.bootcss.com/layer/2.1/layer.js" type="text/javascript"></script>
 	<!-- countdown -->
@@ -135,7 +196,7 @@
 	            with_labels: false,
 	        });
 	        $('.alt-1').on('time.elapsed', function () {
-	        	console.log(spendTime);
+	        	handInPaper();
 	        });
 	        $('.alt-1').on('time.tick', function (ev, ms) {
 	            spendTime = totalTime - Math.floor(ms / (1000 * 60));
@@ -411,19 +472,41 @@
 			exam.answers = answers;
 			console.log(exam);
 			
+			$("body").mLoading("show");
 			$.ajax({
 				url : "/api/exam",
 				type : "post",
 				contentType: "application/json",
 				data : JSON.stringify(exam),
 				success : function (rs) {
+					$("body").mLoading("hide");
 					if (rs.status == 200) {
 						console.log(rs.data);
+						
+						$("#examSubject").html(rs.data.subject);
+						$("#examUserName").html($("#userName").val());
+						$("#examSpendTime").html(rs.data.spendTime + "/" + rs.data.totalTime);
+						$("#examTotalScore").html(rs.data.totalScore);
+						$("#examReferenceScore").html(rs.data.referenceScore);
+						if (rs.data.score == 0) {
+							$("#examScore").html("有客观题需要人工改卷，总分待定！");
+						} else {
+							$("#examScore").html(rs.data.score);
+						}
+						
+						// 展示模态框并设定关闭属性
+						$('#examResult').modal({
+							// 点击背景空白处不被关闭
+							backdrop: 'static', 
+							// 触发键盘esc事件时不关闭
+							keyboard: false
+						});
 					} else {
 						layer.msg(rs.message, {icon: 0});
 					}
 				},
 				error : function (data) {
+					$("body").mLoading("hide");
 					layer.msg(data.responseText, {icon: 0});
 				}
 			});
