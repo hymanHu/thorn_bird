@@ -138,7 +138,7 @@
 	        	console.log(spendTime);
 	        });
 	        $('.alt-1').on('time.tick', function (ev, ms) {
-	            spendTime = totalTime - Math.ceil(ms / (1000 * 60));
+	            spendTime = totalTime - Math.floor(ms / (1000 * 60));
 	        });
 		}
 		
@@ -410,6 +410,23 @@
 			});
 			exam.answers = answers;
 			console.log(exam);
+			
+			$.ajax({
+				url : "/api/exam",
+				type : "post",
+				contentType: "application/json",
+				data : JSON.stringify(exam),
+				success : function (rs) {
+					if (rs.status == 200) {
+						console.log(rs.data);
+					} else {
+						layer.msg(rs.message, {icon: 0});
+					}
+				},
+				error : function (data) {
+					layer.msg(data.responseText, {icon: 0});
+				}
+			});
 		}
 	</script>
 </body>
