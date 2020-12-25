@@ -286,7 +286,7 @@
 			this.totalScore = totalScore;
 			this.createDate = createDate;
 			this.operate = function () {
-				return "<a href='/exam/paper/" + id + "' class='btn_editcolor' target='_blank'>考试</a>&nbsp;&nbsp;" + 
+				return "<a href='/exam/paper/" + id + "' class='btn_editcolor'>考试</a>&nbsp;&nbsp;" + 
 					"<a href='javascript:void(0);' onclick='deleteModule(\"" + id + "\")' class='btn_editcolor'>删除</a>";
 			}
 		}

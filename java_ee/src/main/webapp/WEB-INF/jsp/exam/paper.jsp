@@ -262,15 +262,15 @@
 						$("[name='questions']").append(buildQuestionString("判断题", judge, multipleChoiceScore));
 						$("[name='answerSheet']").append(buildAnswerSheetString("判断题", judge));
 					}
-					if (judge.length > 0) {
+					if (fillBlank.length > 0) {
 						$("[name='questions']").append(buildQuestionString("填空题", fillBlank, fillBlankScore));
 						$("[name='answerSheet']").append(buildAnswerSheetString("填空题", fillBlank));
 					}
-					if (judge.length > 0) {
+					if (shortAnswer.length > 0) {
 						$("[name='questions']").append(buildQuestionString("简答题", shortAnswer, shortAnswerScore));
 						$("[name='answerSheet']").append(buildAnswerSheetString("简答题", shortAnswer));
 					}
-					if (judge.length > 0) {
+					if (programming.length > 0) {
 						$("[name='questions']").append(buildQuestionString("编程题", programming, programmingScore));
 						$("[name='answerSheet']").append(buildAnswerSheetString("编程题", programming));
 					}
