@@ -83,7 +83,7 @@ public class ExamServlet extends HttpServlet {
 			
 			int examId = exam.getId();
 			for (Answer answer : exam.getAnswers()) {
-				answer.setId(examId);
+				answer.setExamId(examId);
 				answerDao.insertAnswer(answer);
 			}
 			

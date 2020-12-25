@@ -36,10 +36,13 @@ public class ExamDao {
 			System.out.println(ps.toString());
 			ps.execute();
 			ResultSet rs = ps.getGeneratedKeys();
-			rs.next();
-			exam.setId(rs.getInt(1));
+			while(rs.next()) {
+				exam.setId(rs.getInt(1));
+			}
 		} finally {
 			DBUtil.closeConnection(conn);
 		}
+		
+//		return exam;
 	}
 }

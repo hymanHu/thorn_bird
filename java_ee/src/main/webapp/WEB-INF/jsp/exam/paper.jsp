@@ -485,13 +485,13 @@
 						
 						$("#examSubject").html(rs.data.subject);
 						$("#examUserName").html($("#userName").val());
-						$("#examSpendTime").html(rs.data.spendTime + "/" + rs.data.totalTime);
-						$("#examTotalScore").html(rs.data.totalScore);
-						$("#examReferenceScore").html(rs.data.referenceScore);
+						$("#examSpendTime").html(rs.data.spendTime + "/" + rs.data.totalTime + " 分钟");
+						$("#examTotalScore").html(rs.data.totalScore + " 分");
+						$("#examReferenceScore").html(rs.data.referenceScore + " 分");
 						if (rs.data.score == 0) {
 							$("#examScore").html("有客观题需要人工改卷，总分待定！");
 						} else {
-							$("#examScore").html(rs.data.score);
+							$("#examScore").html(rs.data.score + " 分");
 						}
 						
 						// 展示模态框并设定关闭属性
