@@ -29,7 +29,7 @@ import com.sfac.javaEe.entity.exam.QuestionType;
  * @author HymanHu
  * @date 2020-12-24 21:26:01
  */
-@WebServlet(value = "/api/achievement")
+@WebServlet(value = "/api/achievement/*")
 public class AchievementServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
@@ -95,6 +95,33 @@ public class AchievementServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 		
+		String resultJson = mapper.writeValueAsString(result);
+		
+		resp.setContentType("text/json;charset=utf-8");
+		PrintWriter pw = resp.getWriter();
+		pw.append(resultJson);
+		pw.flush();
+	}
+
+	@Override
+	protected void doDelete(HttpServletRequest req, HttpServletResponse resp) 
+			throws ServletException, IOException {
+		String[] urlPatterns = req.getRequestURI().split("/");
+		String achievementId = urlPatterns[urlPatterns.length - 1];
+		if (StringUtils.isBlank(achievementId) || !achievementId.matches("^[0-9]*$")) {
+			throw new ServletException("Achievement id is null or not number.");
+		}
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		try {
+			achievementDao.deleteAchievementById(Integer.parseInt(achievementId));
+			result.put("status", 200);
+			result.put("message", "Delete success.");
+		} catch (Exception e) {
+			result.put("status", 500);
+			result.put("message", e.getMessage());
+			e.printStackTrace();
+		}
 		String resultJson = mapper.writeValueAsString(result);
 		
 		resp.setContentType("text/json;charset=utf-8");

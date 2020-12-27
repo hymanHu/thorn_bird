@@ -6,7 +6,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Online Papers</title>
+	<title>试卷列表</title>
 	
 	<!-- css -->
 	<!-- Exam -->
@@ -40,13 +40,13 @@
 				<div class="container">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 name="subject" class="m-0 text-dark">Papers List</h1>
+							<h1 name="subject" class="m-0 text-dark">试卷列表</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item"><a href="#">Home</a></li>
-								<li class="breadcrumb-item active">Papers</li>
+								<li class="breadcrumb-item"><a href="#">主页</a></li>
+								<li class="breadcrumb-item active">试卷列表</li>
 							</ol>
 						</div>
 						<!-- /.col -->

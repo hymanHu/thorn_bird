@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false"%>
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
 	<div class="container">
@@ -18,8 +19,8 @@
 		<div class="collapse navbar-collapse order-3" id="navbarCollapse">
 			<!-- Left navbar links -->
 			<ul class="navbar-nav">
-				<li class="nav-item"><a href="/exam/papers" class="nav-link">Papers</a></li>
-				<li class="nav-item"><a href="#" class="nav-link">Exams</a></li>
+				<li class="nav-item"><a href="/exam/papers" class="nav-link">试卷列表</a></li>
+				<li class="nav-item"><a href="/exam/achievements" class="nav-link">成绩列表</a></li>
 			</ul>
 
 		<!-- Right navbar links -->

@@ -25,7 +25,10 @@ public class Achievement {
 	private Integer spendTime;
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private Date examDate;
+	
 	private List<Answer> answers;
+	// 冗余字段
+	private String userName;
 
 	public int getId() {
 		return id;
@@ -107,4 +110,11 @@ public class Achievement {
 		this.answers = answers;
 	}
 
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
 }

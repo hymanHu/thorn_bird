@@ -6,13 +6,14 @@
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Exams</title>
+	<title>成绩列表</title>
 	
 	<!-- css -->
 	<!-- Exam -->
 	<link href="/static/_exam/css/main.css" rel="stylesheet" />
 	<!-- Google Font: Source Sans Pro -->
-	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" 
+		rel="stylesheet" />
 	<!-- Font Awesome -->
 	<link href="/static/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
 	<!-- DataTables -->
@@ -35,13 +36,13 @@
 				<div class="container">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 name="subject" class="m-0 text-dark">Exams List</h1>
+							<h1 name="subject" class="m-0 text-dark">成绩列表</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
-								<li class="breadcrumb-item"><a href="#">Home</a></li>
-								<li class="breadcrumb-item active">Exams</li>
+								<li class="breadcrumb-item"><a href="#">主页</a></li>
+								<li class="breadcrumb-item active">成绩列表</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -62,11 +63,12 @@
 							<table id="papersTable" class="table table-bordered table-striped">
 								<thead>
 									<tr>
+										<th>测试 ID</th>
 										<th>试卷标题</th>
 										<th>测试用户</th>
 										<th>参考分数</th>
-										<th>分数/总分</th>
-										<th>用时/总时</th>
+										<th>分数</th>
+										<th>用时</th>
 										<th>测试时间</th>
 										<th>操作</th>
 									</tr>
@@ -84,14 +86,14 @@
 	
 	<!-- js -->
 	<!-- jQuery -->
-	<script src="/static/plugins/jquery/jquery.min.js"  type="text/javascript"></script>
+	<script src="/static/plugins/jquery/jquery.min.js" type="text/javascript"></script>
 	<!-- bootstrap -->
-	<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"  type="text/javascript"></script>
+	<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js" type="text/javascript"></script>
 	<!-- DataTables -->
-	<script src="/static/plugins/datatables.net/js/jquery.dataTables.min.js"  type="text/javascript"></script>
-	<script src="/static/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"  type="text/javascript"></script>
+	<script src="/static/plugins/datatables.net/js/jquery.dataTables.min.js" type="text/javascript"></script>
+	<script src="/static/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js" type="text/javascript"/>
 	<!-- loading -->
-	<script src="/static/plugins/jquery.mloading/src/jquery.mloading.js"  type="text/javascript"></script>
+	<script src="/static/plugins/jquery.mloading/src/jquery.mloading.js" type="text/javascript"></script>
 	<!-- layer -->
 	<script src="https://cdn.bootcss.com/layer/2.1/layer.js" type="text/javascript"></script>
 	<!-- confirm-->
@@ -105,7 +107,7 @@
 		PAGE_SIZE = 5;
 		$(document).ready(function() {
 		    // 初始化试卷列表
-		    //initTable(PAGE_SIZE);
+		    initTable(PAGE_SIZE);
 		})
 		
 		function initTable(pageSize) {
@@ -136,7 +138,7 @@
 					searchBean.keyWord = data.search.value;
 		
 					$.ajax({
-						url : "/api/papers",
+						url : "/api/achievements",
 						type : "post",
 						contentType: "application/json",
 						data : JSON.stringify(searchBean),
@@ -162,8 +164,10 @@
 							var rowsDatas = [];
 							for (var i = 0; i < rs.list.length; i++) {
 								//包装行数据
-								var rowData = new RowData(rs.list[i].id, rs.list[i].subject, 
-										rs.list[i].totalTime, rs.list[i].totalScore, rs.list[i].createDate);
+								var rowData = new RowData(rs.list[i].id, rs.list[i].userId, rs.list[i].subject, 
+										rs.list[i].totalScore, rs.list[i].referenceScore, rs.list[i].score, 
+										rs.list[i].totalTime, rs.list[i].spendTime, rs.list[i].examDate, 
+										rs.list[i].userName);
 								// 将行数据放到数组里
 								rowsDatas.push(rowData);
 							}
@@ -181,24 +185,41 @@
 				"columns": [ //定义行数据字段
 					{data: 'id', name: "id", sortable: true}, 
 					{data: 'subject', name: "subject", sortable: true}, 
-					{data: 'totalTime', name: "total_time", sortable: true}, 
-					{data: 'totalScore', name: "total_score", sortable: true}, 
-					{data: 'createDate', name: "create_date", sortable: true}, 
+					{data: 'userName', name: "user_name", sortable: true}, 
+					{data: 'referenceScore', name: "reference_score", sortable: true}, 
+					{data: 'score', name: "score", sortable: true}, 
+					{data: 'spendTime', name: "spend_time", sortable: true}, 
+					{data: 'examDate', name: "exam_date", sortable: true}, 
 					{data: 'operate', width: '80px', sortable: false}
 				]
 			});
 		}
 		
 		//行数据结构
-		function RowData(id, subject, totalTime, totalScore, createDate) {
+		function RowData(id, userId, subject, totalScore, referenceScore, 
+				score, totalTime, spendTime, examDate, userName) {
 			this.id = id;
+			this.userId = userId;
 			this.subject = subject;
-			this.totalTime = totalTime;
 			this.totalScore = totalScore;
-			this.createDate = createDate;
+			this.referenceScore = referenceScore;
+			if (score == 0) {
+				this.score = "总分待批改";
+			} else {
+				this.score = score;
+			}
+			this.totalTime = totalTime;
+			this.spendTime = spendTime;
+			this.examDate = examDate;
+			this.userName = userName;
 			this.operate = function () {
-				return "<a href='/exam/paper/" + id + "' class='btn_editcolor'>考试</a>&nbsp;&nbsp;" + 
-					"<a href='javascript:void(0);' onclick='deleteModule(\"" + id + "\")' class='btn_editcolor'>删除</a>";
+				var temp = "";
+				if (score == 0) {
+					temp += "<a href='/exam/achievement/" + id + "' class='btn_editcolor'>批改</a>&nbsp;&nbsp;";
+				}
+				temp += "<a href='javascript:void(0);' onclick='deleteModule(\"" + id + 
+						"\")' class='btn_editcolor'>删除</a>"
+				return temp;
 			}
 		}
 		
@@ -207,7 +228,7 @@
 			bootbox.confirm("Are you sure?", function(result) {
 				if(result) {
 					$.ajax({
-						url : "/api/paper/" + id,
+						url : "/api/achievement/" + id,
 						type : "delete",
 						success : function (data) {
 							if (data.status == 200) {
