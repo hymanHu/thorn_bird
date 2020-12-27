@@ -17,23 +17,23 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sfac.javaEe.dao.exam.AnswerDao;
-import com.sfac.javaEe.dao.exam.ExamDao;
+import com.sfac.javaEe.dao.exam.AchievementDao;
 import com.sfac.javaEe.dao.exam.QuestionDao;
 import com.sfac.javaEe.entity.exam.Answer;
-import com.sfac.javaEe.entity.exam.Exam;
+import com.sfac.javaEe.entity.exam.Achievement;
 import com.sfac.javaEe.entity.exam.Question;
 import com.sfac.javaEe.entity.exam.QuestionType;
 
 /**
- * Description: Exam Servlet
+ * Description: Achievement Servlet
  * @author HymanHu
  * @date 2020-12-24 21:26:01
  */
-@WebServlet(value = "/api/exam")
-public class ExamServlet extends HttpServlet {
+@WebServlet(value = "/api/achievement")
+public class AchievementServlet extends HttpServlet {
 
 	private static final long serialVersionUID = 1L;
-	private ExamDao examDao = new ExamDao();
+	private AchievementDao achievementDao = new AchievementDao();
 	private AnswerDao answerDao = new AnswerDao();
 	private QuestionDao questionDao = new QuestionDao();
 	private ObjectMapper mapper = new ObjectMapper();
@@ -49,14 +49,13 @@ public class ExamServlet extends HttpServlet {
 			sb.append(line);
 		}
 		
-		
 		try {
 			// 客观题分数，确定分值
 			double objectiveQuestionsScore = 0.0;
 			// 主观题分数，须人工判卷，不确定分值
 			double subjectiveQuestionsScore = 0.0;
-			Exam exam = mapper.readValue(sb.toString(), Exam.class);
-			for (Answer answer : exam.getAnswers()) {
+			Achievement achievement = mapper.readValue(sb.toString(), Achievement.class);
+			for (Answer answer : achievement.getAnswers()) {
 				Question question = questionDao.getQuestionById(answer.getQuestionId());
 				if (question.getType().equals(QuestionType.SINGLE_CHOICE.name) || 
 						question.getType().equals(QuestionType.MULTIPLE_CHOICE.name) || 
@@ -71,25 +70,25 @@ public class ExamServlet extends HttpServlet {
 				}
 			}
 			// 参考分值 = 客观题分值 ~ （客观题分值 + 主观题总分）
-			exam.setReferenceScore(String.format("%s ~ %s", 
+			achievement.setReferenceScore(String.format("%s ~ %s", 
 					objectiveQuestionsScore, (objectiveQuestionsScore + subjectiveQuestionsScore)));
 			if (subjectiveQuestionsScore == 0) {
-				exam.setScore(objectiveQuestionsScore);
+				achievement.setScore(objectiveQuestionsScore);
 			} else {
-				exam.setScore(0.0);
+				achievement.setScore(0.0);
 			}
-			exam.setExamDate(new Date());
-			examDao.insertExam(exam);
+			achievement.setExamDate(new Date());
+			achievementDao.insertAchievement(achievement);
 			
-			int examId = exam.getId();
-			for (Answer answer : exam.getAnswers()) {
-				answer.setExamId(examId);
+			int achievementId = achievement.getId();
+			for (Answer answer : achievement.getAnswers()) {
+				answer.setAchievementId(achievementId);
 				answerDao.insertAnswer(answer);
 			}
 			
 			result.put("status", 200);
 			result.put("message", "Insert success.");
-			result.put("data", exam);
+			result.put("data", achievement);
 		} catch (Exception e) {
 			result.put("status", 500);
 			result.put("message", e.getMessage());

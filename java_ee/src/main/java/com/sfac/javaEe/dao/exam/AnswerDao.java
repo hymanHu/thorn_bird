@@ -17,12 +17,12 @@ import com.sfac.javaEe.util.DBUtil;
 public class AnswerDao {
 
 	public void insertAnswer(Answer answer) throws ClassNotFoundException, SQLException {
-		String sql = "insert into answer (exam_id, question_id, user_answer) values (?, ?, ?)";
+		String sql = "insert into answer (achievement_id, question_id, user_answer) values (?, ?, ?)";
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS);
-			ps.setInt(1, answer.getExamId());
+			ps.setInt(1, answer.getAchievementId());
 			ps.setInt(2, answer.getQuestionId());
 			ps.setString(3, answer.getUserAnswer());
 			System.out.println(ps.toString());

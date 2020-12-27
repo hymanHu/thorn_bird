@@ -6,12 +6,12 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonFormat;
 
 /**
- * Description: 考试
+ * Description: 测试成绩
  * 
  * @author HymanHu
  * @date 2020-10-29 11:41:30
  */
-public class Exam {
+public class Achievement {
 	private int id;
 	private int userId;
 	private String subject;

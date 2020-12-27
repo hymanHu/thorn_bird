@@ -8,7 +8,7 @@ package com.sfac.javaEe.entity.exam;
  */
 public class Answer {
 	private int id;
-	private int examId;
+	private int achievementId;
 	private int questionId;
 	private String userAnswer;
 
@@ -20,12 +20,12 @@ public class Answer {
 		this.id = id;
 	}
 
-	public int getExamId() {
-		return examId;
+	public int getAchievementId() {
+		return achievementId;
 	}
 
-	public void setExamId(int examId) {
-		this.examId = examId;
+	public void setAchievementId(int achievementId) {
+		this.achievementId = achievementId;
 	}
 
 	public int getQuestionId() {

@@ -95,12 +95,12 @@
 		</div>
 	</div>
 	
-	<div class="modal fade" id="examResult" tabindex="-1" role="dialog" 
-		aria-labelledby="examResultLabel" aria-hidden="true">
+	<div class="modal fade" id="achievementResult" tabindex="-1" role="dialog" 
+		aria-labelledby="achievementResultLabel" aria-hidden="true">
 		<div class="modal-dialog">
 			<div class="modal-content">
 				<div class="modal-header">
-					<h4 class="modal-title" id="examResultLabel" style="font-size: 18px; 
+					<h4 class="modal-title" id="achievementResultLabel" style="font-size: 18px; 
 						font-weight: 500;">考试结果</h4>
 					<!-- <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button> -->
 				</div>
@@ -108,37 +108,37 @@
 					<div class="form-group row">
 						<label class="control-label col-md-3">试卷名称</label>
 						<div class="col-md-8">
-							<div id="examSubject"></div>
+							<div id="achievementSubject"></div>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3">考试人</label>
 						<div class="col-md-8">
-							<div id="examUserName"></div>
+							<div id="achievementUserName"></div>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3">耗时</label>
 						<div class="col-md-8">
-							<div id="examSpendTime"></div>
+							<div id="achievementSpendTime"></div>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3">总分</label>
 						<div class="col-md-8">
-							<div id="examTotalScore"></div>
+							<div id="achievementTotalScore"></div>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3">参考得分</label>
 						<div class="col-md-8">
-							<div id="examReferenceScore"></div>
+							<div id="achievementReferenceScore"></div>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3">最终得分</label>
 						<div class="col-md-8">
-							<div id="examScore"></div>
+							<div id="achievementScore"></div>
 						</div>
 					</div>
 				</div>
@@ -439,12 +439,12 @@
 		
 		// 交卷
 		function handInPaper() {
-			var exam = {};
-			exam.userId = $("#userId").val();
-			exam.subject = $("[name=subject]").attr("subject");
-			exam.totalScore = $("[name=subject]").attr("totalScore");
-			exam.totalTime = totalTime;
-			exam.spendTime = spendTime;
+			var achievement = {};
+			achievement.userId = $("#userId").val();
+			achievement.subject = $("[name=subject]").attr("subject");
+			achievement.totalScore = $("[name=subject]").attr("totalScore");
+			achievement.totalTime = totalTime;
+			achievement.spendTime = spendTime;
 			var answers = [];
 			$.each($("[name=question]"), function(i, item) {
 				var answer = {};
@@ -469,33 +469,33 @@
 				answer.userAnswer = userAnswer;
 				answers.push(answer);
 			});
-			exam.answers = answers;
-			console.log(exam);
+			achievement.answers = answers;
+			console.log(achievement);
 			
 			$("body").mLoading("show");
 			$.ajax({
-				url : "/api/exam",
+				url : "/api/achievement",
 				type : "post",
 				contentType: "application/json",
-				data : JSON.stringify(exam),
+				data : JSON.stringify(achievement),
 				success : function (rs) {
 					$("body").mLoading("hide");
 					if (rs.status == 200) {
 						console.log(rs.data);
 						
-						$("#examSubject").html(rs.data.subject);
-						$("#examUserName").html($("#userName").val());
-						$("#examSpendTime").html(rs.data.spendTime + "/" + rs.data.totalTime + " 分钟");
-						$("#examTotalScore").html(rs.data.totalScore + " 分");
-						$("#examReferenceScore").html(rs.data.referenceScore + " 分");
+						$("#achievementSubject").html(rs.data.subject);
+						$("#achievementUserName").html($("#userName").val());
+						$("#achievementSpendTime").html(rs.data.spendTime + "/" + rs.data.totalTime + " 分钟");
+						$("#achievementTotalScore").html(rs.data.totalScore + " 分");
+						$("#achievementReferenceScore").html(rs.data.referenceScore + " 分");
 						if (rs.data.score == 0) {
-							$("#examScore").html("有客观题需要人工改卷，总分待定！");
+							$("#achievementScore").html("有客观题需要人工改卷，总分待定！");
 						} else {
-							$("#examScore").html(rs.data.score + " 分");
+							$("#achievementScore").html(rs.data.score + " 分");
 						}
 						
 						// 展示模态框并设定关闭属性
-						$('#examResult').modal({
+						$('#achievementResult').modal({
 							// 点击背景空白处不被关闭
 							backdrop: 'static', 
 							// 触发键盘esc事件时不关闭

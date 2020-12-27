@@ -6,7 +6,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Online Papers</title>
+	<title>Exams</title>
 	
 	<!-- css -->
 	<!-- Exam -->
@@ -15,14 +15,9 @@
 	<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback" rel="stylesheet" />
 	<!-- Font Awesome -->
 	<link href="/static/plugins/fontawesome-free/css/all.min.css" rel="stylesheet" />
-	<!-- Select2 -->
-	<link href="/static/plugins/select2/css/select2.min.css" rel="stylesheet">
-	<link href="/static/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css" rel="stylesheet" />
 	<!-- DataTables -->
 	<link href="/static/plugins/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 	<link href="/static/plugins/datatables-bs4/css/dataTables.bootstrap4.min.css" rel="stylesheet" />
-	<!-- loading -->
-	<link href="/static/plugins/jquery.mloading/src/jquery.mloading.css" rel="stylesheet" />
 	<!-- admin -->
 	<link href="/static/_exam/css/adminlte.css" type="text/css" rel="stylesheet" />
 	<!-- custom -->
@@ -40,13 +35,13 @@
 				<div class="container">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 name="subject" class="m-0 text-dark">Papers List</h1>
+							<h1 name="subject" class="m-0 text-dark">Exams List</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
 							<ol class="breadcrumb float-sm-right">
 								<li class="breadcrumb-item"><a href="#">Home</a></li>
-								<li class="breadcrumb-item active">Papers</li>
+								<li class="breadcrumb-item active">Exams</li>
 							</ol>
 						</div>
 						<!-- /.col -->
@@ -59,68 +54,6 @@
 			
 			<section class="content">
 				<div class="container">
-					<div class="card card-default">
-						<div class="card-header">
-							<h3 class="card-title">试卷生成器</h3>
-							<div class="card-tools">
-								<button type="button" class="btn btn-tool" data-card-widget="collapse">
-									<i class="fas fa-minus"></i>
-								</button>
-								<button type="button" class="btn btn-tool" data-card-widget="remove">
-									<i class="fas fa-times"></i>
-								</button>
-							</div>
-						</div>
-						<!-- /.card-header -->
-						<div class="card-body">
-							<div class="row">
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>测试阶段</label>
-										<select name="flag" class="form-control select2" style="width: 100%;"></select>
-									</div>
-									<div class="form-group">
-										<label>试卷标题</label>
-										<div class="input-group">
-											<div class="input-group-prepend">
-												<span name="titlePrefix" class="input-group-text"></span>
-											</div>
-											<input name="title" type="text" class="form-control" placeholder="">
-											<div class="input-group-append">
-												<span name="titleSuffix" class="input-group-text">_${sessionScope.user.userName}</span>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>试题类型</label>
-										<div class="select2-purple">
-											<select name="type" class="select2bs4" multiple="multiple"
-												data-placeholder="选择题型" style="width: 100%;">
-											</select>
-										</div>
-									</div>
-								</div>
-								<div class="col-md-4">
-									<div class="form-group">
-										<label>测试时间</label>
-										<select name="paperTime" class="form-control select2" style="width: 100%;">
-											<option value="45" selected="selected">45 分钟</option>
-											<option value="60">60 分钟</option>
-											<option value="90">90 分钟</option>
-											<option value="120">120 分钟</option>
-										</select>
-									</div>
-								</div>
-							</div>
-						</div>
-						<!-- /.card-body -->
-						<div class="card-footer">
-							<button name="paperBuilderBtn" type="button" class="btn btn-primary btn-lg">创建</button>
-						</div>
-					</div>
-					
 					<div class="card">
 						<div class="card-header">
 							<h3 class="card-title">试卷列表</h3>
@@ -129,11 +62,12 @@
 							<table id="papersTable" class="table table-bordered table-striped">
 								<thead>
 									<tr>
-										<th>试卷 ID</th>
 										<th>试卷标题</th>
-										<th>考试时间</th>
-										<th>总分</th>
-										<th>创建日期</th>
+										<th>测试用户</th>
+										<th>参考分数</th>
+										<th>分数/总分</th>
+										<th>用时/总时</th>
+										<th>测试时间</th>
 										<th>操作</th>
 									</tr>
 								</thead>
@@ -153,8 +87,6 @@
 	<script src="/static/plugins/jquery/jquery.min.js"  type="text/javascript"></script>
 	<!-- bootstrap -->
 	<script src="/static/plugins/bootstrap/js/bootstrap.bundle.min.js"  type="text/javascript"></script>
-	<!-- Select2 -->
-	<script src="/static/plugins/select2/js/select2.full.min.js"  type="text/javascript"></script>
 	<!-- DataTables -->
 	<script src="/static/plugins/datatables.net/js/jquery.dataTables.min.js"  type="text/javascript"></script>
 	<script src="/static/plugins/datatables.net-bs/js/dataTables.bootstrap.min.js"  type="text/javascript"></script>
@@ -172,27 +104,8 @@
 	<script type="text/javascript">
 		PAGE_SIZE = 5;
 		$(document).ready(function() {
-		    // Initialize Select2 Elements
-			$('.select2').select2();
-		    $('.select2bs4').select2({
-				theme: 'bootstrap4'
-		    });
-		    
-		    // 初始化试题阶段下拉列表、绑定 change 事件
-		    initQuestionFlag();
-		    $("[name=flag]").bind("change", function() {
-		    	$("[name=titlePrefix]").html($(this).val() + "_");
-		    });
-		    // 初始化试卷类型下拉框
-		    initQuestionType();
-		    
 		    // 初始化试卷列表
-		    initTable(PAGE_SIZE);
-		    
-		    // 绑定新增按钮
-		    $("[name=paperBuilderBtn]").bind("click", function() {
-				addPaper();
-			});
+		    //initTable(PAGE_SIZE);
 		})
 		
 		function initTable(pageSize) {
@@ -308,45 +221,6 @@
 							layer.msg(data.responseText, {icon: 0});
 						}
 					});
-				}
-			});
-		}
-		
-		// Add Paper
-		function addPaper() {
-			if ($("[name=type]").val().length == 0) {
-				layer.msg("请选择试题类型", {icon: 0});
-				return;
-			}
-			if ($("[name=title]").val() == "") {
-				layer.msg("请选择试题标题", {icon: 0});
-				return;
-			}
-			
-			var paperBuilder = {};
-			paperBuilder.paperTitle = $("[name=titlePrefix]").html() + 
-				$("[name=title]").val() + $("[name=titleSuffix]").html();
-			paperBuilder.paperFlage = $("[name=flag]").val();
-			paperBuilder.paperTime = $("[name=paperTime]").val();
-			paperBuilder.paperTypes = $("[name=type]").val();
-			
-			$("body").mLoading("show");
-			$.ajax({
-				url : "/api/paper",
-				type : "post",
-				contentType: "application/json",
-				data : JSON.stringify(paperBuilder),
-				success : function (data) {
-					$("body").mLoading("hide");
-					if (data.status == 200) {
-						initTable(PAGE_SIZE);
-					} else {
-						layer.msg(data.message, {icon: 0});
-					}
-				},
-				error : function (data) {
-					$("body").mLoading("hide");
-					layer.msg(data.responseText, {icon: 0});
 				}
 			});
 		}
