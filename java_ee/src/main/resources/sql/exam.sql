@@ -1,107 +1,107 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : myConnection
-Source Server Version : 50525
+Source Server         : MyConnect
+Source Server Version : 80018
 Source Host           : localhost:3306
 Source Database       : test
 
 Target Server Type    : MYSQL
-Target Server Version : 50525
+Target Server Version : 80018
 File Encoding         : 65001
 
-Date: 2020-12-25 22:20:15
+Date: 2020-12-27 20:45:29
 */
 
 SET FOREIGN_KEY_CHECKS=0;
+-- ----------------------------
+-- Table structure for `achievement`
+-- ----------------------------
+DROP TABLE IF EXISTS `achievement`;
+CREATE TABLE `achievement` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) NOT NULL,
+  `subject` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `total_score` double(11,2) NOT NULL,
+  `reference_score` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `score` double(11,2) DEFAULT NULL,
+  `total_time` int(11) DEFAULT NULL,
+  `spend_time` int(11) DEFAULT NULL,
+  `exam_date` datetime DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+
+-- ----------------------------
+-- Records of achievement
+-- ----------------------------
+INSERT INTO `achievement` VALUES ('21', '1', 'Java_Framework_20201224_admin', '100.00', '40.0 ~ 95.0', '0.00', '60', '1', '2020-12-27 20:41:49');
+INSERT INTO `achievement` VALUES ('22', '1', 'Java_Framework_1932_admin', '67.50', '52.5', '52.50', '60', '1', '2020-12-27 20:42:50');
+
 -- ----------------------------
 -- Table structure for `answer`
 -- ----------------------------
 DROP TABLE IF EXISTS `answer`;
 CREATE TABLE `answer` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `exam_id` int(11) NOT NULL,
+  `achievement_id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL,
   `user_answer` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=201 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=551 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of answer
 -- ----------------------------
-INSERT INTO `answer` VALUES ('151', '7', '53', 'B');
-INSERT INTO `answer` VALUES ('152', '7', '6', 'D');
-INSERT INTO `answer` VALUES ('153', '7', '18', 'B');
-INSERT INTO `answer` VALUES ('154', '7', '57', 'A');
-INSERT INTO `answer` VALUES ('155', '7', '56', 'A');
-INSERT INTO `answer` VALUES ('156', '7', '8', 'D');
-INSERT INTO `answer` VALUES ('157', '7', '15', 'A');
-INSERT INTO `answer` VALUES ('158', '7', '7', 'D');
-INSERT INTO `answer` VALUES ('159', '7', '12', 'A');
-INSERT INTO `answer` VALUES ('160', '7', '9', 'C');
-INSERT INTO `answer` VALUES ('161', '7', '13', 'A,D');
-INSERT INTO `answer` VALUES ('162', '7', '14', 'A,B');
-INSERT INTO `answer` VALUES ('163', '7', '49', 'True');
-INSERT INTO `answer` VALUES ('164', '7', '46', 'True');
-INSERT INTO `answer` VALUES ('165', '7', '55', 'False');
-INSERT INTO `answer` VALUES ('166', '7', '47', 'False');
-INSERT INTO `answer` VALUES ('167', '7', '19', 'cdsacdascd');
-INSERT INTO `answer` VALUES ('168', '7', '24', 'cdacdsacdas');
-INSERT INTO `answer` VALUES ('169', '7', '22', 'csacdsa');
-INSERT INTO `answer` VALUES ('170', '7', '21', 'cdsacdsacdas');
-INSERT INTO `answer` VALUES ('171', '7', '31', 'cdsacdasc');
-INSERT INTO `answer` VALUES ('172', '7', '26', 'cdascdas');
-INSERT INTO `answer` VALUES ('173', '7', '32', 'csadcdas');
-INSERT INTO `answer` VALUES ('174', '7', '45', 'cdsacdasc');
-INSERT INTO `answer` VALUES ('175', '7', '43', 'cadscdasds');
-INSERT INTO `answer` VALUES ('176', '8', '7', 'D');
-INSERT INTO `answer` VALUES ('177', '8', '9', 'C');
-INSERT INTO `answer` VALUES ('178', '8', '17', 'D');
-INSERT INTO `answer` VALUES ('179', '8', '5', 'A');
-INSERT INTO `answer` VALUES ('180', '8', '58', 'A');
-INSERT INTO `answer` VALUES ('181', '8', '56', 'A');
-INSERT INTO `answer` VALUES ('182', '8', '16', 'C');
-INSERT INTO `answer` VALUES ('183', '8', '54', 'D');
-INSERT INTO `answer` VALUES ('184', '8', '10', 'B');
-INSERT INTO `answer` VALUES ('185', '8', '53', 'B');
-INSERT INTO `answer` VALUES ('186', '8', '12', 'A');
-INSERT INTO `answer` VALUES ('187', '8', '18', 'B');
-INSERT INTO `answer` VALUES ('188', '8', '50', 'A');
-INSERT INTO `answer` VALUES ('189', '8', '52', '');
-INSERT INTO `answer` VALUES ('190', '8', '6', 'D');
-INSERT INTO `answer` VALUES ('191', '8', '15', 'A');
-INSERT INTO `answer` VALUES ('192', '8', '8', 'D');
-INSERT INTO `answer` VALUES ('193', '8', '57', 'A');
-INSERT INTO `answer` VALUES ('194', '8', '13', 'A,D');
-INSERT INTO `answer` VALUES ('195', '8', '14', 'A,B');
-INSERT INTO `answer` VALUES ('196', '8', '47', 'True');
-INSERT INTO `answer` VALUES ('197', '8', '48', 'True');
-INSERT INTO `answer` VALUES ('198', '8', '49', 'False');
-INSERT INTO `answer` VALUES ('199', '8', '55', 'False');
-INSERT INTO `answer` VALUES ('200', '8', '46', 'False');
-
--- ----------------------------
--- Table structure for `exam`
--- ----------------------------
-DROP TABLE IF EXISTS `exam`;
-CREATE TABLE `exam` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `subject` varchar(255) NOT NULL,
-  `total_score` double(11,2) NOT NULL,
-  `reference_score` varchar(255) DEFAULT NULL,
-  `score` double(11,2) DEFAULT NULL,
-  `total_time` int(11) DEFAULT NULL,
-  `spend_time` int(11) DEFAULT NULL,
-  `exam_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of exam
--- ----------------------------
-INSERT INTO `exam` VALUES ('7', '4', 'Java_Framework_20201224_admin', '100.00', '40.0 ~ 95.0', '0.00', '60', '1', '2020-12-25 22:14:52');
-INSERT INTO `exam` VALUES ('8', '4', 'Java_Framework_1932_admin', '67.50', '50.0 ~ 50.0', '50.00', '60', '2', '2020-12-25 22:18:02');
+INSERT INTO `answer` VALUES ('501', '21', '15', 'A');
+INSERT INTO `answer` VALUES ('502', '21', '8', 'D');
+INSERT INTO `answer` VALUES ('503', '21', '7', 'D');
+INSERT INTO `answer` VALUES ('504', '21', '12', 'A');
+INSERT INTO `answer` VALUES ('505', '21', '9', 'C');
+INSERT INTO `answer` VALUES ('506', '21', '53', 'B');
+INSERT INTO `answer` VALUES ('507', '21', '6', 'D');
+INSERT INTO `answer` VALUES ('508', '21', '18', 'B');
+INSERT INTO `answer` VALUES ('509', '21', '56', 'A');
+INSERT INTO `answer` VALUES ('510', '21', '57', 'A');
+INSERT INTO `answer` VALUES ('511', '21', '13', 'A,D');
+INSERT INTO `answer` VALUES ('512', '21', '14', 'A,B');
+INSERT INTO `answer` VALUES ('513', '21', '47', 'True');
+INSERT INTO `answer` VALUES ('514', '21', '49', 'True');
+INSERT INTO `answer` VALUES ('515', '21', '46', 'True');
+INSERT INTO `answer` VALUES ('516', '21', '55', 'True');
+INSERT INTO `answer` VALUES ('517', '21', '19', 'cascscas');
+INSERT INTO `answer` VALUES ('518', '21', '24', 'cdsacdsa');
+INSERT INTO `answer` VALUES ('519', '21', '22', 'cdsacdas');
+INSERT INTO `answer` VALUES ('520', '21', '21', 'cdsacads');
+INSERT INTO `answer` VALUES ('521', '21', '31', 'cdsacdsa');
+INSERT INTO `answer` VALUES ('522', '21', '26', 'cdsacdas');
+INSERT INTO `answer` VALUES ('523', '21', '32', 'cdsacdas');
+INSERT INTO `answer` VALUES ('524', '21', '45', 'cdascads');
+INSERT INTO `answer` VALUES ('525', '21', '43', 'cdsacdas');
+INSERT INTO `answer` VALUES ('526', '22', '9', 'C');
+INSERT INTO `answer` VALUES ('527', '22', '54', 'D');
+INSERT INTO `answer` VALUES ('528', '22', '7', 'D');
+INSERT INTO `answer` VALUES ('529', '22', '17', 'D');
+INSERT INTO `answer` VALUES ('530', '22', '58', 'A');
+INSERT INTO `answer` VALUES ('531', '22', '12', 'A');
+INSERT INTO `answer` VALUES ('532', '22', '16', 'C');
+INSERT INTO `answer` VALUES ('533', '22', '50', 'A');
+INSERT INTO `answer` VALUES ('534', '22', '10', 'C');
+INSERT INTO `answer` VALUES ('535', '22', '6', 'D');
+INSERT INTO `answer` VALUES ('536', '22', '53', 'B');
+INSERT INTO `answer` VALUES ('537', '22', '15', 'A');
+INSERT INTO `answer` VALUES ('538', '22', '18', 'B');
+INSERT INTO `answer` VALUES ('539', '22', '5', 'A');
+INSERT INTO `answer` VALUES ('540', '22', '8', 'D');
+INSERT INTO `answer` VALUES ('541', '22', '52', 'C');
+INSERT INTO `answer` VALUES ('542', '22', '56', 'A');
+INSERT INTO `answer` VALUES ('543', '22', '57', 'A');
+INSERT INTO `answer` VALUES ('544', '22', '13', 'A,D');
+INSERT INTO `answer` VALUES ('545', '22', '14', 'A,B');
+INSERT INTO `answer` VALUES ('546', '22', '49', '');
+INSERT INTO `answer` VALUES ('547', '22', '55', 'False');
+INSERT INTO `answer` VALUES ('548', '22', '46', 'True');
+INSERT INTO `answer` VALUES ('549', '22', '47', 'False');
+INSERT INTO `answer` VALUES ('550', '22', '48', 'True');
 
 -- ----------------------------
 -- Table structure for `paper`
@@ -114,13 +114,15 @@ CREATE TABLE `paper` (
   `total_score` double(11,2) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=45 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of paper
 -- ----------------------------
 INSERT INTO `paper` VALUES ('43', 'Java_Framework_20201224_admin', '60', '100.00', '2020-12-24 08:18:05');
 INSERT INTO `paper` VALUES ('44', 'Java_Framework_1932_admin', '60', '67.50', '2020-12-25 21:58:37');
+INSERT INTO `paper` VALUES ('45', 'Java_Framework_20201227_admin', '60', '100.00', '2020-12-27 14:13:42');
+INSERT INTO `paper` VALUES ('46', 'Java_Framework_202012271_admin', '60', '100.00', '2020-12-27 15:42:00');
 
 -- ----------------------------
 -- Table structure for `paper_question`
@@ -131,7 +133,7 @@ CREATE TABLE `paper_question` (
   `paper_id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=967 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1017 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of paper_question
@@ -186,6 +188,56 @@ INSERT INTO `paper_question` VALUES ('963', '44', '15');
 INSERT INTO `paper_question` VALUES ('964', '44', '8');
 INSERT INTO `paper_question` VALUES ('965', '44', '57');
 INSERT INTO `paper_question` VALUES ('966', '44', '7');
+INSERT INTO `paper_question` VALUES ('967', '45', '7');
+INSERT INTO `paper_question` VALUES ('968', '45', '50');
+INSERT INTO `paper_question` VALUES ('969', '45', '12');
+INSERT INTO `paper_question` VALUES ('970', '45', '15');
+INSERT INTO `paper_question` VALUES ('971', '45', '18');
+INSERT INTO `paper_question` VALUES ('972', '45', '17');
+INSERT INTO `paper_question` VALUES ('973', '45', '16');
+INSERT INTO `paper_question` VALUES ('974', '45', '9');
+INSERT INTO `paper_question` VALUES ('975', '45', '20');
+INSERT INTO `paper_question` VALUES ('976', '45', '19');
+INSERT INTO `paper_question` VALUES ('977', '45', '22');
+INSERT INTO `paper_question` VALUES ('978', '45', '24');
+INSERT INTO `paper_question` VALUES ('979', '45', '14');
+INSERT INTO `paper_question` VALUES ('980', '45', '13');
+INSERT INTO `paper_question` VALUES ('981', '45', '47');
+INSERT INTO `paper_question` VALUES ('982', '45', '49');
+INSERT INTO `paper_question` VALUES ('983', '45', '48');
+INSERT INTO `paper_question` VALUES ('984', '45', '46');
+INSERT INTO `paper_question` VALUES ('985', '45', '41');
+INSERT INTO `paper_question` VALUES ('986', '45', '25');
+INSERT INTO `paper_question` VALUES ('987', '45', '44');
+INSERT INTO `paper_question` VALUES ('988', '45', '45');
+INSERT INTO `paper_question` VALUES ('989', '45', '30');
+INSERT INTO `paper_question` VALUES ('990', '45', '8');
+INSERT INTO `paper_question` VALUES ('991', '45', '52');
+INSERT INTO `paper_question` VALUES ('992', '46', '18');
+INSERT INTO `paper_question` VALUES ('993', '46', '56');
+INSERT INTO `paper_question` VALUES ('994', '46', '16');
+INSERT INTO `paper_question` VALUES ('995', '46', '50');
+INSERT INTO `paper_question` VALUES ('996', '46', '8');
+INSERT INTO `paper_question` VALUES ('997', '46', '9');
+INSERT INTO `paper_question` VALUES ('998', '46', '6');
+INSERT INTO `paper_question` VALUES ('999', '46', '58');
+INSERT INTO `paper_question` VALUES ('1000', '46', '22');
+INSERT INTO `paper_question` VALUES ('1001', '46', '20');
+INSERT INTO `paper_question` VALUES ('1002', '46', '24');
+INSERT INTO `paper_question` VALUES ('1003', '46', '21');
+INSERT INTO `paper_question` VALUES ('1004', '46', '14');
+INSERT INTO `paper_question` VALUES ('1005', '46', '13');
+INSERT INTO `paper_question` VALUES ('1006', '46', '46');
+INSERT INTO `paper_question` VALUES ('1007', '46', '55');
+INSERT INTO `paper_question` VALUES ('1008', '46', '48');
+INSERT INTO `paper_question` VALUES ('1009', '46', '47');
+INSERT INTO `paper_question` VALUES ('1010', '46', '31');
+INSERT INTO `paper_question` VALUES ('1011', '46', '28');
+INSERT INTO `paper_question` VALUES ('1012', '46', '43');
+INSERT INTO `paper_question` VALUES ('1013', '46', '44');
+INSERT INTO `paper_question` VALUES ('1014', '46', '42');
+INSERT INTO `paper_question` VALUES ('1015', '46', '10');
+INSERT INTO `paper_question` VALUES ('1016', '46', '57');
 
 -- ----------------------------
 -- Table structure for `question`

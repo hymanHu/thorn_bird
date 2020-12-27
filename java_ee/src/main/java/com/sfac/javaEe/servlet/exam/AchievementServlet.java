@@ -69,9 +69,14 @@ public class AchievementServlet extends HttpServlet {
 					subjectiveQuestionsScore += question.getScore();
 				}
 			}
-			// 参考分值 = 客观题分值 ~ （客观题分值 + 主观题总分）
-			achievement.setReferenceScore(String.format("%s ~ %s", 
-					objectiveQuestionsScore, (objectiveQuestionsScore + subjectiveQuestionsScore)));
+			
+			if (subjectiveQuestionsScore == 0) {
+				achievement.setReferenceScore(objectiveQuestionsScore + "");
+			} else {
+				// 参考分值 = 客观题分值 ~ （客观题分值 + 主观题总分）
+				achievement.setReferenceScore(String.format("%s ~ %s", 
+						objectiveQuestionsScore, (objectiveQuestionsScore + subjectiveQuestionsScore)));
+			}
 			if (subjectiveQuestionsScore == 0) {
 				achievement.setScore(objectiveQuestionsScore);
 			} else {
@@ -115,6 +120,7 @@ public class AchievementServlet extends HttpServlet {
 		Map<String, Object> result = new HashMap<String, Object>();
 		try {
 			achievementDao.deleteAchievementById(Integer.parseInt(achievementId));
+			answerDao.deleteAnswersByAchievementId(Integer.parseInt(achievementId));
 			result.put("status", 200);
 			result.put("message", "Delete success.");
 		} catch (Exception e) {

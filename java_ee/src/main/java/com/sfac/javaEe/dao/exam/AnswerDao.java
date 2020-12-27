@@ -34,4 +34,20 @@ public class AnswerDao {
 			DBUtil.closeConnection(conn);
 		}
 	}
+	
+	public void deleteAnswersByAchievementId(int achievementId) 
+			throws ClassNotFoundException, SQLException {
+		String sql = "delete from answer where achievement_id = ?";
+		
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, achievementId);
+			System.out.println(ps.toString());
+			ps.execute();
+		} finally {
+			DBUtil.closeConnection(conn);
+		}
+	}
 }
