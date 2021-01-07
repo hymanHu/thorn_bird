@@ -1,3 +1,4 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false"  %>
 <!-- Main Sidebar Container -->
 <aside class="main-sidebar sidebar-dark-primary elevation-4">
 	<!-- Brand Logo -->
@@ -26,25 +27,25 @@
 				<li class="nav-item">
 					<a href="/dashboard" class="nav-link">
 						<i class="nav-icon fas fa-tachometer-alt"></i>
-						<p>Dashboard</p>
+						<p>仪表盘</p>
 					</a>
 				</li>
 				<li class="nav-item has-treeview">
 					<a href="#" class="nav-link">
 						<i class="nav-icon fas fa-user-circle"></i>
-						<p>Account<i class="right fas fa-angle-left"></i></p>
+						<p>账户模块<i class="right fas fa-angle-left"></i></p>
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
 							<a href="#" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p>User Profile</p>
+								<p>个人主页</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="/account/users" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p>Users</p>
+								<p>用户列表</p>
 							</a>
 						</li>
 					</ul>
@@ -52,19 +53,25 @@
 				<li class="nav-item has-treeview">
 					<a href="#" class="nav-link">
 						<i class="nav-icon fas fa-list-ol"></i>
-						<p>Exam<i class="right fas fa-angle-left"></i></p>
+						<p>考试模块<i class="right fas fa-angle-left"></i></p>
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
 							<a href="/exam/questions" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p>Questions</p>
+								<p>试题列表</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="/exam/papers" class="nav-link" target="_blank">
 								<i class="far fa-circle nav-icon"></i>
-								<p>Papers</p>
+								<p>试卷列表</p>
+							</a>
+						</li>
+						<li class="nav-item">
+							<a href="/exam/achievements" class="nav-link" target="_blank">
+								<i class="far fa-circle nav-icon"></i>
+								<p>成绩列表</p>
 							</a>
 						</li>
 					</ul>
@@ -72,19 +79,19 @@
 				<li class="nav-item has-treeview">
 					<a href="#" class="nav-link">
 						<i class="nav-icon fas fa-cubes"></i>
-						<p>Spider<i class="right fas fa-angle-left"></i></p>
+						<p>爬虫模块<i class="right fas fa-angle-left"></i></p>
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
 							<a href="#" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p>Universities</p>
+								<p>大学列表</p>
 							</a>
 						</li>
 						<li class="nav-item">
 							<a href="#" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p>Gzbds</p>
+								<p>冠状病毒列表</p>
 							</a>
 						</li>
 					</ul>
@@ -92,13 +99,13 @@
 				<li class="nav-item has-treeview">
 					<a href="#" class="nav-link">
 						<i class="nav-icon fas fa-leaf"></i>
-						<p>Test <i class="right fas fa-angle-left"></i></p>
+						<p>测试模块<i class="right fas fa-angle-left"></i></p>
 					</a>
 					<ul class="nav nav-treeview">
 						<li class="nav-item">
 							<a href="/test/index" class="nav-link">
 								<i class="far fa-circle nav-icon"></i>
-								<p>Jsp Test</p>
+								<p>Jsp测试页</p>
 							</a>
 						</li>
 					</ul>

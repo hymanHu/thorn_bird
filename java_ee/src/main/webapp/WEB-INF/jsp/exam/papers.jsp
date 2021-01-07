@@ -123,7 +123,10 @@
 					
 					<div class="card">
 						<div class="card-header">
-							<h3 class="card-title">试卷列表</h3>
+							<h3 class="card-title"><span class="nav-link">试卷列表</span></h3>
+							<h3 class="card-title" style="float:right;">
+								<a href="/exam/achievements" class="nav-link">成绩列表</a>
+							</h3>
 						</div>
 						<div class="card-body">
 							<table id="papersTable" class="table table-bordered table-striped">
@@ -285,34 +288,12 @@
 			this.createDate = createDate;
 			this.operate = function () {
 				return "<a href='/exam/paper/" + id + "' class='btn_editcolor'>考试</a>&nbsp;&nbsp;" + 
-					"<a href='javascript:void(0);' onclick='deleteModule(\"" + id + "\")' class='btn_editcolor'>删除</a>";
+					"<a href='javascript:void(0);' onclick='deleteModule(\"" + 
+					id + "\")' class='btn_editcolor'>删除</a>";
 			}
 		}
 		
-		// 删除模型
-		function deleteModule(id) {
-			bootbox.confirm("Are you sure?", function(result) {
-				if(result) {
-					$.ajax({
-						url : "/api/paper/" + id,
-						type : "delete",
-						success : function (data) {
-							if (data.status == 200) {
-								initTable(PAGE_SIZE);
-							} else {
-								//window.location.href = data.object;
-								layer.msg(data.message, {icon: 0});
-							}
-						},
-						error : function (data) {
-							layer.msg(data.responseText, {icon: 0});
-						}
-					});
-				}
-			});
-		}
-		
-		// Add Paper
+		// 添加试卷
 		function addPaper() {
 			if ($("[name=type]").val().length == 0) {
 				layer.msg("请选择试题类型", {icon: 0});
@@ -347,6 +328,29 @@
 				error : function (data) {
 					$("body").mLoading("hide");
 					layer.msg(data.responseText, {icon: 0});
+				}
+			});
+		}
+		
+		// 删除模型
+		function deleteModule(id) {
+			bootbox.confirm("Are you sure?", function(result) {
+				if(result) {
+					$.ajax({
+						url : "/api/paper/" + id,
+						type : "delete",
+						success : function (data) {
+							if (data.status == 200) {
+								initTable(PAGE_SIZE);
+							} else {
+								//window.location.href = data.object;
+								layer.msg(data.message, {icon: 0});
+							}
+						},
+						error : function (data) {
+							layer.msg(data.responseText, {icon: 0});
+						}
+					});
 				}
 			});
 		}

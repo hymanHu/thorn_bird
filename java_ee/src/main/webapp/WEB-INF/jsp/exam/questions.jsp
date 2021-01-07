@@ -6,7 +6,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html;charset=UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-	<title>Questions</title>
+	<title>试题列表</title>
 	
 	<!-- css -->
 	<!-- Google Font: Source Sans Pro -->
@@ -36,7 +36,7 @@
 				<div class="container-fluid">
 					<div class="row mb-2">
 						<div class="col-sm-6">
-							<h1 class="m-0 text-dark">Questions</h1>
+							<h1 class="m-0 text-dark">试题列表</h1>
 						</div>
 						<!-- /.col -->
 						<div class="col-sm-6">
