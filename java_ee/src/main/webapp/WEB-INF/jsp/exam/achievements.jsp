@@ -56,12 +56,6 @@
 			<section class="content">
 				<div class="container">
 					<div class="card">
-						<div class="card-header">
-							<h3 class="card-title"><span class="nav-link">成绩列表</span></h3>
-							<h3 class="card-title" style="float:right;">
-								<a href="/exam/papers" class="nav-link">试卷列表</a>
-							</h3>
-						</div>
 						<div class="card-body">
 							<table id="papersTable" class="table table-bordered table-striped">
 								<thead>
@@ -217,11 +211,16 @@
 			this.userName = userName;
 			this.operate = function () {
 				var temp = "";
-				if (score == 0) {
-					temp += "<a href='/exam/achievement/" + id + "' class='btn_editcolor'>批改</a>&nbsp;&nbsp;";
+				var userName = $("#userName").val();
+				if (userName == "admin") {
+					if (score == 0) {
+						temp += "<a href='/exam/achievement/" + id + "' class='btn_editcolor'>批改</a>&nbsp;&nbsp;";
+					}
+					temp += "<a href='javascript:void(0);' onclick='deleteModule(\"" + id + 
+							"\")' class='btn_editcolor'>删除</a>&nbsp;&nbsp;"
+				} else {
+					temp = "<a href='/exam/achievement/" + id + "' class='btn_editcolor'>查看</a>";
 				}
-				temp += "<a href='javascript:void(0);' onclick='deleteModule(\"" + id + 
-						"\")' class='btn_editcolor'>删除</a>"
 				return temp;
 			}
 		}

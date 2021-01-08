@@ -123,10 +123,11 @@
 					
 					<div class="card">
 						<div class="card-header">
-							<h3 class="card-title"><span class="nav-link">试卷列表</span></h3>
+							<span class="nav-link">试卷列表</span>
+							<!-- <h3 class="card-title"><span class="nav-link">试卷列表</span></h3>
 							<h3 class="card-title" style="float:right;">
 								<a href="/exam/achievements" class="nav-link">成绩列表</a>
-							</h3>
+							</h3> -->
 						</div>
 						<div class="card-body">
 							<table id="papersTable" class="table table-bordered table-striped">
@@ -287,9 +288,13 @@
 			this.totalScore = totalScore;
 			this.createDate = createDate;
 			this.operate = function () {
-				return "<a href='/exam/paper/" + id + "' class='btn_editcolor'>考试</a>&nbsp;&nbsp;" + 
-					"<a href='javascript:void(0);' onclick='deleteModule(\"" + 
-					id + "\")' class='btn_editcolor'>删除</a>";
+				var temp = "<a href='/exam/paper/" + id + "' class='btn_editcolor'>考试</a>&nbsp;&nbsp;";
+				var userName = $("#userName").val();
+				if (userName == "admin") {
+					temp += "<a href='javascript:void(0);' onclick='deleteModule(\"" + 
+						id + "\")' class='btn_editcolor'>删除</a>";
+				}
+				return temp;
 			}
 		}
 		
