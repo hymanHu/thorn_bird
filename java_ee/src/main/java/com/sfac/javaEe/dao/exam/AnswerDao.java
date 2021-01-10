@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
 
 import com.sfac.javaEe.entity.exam.Answer;
 import com.sfac.javaEe.util.DBUtil;
@@ -49,5 +51,33 @@ public class AnswerDao {
 		} finally {
 			DBUtil.closeConnection(conn);
 		}
+	}
+	
+	public List<Answer> getAnswersByAchievementId(int achievementId) 
+			throws ClassNotFoundException, SQLException {
+		String sql = "select * from answer where achievement_id = ?";
+		
+		List<Answer> answers = new ArrayList<Answer>();
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, achievementId);
+			System.out.println(ps.toString());
+			
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				Answer answer = new Answer();
+				answer.setId(rs.getInt("id"));
+				answer.setAchievementId(rs.getInt("achievement_id"));
+				answer.setQuestionId(rs.getInt("question_id"));
+				answer.setUserAnswer(rs.getString("user_answer"));
+				answers.add(answer);
+			}
+		} finally {
+			DBUtil.closeConnection(conn);
+		}
+		
+		return answers;
 	}
 }

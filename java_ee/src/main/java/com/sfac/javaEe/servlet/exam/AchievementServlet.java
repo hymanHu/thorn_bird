@@ -3,8 +3,10 @@ package com.sfac.javaEe.servlet.exam;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -37,6 +39,40 @@ public class AchievementServlet extends HttpServlet {
 	private AnswerDao answerDao = new AnswerDao();
 	private QuestionDao questionDao = new QuestionDao();
 	private ObjectMapper mapper = new ObjectMapper();
+	
+	/**
+	 * 127.0.0.1/api/achievement/21 ---- get
+	 */
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) 
+			throws ServletException, IOException {
+		String[] urlPatterns = req.getRequestURI().split("/");
+		String achievementId = urlPatterns[urlPatterns.length - 1];
+		if (StringUtils.isBlank(achievementId) || !achievementId.matches("^[0-9]*$")) {
+			throw new ServletException("Achievement id is null or not number.");
+		}
+		
+		String resultJson = "";
+		try {
+			Achievement achievement = achievementDao.getAchievementById(Integer.parseInt(achievementId));
+			if (achievement != null) {
+				List<Answer> answers = answerDao.getAnswersByAchievementId(Integer.parseInt(achievementId));
+				for (Answer answer : answers) {
+					answer.setQuestion(questionDao.getQuestionById(answer.getQuestionId()));
+				}
+				achievement.setAnswers(answers);
+			}
+			
+			resultJson = mapper.writeValueAsString(achievement);
+		} catch (NumberFormatException | ClassNotFoundException | SQLException e1) {
+			e1.printStackTrace();
+		}
+		
+		resp.setContentType("text/json;charset=utf-8");
+		PrintWriter pw = resp.getWriter();
+		pw.append(resultJson);
+		pw.flush();
+	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -98,6 +134,37 @@ public class AchievementServlet extends HttpServlet {
 			result.put("status", 500);
 			result.put("message", e.getMessage());
 			e.printStackTrace();
+		}
+		
+		String resultJson = mapper.writeValueAsString(result);
+		
+		resp.setContentType("text/json;charset=utf-8");
+		PrintWriter pw = resp.getWriter();
+		pw.append(resultJson);
+		pw.flush();
+	}
+
+	@Override
+	protected void doPut(HttpServletRequest req, HttpServletResponse resp) 
+			throws ServletException, IOException {
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		StringBuffer sb = new StringBuffer();
+		String line = null;
+		BufferedReader br = req.getReader();
+		while ((line = br.readLine()) != null) {
+			sb.append(line);
+		}
+		
+		Achievement achievement = mapper.readValue(sb.toString(), Achievement.class);
+		try {
+			achievementDao.updateAchievementScore(achievement);
+			result.put("status", 200);
+			result.put("message", "Update score success.");
+		} catch (ClassNotFoundException | SQLException e) {
+			e.printStackTrace();
+			result.put("status", 500);
+			result.put("message", e.getMessage());
 		}
 		
 		String resultJson = mapper.writeValueAsString(result);

@@ -11,6 +11,9 @@ public class Answer {
 	private int achievementId;
 	private int questionId;
 	private String userAnswer;
+	
+	// 冗余字段
+	private Question question;
 
 	public int getId() {
 		return id;
@@ -42,6 +45,14 @@ public class Answer {
 
 	public void setUserAnswer(String userAnswer) {
 		this.userAnswer = userAnswer;
+	}
+
+	public Question getQuestion() {
+		return question;
+	}
+
+	public void setQuestion(Question question) {
+		this.question = question;
 	}
 
 }

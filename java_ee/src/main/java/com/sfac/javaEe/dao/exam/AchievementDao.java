@@ -131,4 +131,54 @@ public class AchievementDao {
 		
 		return count;
 	}
+	
+	public Achievement getAchievementById(int id) throws ClassNotFoundException, SQLException {
+		String sql = "select * from achievement a left join user u on a.user_id = u.user_id where id = ?";
+		
+		Achievement achievement = null;
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setInt(1, id);
+			System.out.println(ps.toString());
+			
+			ResultSet rs = ps.executeQuery();
+			while (rs.next()) {
+				achievement = new Achievement();
+				achievement.setId(rs.getInt("id"));
+				achievement.setUserId(rs.getInt("user_id"));
+				achievement.setSubject(rs.getString("subject"));
+				achievement.setTotalScore(rs.getDouble("total_score"));
+				achievement.setReferenceScore(rs.getString("reference_score"));
+				achievement.setScore(rs.getDouble("score"));
+				achievement.setTotalTime(rs.getInt("total_time"));
+				achievement.setSpendTime(rs.getInt("spend_time"));
+				achievement.setExamDate(rs.getTimestamp("exam_date"));
+				achievement.setUserName(rs.getString("user_name"));
+			}
+		} finally {
+			DBUtil.closeConnection(conn);
+		}
+		
+		return achievement;
+	}
+	
+	public void updateAchievementScore(Achievement achievement) 
+			throws SQLException, ClassNotFoundException {
+		String sql = "update achievement set score = ?, reference_score = ? where id = ?";
+		
+		Connection conn = null;
+		try {
+			conn = DBUtil.getConnection();
+			PreparedStatement ps = conn.prepareStatement(sql);
+			ps.setDouble(1, achievement.getScore());
+			ps.setDouble(2, achievement.getScore());
+			ps.setInt(3, achievement.getId());
+			System.out.println(ps.toString());
+			ps.execute();
+		} finally {
+			DBUtil.closeConnection(conn);
+		}
+	}
 }
