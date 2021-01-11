@@ -6,7 +6,7 @@ __author__ = "HymanHu";
 excel test
 '''
 
-import excel_util;
+from utils import excel_util;
 import random;
 
 def write_excel():
