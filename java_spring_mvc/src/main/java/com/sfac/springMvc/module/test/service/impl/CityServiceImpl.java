@@ -11,10 +11,9 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sfac.springMvc.module.common.entity.ResultEntity;
-import com.sfac.springMvc.module.common.entity.SearchBean;
 import com.sfac.springMvc.module.common.entity.ResultEntity.ResultStatus;
+import com.sfac.springMvc.module.common.entity.SearchBean;
 import com.sfac.springMvc.module.test.dao.CityDao;
-import com.sfac.springMvc.module.test.dao.CityMapper;
 import com.sfac.springMvc.module.test.entity.City;
 import com.sfac.springMvc.module.test.service.CityService;
 
@@ -26,8 +25,8 @@ import com.sfac.springMvc.module.test.service.CityService;
 @Service
 public class CityServiceImpl implements CityService {
 	
-	@Autowired
-	private CityMapper cityMapper;
+//	@Autowired
+//	private CityMapper cityMapper;
 	@Autowired
 	private CityDao cityDao;
 

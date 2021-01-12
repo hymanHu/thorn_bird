@@ -29,7 +29,7 @@ public interface CountryDao {
 	 * -而 cities 属性通过 getCitiesByCountryId 方法来实现，country_id作为参数
 	 * 2、结果集共享，设置 id 属性，调用时使用 @ResultMap(value="countryResults")
 	 */
-	@Select("select * from country where country_id = #{countryId}")
+	@Select("select * from test_country where country_id = #{countryId}")
 	@Results(id = "countryResults", value = {
 		@Result(column = "country_id", property = "countryId"),
 		@Result(column = "country_id", property = "cities", 
@@ -39,7 +39,7 @@ public interface CountryDao {
 	})
 	Country getCountryByCountryId(int countryId);
 	
-	@Select("select * from country where country_name = #{countryName}")
+	@Select("select * from test_country where country_name = #{countryName}")
 	@ResultMap(value = "countryResults")
 	Country getCountryByCountryName(String countryName);
 

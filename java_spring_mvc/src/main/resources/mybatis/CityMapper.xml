@@ -79,7 +79,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from city
+    from test_city
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -90,21 +90,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from city
+    from test_city
     where city_id = #{cityId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from city
+    delete from test_city
     where city_id = #{cityId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.sfac.springMvc.module.test.entity.CityExample">
-    delete from city
+    delete from test_city
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.sfac.springMvc.module.test.entity.City">
-    insert into city (city_id, city_name, local_city_name, 
+    insert into test_city (city_id, city_name, local_city_name, 
       country_id, district, population, 
       date_modified, date_created)
     values (#{cityId,jdbcType=INTEGER}, #{cityName,jdbcType=VARCHAR}, #{localCityName,jdbcType=VARCHAR}, 
@@ -112,7 +112,7 @@
       #{dateModified,jdbcType=TIMESTAMP}, #{dateCreated,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.sfac.springMvc.module.test.entity.City">
-    insert into city
+    insert into test_city
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="cityId != null">
         city_id,
@@ -167,13 +167,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.sfac.springMvc.module.test.entity.CityExample" resultType="java.lang.Long">
-    select count(*) from city
+    select count(*) from test_city
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update city
+    update test_city
     <set>
       <if test="record.cityId != null">
         city_id = #{record.cityId,jdbcType=INTEGER},
@@ -205,7 +205,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update city
+    update test_city
     set city_id = #{record.cityId,jdbcType=INTEGER},
       city_name = #{record.cityName,jdbcType=VARCHAR},
       local_city_name = #{record.localCityName,jdbcType=VARCHAR},
@@ -219,7 +219,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.sfac.springMvc.module.test.entity.City">
-    update city
+    update test_city
     <set>
       <if test="cityName != null">
         city_name = #{cityName,jdbcType=VARCHAR},
@@ -246,7 +246,7 @@
     where city_id = #{cityId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sfac.springMvc.module.test.entity.City">
-    update city
+    update test_city
     set city_name = #{cityName,jdbcType=VARCHAR},
       local_city_name = #{localCityName,jdbcType=VARCHAR},
       country_id = #{countryId,jdbcType=INTEGER},

@@ -92,7 +92,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from country
+    from test_country
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
@@ -103,21 +103,21 @@
   <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
-    from country
+    from test_country
     where country_id = #{countryId,jdbcType=INTEGER}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
-    delete from country
+    delete from test_country
     where country_id = #{countryId,jdbcType=INTEGER}
   </delete>
   <delete id="deleteByExample" parameterType="com.sfac.springMvc.module.test.entity.CountryExample">
-    delete from country
+    delete from test_country
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
   <insert id="insert" parameterType="com.sfac.springMvc.module.test.entity.Country">
-    insert into country (country_id, country_name, local_country_name, 
+    insert into test_country (country_id, country_name, local_country_name, 
       country_code, country_code2, continent, 
       region, surface_area, indep_year, 
       population, life_expectancy, gnp, 
@@ -133,7 +133,7 @@
       #{dateModified,jdbcType=TIMESTAMP}, #{dateCreated,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.sfac.springMvc.module.test.entity.Country">
-    insert into country
+    insert into test_country
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="countryId != null">
         country_id,
@@ -260,13 +260,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.sfac.springMvc.module.test.entity.CountryExample" resultType="java.lang.Long">
-    select count(*) from country
+    select count(*) from test_country
     <if test="_parameter != null">
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map">
-    update country
+    update test_country
     <set>
       <if test="record.countryId != null">
         country_id = #{record.countryId,jdbcType=INTEGER},
@@ -334,7 +334,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map">
-    update country
+    update test_country
     set country_id = #{record.countryId,jdbcType=INTEGER},
       country_name = #{record.countryName,jdbcType=VARCHAR},
       local_country_name = #{record.localCountryName,jdbcType=VARCHAR},
@@ -360,7 +360,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.sfac.springMvc.module.test.entity.Country">
-    update country
+    update test_country
     <set>
       <if test="countryName != null">
         country_name = #{countryName,jdbcType=VARCHAR},
@@ -423,7 +423,7 @@
     where country_id = #{countryId,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.sfac.springMvc.module.test.entity.Country">
-    update country
+    update test_country
     set country_name = #{countryName,jdbcType=VARCHAR},
       local_country_name = #{localCountryName,jdbcType=VARCHAR},
       country_code = #{countryCode,jdbcType=VARCHAR},
