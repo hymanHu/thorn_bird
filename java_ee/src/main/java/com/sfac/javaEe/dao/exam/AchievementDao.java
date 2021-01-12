@@ -23,7 +23,7 @@ import com.sfac.javaEe.util.DBUtil;
 public class AchievementDao {
 
 	public void insertAchievement(Achievement achievement) throws ClassNotFoundException, SQLException {
-		String sql = "insert into achievement (user_id, subject, total_score, reference_score, "
+		String sql = "insert into exam_achievement (user_id, subject, total_score, reference_score, "
 				+ "score, total_time, spend_time, exam_date) values (?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		Connection conn = null;
@@ -50,7 +50,7 @@ public class AchievementDao {
 	}
 	
 	public void deleteAchievementById(int id) throws ClassNotFoundException, SQLException {
-		String sql = "delete from achievement where id = ?";
+		String sql = "delete from exam_achievement where id = ?";
 		
 		Connection conn = null;
 		try {
@@ -67,8 +67,8 @@ public class AchievementDao {
 	public List<Achievement> getAchievementsBySearchBean(SearchBean searchBean) 
 			throws ClassNotFoundException, SQLException {
 		List<Achievement> achievements = new ArrayList<Achievement>();
-		StringBuffer sql = new StringBuffer("select * from achievement a "
-				+ "left join user u on a.user_id = u.user_id ");
+		StringBuffer sql = new StringBuffer("select * from exam_achievement a "
+				+ "left join account_user u on a.user_id = u.user_id ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where subject like '%" + searchBean.getKeyWord() + "%' ");
 		}
@@ -110,7 +110,7 @@ public class AchievementDao {
 	
 	public int getAchievementsCountBySearchBean(SearchBean searchBean) 
 			throws ClassNotFoundException, SQLException {
-		StringBuffer sql = new StringBuffer("select count(*) from achievement ");
+		StringBuffer sql = new StringBuffer("select count(*) from exam_achievement ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where subject like '%" + searchBean.getKeyWord() + "%' ");
 		}
@@ -133,7 +133,7 @@ public class AchievementDao {
 	}
 	
 	public Achievement getAchievementById(int id) throws ClassNotFoundException, SQLException {
-		String sql = "select * from achievement a left join user u on a.user_id = u.user_id where id = ?";
+		String sql = "select * from exam_achievement a left join account_user u on a.user_id = u.user_id where id = ?";
 		
 		Achievement achievement = null;
 		Connection conn = null;
@@ -166,7 +166,7 @@ public class AchievementDao {
 	
 	public void updateAchievementScore(Achievement achievement) 
 			throws SQLException, ClassNotFoundException {
-		String sql = "update achievement set score = ?, reference_score = ? where id = ?";
+		String sql = "update exam_achievement set score = ?, reference_score = ? where id = ?";
 		
 		Connection conn = null;
 		try {

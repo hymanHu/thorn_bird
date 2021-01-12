@@ -19,7 +19,7 @@ import com.sfac.javaEe.util.DBUtil;
 public class AnswerDao {
 
 	public void insertAnswer(Answer answer) throws ClassNotFoundException, SQLException {
-		String sql = "insert into answer (achievement_id, question_id, user_answer) values (?, ?, ?)";
+		String sql = "insert into exam_answer (achievement_id, question_id, user_answer) values (?, ?, ?)";
 		Connection conn = null;
 		try {
 			conn = DBUtil.getConnection();
@@ -39,7 +39,7 @@ public class AnswerDao {
 	
 	public void deleteAnswersByAchievementId(int achievementId) 
 			throws ClassNotFoundException, SQLException {
-		String sql = "delete from answer where achievement_id = ?";
+		String sql = "delete from exam_answer where achievement_id = ?";
 		
 		Connection conn = null;
 		try {
@@ -55,7 +55,7 @@ public class AnswerDao {
 	
 	public List<Answer> getAnswersByAchievementId(int achievementId) 
 			throws ClassNotFoundException, SQLException {
-		String sql = "select * from answer where achievement_id = ?";
+		String sql = "select * from exam_answer where achievement_id = ?";
 		
 		List<Answer> answers = new ArrayList<Answer>();
 		Connection conn = null;

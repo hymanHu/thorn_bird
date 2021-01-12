@@ -24,7 +24,7 @@ import com.sfac.javaEe.util.DBUtil;
 public class PaperDao {
 	
 	public void insertPager(Paper paper) throws ClassNotFoundException, SQLException {
-		String sql = "insert into paper (subject, total_time, total_score, create_date) value (?, ?, ?, ?)";
+		String sql = "insert into exam_paper (subject, total_time, total_score, create_date) value (?, ?, ?, ?)";
 		
 		Connection conn = null;
 		try {
@@ -48,7 +48,7 @@ public class PaperDao {
 	
 	public Paper getPaperById(int id) throws SQLException, ClassNotFoundException {
 		Paper paper = null;
-		String sql = "select * from paper where id = ?";
+		String sql = "select * from exam_paper where id = ?";
 		
 		Connection connection = null;
 		PreparedStatement ps = null;
@@ -75,7 +75,7 @@ public class PaperDao {
 	
 	public List<Paper> getPapersBySearchBean(SearchBean searchBean) throws SQLException, ClassNotFoundException {
 		List<Paper> papers = new ArrayList<Paper>();
-		StringBuffer sql = new StringBuffer("select * from paper ");
+		StringBuffer sql = new StringBuffer("select * from exam_paper ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where subject like '%" + searchBean.getKeyWord() + "%' ");
 		}
@@ -111,7 +111,7 @@ public class PaperDao {
 	}
 	
 	public int getPapersCountBySearchBean(SearchBean searchBean) throws SQLException, ClassNotFoundException {
-		StringBuffer sql = new StringBuffer("select count(*) from paper ");
+		StringBuffer sql = new StringBuffer("select count(*) from exam_paper ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where subject like '%" + searchBean.getKeyWord() + "%' ");
 		}
@@ -134,7 +134,7 @@ public class PaperDao {
 	}
 	
 	public void deletePaperById(int id) throws ClassNotFoundException, SQLException {
-		String sql = "delete from paper where id = ?";
+		String sql = "delete from exam_paper where id = ?";
 		
 		Connection conn = null;
 		try {

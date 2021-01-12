@@ -24,7 +24,7 @@ import com.sfac.javaEe.util.DBUtil;
 public class QuestionDao {
 	
 	public void insertQuestion(Question question) throws SQLException, ClassNotFoundException {
-		String sql = "insert into question (type, flag, content, score, option_a, option_b, option_c, "
+		String sql = "insert into exam_question (type, flag, content, score, option_a, option_b, option_c, "
 				+ "option_d, reference_answer, comment) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 		
 		Connection connection = null;
@@ -55,7 +55,7 @@ public class QuestionDao {
 	
 	public Question getQuestionById(int id) throws ClassNotFoundException, SQLException {
 		Question question = null;
-		String sql = "select * from question where id = ?";
+		String sql = "select * from exam_question where id = ?";
 		
 		Connection conn = null;
 		try {
@@ -87,7 +87,7 @@ public class QuestionDao {
 	}
 	
 	public void updateQuestion(Question question) throws ClassNotFoundException, SQLException {
-		String sql = "update question set type = ?, flag = ?, content = ?, score = ?, option_a = ?, "
+		String sql = "update exam_question set type = ?, flag = ?, content = ?, score = ?, option_a = ?, "
 				+ "option_b = ?, option_c = ?, option_d = ?, reference_answer = ?, comment = ? where id = ?";
 		
 		Connection conn = null;
@@ -113,7 +113,7 @@ public class QuestionDao {
 	}
 	
 	public void deleteQuestionById(int id) throws ClassNotFoundException, SQLException {
-		String sql = "delete from question where id = ?";
+		String sql = "delete from exam_question where id = ?";
 		
 		Connection conn = null;
 		try {
@@ -129,7 +129,7 @@ public class QuestionDao {
 
 	public List<Question> getQuestionsByPaperId(int paperId) throws SQLException, ClassNotFoundException {
 		List<Question> questions = new ArrayList<Question>();
-		String sql = "select * from question q left join paper_question pq on q.id = pq.question_id "
+		String sql = "select * from exam_question q left join exam_paper_question pq on q.id = pq.question_id "
 				+ "where pq.paper_id = ? order by type";
 		
 		Connection connection = null;
@@ -163,7 +163,7 @@ public class QuestionDao {
 	
 	public List<Question> getQuestionsBySearchBean(SearchBean searchBean) throws SQLException, ClassNotFoundException {
 		List<Question> questions = new ArrayList<Question>();
-		StringBuffer sql = new StringBuffer("select * from question ");
+		StringBuffer sql = new StringBuffer("select * from exam_question ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where content like '%" + searchBean.getKeyWord() + "%' or ");
 			sql.append("type like '%" + searchBean.getKeyWord() + "%' or ");
@@ -206,7 +206,7 @@ public class QuestionDao {
 	}
 	
 	public int getQuestionsCountBySearchBean(SearchBean searchBean) throws SQLException, ClassNotFoundException {
-		StringBuffer sql = new StringBuffer("select count(*) from question ");
+		StringBuffer sql = new StringBuffer("select count(*) from exam_question ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where content like '%" + searchBean.getKeyWord() + "%' or ");
 			sql.append("type like '%" + searchBean.getKeyWord() + "%' or ");
@@ -232,7 +232,7 @@ public class QuestionDao {
 	public List<Question> getQuestionsByPaperBuilder(PaperBuilder paperBuilder) 
 			throws ClassNotFoundException, SQLException {
 		StringBuffer sb = new StringBuffer();
-		sb.append("select * from question where flag = '")
+		sb.append("select * from exam_question where flag = '")
 			.append(paperBuilder.getPaperFlage())
 			.append("' ");
 		if (paperBuilder.getPaperTypes() != null && !paperBuilder.getPaperTypes().isEmpty()) {

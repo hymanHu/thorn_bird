@@ -14,7 +14,7 @@ import com.sfac.javaEe.util.DBUtil;
 public class PaperQuestionDao {
 	
 	public void insertPaperQestion(int paperId, int questionId) throws ClassNotFoundException, SQLException {
-		String sql = "insert into paper_question (paper_id, question_id) values (?, ?)";
+		String sql = "insert into exam_paper_question (paper_id, question_id) values (?, ?)";
 		
 		Connection conn = null;
 		try {
@@ -30,7 +30,7 @@ public class PaperQuestionDao {
 	}
 
 	public void deletePaperQuestionByPaperId(int paperId) throws ClassNotFoundException, SQLException {
-		String sql = "delete from paper_question where paper_id = ?";
+		String sql = "delete from exam_paper_question where paper_id = ?";
 		
 		Connection conn = null;
 		try {

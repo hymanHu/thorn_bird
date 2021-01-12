@@ -26,7 +26,7 @@ public class UserDao {
 	// 根据 userName 查询 user
 	public User getUserByUserName(String userName) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
-		String sql = "select * from user where user_name = ?";
+		String sql = "select * from account_user where user_name = ?";
 		User user = null;
 		
 		try {
@@ -53,7 +53,7 @@ public class UserDao {
 	public User getUserByUserNameAndPassword(String userName, String password) 
 			throws SQLException, ClassNotFoundException {
 		Connection conn = null;
-		String sql = "select * from user where user_name = ? and password = ?";
+		String sql = "select * from account_user where user_name = ? and password = ?";
 		User user = null;
 		
 		try {
@@ -80,7 +80,7 @@ public class UserDao {
 	// 根据 userId 查询 user
 	public User getUserByUserId(int userId) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
-		String sql = "select * from user where user_id = ?";
+		String sql = "select * from account_user where user_id = ?";
 		User user = null;
 		
 		try {
@@ -106,7 +106,7 @@ public class UserDao {
 	// 插入user，并返回有 id 的 user
 	public User insertUser(User user) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
-		String sql = "insert into user (user_name, password, create_date) values (?, ?, ?)";
+		String sql = "insert into account_user (user_name, password, create_date) values (?, ?, ?)";
 		
 		try {
 			conn = DBUtil.getConnection();
@@ -140,7 +140,7 @@ public class UserDao {
 	// 更新 user
 	public User updateUser(User user) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
-		String sql = "update user set user_name = ?, password = ? where user_id = ?";
+		String sql = "update account_user set user_name = ?, password = ? where user_id = ?";
 		
 		try {
 			conn = DBUtil.getConnection();
@@ -161,7 +161,7 @@ public class UserDao {
 	// 删除 user
 	public void deleteUser(int userId) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
-		String sql = "delete from user where user_id = ?";
+		String sql = "delete from account_user where user_id = ?";
 		
 		try {
 			conn = DBUtil.getConnection();
@@ -179,7 +179,7 @@ public class UserDao {
 	public List<User> getUsersBySearchBean(SearchBean searchBean) throws SQLException, ClassNotFoundException {
 		List<User> users = new ArrayList<User>();
 		Connection connection = null;
-		StringBuffer sql = new StringBuffer("select * from user ");
+		StringBuffer sql = new StringBuffer("select * from account_user ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where user_name like '%" + searchBean.getKeyWord() + "%'");
 		}
@@ -214,7 +214,7 @@ public class UserDao {
 	// 根据 searchBean 查询 users 总数
 	public int getUsersCountBySearchBean(SearchBean searchBean) throws SQLException, ClassNotFoundException {
 		Connection connection = null;
-		StringBuffer sql = new StringBuffer("select count(*) from user ");
+		StringBuffer sql = new StringBuffer("select count(*) from account_user ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where user_name like '%" + searchBean.getKeyWord() + "%'");
 		}

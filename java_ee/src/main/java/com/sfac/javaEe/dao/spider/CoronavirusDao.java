@@ -19,7 +19,7 @@ public class CoronavirusDao {
 
 	public List<Coronavirus> getCoronavirusList() throws SQLException, ClassNotFoundException {
 		Connection connection = null;
-		String sql = "select * from coronavirus order by date desc limit 7";
+		String sql = "select * from spider_coronavirus order by date desc limit 7";
 		List<Coronavirus> coronavirusList = new ArrayList<Coronavirus>();
 		
 		try {
