@@ -5,11 +5,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -23,10 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "test_clazz")
-public class Clazz {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int clazzId;
+public class Clazz extends AbstractEntity {
 	private String schoolName;
     
 	/**
@@ -57,14 +51,6 @@ public class Clazz {
 	@JoinColumn(name = "school_id", insertable = false, updatable = false)
 	@JsonIgnore
 	private School school;
-
-	public int getClazzId() {
-		return clazzId;
-	}
-
-	public void setClazzId(int clazzId) {
-		this.clazzId = clazzId;
-	}
 
 	public String getSchoolName() {
 		return schoolName;

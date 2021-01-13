@@ -4,9 +4,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -19,10 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "test_card")
-public class Card {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int cardId;
+public class Card extends AbstractEntity {
 	@Column(name = "card_no", length = 33, unique = true)
 	private String cardNo;
 	
@@ -35,14 +29,6 @@ public class Card {
 	@OneToOne(mappedBy = "studentCard", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@JsonIgnore
 	private Student student;
-
-	public int getCardId() {
-		return cardId;
-	}
-
-	public void setCardId(int cardId) {
-		this.cardId = cardId;
-	}
 
 	public String getCardNo() {
 		return cardNo;

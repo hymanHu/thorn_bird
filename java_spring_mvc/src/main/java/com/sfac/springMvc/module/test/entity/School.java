@@ -5,9 +5,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
@@ -19,11 +16,8 @@ import javax.persistence.Transient;
  */
 @Entity
 @Table(name = "test_school")
-public class School {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int schoolId;
-	private int schoolName;
+public class School extends AbstractEntity {
+	private String schoolName;
 	@Transient
 	private String region;
     
@@ -35,19 +29,11 @@ public class School {
 	@OneToMany(mappedBy = "school", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	private List<Clazz> clazzes;
 
-	public int getSchoolId() {
-		return schoolId;
-	}
-
-	public void setSchoolId(int schoolId) {
-		this.schoolId = schoolId;
-	}
-
-	public int getSchoolName() {
+	public String getSchoolName() {
 		return schoolName;
 	}
 
-	public void setSchoolName(int schoolName) {
+	public void setSchoolName(String schoolName) {
 		this.schoolName = schoolName;
 	}
 

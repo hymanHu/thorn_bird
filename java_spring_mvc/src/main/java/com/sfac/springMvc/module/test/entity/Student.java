@@ -1,20 +1,15 @@
 package com.sfac.springMvc.module.test.entity;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 
@@ -25,13 +20,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  */
 @Entity
 @Table(name = "test_student")
-public class Student {
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int studentId;
+public class Student extends AbstractEntity {
 	private String studentName;
-	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
-	private LocalDateTime createDate;
 	
 	/**
 	 * OneToOne：一对一关系中，有外键方使用 JoinColumn 注解，另一方使用 mappedBy 属性（可选）
@@ -55,28 +45,12 @@ public class Student {
 	@JsonIgnore
 	private List<Clazz> clazzes;
 
-	public int getStudentId() {
-		return studentId;
-	}
-
-	public void setStudentId(int studentId) {
-		this.studentId = studentId;
-	}
-
 	public String getStudentName() {
 		return studentName;
 	}
 
 	public void setStudentName(String studentName) {
 		this.studentName = studentName;
-	}
-
-	public LocalDateTime getCreateDate() {
-		return createDate;
-	}
-
-	public void setCreateDate(LocalDateTime createDate) {
-		this.createDate = createDate;
 	}
 
 	public Card getStudentCard() {
