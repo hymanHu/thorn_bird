@@ -21,20 +21,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Table(name = "test_card")
 public class Card {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int cardId;
-    @Column(name = "card_no", length = 33, unique = true)
-    private String cardNo;
-    
-    /**
-     * OneToOne：一对一关系中，有外键方使用 JoinColumn 注解，另一方使用 mappedBy 属性（可选）
-     * cascade：联级操作
-     * fetch：加载数据策略
-     * JsonIgnore：不序列化该字段，避免无限递归
-     */
-    @OneToOne(mappedBy = "studentCard", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    @JsonIgnore
-    private Student student;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int cardId;
+	@Column(name = "card_no", length = 33, unique = true)
+	private String cardNo;
+	
+	/**
+	 * OneToOne：一对一关系中，有外键方使用 JoinColumn 注解，另一方使用 mappedBy 属性（可选）
+	 * cascade：联级操作
+	 * fetch：加载数据策略
+	 * JsonIgnore：不序列化该字段，避免无限递归
+	*/
+	@OneToOne(mappedBy = "studentCard", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JsonIgnore
+	private Student student;
 
 	public int getCardId() {
 		return cardId;

@@ -21,19 +21,19 @@ import javax.persistence.Transient;
 @Table(name = "test_school")
 public class School {
 	@Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int schoolId;
-    private int schoolName;
-    @Transient
-    private String region;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int schoolId;
+	private int schoolName;
+	@Transient
+	private String region;
     
-    /**
-     * OneToMany：多方使用 joinClumn，创建外键，一方使用 mappedBy 属性
-     * cascade：联级操作
-     * fetch：加载数据策略
-     */
-    @OneToMany(mappedBy = "school", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    private List<Clazz> clazzes;
+	/**
+	 * OneToMany：多方使用 joinClumn，创建外键，一方使用 mappedBy 属性
+	 * cascade：联级操作
+	 * fetch：加载数据策略
+	*/
+	@OneToMany(mappedBy = "school", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	private List<Clazz> clazzes;
 
 	public int getSchoolId() {
 		return schoolId;
