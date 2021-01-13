@@ -37,7 +37,7 @@ public interface CityDao {
 	void deleteCityByCityId(int cityId);
 	
 	@Select("select ci.*, co.country_name from test_city ci "
-			+ "left join country co on ci.country_id = co.country_id "
+			+ "left join test_country co on ci.country_id = co.country_id "
 			+ "where ci.city_id = #{cityId}")
 	City getCityByCityId(int cityId);
 	
