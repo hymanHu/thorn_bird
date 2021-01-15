@@ -11,6 +11,12 @@
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
         http://www.springframework.org/schema/context   
         http://www.springframework.org/schema/context/spring-context.xsd">
+        
+    <!-- 扫描构造型（stereotype）注解所标注的类，@Component、@Repository、@Service、@Controller 等 -->
+	<context:component-scan base-package="com.sfac.springMvc">
+		<!-- 设置黑名单，不扫描 Controller -->
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
       
 	<!-- 加载属性文件 -->
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

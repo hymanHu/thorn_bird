@@ -12,8 +12,11 @@
         http://www.springframework.org/schema/mvc   
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
         
-	<!-- 扫描构造型（stereotype）注解所标注的类，@Component、@Repository、@Service、@Controller -->
-	<context:component-scan base-package="com.sfac.springMvc" />
+	<!-- 扫描构造型（stereotype）注解所标注的类，@Component、@Repository、@Service、@Controller 等 -->
+	<context:component-scan base-package="com.sfac.springMvc" use-default-filters="false">
+		<!-- 设置白名单，只扫描 Controller -->
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
 	
 	<!-- 启用注解驱动：将扫描到的组件注册到工厂中，来处理请求；
 		Spring 3.0.x 新增配置，其中最主要的两个类：DefaultAnnotationHandlerMapping 和 AnnotationMethodHandlerAdapter，
