@@ -26,7 +26,7 @@ public class Card extends AbstractEntity {
 	 * fetch：加载数据策略
 	 * JsonIgnore：不序列化该字段，避免无限递归
 	*/
-	@OneToOne(mappedBy = "studentCard", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(mappedBy = "studentCard", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private Student student;
 

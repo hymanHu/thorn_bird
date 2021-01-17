@@ -54,7 +54,6 @@
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
 				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
-				<prop key="hibernate.current_session_context_class">${hibernate.current_session_context_class}</prop>
 			</props>
 		</property>
 	</bean>
@@ -62,28 +61,14 @@
     <!-- 引入hibernateTemplate -->
     <bean id="hibernateTemplate" class="org.springframework.orm.hibernate5.HibernateTemplate">
         <property name="sessionFactory" ref="sessionFactory" />
+        <property name="checkWriteOperations" value="false"></property>
     </bean>
     
     <!-- 配置事务管理器 -->
     <bean id="transactionManager" class="org.springframework.orm.hibernate5.HibernateTransactionManager">
-        <property name="sessionFactory">
-                <ref bean="sessionFactory" />
-        </property>
+        <property name="sessionFactory" ref="sessionFactory" />
     </bean>
-    <!-- 配置事务的传播特性 -->
-    <tx:advice id="txAdvice" transaction-manager="transactionManager">
-        <tx:attributes>
-            <tx:method name="save*" propagation="REQUIRED" />
-            <tx:method name="add*" propagation="REQUIRED" />
-            <tx:method name="upd*" propagation="REQUIRED" />
-            <tx:method name="del*" propagation="REQUIRED" />
-            <tx:method name="log*" propagation="REQUIRED" />
-            <tx:method name="*" read-only="true" />
-        </tx:attributes>
-    </tx:advice>
-    <!-- 给 aop 切面加入事务,依赖 aspectjweaver.jar  -->
-    <aop:config>
-        <aop:pointcut id="allServiceMethod" expression="execution(* com.sfac.springMvc.**.*(..))" />
-        <aop:advisor pointcut-ref="allServiceMethod" advice-ref="txAdvice" />
-    </aop:config>
+    
+    <!-- 开启事务注解 -->
+    <tx:annotation-driven transaction-manager="transactionManager"/>
 </beans>

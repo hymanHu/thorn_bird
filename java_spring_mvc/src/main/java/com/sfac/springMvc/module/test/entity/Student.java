@@ -31,7 +31,7 @@ public class Student extends AbstractEntity {
 	 * JoinColumn
 	 * name 对应 test_student 表中 card_id 外键列
 	*/
-	@OneToOne(targetEntity = Card.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToOne(targetEntity = Card.class, cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "card_id", unique = true)
 	private Card studentCard;
     
@@ -41,7 +41,7 @@ public class Student extends AbstractEntity {
 	 * fetch：加载数据策略
 	 * JsonIgnore：不序列化该字段，避免无限递归
 	*/
-	@ManyToMany(mappedBy = "students", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(mappedBy = "students", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JsonIgnore
 	private List<Clazz> clazzes;
 

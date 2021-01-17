@@ -32,7 +32,7 @@ public class Clazz extends AbstractEntity {
 	 * joinColumns：表 test_clazz 参与中间表的主键
 	 * inverseJoinColumns：关联表 test_student 参与中间表的主键
 	*/
-	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name = "test_clazz_student",
 		joinColumns = @JoinColumn(name = "clazz_id"),
 		inverseJoinColumns = @JoinColumn(name="student_id"))
@@ -47,7 +47,7 @@ public class Clazz extends AbstractEntity {
 	 * insertable & updatable：标识该属性是否参与插入和更新插入
 	 * JsonIgnore：不序列化该字段，避免无限递归
 	*/
-	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinColumn(name = "school_id", insertable = false, updatable = false)
 	@JsonIgnore
 	private School school;

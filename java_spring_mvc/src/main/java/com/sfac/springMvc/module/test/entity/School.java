@@ -26,7 +26,7 @@ public class School extends AbstractEntity {
 	 * cascade：联级操作
 	 * fetch：加载数据策略
 	*/
-	@OneToMany(mappedBy = "school", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "school", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<Clazz> clazzes;
 
 	public String getSchoolName() {

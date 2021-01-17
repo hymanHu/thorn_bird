@@ -10,6 +10,8 @@ import javax.persistence.MappedSuperclass;
 import javax.persistence.PrePersist;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 
 /**
  * Description: 抽象实体，将 id 和 createDate 抽取出来
@@ -23,7 +25,9 @@ public class AbstractEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false, updatable = false)
 	private Integer id;
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	@Column(updatable = false)
 	private LocalDateTime createDate;
 	
 	// 在 insert 之前，该方法被调用
