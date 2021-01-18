@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.sfac.springMvc.module.common.entity.ResultEntity;
 import com.sfac.springMvc.module.common.entity.ResultEntity.ResultStatus;
 import com.sfac.springMvc.module.test.entity.Student;
+import com.sfac.springMvc.module.test.repository.StudentRepository;
 import com.sfac.springMvc.module.test.service.StudentService;
 
 /**
@@ -25,11 +26,14 @@ public class StudentServiceImpl implements StudentService {
 	
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
+	@Autowired
+	private StudentRepository studentRepository;
 
 	@Override
-	@Transactional("hibernateTransactionManager")
+//	@Transactional("hibernateTransactionManager")
 	public ResultEntity<Student> insertStudent(Student student) {
-		hibernateTemplate.saveOrUpdate(student);
+//		hibernateTemplate.saveOrUpdate(student);
+		studentRepository.saveAndFlush(student);
 		return new ResultEntity<Student>(ResultStatus.SUCCESS.status, "Insert success.", student);
 	}
 

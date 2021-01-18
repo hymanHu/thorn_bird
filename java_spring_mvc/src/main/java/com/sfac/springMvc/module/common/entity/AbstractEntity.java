@@ -1,4 +1,4 @@
-package com.sfac.springMvc.module.test.entity;
+package com.sfac.springMvc.module.common.entity;
 
 import java.time.LocalDateTime;
 

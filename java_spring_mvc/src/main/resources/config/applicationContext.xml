@@ -31,4 +31,5 @@
 	<!-- 引入别的配置文件 -->
 	<import resource="springMybatis.xml"/>
 	<import resource="springHibernate.xml"/>
+	<import resource="springJpa.xml"/>
 </beans>
