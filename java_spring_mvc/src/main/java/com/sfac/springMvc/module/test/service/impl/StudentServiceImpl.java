@@ -23,19 +23,18 @@ import com.sfac.springMvc.module.test.service.StudentService;
 @Service
 public class StudentServiceImpl implements StudentService {
 	
-	// 纯 hibernate 实现方式
 	@Autowired
 	private HibernateTemplate hibernateTemplate;
 
 	@Override
-	@Transactional("transactionManager")
+	@Transactional("hibernateTransactionManager")
 	public ResultEntity<Student> insertStudent(Student student) {
 		hibernateTemplate.saveOrUpdate(student);
 		return new ResultEntity<Student>(ResultStatus.SUCCESS.status, "Insert success.", student);
 	}
 
 	@Override
-	@Transactional("transactionManager")
+	@Transactional("hibernateTransactionManager")
 	public ResultEntity<Student> updateStudent(Student student) {
 		hibernateTemplate.saveOrUpdate(student);
 //		int i = 1 / 0;
@@ -43,7 +42,7 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	@Transactional("transactionManager")
+	@Transactional("hibernateTransactionManager")
 	public ResultEntity<Object> deleteStudent(Integer id) {
 		Student student = new Student();
 		student.setId(id);
