@@ -1,25 +1,28 @@
 package com.sfac.springMvc.module.test.service.impl;
 
-import java.security.cert.PKIXRevocationChecker.Option;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.orm.hibernate5.HibernateTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.Page;
 import com.sfac.springMvc.module.common.entity.ResultEntity;
 import com.sfac.springMvc.module.common.entity.ResultEntity.ResultStatus;
+import com.sfac.springMvc.module.common.entity.SearchBean;
 import com.sfac.springMvc.module.test.entity.Student;
 import com.sfac.springMvc.module.test.repository.StudentRepository;
 import com.sfac.springMvc.module.test.service.StudentService;
-
-import jdk.nashorn.internal.runtime.options.Options;
 
 /**
  * @Description: Student Service Impl
@@ -107,19 +110,19 @@ public class StudentServiceImpl implements StudentService {
 	@Transactional("jpaTransactionManager")
 	public ResultEntity<Student> updateStudentForJpa(Student student) {
 		studentRepository.saveAndFlush(student);
-		int i = 1 / 0;
+//		int i = 1 / 0;
 		return new ResultEntity<Student>(ResultStatus.SUCCESS.status, "Update success.", student);
 	}
 
 	@Override
 	public ResultEntity<Object> deleteStudentForJpa(Integer id) {
-		studentRepository.delete(id);
+		studentRepository.deleteById(id);
 		return new ResultEntity<Object>(ResultStatus.SUCCESS.status, "Delete success.");
 	}
 
 	@Override
 	public Student getStudentByIdForJpa(Integer id) {
-		return studentRepository.findOne(id);
+		return studentRepository.findById(id).get();
 	}
 
 	@Override
@@ -133,5 +136,30 @@ public class StudentServiceImpl implements StudentService {
 	public List<Student> getStudentsForJpa() {
 		return studentRepository.findAll();
 	}
+
+	@Override
+	public Page<Student> getStudentsBySearchBeanForJpa(SearchBean searchBean) {
+		return null;
+	}
 	
+	/**
+	 * -实现方式一：Example + Page 查询
+	 */
+	public Page<Student> exampleAndPage(SearchBean searchBean) {
+		// 创建 Pageable 对象
+		String orderBy = StringUtils.isBlank(searchBean.getOrderBy()) ? "id" : searchBean.getOrderBy();
+		Sort.Direction direction = StringUtils.isBlank(searchBean.getDirection()) || 
+				searchBean.getDirection().equalsIgnoreCase("asc") ? Sort.Direction.ASC : Sort.Direction.DESC;
+		Sort sort = new Sort(direction, orderBy);
+		// 当前页起始为 0
+		Pageable pageable = new PageRequest(searchBean.getCurrentPage() - 1, searchBean.getPageSize(), sort);
+		
+		// 创建
+		Student example = new Student();
+		example.setStudentName(searchBean.getKeyWord());
+//		ExampleMatcher
+		
+		
+		return null;
+	}
 }
