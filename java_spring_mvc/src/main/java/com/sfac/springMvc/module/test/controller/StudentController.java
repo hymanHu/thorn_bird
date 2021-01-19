@@ -36,7 +36,8 @@ public class StudentController {
 	 */
 	@PostMapping(value = "/student", consumes = "application/json")
 	public ResultEntity<Student> insertStudent(@RequestBody Student student) {
-		return studentService.insertStudent(student);
+//		return studentService.insertStudent(student);
+		return studentService.insertStudentForJpa(student);
 	}
 	
 	/**
@@ -46,7 +47,8 @@ public class StudentController {
 	 */
 	@PutMapping(value = "/student", consumes = "application/json")
 	public ResultEntity<Student> updateStudent(@RequestBody Student student) {
-		return studentService.updateStudent(student);
+//		return studentService.updateStudent(student);
+		return studentService.updateStudentForJpa(student);
 	}
 	
 	/**
@@ -54,7 +56,8 @@ public class StudentController {
 	 */
 	@DeleteMapping("/student/{id}")
 	public ResultEntity<Object> deleteStudent(@PathVariable Integer id) {
-		return studentService.deleteStudent(id);
+//		return studentService.deleteStudent(id);
+		return studentService.deleteStudentForJpa(id);
 	}
 	
 	/**
@@ -62,7 +65,8 @@ public class StudentController {
 	 */
 	@GetMapping("/student/{id}")
 	public Student getStudentById(@PathVariable Integer id) {
-		return studentService.getStudentById(id);
+//		return studentService.getStudentById(id);
+		return studentService.getStudentByIdForJpa(id);
 	}
 	
 	/**
@@ -70,14 +74,16 @@ public class StudentController {
 	 */
 	@GetMapping("/student")
 	public Student getStudentByName(@RequestParam String studentName) {
-		return studentService.getStudentByName(studentName);
+//		return studentService.getStudentByName(studentName);
+		return studentService.getStudentByNameForJpa(studentName);
 	}
 	
 	/**
 	 * 127.0.0.1/api/students?studentName=HymanHu ---- get
 	 */
 	@GetMapping("/students")
-	public List<Student> getStudentsByName(@RequestParam String studentName) {
-		return studentService.getStudentsByName(studentName);
+	public List<Student> getStudents(@RequestParam(required = false) String studentName) {
+//		return studentService.getStudentsByName(studentName);
+		return studentService.getStudentsForJpa();
 	}
 }

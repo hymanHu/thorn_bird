@@ -1,6 +1,9 @@
 package com.sfac.springMvc.module.test.service.impl;
 
+import java.security.cert.PKIXRevocationChecker.Option;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.hibernate.criterion.DetachedCriteria;
 import org.hibernate.criterion.MatchMode;
@@ -16,6 +19,8 @@ import com.sfac.springMvc.module.test.entity.Student;
 import com.sfac.springMvc.module.test.repository.StudentRepository;
 import com.sfac.springMvc.module.test.service.StudentService;
 
+import jdk.nashorn.internal.runtime.options.Options;
+
 /**
  * @Description: Student Service Impl
  * @author: HymanHu
@@ -30,10 +35,9 @@ public class StudentServiceImpl implements StudentService {
 	private StudentRepository studentRepository;
 
 	@Override
-//	@Transactional("hibernateTransactionManager")
+	@Transactional("hibernateTransactionManager")
 	public ResultEntity<Student> insertStudent(Student student) {
-//		hibernateTemplate.saveOrUpdate(student);
-		studentRepository.saveAndFlush(student);
+		hibernateTemplate.saveOrUpdate(student);
 		return new ResultEntity<Student>(ResultStatus.SUCCESS.status, "Insert success.", student);
 	}
 
@@ -91,4 +95,43 @@ public class StudentServiceImpl implements StudentService {
 		);
 		return (List<Student>) hibernateTemplate.findByCriteria(criteria);
 	}
+
+	@Override
+	@Transactional("jpaTransactionManager")
+	public ResultEntity<Student> insertStudentForJpa(Student student) {
+		studentRepository.saveAndFlush(student);
+		return new ResultEntity<Student>(ResultStatus.SUCCESS.status, "Insert success.", student);
+	}
+
+	@Override
+	@Transactional("jpaTransactionManager")
+	public ResultEntity<Student> updateStudentForJpa(Student student) {
+		studentRepository.saveAndFlush(student);
+		int i = 1 / 0;
+		return new ResultEntity<Student>(ResultStatus.SUCCESS.status, "Update success.", student);
+	}
+
+	@Override
+	public ResultEntity<Object> deleteStudentForJpa(Integer id) {
+		studentRepository.delete(id);
+		return new ResultEntity<Object>(ResultStatus.SUCCESS.status, "Delete success.");
+	}
+
+	@Override
+	public Student getStudentByIdForJpa(Integer id) {
+		return studentRepository.findOne(id);
+	}
+
+	@Override
+	public Student getStudentByNameForJpa(String studentName) {
+		List<Student> students = Optional.ofNullable(studentRepository.findByStudentName(studentName))
+				.orElse(Collections.emptyList());
+		return students.isEmpty() ? null : students.get(0);
+	}
+
+	@Override
+	public List<Student> getStudentsForJpa() {
+		return studentRepository.findAll();
+	}
+	
 }

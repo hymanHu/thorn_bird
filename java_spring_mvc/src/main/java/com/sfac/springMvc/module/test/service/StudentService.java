@@ -23,4 +23,16 @@ public interface StudentService {
 	Student getStudentByName(String studentName);
 	
 	List<Student> getStudentsByName(String studentName);
+	
+	ResultEntity<Student> insertStudentForJpa(Student student);
+	
+	ResultEntity<Student> updateStudentForJpa(Student student);
+	
+	ResultEntity<Object> deleteStudentForJpa(Integer id);
+	
+	Student getStudentByIdForJpa(Integer id);
+	
+	Student getStudentByNameForJpa(String studentName);
+	
+	List<Student> getStudentsForJpa();
 }

@@ -46,10 +46,16 @@
 	<bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<!-- 设置数据源 -->
 		<property name="dataSource" ref="dataSourceForJpa" />
-		<!-- 指定 JPA 持久化实现厂商类 -->
-		<property name="jpaVendorAdapter" ref="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
 		<!-- 扫描 Entity 包 -->
 		<property name="packagesToScan" value="com.sfac.springMvc.module.*.entity" />
+		<!-- 指定 JPA 实现厂商 -->
+		<property name="persistenceProvider">
+            <bean class="org.hibernate.jpa.HibernatePersistenceProvider" />
+		</property>
+		<!-- 指定 JPA 供应商适配器 -->
+        <property name="jpaVendorAdapter">
+            <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+        </property>
 		<!-- 配置 JPA 属性 -->
 		<property name="jpaProperties">
 			<props>
@@ -70,7 +76,7 @@
     <tx:annotation-driven transaction-manager="jpaTransactionManager"/>
     
     <!-- 配置 repository -->
-    <!-- <jpa:repositories base-package="com.sfac.springMvc.module.*.repository" /> -->
-    <jpa:repositories base-package="com.sfac.springMvc.module.*.repository" transaction-manager-ref="jpaTransactionManager" 
+    <jpa:repositories base-package="com.sfac.springMvc.module.*.repository" 
+    	transaction-manager-ref="jpaTransactionManager" 
     	entity-manager-factory-ref="entityManagerFactory" />
 </beans>

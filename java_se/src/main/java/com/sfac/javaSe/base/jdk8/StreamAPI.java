@@ -58,7 +58,10 @@ public class StreamAPI {
 		System.out.println(list2);
 		list2 = list2.stream().peek(i -> System.out.println(i + 2)).collect(Collectors.toList());
 		System.out.println(list2);
+		// 根据某字段求和
 		System.out.println(list2.stream().map(i -> i + 2).reduce((i, j) -> i + j).get());
+		// 根据某字段排序
+		//questions.stream().sorted(Comparator.comparing(Question :: getType)).collect(Collectors.toList());
 		
 		// list
 		List<String> list1 = Stream.of("cdsa", "cdsa", null, "fdads", "", "cdsac")
