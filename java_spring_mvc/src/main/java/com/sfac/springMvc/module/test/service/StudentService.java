@@ -2,7 +2,8 @@ package com.sfac.springMvc.module.test.service;
 
 import java.util.List;
 
-import com.github.pagehelper.Page;
+import org.springframework.data.domain.Page;
+
 import com.sfac.springMvc.module.common.entity.ResultEntity;
 import com.sfac.springMvc.module.common.entity.SearchBean;
 import com.sfac.springMvc.module.test.entity.Student;

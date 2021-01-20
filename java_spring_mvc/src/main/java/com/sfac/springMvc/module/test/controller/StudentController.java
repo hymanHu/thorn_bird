@@ -3,6 +3,7 @@ package com.sfac.springMvc.module.test.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sfac.springMvc.module.common.entity.ResultEntity;
+import com.sfac.springMvc.module.common.entity.SearchBean;
 import com.sfac.springMvc.module.test.entity.Student;
 import com.sfac.springMvc.module.test.service.StudentService;
 
@@ -85,5 +87,15 @@ public class StudentController {
 	public List<Student> getStudents(@RequestParam(required = false) String studentName) {
 //		return studentService.getStudentsByName(studentName);
 		return studentService.getStudentsForJpa();
+	}
+	
+	/**
+	 * 127.0.0.1/api/students ---- post
+	 * {"currentPage":1, "pageSize":5, "keyWord":"hy", "orderBy":"id", "direction":"desc"}
+	 * 
+	 */
+	@PostMapping(value = "/students", consumes = "application/json")
+	public Page<Student> getStudentsBySearchBeanForJpa(@RequestBody SearchBean searchBean) {
+		return studentService.getStudentsBySearchBeanForJpa(searchBean);
 	}
 }
