@@ -98,4 +98,13 @@ public class StudentController {
 	public Page<Student> getStudentsBySearchBeanForJpa(@RequestBody SearchBean searchBean) {
 		return studentService.getStudentsBySearchBeanForJpa(searchBean);
 	}
+	
+	/**
+	 * 127.0.0.1/api/student/v2 ---- put
+	 * {"id":"1","studentName":"HymanHu1"}
+	 */
+	@PutMapping(value = "/student/v2",consumes = "application/json")
+	public ResultEntity<Student> updateStudentNameForJpa(@RequestBody Student student) {
+		return studentService.updateStudentNameForJpa(student);
+	}
 }

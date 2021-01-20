@@ -222,6 +222,11 @@ public class StudentServiceImpl implements StudentService {
 		
 		return studentRepository.findAll(specification, pageable);
 	}
-	
-	
+
+	@Override
+	@Transactional("jpaTransactionManager")
+	public ResultEntity<Student> updateStudentNameForJpa(Student student) {
+		studentRepository.updateStudentName(student.getStudentName(), student.getId());
+		return new ResultEntity<Student>(ResultStatus.SUCCESS.status, "Update success.", student);
+	}
 }

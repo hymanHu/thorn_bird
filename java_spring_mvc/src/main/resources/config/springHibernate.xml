@@ -48,6 +48,9 @@
         		<value>com.sfac.springMvc.module.*.entity</value>
         	</list>
         </property>
+        <!-- <property name="hibernate.implicit_naming_strategy">
+		    org.hibernate.boot.model.naming.ImplicitNamingStrategyLegacyHbmImpl
+		</property> -->
 		<property name="hibernateProperties">
 			<props>
 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>

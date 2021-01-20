@@ -40,4 +40,6 @@ public interface StudentService {
 	List<Student> getStudentsForJpa();
 	
 	Page<Student> getStudentsBySearchBeanForJpa(SearchBean searchBean);
+	
+	ResultEntity<Student> updateStudentNameForJpa(Student student);
 }
