@@ -9,7 +9,7 @@ import org.hibernate.boot.model.naming.ImplicitNamingStrategyJpaCompliantImpl;
 /**
  * Description: Hibernate Naming Strategy
  * -Hibernate5 中自定义实体类与数据库命名规则的方法相比之前版本有较大改变
- * -Hibernate5 之前的版本实现 NamingStrategy 就可以实现自定义规则
+ * -Hibernate5 之前的版本使用 NamingStrategy(ImprovedNamingStrategy) 实现
  * -Hibernate5 改为通过 ImplicitNamingStrategy 与 PhysicalNamingStrategy 实现
  * -ImplicitNamingStrategy：隐式规则，实体 Bean 注解优先，未配置才采用该规则
  * -PhysicalNamingStrategy：物理规则，不管实体 Bean 是否有注解，都按该规则执行

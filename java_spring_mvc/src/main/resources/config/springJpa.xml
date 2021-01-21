@@ -59,7 +59,11 @@
 		<!-- 配置 JPA 属性 -->
 		<property name="jpaProperties">
 			<props>
+				<!-- 动态生成表策略 -->
 				<prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+				<!-- 命名规则隐式策略 -->
+				<prop key="hibernate.implicit_naming_strategy">${hibernate.implicit_naming_strategy}</prop>
+				<!-- 数据库方言 -->
 				<prop key="hibernate.dialect">${hibernate.dialect}</prop>
 				<prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
 				<prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
