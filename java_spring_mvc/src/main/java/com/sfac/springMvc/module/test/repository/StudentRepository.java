@@ -21,8 +21,12 @@ public interface StudentRepository extends JpaRepository<Student, Integer>, JpaS
 	
 	List<Student> findByStudentName(String studentName);
 	
-	@Modifying
-	@Query(nativeQuery = true, value = "update test_student set student_name = :studentName where id = :id")
-	void updateStudentName(@Param("studentName") String studentName, @Param("id") Integer id);
+//	@Query(nativeQuery = true, value = "select * from test_student where id = :id")
+	@Query(value = "from Student where id = :id")
+	Student getStudentById(@Param("id") Integer id);
 	
+	@Modifying
+//	@Query(nativeQuery = true, value = "update test_student set student_name = :studentName where id = :id")
+	@Query(value = "update Student set studentName = :studentName where id = :id")
+	void updateStudentName(@Param("studentName") String studentName, @Param("id") Integer id);
 }

@@ -32,78 +32,132 @@ public class StudentController {
 	private StudentService studentService;
 	
 	/**
-	 * 127.0.0.1/api/student ---- post
+	 * 127.0.0.1/api/hibernate/student ---- post
 	 * {"studentName":"HymanHu"}
 	 * {"studentName":"HymanHu", "studentCard":{"cardNo":"studentCard001"}}
 	 */
-	@PostMapping(value = "/student", consumes = "application/json")
-	public ResultEntity<Student> insertStudent(@RequestBody Student student) {
-//		return studentService.insertStudent(student);
+	@PostMapping(value = "/hibernate/student", consumes = "application/json")
+	public ResultEntity<Student> insertStudentForHibernate(@RequestBody Student student) {
+		return studentService.insertStudentForHibernate(student);
+	}
+	
+	/**
+	 * 127.0.0.1/api/hibernate/student ---- put
+	 * {"id":"2","studentName":"HymanHu1"}
+	 * {"id":"2","studentName":"HymanHu1","studentCard":{"id":"1","cardNo":"studentCard002"}}
+	 */
+	@PutMapping(value = "/hibernate/student", consumes = "application/json")
+	public ResultEntity<Student> updateStudentForHibernate(@RequestBody Student student) {
+		return studentService.updateStudentForHibernate(student);
+	}
+	
+	/**
+	 * 127.0.0.1/api/hibernate/student/2 ---- delete
+	 */
+	@DeleteMapping("/hibernate/student/{id}")
+	public ResultEntity<Object> deleteStudentForHibernate(@PathVariable Integer id) {
+		return studentService.deleteStudentForHibernate(id);
+	}
+	
+	/**
+	 * 127.0.0.1/api/hibernate/student/9 ---- get
+	 */
+	@GetMapping("/hibernate/student/{id}")
+	public Student getStudentByIdForHibernate(@PathVariable Integer id) {
+		return studentService.getStudentByIdForHibernate(id);
+	}
+	
+	/**
+	 * 127.0.0.1/api/hibernate/student?studentName=HymanHu ---- get
+	 */
+	@GetMapping("/hibernate/student")
+	public Student getStudentByNameForHibernate(@RequestParam String studentName) {
+		return studentService.getStudentByNameForHibernate(studentName);
+	}
+	
+	/**
+	 * 127.0.0.1/api/hibernate/students?studentName=HymanHu ---- get
+	 */
+	@GetMapping("/hibernate/students")
+	public List<Student> getStudentsForHibernate(@RequestParam(required = false) String studentName) {
+		return studentService.getStudentsByNameForHibernate(studentName);
+	}
+	
+	/**
+	 * 127.0.0.1/api/jpa/student ---- post
+	 * {"studentName":"HymanHu"}
+	 * {"studentName":"HymanHu", "studentCard":{"cardNo":"studentCard001"}}
+	 */
+	@PostMapping(value = "/jpa/student", consumes = "application/json")
+	public ResultEntity<Student> insertStudentForJpa(@RequestBody Student student) {
 		return studentService.insertStudentForJpa(student);
 	}
 	
 	/**
-	 * 127.0.0.1/api/student ---- put
+	 * 127.0.0.1/api/jpa/student ---- put
 	 * {"id":"2","studentName":"HymanHu1"}
 	 * {"id":"2","studentName":"HymanHu1","studentCard":{"id":"1","cardNo":"studentCard002"}}
 	 */
-	@PutMapping(value = "/student", consumes = "application/json")
-	public ResultEntity<Student> updateStudent(@RequestBody Student student) {
-//		return studentService.updateStudent(student);
+	@PutMapping(value = "/jpa/student", consumes = "application/json")
+	public ResultEntity<Student> updateStudentForJpa(@RequestBody Student student) {
 		return studentService.updateStudentForJpa(student);
 	}
 	
 	/**
-	 * 127.0.0.1/api/student/2 ---- delete
+	 * 127.0.0.1/api/jpa/student/2 ---- delete
 	 */
-	@DeleteMapping("/student/{id}")
-	public ResultEntity<Object> deleteStudent(@PathVariable Integer id) {
-//		return studentService.deleteStudent(id);
+	@DeleteMapping("/jpa/student/{id}")
+	public ResultEntity<Object> deleteStudentForJpa(@PathVariable Integer id) {
 		return studentService.deleteStudentForJpa(id);
 	}
 	
 	/**
-	 * 127.0.0.1/api/student/9 ---- get
+	 * 127.0.0.1/api/jpa/student/9 ---- get
 	 */
-	@GetMapping("/student/{id}")
-	public Student getStudentById(@PathVariable Integer id) {
-//		return studentService.getStudentById(id);
+	@GetMapping("/jpa/student/{id}")
+	public Student getStudentByIdForJpa(@PathVariable Integer id) {
 		return studentService.getStudentByIdForJpa(id);
 	}
 	
 	/**
-	 * 127.0.0.1/api/student?studentName=HymanHu ---- get
+	 * 127.0.0.1/api/jpa/student?studentName=HymanHu ---- get
 	 */
-	@GetMapping("/student")
-	public Student getStudentByName(@RequestParam String studentName) {
-//		return studentService.getStudentByName(studentName);
+	@GetMapping("/jpa/student")
+	public Student getStudentByNameForJpa(@RequestParam String studentName) {
 		return studentService.getStudentByNameForJpa(studentName);
 	}
 	
 	/**
-	 * 127.0.0.1/api/students?studentName=HymanHu ---- get
+	 * 127.0.0.1/api/jpa/students ---- get
 	 */
-	@GetMapping("/students")
-	public List<Student> getStudents(@RequestParam(required = false) String studentName) {
-//		return studentService.getStudentsByName(studentName);
+	@GetMapping("/jpa/students")
+	public List<Student> getStudentsForJpa(@RequestParam(required = false) String studentName) {
 		return studentService.getStudentsForJpa();
 	}
 	
 	/**
-	 * 127.0.0.1/api/students ---- post
+	 * 127.0.0.1/api/jpa/students ---- post
 	 * {"currentPage":1, "pageSize":5, "keyWord":"hy", "orderBy":"id", "direction":"desc"}
 	 * 
 	 */
-	@PostMapping(value = "/students", consumes = "application/json")
+	@PostMapping(value = "/jpa/students", consumes = "application/json")
 	public Page<Student> getStudentsBySearchBeanForJpa(@RequestBody SearchBean searchBean) {
 		return studentService.getStudentsBySearchBeanForJpa(searchBean);
 	}
 	
 	/**
-	 * 127.0.0.1/api/student/v2 ---- put
+	 * 127.0.0.1/api/jpa/student/2/v2 ---- get
+	 */
+	@GetMapping("/jpa/student/{id}/v2")
+	public Student getStudentByIdV2ForJpa(@PathVariable Integer id) {
+		return studentService.getStudentByIdV2ForJpa(id);
+	}
+	
+	/**
+	 * 127.0.0.1/api/jpa/student/v2 ---- put
 	 * {"id":"1","studentName":"HymanHu1"}
 	 */
-	@PutMapping(value = "/student/v2",consumes = "application/json")
+	@PutMapping(value = "/jpa/student/v2",consumes = "application/json")
 	public ResultEntity<Student> updateStudentNameForJpa(@RequestBody Student student) {
 		return studentService.updateStudentNameForJpa(student);
 	}

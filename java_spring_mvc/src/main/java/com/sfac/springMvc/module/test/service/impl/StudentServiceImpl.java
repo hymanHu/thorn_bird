@@ -48,14 +48,14 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	@Transactional("hibernateTransactionManager")
-	public ResultEntity<Student> insertStudent(Student student) {
+	public ResultEntity<Student> insertStudentForHibernate(Student student) {
 		hibernateTemplate.saveOrUpdate(student);
 		return new ResultEntity<Student>(ResultStatus.SUCCESS.status, "Insert success.", student);
 	}
 
 	@Override
 	@Transactional("hibernateTransactionManager")
-	public ResultEntity<Student> updateStudent(Student student) {
+	public ResultEntity<Student> updateStudentForHibernate(Student student) {
 		hibernateTemplate.saveOrUpdate(student);
 //		int i = 1 / 0;
 		return new ResultEntity<Student>(ResultStatus.SUCCESS.status, "Update success.", student);
@@ -63,7 +63,7 @@ public class StudentServiceImpl implements StudentService {
 
 	@Override
 	@Transactional("hibernateTransactionManager")
-	public ResultEntity<Object> deleteStudent(Integer id) {
+	public ResultEntity<Object> deleteStudentForHibernate(Integer id) {
 		Student student = new Student();
 		student.setId(id);
 		hibernateTemplate.delete(student);
@@ -71,13 +71,13 @@ public class StudentServiceImpl implements StudentService {
 	}
 
 	@Override
-	public Student getStudentById(Integer id) {
+	public Student getStudentByIdForHibernate(Integer id) {
 		return hibernateTemplate.get(Student.class, id);
 	}
 
 	@SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
-	public Student getStudentByName(String studentName) {
+	public Student getStudentByNameForHibernate(String studentName) {
 		// Example 查询
 		Student example = new Student();
 		example.setStudentName(studentName);
@@ -94,7 +94,7 @@ public class StudentServiceImpl implements StudentService {
 	 */
 	@SuppressWarnings("unchecked")
 	@Override
-	public List<Student> getStudentsByName(String studentName) {
+	public List<Student> getStudentsByNameForHibernate(String studentName) {
 		DetachedCriteria criteria = DetachedCriteria.forClass(Student.class);
 		criteria.add(
 			Restrictions.and(
@@ -221,6 +221,11 @@ public class StudentServiceImpl implements StudentService {
 		};
 		
 		return studentRepository.findAll(specification, pageable);
+	}
+	
+	@Override
+	public Student getStudentByIdV2ForJpa(Integer id) {
+		return studentRepository.getStudentById(id);
 	}
 
 	@Override

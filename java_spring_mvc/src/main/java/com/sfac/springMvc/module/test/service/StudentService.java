@@ -15,17 +15,17 @@ import com.sfac.springMvc.module.test.entity.Student;
  */
 public interface StudentService {
 
-	ResultEntity<Student> insertStudent(Student student);
+	ResultEntity<Student> insertStudentForHibernate(Student student);
 	
-	ResultEntity<Student> updateStudent(Student student);
+	ResultEntity<Student> updateStudentForHibernate(Student student);
 	
-	ResultEntity<Object> deleteStudent(Integer id);
+	ResultEntity<Object> deleteStudentForHibernate(Integer id);
 	
-	Student getStudentById(Integer id);
+	Student getStudentByIdForHibernate(Integer id);
 	
-	Student getStudentByName(String studentName);
+	Student getStudentByNameForHibernate(String studentName);
 	
-	List<Student> getStudentsByName(String studentName);
+	List<Student> getStudentsByNameForHibernate(String studentName);
 	
 	ResultEntity<Student> insertStudentForJpa(Student student);
 	
@@ -40,6 +40,8 @@ public interface StudentService {
 	List<Student> getStudentsForJpa();
 	
 	Page<Student> getStudentsBySearchBeanForJpa(SearchBean searchBean);
+	
+	Student getStudentByIdV2ForJpa(Integer id);
 	
 	ResultEntity<Student> updateStudentNameForJpa(Student student);
 }
