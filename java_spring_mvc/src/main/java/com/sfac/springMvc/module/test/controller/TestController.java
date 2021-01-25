@@ -40,5 +40,13 @@ public class TestController {
 		LOGGER.error("This is error logger.");
 		return "This is logger test.";
 	}
+	
+	/**
+	 * 127.0.0.1/test/index ---- page
+	 */
+	@GetMapping("/index")
+	public String testIndexPage() {
+		return "test/index";
+	}
 
 }

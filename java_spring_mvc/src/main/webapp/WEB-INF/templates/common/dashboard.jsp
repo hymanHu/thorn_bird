@@ -266,6 +266,7 @@
 	<script src="/static/js/ace-elements.min.js"></script>
 	<script src="/static/js/ace.min.js"></script>
 	<script src="/static/js/ace-extra.min.js"></script>
+	<script src="/static/js/custom.js"></script>
 	
 	<script type="text/javascript">
 		var placeholder = $('#piechart-placeholder').css({
