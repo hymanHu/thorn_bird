@@ -52,7 +52,7 @@ public class CityServiceImpl implements CityService {
 	public ResultEntity<City> updateCity(City city) {
 		city.setDateModified(new Date());
 		cityDao.updateCity(city);
-		int i = 1 / 0;
+//		int i = 1 / 0;
 		return new ResultEntity<City>(ResultStatus.SUCCESS.status, "Update city success.", city);
 	}
 

@@ -45,4 +45,8 @@
 		访问路径：http://127.0.0.1:8080/java_spring_mvc/js/custom.js
 	-->
 	<!-- <mvc:resources location="/static/" mapping="/**"></mvc:resources> -->
+	
+	<!-- 视图解析器 -->
+	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"   
+		p:prefix="/WEB-INF/templates/" p:suffix=".jsp"></bean>
 </beans>
