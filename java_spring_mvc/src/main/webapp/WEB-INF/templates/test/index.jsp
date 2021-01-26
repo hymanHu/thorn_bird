@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -62,10 +63,61 @@
 						<div class="col-xs-12">
 							<div class="row">
 								<div class="space-6"></div>
+								<h1>This is jsp test index page.</h1>
+								<h3>获取变量</h3>
+								<p>userName: ${userName }</p>
+								<p>==================================================================</p>
+								<h3>数据格式化</h3>
+								<p>Date格式化: <fmt:formatDate value="${current1}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+								<p>LocalDateTime格式化: 
+									<fmt:parseDate value="${current2}" pattern="y-M-dd'T'H:m:s" var="myParseDate"></fmt:parseDate> 
+									<fmt:formatDate value="${myParseDate}"  pattern="yyyy-MM-dd HH:mm:ss"></fmt:formatDate >
+								</p>
+								<p>数字式化百分比: <fmt:formatNumber type="percent" value="${number / 100 }" maxFractionDigits="3" />
+								<p>数字式化货币: <fmt:formatNumber type="currency" value="${number }" />
+								<p>数字式化: <fmt:formatNumber type="number" value="${number }" maxFractionDigits="2" />
+								<p>==================================================================</p>
+								<h3>判断标签</h3>
+								<c:set var="title" scope="page" value="青年"/>
+								<c:if test="${age > 10 && age < 20}">
+								   <p>称谓: <c:out value="${title}"/><p>
+								</c:if>
+								<c:choose>
+									<c:when test="${age < 10}">
+										<p>称谓: 儿童<p>
+									</c:when>
+									<c:when test="${age >= 10 && age < 30}">
+										<p>称谓: 青年<p>
+									</c:when>
+									<c:when test="${age >= 30 && age < 50}">
+										<p>称谓: 中年<p>
+									</c:when>
+									<c:otherwise>
+										<p>称谓: 老年<p>
+									</c:otherwise>
+								</c:choose>
+								<p>==================================================================</p>
+								<h3>循环标签</h3>
+								<ul>
+									<c:forEach var="city" items="${cities }">
+										<li>${city.cityName }</li>
+									</c:forEach>
+								</ul>
+								<table>
+									<thead><tr><td>Id</td><td>CityName</td></tr></thead>
+									<tbody>
+										<c:forEach var="city" items="${cities }">
+											<tr><td>${city.cityId }</td><td>${city.cityName }</td></tr>
+										</c:forEach>
+									</tbody>
+								</table>
+								<select>
+									<c:forEach var="city" items="${cities }">
+										<option id="${city.cityId }">${city.cityName }</option>
+									</c:forEach>
+								</select>
+								<p>==================================================================</p>
 							</div>
-							<!-- /.row -->
-
-							<div class="hr hr32 hr-dotted"></div>
 						</div>
 					</div>
 				</div>

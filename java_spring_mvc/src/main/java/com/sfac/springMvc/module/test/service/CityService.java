@@ -1,5 +1,7 @@
 package com.sfac.springMvc.module.test.service;
 
+import java.util.List;
+
 import com.github.pagehelper.PageInfo;
 import com.sfac.springMvc.module.common.entity.ResultEntity;
 import com.sfac.springMvc.module.common.entity.SearchBean;
@@ -21,4 +23,6 @@ public interface CityService {
 	City getCityByCityId(int cityId);
 	
 	PageInfo<City> getCitiesBySearchBean(SearchBean searchBean);
+	
+	List<City> getCitiesByCountryId(int countryId);
 }
