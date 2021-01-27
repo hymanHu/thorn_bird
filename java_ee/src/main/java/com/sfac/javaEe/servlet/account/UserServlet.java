@@ -78,7 +78,7 @@ public class UserServlet extends HttpServlet {
 		User userTemp = null;
 		try {
 			userTemp = userDao.getUserByUserName(user.getUserName());
-			if (userTemp != null && userTemp.getUserId() != user.getUserId()) {
+			if (userTemp != null && userTemp.getId() != user.getId()) {
 				resultMap.put("status", 500);
 				resultMap.put("message", "User is not exit.");
 			} else {

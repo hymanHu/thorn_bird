@@ -37,7 +37,7 @@ public class UserDao {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				user = new User();
-				user.setUserId(rs.getInt("user_id"));
+				user.setId(rs.getInt("id"));
 				user.setUserName(rs.getString("user_name"));
 				user.setPassword(rs.getString("password"));
 				user.setCreateDate(rs.getTimestamp("create_date"));
@@ -65,7 +65,7 @@ public class UserDao {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				user = new User();
-				user.setUserId(rs.getInt("user_id"));
+				user.setId(rs.getInt("id"));
 				user.setUserName(rs.getString("user_name"));
 				user.setPassword(rs.getString("password"));
 				user.setCreateDate(rs.getTimestamp("create_date"));
@@ -80,7 +80,7 @@ public class UserDao {
 	// 根据 userId 查询 user
 	public User getUserByUserId(int userId) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
-		String sql = "select * from account_user where user_id = ?";
+		String sql = "select * from account_user where id = ?";
 		User user = null;
 		
 		try {
@@ -91,7 +91,7 @@ public class UserDao {
 			ResultSet rs = ps.executeQuery();
 			while (rs.next()) {
 				user = new User();
-				user.setUserId(rs.getInt("user_id"));
+				user.setId(rs.getInt("id"));
 				user.setUserName(rs.getString("user_name"));
 				user.setPassword(rs.getString("password"));
 				user.setCreateDate(rs.getTimestamp("create_date"));
@@ -124,7 +124,7 @@ public class UserDao {
 			
 			ResultSet rs = ps.getGeneratedKeys();
 			while(rs.next()) {
-				user.setUserId(rs.getInt(1));
+				user.setId(rs.getInt(1));
 			}
 			
 			// 手动提交事务，默认是自动提交
@@ -140,14 +140,14 @@ public class UserDao {
 	// 更新 user
 	public User updateUser(User user) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
-		String sql = "update account_user set user_name = ?, password = ? where user_id = ?";
+		String sql = "update account_user set user_name = ?, password = ? where id = ?";
 		
 		try {
 			conn = DBUtil.getConnection();
 			PreparedStatement ps = conn.prepareStatement(sql);
 			ps.setString(1, user.getUserName());
 			ps.setString(2, user.getPassword());
-			ps.setInt(3, user.getUserId());
+			ps.setInt(3, user.getId());
 			System.out.println(ps.toString());
 			ps.execute();
 			
@@ -161,7 +161,7 @@ public class UserDao {
 	// 删除 user
 	public void deleteUser(int userId) throws SQLException, ClassNotFoundException {
 		Connection conn = null;
-		String sql = "delete from account_user where user_id = ?";
+		String sql = "delete from account_user where id = ?";
 		
 		try {
 			conn = DBUtil.getConnection();
@@ -184,7 +184,7 @@ public class UserDao {
 			sql.append("where user_name like '%" + searchBean.getKeyWord() + "%'");
 		}
 		sql.append("order by ")
-			.append(StringUtils.isNotBlank(searchBean.getOrderBy()) ? searchBean.getOrderBy() + " " : " user_id ")
+			.append(StringUtils.isNotBlank(searchBean.getOrderBy()) ? searchBean.getOrderBy() + " " : " id ")
 			.append(StringUtils.isNotBlank(searchBean.getDirection()) ? searchBean.getDirection() + " " : " ASC ")
 			.append("limit ")
 			.append((searchBean.getCurrentPage() - 1) * searchBean.getPageSize())
@@ -198,7 +198,7 @@ public class UserDao {
 			ResultSet rs = ps.executeQuery();
 			while(rs.next()) {
 				User user = new User();
-				user.setUserId(rs.getInt("user_id"));
+				user.setId(rs.getInt("id"));
 				user.setUserName(rs.getString("user_name"));
 				user.setPassword(rs.getString("password"));
 				user.setCreateDate(rs.getTimestamp("create_date"));

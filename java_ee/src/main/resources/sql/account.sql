@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : MyConnect
-Source Server Version : 80018
+Source Server         : myConnection
+Source Server Version : 50525
 Source Host           : localhost:3306
 Source Database       : test
 
 Target Server Type    : MYSQL
-Target Server Version : 80018
+Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2021-01-12 22:03:07
+Date: 2021-01-27 10:26:52
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -19,9 +19,10 @@ SET FOREIGN_KEY_CHECKS=0;
 -- ----------------------------
 DROP TABLE IF EXISTS `account_resource`;
 CREATE TABLE `account_resource` (
-  `resource_id` int(11) NOT NULL AUTO_INCREMENT,
-  `permission` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
-  PRIMARY KEY (`resource_id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `create_date` datetime DEFAULT NULL,
+  `permission` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -33,9 +34,10 @@ CREATE TABLE `account_resource` (
 -- ----------------------------
 DROP TABLE IF EXISTS `account_role`;
 CREATE TABLE `account_role` (
-  `role_id` int(11) NOT NULL AUTO_INCREMENT,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `create_date` datetime DEFAULT NULL,
   `role_name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`role_id`)
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -47,10 +49,10 @@ CREATE TABLE `account_role` (
 -- ----------------------------
 DROP TABLE IF EXISTS `account_role_resource`;
 CREATE TABLE `account_role_resource` (
-  `role_resource_id` int(11) NOT NULL AUTO_INCREMENT,
-  `role_id` int(11) NOT NULL,
-  `resource_id` int(11) NOT NULL,
-  PRIMARY KEY (`role_resource_id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `role_id` int(11) DEFAULT NULL,
+  `resource_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
@@ -62,28 +64,28 @@ CREATE TABLE `account_role_resource` (
 -- ----------------------------
 DROP TABLE IF EXISTS `account_user`;
 CREATE TABLE `account_user` (
-  `user_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_name` varchar(100) DEFAULT NULL,
-  `password` varchar(255) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `create_date` datetime DEFAULT NULL,
-  PRIMARY KEY (`user_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
+  `user_name` varchar(255) DEFAULT NULL,
+  `password` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of account_user
 -- ----------------------------
-INSERT INTO `account_user` VALUES ('1', 'admin', '111111', '2020-10-22 00:00:00');
-INSERT INTO `account_user` VALUES ('2', 'hyman', '111111', '2020-10-22 00:00:00');
+INSERT INTO `account_user` VALUES ('1', '2021-01-27 10:26:08', 'admin', '111111');
+INSERT INTO `account_user` VALUES ('2', '2021-01-27 10:26:19', 'manager', '111111');
 
 -- ----------------------------
 -- Table structure for `account_user_role`
 -- ----------------------------
 DROP TABLE IF EXISTS `account_user_role`;
 CREATE TABLE `account_user_role` (
-  `user_role_id` int(11) NOT NULL AUTO_INCREMENT,
-  `user_id` int(11) NOT NULL,
-  `role_id` int(11) NOT NULL,
-  PRIMARY KEY (`user_role_id`)
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `user_id` int(11) DEFAULT NULL,
+  `role_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- ----------------------------
