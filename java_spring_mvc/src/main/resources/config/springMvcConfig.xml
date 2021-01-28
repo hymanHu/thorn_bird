@@ -51,11 +51,11 @@
 		p:prefix="/WEB-INF/templates/" p:suffix=".jsp"></bean>
 		
 	<!-- 注册拦截器，可注册多个 -->
-	<mvc:interceptors>
+	<!-- <mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<!-- <mvc:exclude-mapping path="/userController/login"/> -->
+			<mvc:exclude-mapping path="/userController/login"/>
 			<bean id="controllerMonitorInterceptor" class="com.sfac.springMvc.interceptor.ControllerMonitorInterceptor"></bean>
 		</mvc:interceptor>
-	</mvc:interceptors>
+	</mvc:interceptors> -->
 </beans>

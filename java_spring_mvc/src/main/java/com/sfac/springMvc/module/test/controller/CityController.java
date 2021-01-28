@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pagehelper.PageInfo;
+import com.sfac.springMvc.aspect.MethodInfoAnnotation;
 import com.sfac.springMvc.module.common.entity.ResultEntity;
 import com.sfac.springMvc.module.common.entity.SearchBean;
 import com.sfac.springMvc.module.test.entity.City;
@@ -61,6 +62,7 @@ public class CityController {
 	 * 127.0.0.1/api/city/2261 ---- get
 	 */
 	@GetMapping("/city/{cityId}")
+	@MethodInfoAnnotation
 	public City getCityByCityId(@PathVariable int cityId) {
 		return cityService.getCityByCityId(cityId);
 	}
