@@ -99,6 +99,7 @@ public class OnlineUserCounterListener implements HttpSessionListener,
 
 	@Override
 	public void requestInitialized(ServletRequestEvent sre) {
+		// 线程绑定 request 对象
 		httpServletRequestHolder.set((HttpServletRequest)sre.getServletRequest());
 	}
 	
