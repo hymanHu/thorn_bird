@@ -20,5 +20,13 @@ public class CommonController {
 	public String dashboardPage() {
 		return "common/dashboard";
 	}
+	
+	/**
+	 * 127.0.0.1/common/500 ---- get
+	 */
+	@GetMapping("/500")
+	public String error500Page() {
+		return "common/500";
+	}
 
 }
