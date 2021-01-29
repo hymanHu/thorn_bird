@@ -34,23 +34,27 @@
 	<mvc:annotation-driven />
     
 	<!-- 处理静态资源方式一 
-		Spring 3.0.x 新增 REST 风格，URL 不希望带 .html 或 .do 等后缀，所以在 web.xml 中配置 DispatcherServlet 的请求映射为 /，
-		Spring MVC 将捕获 Web 容器所有的请求，包括静态资源的请求，但静态资源没有处理器，因此会报错；
+		Spring 3.0.x 新增 REST 风格，URL 不希望带 .html 或 .do 等后缀，在 web.xml 中配置 DispatcherServlet 
+		的请求映射为 /，Spring MVC 将捕获 Web 容器所有的请求，包括静态资源的请求，但静态资源没有处理器，因此会报错；
 		该配置会在 Spring MVC 上下文中定义一个 DefaultServletHttpRequestHandler，它会像一个检查员，
-		对进入 DispatcherServlet 的 URL 进行筛查，如果是静态资源的请求，就将该请求转由 Web 应用服务器默认的 Servlet 处理，
+		对进入 DispatcherServlet 的 URL 进行筛查，如果是静态资源的请求，就将该请求转由 Web 服务器默认的 Servlet 处理，
 		如果不是静态资源的请求，才由 DispatcherServlet 继续处理；
-		一般 Web 应用服务器默认的 Servlet 名称是 "default"，因此 DefaultServletHttpRequestHandler 可以找到它，
-		如果你所有的 Web 应用服务器的默认 Servlet 名称不是 "default"，则需要通过 default-servlet-name 属性显示指定；
-		访问路径：http://127.0.0.1:8080/java_spring_mvc/static/js/custom.js
+		一般 Web 服务器默认的 Servlet 名称是 "default"，因此 DefaultServletHttpRequestHandler 可以找到它，如果你所有的 Web 
+		服务器的默认 Servlet 名称不是 "default"，则需要通过 default-servlet-name 属性显示指定；
+		该配置从项目 webapp 根目录开始计算路径，假设 webapp 下有 static 文件夹放置 css 和 js，
+		那么访问路径类似于：http://127.0.0.1/static/js/custom.js；
 	-->
 	<mvc:default-servlet-handler />
 	
 	<!-- 处理静态资源方式二
 		该配置在处理静态资源上更进一步，由 Spring MVC 框架自己处理静态资源；
-		location：从 webapp 根目录开始算起的路径；
-		访问路径：http://127.0.0.1:8080/java_spring_mvc/js/custom.js
+		location：没有前缀，从项目 webapp 根目录开始计算路径，
+		访问路径 = 映射路径 + 相对路径，类似于：http://127.0.0.1/static/js/custom.js；
+		location: 添加 ‘file:’ 前缀，表示用本地文件夹作为静态资源文件夹，
+		访问路径 = 映射路径 + 相对路径，类似于：http://127.0.0.1/upload/test.jpg；
 	-->
-	<!-- <mvc:resources location="/static/" mapping="/**"></mvc:resources> -->
+	<!-- <mvc:resources location="/static/" mapping="/**" /> -->
+	<mvc:resources location="file:D:/upload/" mapping="/upload/**" />
 	
 	<!-- 视图解析器 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"   
@@ -60,7 +64,8 @@
 	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<bean id="controllerMonitorInterceptor" class="com.sfac.springMvc.interceptor.ControllerMonitorInterceptor"></bean>
+			<bean id="controllerMonitorInterceptor" 
+			class="com.sfac.springMvc.interceptor.ControllerMonitorInterceptor"></bean>
 		</mvc:interceptor>
 	</mvc:interceptors>
 </beans>

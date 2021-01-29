@@ -76,6 +76,7 @@ public class SpringMvcHandlerExceptionResolver implements HandlerExceptionResolv
 	}
 	
 	// 判断是否是 Ajax 请求
+	@SuppressWarnings("unused")
 	private boolean isAjax(HttpServletRequest request) {
 		return "XMLHttpRequest".equalsIgnoreCase(request.getHeader("X-Requested-With"));
 	}
@@ -83,11 +84,11 @@ public class SpringMvcHandlerExceptionResolver implements HandlerExceptionResolv
 	// 返回页面
 	private ModelAndView pageResult(String url, String message) {
 		Map<String, String> model = new HashMap<String, String>();
-        model.put("message", message);
-        // 直接返回页面
-        //return new ModelAndView(url, model);
-        // 重定向到错误页面控制器
-        return new ModelAndView("redirect:/common/500", model);
+		model.put("message", message);
+		// 直接返回页面
+		//return new ModelAndView(url, model);
+		// 重定向到错误页面控制器
+		return new ModelAndView("redirect:/common/500", model);
     }
 	
 	// 返回 Json 数据
