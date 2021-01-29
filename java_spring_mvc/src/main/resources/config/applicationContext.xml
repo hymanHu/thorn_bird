@@ -20,7 +20,10 @@
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
 	</context:component-scan>
 	
-	<aop:aspectj-autoproxy proxy-target-class="true" expose-proxy="true" />
+	<!-- 开启 Spring Aop 注解方式，我们需要在 Spring && SpringMvc 配置文件同时开启，因为两个配置文件开启注解扫描的区域不一样，
+		SpringMvc 负责 Controller，Spring 负责其他，而 Aop 程序可以和注解绑定，并不确定放到哪一层代码上；
+	-->
+	<aop:aspectj-autoproxy />
 	
 	<!-- 加载属性文件 -->
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">

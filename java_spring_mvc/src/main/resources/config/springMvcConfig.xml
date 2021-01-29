@@ -4,19 +4,25 @@
        xmlns:mvc="http://www.springframework.org/schema/mvc"   
        xmlns:p="http://www.springframework.org/schema/p"   
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"   
-       xmlns:beans="http://www.springframework.org/schema/beans"   
+       xmlns:beans="http://www.springframework.org/schema/beans" 
+       xmlns:aop="http://www.springframework.org/schema/aop" 
        xsi:schemaLocation="http://www.springframework.org/schema/beans   
         http://www.springframework.org/schema/beans/spring-beans-3.0.xsd   
         http://www.springframework.org/schema/context   
         http://www.springframework.org/schema/context/spring-context-3.0.xsd   
         http://www.springframework.org/schema/mvc   
-        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
+        http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd 
+        http://www.springframework.org/schema/aop
+		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
         
 	<!-- 扫描构造型（stereotype）注解所标注的类，@Component、@Repository、@Service、@Controller 等 -->
 	<context:component-scan base-package="com.sfac.springMvc" use-default-filters="false">
 		<!-- 设置白名单，只扫描 Controller -->
 		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
+	
+	<!-- 开启 Spring Aop 注解方式 -->
+	<aop:aspectj-autoproxy />
 	
 	<!-- 启用注解驱动：将扫描到的组件注册到工厂中，来处理请求；
 		Spring 3.0.x 新增配置，其中最主要的两个类：DefaultAnnotationHandlerMapping 和 AnnotationMethodHandlerAdapter，
@@ -51,11 +57,10 @@
 		p:prefix="/WEB-INF/templates/" p:suffix=".jsp"></bean>
 		
 	<!-- 注册拦截器，可注册多个 -->
-	<!-- <mvc:interceptors>
+	<mvc:interceptors>
 		<mvc:interceptor>
 			<mvc:mapping path="/**" />
-			<mvc:exclude-mapping path="/userController/login"/>
 			<bean id="controllerMonitorInterceptor" class="com.sfac.springMvc.interceptor.ControllerMonitorInterceptor"></bean>
 		</mvc:interceptor>
-	</mvc:interceptors> -->
+	</mvc:interceptors>
 </beans>

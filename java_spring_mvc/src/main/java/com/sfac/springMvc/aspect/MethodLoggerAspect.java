@@ -39,9 +39,9 @@ public class MethodLoggerAspect {
      * Order 代表优先级，数字越小优先级越高
      * -多个表达式之间使用 ||, or 表示或 ，使用 && , and 表示与 ， ！表示非
      */
-//	@Pointcut("(execution(public * com.sfac.springMvc.module.*.service.*.*(..))) or "
-//			+ "(@annotation(com.sfac.springMvc.aspect.MethodInfoAnnotation))")
-	@Pointcut("@annotation(com.sfac.springMvc.aspect.MethodInfoAnnotation)")
+	@Pointcut("execution(public * com.sfac.springMvc.module.*.service.*.*(..)) || "
+			+ "@annotation(com.sfac.springMvc.aspect.MethodInfoAnnotation)")
+//	@Pointcut("@annotation(com.sfac.springMvc.aspect.MethodInfoAnnotation)")
 //	@Pointcut("execution(public * com.sfac.springMvc.module.*.service.*.*(..))")
 	@Order(1)
 	public void methodLoggerPointCut() {}
