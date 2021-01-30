@@ -117,6 +117,15 @@
 									</c:forEach>
 								</select>
 								<p>==================================================================</p>
+								<h3>Form</h3>
+								<form action="/test/city" method="post">
+									<input type="hidden" name="_method" value="put">
+									<input type="hidden" value="${city.cityId }" name="cityId" />
+									<p>City Name: <input type="text" name="cityName" value="${city.cityName }" /></p>
+									<p>Local City Name: <input type="text" name="localCityName" value="${city.localCityName }"/></p>
+									<p><button type="submit">Submit</button></p>
+								</form>
+								<p>==================================================================</p>
 							</div>
 						</div>
 					</div>
