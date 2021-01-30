@@ -126,6 +126,20 @@
 									<p><button type="submit">Submit</button></p>
 								</form>
 								<p>==================================================================</p>
+								<h3>File Upload</h3>
+								<p>${message}</p>
+								<img src="${relativePath }" width="200px;" height="200px;">
+								<p>上传文件，使用multipart/form-data类型</p>
+								<form action="/test/file" method="post" enctype="multipart/form-data">
+									<input type="file" name="file">
+									<button type="submit">上传</button>
+								</form>
+								<form action="/test/files" method="post" enctype="multipart/form-data">
+									<input type="file" name="files">
+									<input type="file" name="files">
+									<button type="submit">上传</button>
+								</form>
+								<p>==================================================================</p>
 							</div>
 						</div>
 					</div>
