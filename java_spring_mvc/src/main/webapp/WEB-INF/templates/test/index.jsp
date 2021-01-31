@@ -140,6 +140,11 @@
 									<button type="submit">上传</button>
 								</form>
 								<p>==================================================================</p>
+								<h3>File Download</h3>
+								<p>
+									<a href="/test/file3?fileName=aa.jpg">download file</a>
+								</p>
+								<p>==================================================================</p>
 							</div>
 						</div>
 					</div>

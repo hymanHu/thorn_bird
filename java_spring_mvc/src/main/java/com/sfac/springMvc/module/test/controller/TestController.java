@@ -1,15 +1,28 @@
 package com.sfac.springMvc.module.test.controller;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.file.Paths;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.io.IOUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -138,7 +151,7 @@ public class TestController {
 				}
 				
 				String fileName = file.getOriginalFilename();
-				String destFilePath = "D:\\upload\\" + fileName;
+				String destFilePath = LOCAL_FILE_PATH + fileName;
 				File destFile = new File(destFilePath);
 				file.transferTo(destFile);
 				
@@ -156,6 +169,97 @@ public class TestController {
 			redirectAttributes.addFlashAttribute("message", "Upload file success.");
 		}
 		return "redirect:/test/index";
+	}
+	
+	/**
+	 * 127.0.0.1/test/file1?fileName=***.jpg ---- get
+	 */
+	@RequestMapping("/file1")
+	public void downloadFile1(HttpServletRequest request, 
+			HttpServletResponse response, @RequestParam String fileName) {
+		String filePath = LOCAL_FILE_PATH + fileName;
+		File downloadFile = new File(filePath);
+		
+		if (downloadFile.exists()) {
+			response.setContentType("application/octet-stream");
+			response.setContentLength((int)downloadFile.length());
+			response.setHeader(HttpHeaders.CONTENT_DISPOSITION, 
+					String.format("attachment; filename=\"%s\"", fileName));
+			
+			byte[] buffer = new byte[1024];
+			FileInputStream fis = null;
+			BufferedInputStream bis = null;
+			try {
+				fis = new FileInputStream(downloadFile);
+				bis = new BufferedInputStream(fis);
+				OutputStream os = response.getOutputStream();
+				int i = 0;
+				while ((i = bis.read(buffer)) != -1) {
+					os.write(buffer, 0, i);
+				}
+			} catch (Exception e) {
+				LOGGER.debug(e.getMessage());
+				e.printStackTrace();
+			} finally {
+				try {
+					if (fis != null) {
+						fis.close();
+					}
+					if (bis != null) {
+						bis.close();
+					}
+				} catch (Exception e2) {
+					LOGGER.debug(e2.getMessage());
+					e2.printStackTrace();
+				}
+			}
+		}
+	}
+
+	/**
+	 * 127.0.0.1/test/file2?fileName=***.jpg ---- get
+	 */
+	@RequestMapping("/file2")
+	public void downloadFile2(HttpServletRequest request, 
+			HttpServletResponse response, @RequestParam String fileName) {
+		String filePath = LOCAL_FILE_PATH + fileName;
+		File downloadFile = new File(filePath);
+		
+		try {
+			if (downloadFile.exists()) {
+				response.setContentType("application/octet-stream");
+				response.setContentLength((int)downloadFile.length());
+				response.setHeader(HttpHeaders.CONTENT_DISPOSITION, 
+						String.format("attachment; filename=\"%s\"", fileName));
+				
+				InputStream is = new FileInputStream(downloadFile);
+				IOUtils.copy(is, response.getOutputStream());
+				response.flushBuffer();
+			}
+		} catch (Exception e) {
+			LOGGER.debug(e.getMessage());
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 127.0.0.1/test/file3?fileName=***.jpg ---- get
+	 */
+	@RequestMapping("/file3")
+	public ResponseEntity<Resource> downLoadFile(@RequestParam String fileName) {
+		try {
+			Resource resource = new UrlResource(Paths.get(LOCAL_FILE_PATH + fileName).toUri());
+			
+			return ResponseEntity.ok()
+					.header(HttpHeaders.CONTENT_TYPE, "application/octet-stream")
+					.header(HttpHeaders.CONTENT_DISPOSITION, 
+							String.format("attachment; filename=\"%s\"", resource.getFilename()))
+					.body(resource);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
 	}
 
 }
