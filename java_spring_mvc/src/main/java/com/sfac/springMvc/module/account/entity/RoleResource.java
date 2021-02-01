@@ -22,6 +22,14 @@ public class RoleResource {
 	private Integer roleId;
 	private Integer resourceId;
 
+	public RoleResource() {
+	}
+
+	public RoleResource(Integer roleId, Integer resourceId) {
+		this.roleId = roleId;
+		this.resourceId = resourceId;
+	}
+
 	public Integer getId() {
 		return id;
 	}

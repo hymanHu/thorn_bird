@@ -1,19 +1,20 @@
 package com.sfac.springMvc.module.account.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.util.Optionals;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.github.pagehelper.sqlsource.PageStaticSqlSource;
 import com.sfac.springMvc.module.account.dao.UserDao;
+import com.sfac.springMvc.module.account.dao.UserRoleDao;
 import com.sfac.springMvc.module.account.entity.User;
+import com.sfac.springMvc.module.account.entity.UserRole;
 import com.sfac.springMvc.module.account.service.UserService;
 import com.sfac.springMvc.module.common.entity.ResultEntity;
 import com.sfac.springMvc.module.common.entity.SearchBean;
@@ -29,6 +30,8 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	private UserDao userDao;
+	@Autowired
+	private UserRoleDao userRoleDao;
 
 	@Override
 	public User getUserByUserNameAndPassword(String userName, String password) {
@@ -42,33 +45,44 @@ public class UserServiceImpl implements UserService {
 		if (userTemp != null) {
 			return new ResultEntity<User>(ResultEntity.ResultStatus.SUCCESS.status, "Login success", userTemp);
 		} else {
-			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "Login fail");
+			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "User name or password is error.");
 		}
 	}
 
 	@Override
 	@Transactional
 	public ResultEntity<User> insertUser(User user) {
-		User userTemp = userDao.getUserByUserName(user.getUserName());
+		User userTemp = userDao.getUserByUserName(user.getEmail(), user.getUserName());
 		if (userTemp != null) {
-			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "User Name is repeat.");
+			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "User Name or email is repeat.");
 		}
 		
+		user.setCreateDate(LocalDateTime.now());
 		user.setPassword(MD5Util.getMD5(user.getUserName(), user.getPassword()));
 		userDao.insertUser(user);
+		if (user.getRoles() != null) {
+			user.getRoles().stream()
+				.forEach(item -> {userRoleDao.insertUserRole(new UserRole(user.getId(), item.getId()));});
+		}
 		return new ResultEntity<User>(ResultEntity.ResultStatus.SUCCESS.status, "Insert success", user);
 	}
 
 	@Override
 	@Transactional
 	public ResultEntity<User> updateUser(User user) {
-		User userTemp = userDao.getUserByUserName(user.getUserName());
+		User userTemp = userDao.getUserByUserName(user.getEmail(), user.getUserName());
 		if (userTemp != null && userTemp.getId() != user.getId()) {
-			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "User Name is repeat.");
+			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "User Name or email is repeat.");
 		}
 		
 		user.setPassword(MD5Util.getMD5(user.getUserName(), user.getPassword()));
 		userDao.updateUser(user);
+		userRoleDao.deleteUserRoleByUserId(user.getId());
+		if (user.getRoles() != null) {
+			user.getRoles().stream()
+				.forEach(item -> {userRoleDao.insertUserRole(new UserRole(user.getId(), item.getId()));});
+		}
+		
 		return new ResultEntity<User>(ResultEntity.ResultStatus.SUCCESS.status, "Update success", user);
 	}
 
@@ -92,5 +106,4 @@ public class UserServiceImpl implements UserService {
 				.ofNullable(userDao.getUsersBySearchVo(searchBean))
 				.orElse(Collections.emptyList()));
 	}
-
 }

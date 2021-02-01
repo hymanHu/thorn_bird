@@ -47,15 +47,21 @@
 						<i class="menu-icon fa fa-caret-right"></i>Profile
 					</a>
 					<b class="arrow"></b>
-					<a href="#">
+				</li>
+				<li>
+					<a href="/account/users">
 						<i class="menu-icon fa fa-caret-right"></i>Users
 					</a>
 					<b class="arrow"></b>
-					<a href="#">
+				</li>
+				<li>
+					<a href="/account/roles">
 						<i class="menu-icon fa fa-caret-right"></i>Roles
 					</a>
 					<b class="arrow"></b>
-					<a href="#">
+				</li>
+				<li>
+					<a href="/account/resources">
 						<i class="menu-icon fa fa-caret-right"></i>Resources
 					</a>
 					<b class="arrow"></b>

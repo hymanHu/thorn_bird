@@ -4,9 +4,12 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
+import org.apache.ibatis.annotations.Many;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
 import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Result;
+import org.apache.ibatis.annotations.Results;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
@@ -26,18 +29,24 @@ public interface UserDao {
 	@Select("select * from account_user where user_name = #{userName} and password = #{password}")
 	User getUserByUserNameAndPassword(@Param("userName") String userName, @Param("password") String password);
 	
-	@Select("select * from account_user where user_name = #{userName}")
-	User getUserByUserName(String userName);
+	@Select("select * from account_user where email = #{email} or user_name = #{userName}")
+	User getUserByUserName(@Param("email") String email, @Param("userName") String userName);
 	
-	@Insert("insert into account_user (user_name, password, create_date) "
-			+ "values (#{userName}, #{password}, #{createDate})")
+	@Insert("insert into account_user (email, user_name, password, create_date) "
+			+ "values (#{email}, #{userName}, #{password}, #{createDate})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	void insertUser(User user);
 	
-	@Update("update account_user set user_name = #{userName}, password = #{password} where id = #{id}")
+	@Update("update account_user set email = #{email}, user_name = #{userName} where id = #{id}")
 	void updateUser(User user);
 	
 	@Select("select * from account_user where id = #{id}")
+	@Results(id="userResult", value={
+		@Result(column="id", property="id"),
+		@Result(column="id",property="roles",
+			javaType=List.class,
+			many=@Many(select="com.sfac.springMvc.module.account.dao.RoleDao.getRolesByUserId"))
+	})
 	User getUserById(int id);
 	
 	@Delete("delete from account_user where id = #{id}")
@@ -47,7 +56,8 @@ public interface UserDao {
 			+ "select * from account_user "
 			+ "<where> "
 			+ "<if test='keyWord != \"\" and keyWord != null'>"
-			+ " and (user_name like '%${keyWord}%') "
+			+ " and (email like '%${keyWord}%' or "
+			+ " user_name like '%${keyWord}%') "
 			+ "</if>"
 			+ "</where>"
 			+ "<choose>"
