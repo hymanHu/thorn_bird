@@ -2,6 +2,7 @@ package com.sfac.springMvc.module.account.service.impl;
 
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -52,8 +53,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public ResultEntity<User> insertUser(User user) {
-		User userTemp = userDao.getUserByUserName(user.getEmail(), user.getUserName());
-		if (userTemp != null) {
+		List<User> users = userDao.getUserByUserName(user.getEmail(), user.getUserName());
+		if (users != null && users.size() > 0) {
 			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "User Name or email is repeat.");
 		}
 		
@@ -70,8 +71,8 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public ResultEntity<User> updateUser(User user) {
-		User userTemp = userDao.getUserByUserName(user.getEmail(), user.getUserName());
-		if (userTemp != null && userTemp.getId() != user.getId()) {
+		List<User> users = userDao.getUserByUserName(user.getEmail(), user.getUserName());
+		if (users != null && users.size() > 0) {
 			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "User Name or email is repeat.");
 		}
 		

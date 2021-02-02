@@ -30,7 +30,7 @@ public interface UserDao {
 	User getUserByUserNameAndPassword(@Param("userName") String userName, @Param("password") String password);
 	
 	@Select("select * from account_user where email = #{email} or user_name = #{userName}")
-	User getUserByUserName(@Param("email") String email, @Param("userName") String userName);
+	List<User> getUserByUserName(@Param("email") String email, @Param("userName") String userName);
 	
 	@Insert("insert into account_user (email, user_name, password, create_date) "
 			+ "values (#{email}, #{userName}, #{password}, #{createDate})")

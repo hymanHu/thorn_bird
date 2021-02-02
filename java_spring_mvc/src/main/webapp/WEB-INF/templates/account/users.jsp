@@ -61,9 +61,15 @@
 
 					<div class="row">
 						<div class="col-xs-12">
-							<!-- <div class="row">
-								This is users page.
-							</div> -->
+							<div class="clearfix">
+								<div class="pull-left tableTools-container">
+									<button type="button" class="btn btn-primary" id="addModuleBtn"
+										data-toggle="modal" data-target="#addModal">新    增</button>
+								</div>
+								<div class="pull-right tableTools-container">
+									<button type="button" class="btn btn-primary" id="exportToExcelBtn">导出 Excel</button>
+								</div>
+							</div>
 							<div>
 								<table id="moduleTable" class="table table-striped table-bordered table-hover">
 									<thead>
@@ -82,15 +88,16 @@
 						</div>
 					</div>
 				</div>
-				<!-- /.page-content -->
 			</div>
 		</div>
-		<!-- /.main-content -->
 
 		<!-- footer -->
 		<%@ include file="../fragments/footer.jsp"%>
+		
+		<!-- 新增、修改页面 -->
+		<%@ include file="./userAdd.jsp"%>
+		<%@ include file="./userEdit.jsp"%>
 	</div>
-	<!-- /.main-container -->
 
 	<!-- js -->
 	<script src="/static/js/jquery-2.1.4.min.js"></script>
@@ -110,9 +117,18 @@
 	<script src="/static/js/custom.js"></script>
 	
 	<script type="text/javascript">
-		PAGE_SIZE = 5;
 		$(function() {
-			initTable(PAGE_SIZE);
+			initTable(DEFAULT_PAGE_SIZE);
+			
+			$("#addModuleBtn").bind("click", function() {
+				initAddModal();
+			});
+			$("#addBtn").bind("click", function() {
+				insertModule();
+			});
+			$("#editBtn").bind("click", function() {
+				updateModule();
+			});
 		});
 		
 		function initTable(pageSize) {
@@ -209,6 +225,129 @@
 					"<a href='javascript:void(0);' onclick='deleteModule(\"" + id + 
 					"\")' class='btn_editcolor'>删除</a>";
 			}
+		}
+		
+		// 初始化添加页面
+		function initAddModal() {
+			$("#emailForAddPage").val("");
+			$("#userNameForAddPage").val("");
+			$("#passwordForAddPage").val("");
+			initRoles("rolesForAddPage", "roleForAddPage");
+		}
+		
+		// 添加模型
+		function insertModule() {
+			var user = {};
+			user.email = $("#emailForAddPage").val();
+			user.userName = $("#userNameForAddPage").val();
+			user.password = $("#passwordForAddPage").val();
+			var roles = [];
+			$.each($("input[name=roleForAddPage]"), function(i, item) {
+				if(this.checked){
+					var role = {};
+					role.id = $(this).val();
+					roles.push(role);
+				}
+			});
+			user.roles = roles;
+			
+			$.ajax({
+				url : "/api/user",
+				type : "post",
+				contentType: "application/json",
+				data : JSON.stringify(user),
+				success : function (data) {
+					if (data.status == 200) {
+						initTable(DEFAULT_PAGE_SIZE);
+					} else {
+						layer.msg(data.message, {icon: 0});
+					}
+				},
+				error : function (data) {
+					layer.msg(data.responseText, {icon: 0});
+				}
+			});
+		}
+		
+		// 初始化编辑页面
+		function initEditModal(id) {
+			initRoles("rolesForEditPage", "roleForEditPage");
+			
+			$.ajax({
+				url : "/api/user/" + id,
+				type : "get",
+				contentType: "application/json",
+				success : function (rs) {
+					$("#idForEditPage").val(rs.id);
+					$("#emailForEditPage").val(rs.email);
+					$("#userNameForEditPage").val(rs.userName);
+					$.each(rs.roles, function(i, item){
+						$("input[name='roleForEditPage'][value=" + item.id + "]")
+							.attr("checked","checked");
+					});
+				},
+				error : function (data) {
+					layer.alert(data.responseText, {icon: 0});
+				}
+			});
+		}
+		
+		// 修改模型
+		function updateModule() {
+			var user = {};
+			user.id = $("#idForEditPage").val();
+			user.email = $("#emailForEditPage").val();
+			user.userName = $("#userNameForEditPage").val();
+			var roles = [];
+			$.each($("input[name=roleForEditPage]"), function(i, item) {
+				if(this.checked){
+					var role = {};
+					role.id = $(this).val();
+					roles.push(role);
+				}
+			});
+			user.roles = roles;
+			
+			$.ajax({
+				url : "/api/user",
+				type : "put",
+				contentType: "application/json",
+				data : JSON.stringify(user),
+				success : function (data) {
+					if (data.status == 200) {
+						initTable(DEFAULT_PAGE_SIZE);
+					} else {
+						layer.msg(data.message, {icon: 0});
+					}
+				},
+				error : function (data) {
+					layer.msg(data.responseText, {icon: 0});
+				}
+			});
+		}
+		
+		// 删除模型
+		function deleteModule(id) {
+			bootbox.confirm("Are you sure?", function(result) {
+				if(result) {
+					$.ajax({
+						url : "/api/user/" + id,
+						type : "delete",
+						contentType: "application/json",
+						success : function (data) {
+							if (data.status == 200) {
+								initTable(DEFAULT_PAGE_SIZE);
+							} else {
+								//window.location.href = data.object;
+								layer.msg(data.message, {icon: 0});
+							}
+						},
+						error : function (data) {
+							layer.msg(data.responseText, {icon: 0});
+						}
+					});
+				}
+			});
 		}
 	</script>
 </body>
