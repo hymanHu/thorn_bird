@@ -268,7 +268,7 @@
 				contentType: "application/json",
 				success : function (rs) {
 					$("#idForEditPage").val(rs.id);
-					$("#permissionEditPage").val(rs.permission);
+					$("#permissionForEditPage").val(rs.permission);
 					$.each(rs.roles, function(i, item){
 						$("input[name='roleForEditPage'][value=" + item.id + "]")
 							.attr("checked","checked");

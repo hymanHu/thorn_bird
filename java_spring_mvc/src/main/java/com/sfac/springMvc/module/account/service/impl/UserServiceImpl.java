@@ -53,8 +53,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public ResultEntity<User> insertUser(User user) {
-		List<User> users = userDao.getUserByUserName(user.getEmail(), user.getUserName());
-		if (users != null && users.size() > 0) {
+		List<User> users = Optional
+				.ofNullable(userDao.getUserByUserName(user.getEmail(), user.getUserName()))
+				.orElse(Collections.emptyList());
+		if (users.size() > 0) {
 			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "User Name or email is repeat.");
 		}
 		
@@ -71,8 +73,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	@Transactional
 	public ResultEntity<User> updateUser(User user) {
-		List<User> users = userDao.getUserByUserName(user.getEmail(), user.getUserName());
-		if (users != null && users.size() > 0) {
+		List<User> users = Optional
+				.ofNullable(userDao.getUserByUserName(user.getEmail(), user.getUserName()))
+				.orElse(Collections.emptyList());
+		if (users.stream().filter(item -> item.getId() != user.getId()).count() > 0) {
 			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "User Name or email is repeat.");
 		}
 		

@@ -4,21 +4,17 @@
 			<div class="modal-header">
 				<button type="button" class="bootbox-close-button close" data-dismiss="modal"
 					aria-hidden="true">&times;</button>
-				<h4 class="modal-title">Resource Edit</h4>
+				<h4 class="modal-title">Role Edit</h4>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal">
 					<input type="hidden" id="idForEditPage" value="" />
 					<div class="form-group row">
-						<label class="control-label col-md-3">Permission</label>
+						<label class="control-label col-md-3">Role Name</label>
 						<div class="col-md-8">
-							<input id="permissionForEditPage" name="permission" class="form-control" 
-								type="text" placeholder="Enter resource">
+							<input id="roleNameForEditPage" name="roleName" class="form-control" 
+								type="text" placeholder="Enter role name">
 						</div>
-					</div>
-					<div class="form-group row">
-						<label class="control-label col-md-3">Roles</label>
-						<div class="col-md-8" id="rolesForEditPage" name="roles"></div>
 					</div>
 				</form>
 			</div>

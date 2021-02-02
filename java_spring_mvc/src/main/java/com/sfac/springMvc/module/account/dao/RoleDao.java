@@ -29,7 +29,7 @@ public interface RoleDao {
 	@Update("update account_role set role_name = #{roleName} where id = #{id}")
 	void updateRole(Role role);
 	
-	@Delete("delete account_role where id = #{id}")
+	@Delete("delete from account_role where id = #{id}")
 	void deleteRoelById(int id);
 	
 	@Select("select * from account_role where id = #{id}")
