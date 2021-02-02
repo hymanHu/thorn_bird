@@ -66,9 +66,9 @@
 									<button type="button" class="btn btn-primary" id="addModuleBtn"
 										data-toggle="modal" data-target="#addModal">新    增</button>
 								</div>
-								<div class="pull-right tableTools-container">
+								<!-- <div class="pull-right tableTools-container">
 									<button type="button" class="btn btn-primary" id="exportToExcelBtn">导出 Excel</button>
-								</div>
+								</div> -->
 							</div>
 							<div>
 								<table id="moduleTable" class="table table-striped table-bordered table-hover">

@@ -39,6 +39,10 @@ public interface RoleDao {
 			+ "where aur.user_id = #{userId}")
 	List<Role> getRolesByUserId(int userId);
 	
+	@Select("select * from account_role ar left join account_role_resource arr on ar.id = arr.role_id "
+			+ "where arr.resource_id = #{resourceId}")
+	List<Role> getRolesByResourceId(int resourceId);
+	
 	@Select("select * from account_role")
 	List<Role> getRoles();
 	

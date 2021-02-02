@@ -48,7 +48,7 @@ public class ResourceServiceImpl implements ResourceService {
 	@Override
 	@Transactional
 	public ResultEntity<Resource> updateResource(Resource resource) {
-		resourceDao.insertResource(resource);
+		resourceDao.updateResource(resource);
 		roleResouceDao.deleteRoleResourceByResourceId(resource.getId());
 		if (resource.getRoles() != null) {
 			resource.getRoles().stream()
