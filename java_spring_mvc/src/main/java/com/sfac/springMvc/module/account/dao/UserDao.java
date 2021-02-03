@@ -32,13 +32,17 @@ public interface UserDao {
 	@Select("select * from account_user where email = #{email} or user_name = #{userName}")
 	List<User> getUserByUserName(@Param("email") String email, @Param("userName") String userName);
 	
-	@Insert("insert into account_user (email, user_name, password, create_date) "
-			+ "values (#{email}, #{userName}, #{password}, #{createDate})")
+	@Insert("insert into account_user (email, user_name, password, user_image, create_date) "
+			+ "values (#{email}, #{userName}, #{password}, ${userImage}, #{createDate})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	void insertUser(User user);
 	
-	@Update("update account_user set email = #{email}, user_name = #{userName} where id = #{id}")
+	@Update("update account_user set email = #{email}, user_name = #{userName}, "
+			+ "user_image = ${userImage} where id = #{id}")
 	void updateUser(User user);
+	
+	@Update("update account_user set password = #{password} where id = ${id}")
+	void updateUserPassword(@Param("password") String password, @Param("id") int id);
 	
 	@Select("select * from account_user where id = #{id}")
 	@Results(id="userResult", value={

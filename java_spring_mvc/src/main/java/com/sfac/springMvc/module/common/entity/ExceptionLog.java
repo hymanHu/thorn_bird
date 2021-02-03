@@ -1,5 +1,6 @@
 package com.sfac.springMvc.module.common.entity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
@@ -15,6 +16,7 @@ public class ExceptionLog extends AbstractEntity {
 	private String className;
 	private String methodName;
 	private String exceptionType;
+	@Column(columnDefinition = "varchar(255) DEFAULT NULL")
 	private String exceptionMessage;
 
 	public String getIp() {

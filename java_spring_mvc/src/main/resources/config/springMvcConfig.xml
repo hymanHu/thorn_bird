@@ -14,6 +14,15 @@
         http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd 
         http://www.springframework.org/schema/aop
 		http://www.springframework.org/schema/aop/spring-aop-3.0.xsd">
+		
+	<!-- 加载属性文件 -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+	    <property name="locations">
+	       <list>
+	          <value>classpath:config/properties/springMvcParms.properties</value>
+	        </list>
+	    </property>
+	</bean>
         
 	<!-- 扫描构造型（stereotype）注解所标注的类，@Component、@Repository、@Service、@Controller 等 -->
 	<context:component-scan base-package="com.sfac.springMvc" use-default-filters="false">
@@ -54,7 +63,8 @@
 		访问路径 = 映射路径 + 相对路径，类似于：http://127.0.0.1/upload/test.jpg；
 	-->
 	<!-- <mvc:resources location="/static/" mapping="/**" /> -->
-	<mvc:resources location="file:D:/upload/" mapping="/upload/**" />
+	<!-- <mvc:resources location="file:d:/upload/springMvc/" mapping="/upload/**" /> -->
+	<mvc:resources location="file:${resource.path.local.windows}" mapping="${resource.path.mapping}" />
 	
 	<!-- 视图解析器 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"   

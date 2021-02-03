@@ -43,7 +43,7 @@
 			<b class="arrow"></b>
 			<ul class="submenu">
 				<li class="">
-					<a href="#">
+					<a href="/account/profile">
 						<i class="menu-icon fa fa-caret-right"></i>Profile
 					</a>
 					<b class="arrow"></b>

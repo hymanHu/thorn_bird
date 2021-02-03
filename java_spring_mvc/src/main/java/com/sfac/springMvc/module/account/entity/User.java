@@ -22,6 +22,7 @@ public class User extends AbstractEntity {
 	@Column(unique = true)
 	private String userName;
 	private String password;
+	private String userImage;
 	@Transient
 	private List<Role> roles;
 
@@ -47,6 +48,14 @@ public class User extends AbstractEntity {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public String getUserImage() {
+		return userImage;
+	}
+
+	public void setUserImage(String userImage) {
+		this.userImage = userImage;
 	}
 
 	public List<Role> getRoles() {

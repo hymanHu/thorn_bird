@@ -281,6 +281,7 @@
 					$("#idForEditPage").val(rs.id);
 					$("#emailForEditPage").val(rs.email);
 					$("#userNameForEditPage").val(rs.userName);
+					$("#userImageForEditPage").val(rs.userImage);
 					$.each(rs.roles, function(i, item){
 						$("input[name='roleForEditPage'][value=" + item.id + "]")
 							.attr("checked","checked");
@@ -298,6 +299,7 @@
 			user.id = $("#idForEditPage").val();
 			user.email = $("#emailForEditPage").val();
 			user.userName = $("#userNameForEditPage").val();
+			user.userImage = $("#userImageForEditPage").val();
 			var roles = [];
 			$.each($("input[name=roleForEditPage]"), function(i, item) {
 				if(this.checked){

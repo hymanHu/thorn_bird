@@ -66,4 +66,12 @@ public class AccountController {
 	public String resourcesPage() {
 		return "account/resources";
 	}
+	
+	/**
+	 * 127.0.0.1/account/profile
+	 */
+	@GetMapping("/account/profile")
+	public String profilePage() {
+		return "account/profile";
+	}
 }

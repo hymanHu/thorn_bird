@@ -37,6 +37,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sfac.springMvc.module.test.entity.City;
 import com.sfac.springMvc.module.test.service.CityService;
+import com.sfac.springMvc.config.ResourceConfigBean;
 
 /**
  * Description: Test Controller
@@ -48,10 +49,10 @@ import com.sfac.springMvc.module.test.service.CityService;
 public class TestController {
 	
 	private final static Logger LOGGER = LogManager.getLogger(TestController.class);
-	private final static String LOCAL_FILE_PATH = "D:/upload/";
-	private final static String RELATIVE_FILE_PATH = "/upload/";
 	@Autowired
 	private CityService cityService;
+	@Autowired
+	private ResourceConfigBean resourceConfigBean;
 	
 	/**
 	 * 127.0.0.1:8080/java_spring_mvc/test/desc ---- get
@@ -74,6 +75,15 @@ public class TestController {
 		LOGGER.warn("This is warn logger.");
 		LOGGER.error("This is error logger.");
 		return "This is logger test.";
+	}
+	
+	/**
+	 * 127.0.0.1/test/config ---- get
+	 */
+	@GetMapping("/config")
+	@ResponseBody
+	public ResourceConfigBean configTest() {
+		return resourceConfigBean;
 	}
 	
 	/**
@@ -113,8 +123,8 @@ public class TestController {
 			return "redirect:/test/index";
 		}
 		
-		String absolutePath = LOCAL_FILE_PATH + file.getOriginalFilename();
-		String relativePath = RELATIVE_FILE_PATH + file.getOriginalFilename();
+		String absolutePath = resourceConfigBean.getResourcePathLocalWindows() + file.getOriginalFilename();
+		String relativePath = resourceConfigBean.getResourcePathPattern() + file.getOriginalFilename();
 		try {
 			File destFile = new File(absolutePath);
 			file.transferTo(destFile);
@@ -151,7 +161,7 @@ public class TestController {
 				}
 				
 				String fileName = file.getOriginalFilename();
-				String destFilePath = LOCAL_FILE_PATH + fileName;
+				String destFilePath = resourceConfigBean.getResourcePathLocalWindows() + fileName;
 				File destFile = new File(destFilePath);
 				file.transferTo(destFile);
 				
@@ -177,7 +187,7 @@ public class TestController {
 	@RequestMapping("/file1")
 	public void downloadFile1(HttpServletRequest request, 
 			HttpServletResponse response, @RequestParam String fileName) {
-		String filePath = LOCAL_FILE_PATH + fileName;
+		String filePath = resourceConfigBean.getResourcePathLocalWindows() + fileName;
 		File downloadFile = new File(filePath);
 		
 		if (downloadFile.exists()) {
@@ -222,7 +232,7 @@ public class TestController {
 	@RequestMapping("/file2")
 	public void downloadFile2(HttpServletRequest request, 
 			HttpServletResponse response, @RequestParam String fileName) {
-		String filePath = LOCAL_FILE_PATH + fileName;
+		String filePath = resourceConfigBean.getResourcePathLocalWindows() + fileName;
 		File downloadFile = new File(filePath);
 		
 		try {
@@ -248,7 +258,8 @@ public class TestController {
 	@RequestMapping("/file3")
 	public ResponseEntity<Resource> downLoadFile(@RequestParam String fileName) {
 		try {
-			Resource resource = new UrlResource(Paths.get(LOCAL_FILE_PATH + fileName).toUri());
+			Resource resource = new UrlResource(Paths.get(
+					resourceConfigBean.getResourcePathLocalWindows() + fileName).toUri());
 			
 			return ResponseEntity.ok()
 					.header(HttpHeaders.CONTENT_TYPE, "application/octet-stream")
