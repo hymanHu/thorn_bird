@@ -2,8 +2,6 @@ package com.sfac.springMvc.interceptor;
 
 import java.lang.annotation.Annotation;
 import java.time.LocalDateTime;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -11,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -22,7 +21,8 @@ import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
 import com.sfac.springMvc.module.common.entity.ExceptionLog;
 import com.sfac.springMvc.module.common.entity.ResultEntity;
 import com.sfac.springMvc.module.common.service.ExceptionLogService;
-import com.sfac.springMvc.util.IPUtils;
+import com.sfac.springMvc.util.IPUtil;
+import com.sfac.springMvc.util.StringUtil;
 
 /**
  * Description: Spring Mvc Handler Exception Resolver
@@ -42,12 +42,12 @@ public class SpringMvcHandlerExceptionResolver implements HandlerExceptionResolv
 		ex.printStackTrace();
 		if (handler instanceof HandlerMethod) {
 			LOGGER.debug("======== Log exception into db ========");
-			String ip = IPUtils.getIpAddr(request);
+			String ip = IPUtil.getIpAddr(request);
 			HandlerMethod handlerMethod = (HandlerMethod) handler;
 			String className = handlerMethod.getBeanType().getName();
 			String methodName = handlerMethod.getMethod().getName();
 			String exceptionType = ex.getClass().getSimpleName();
-			String exceptionMessage = ex.getMessage();
+			String exceptionMessage = StringUtil.splitString(ex.getMessage().trim(), 200);
 			
 			ExceptionLog exceptionLog = new ExceptionLog();
 			exceptionLog.setIp(ip);
@@ -62,7 +62,7 @@ public class SpringMvcHandlerExceptionResolver implements HandlerExceptionResolv
 			if (isInterface(handlerMethod)) {
 				return jsonResult(ResultEntity.ResultStatus.FAILED.status, exceptionMessage);
 			} else {
-				return pageResult("common/500", exceptionMessage);
+				return pageResult("common/500");
 			}
 		}
 		return null;
@@ -82,13 +82,11 @@ public class SpringMvcHandlerExceptionResolver implements HandlerExceptionResolv
 	}
 	
 	// 返回页面
-	private ModelAndView pageResult(String url, String message) {
-		Map<String, String> model = new HashMap<String, String>();
-		model.put("message", message);
+	private ModelAndView pageResult(String url) {
 		// 直接返回页面
-		//return new ModelAndView(url, model);
+		//return new ModelAndView(url, HttpStatus.INTERNAL_SERVER_ERROR);
 		// 重定向到错误页面控制器
-		return new ModelAndView("redirect:/common/500", model);
+		return new ModelAndView("redirect:/common/500", HttpStatus.INTERNAL_SERVER_ERROR);
     }
 	
 	// 返回 Json 数据

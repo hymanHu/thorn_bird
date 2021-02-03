@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author HymanHu
  * @date 2021-01-29 14:29:35
  */
-public class IPUtils {
+public class IPUtil {
 
 	public static String getIpAddr(HttpServletRequest request) {
 		String ipAddress = request.getHeader("x-forwarded-for");
