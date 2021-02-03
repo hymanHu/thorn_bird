@@ -3,14 +3,16 @@ package com.sfac.springMvc.module.common.service.impl;
 import java.io.File;
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.sfac.springMvc.config.ResourceConfigBean;
+import com.sfac.springMvc.module.common.entity.ImageType;
 import com.sfac.springMvc.module.common.entity.ResultEntity;
 import com.sfac.springMvc.module.common.entity.ResultEntity.ResultStatus;
 import com.sfac.springMvc.module.common.service.ImageService;
 import com.sfac.springMvc.util.FileUtil;
-import com.sun.net.httpserver.Authenticator.Result;
 
 /**
  * Description: Image Service Impl
@@ -20,6 +22,8 @@ import com.sun.net.httpserver.Authenticator.Result;
 @Service
 public class ImageServiceImpl implements ImageService {
 	
+	@Autowired
+	private ResourceConfigBean resourceConfigBean;
 
 	@Override
 	public ResultEntity<String> uploadImage(MultipartFile image, String imageType) {
@@ -30,23 +34,30 @@ public class ImageServiceImpl implements ImageService {
 			return new ResultEntity<>(ResultStatus.FAILED.status, "File is not a image.");
 		}
 		
-//		File destFolder = new File(resourceConfigBean.getLocalPathForWindow());
-//		if (!destFolder.exists()) {
-//			destFolder.mkdir();
-//		}
-//		
-//		String originalFilename = image.getOriginalFilename();
-//		String relatedPath = resourceConfigBean.getResourcePath() + originalFilename;
-//		String destPath = String.format("%s%s", resourceConfigBean.getLocalPathForWindow(), originalFilename);
-//		
-//		try {
-//			File destFile = new File(destPath);
-//			image.transferTo(destFile);
-//		} catch (IllegalStateException | IOException e) {
-//			e.printStackTrace();
-//			return new ResultEntity<>(ResultStatus.FAILED.status, "File upload error.");
-//		}
+		File destFolder = new File(String.format("%s%s/", 
+				resourceConfigBean.getResourcePathLocalWindows(), 
+				ImageType.getImageTypeByName(imageType).name));
+		if (!destFolder.exists()) {
+			destFolder.mkdir();
+		}
 		
-		return new ResultEntity<>(ResultStatus.SUCCESS.status, "File upload success.");
+		String filename = String.format("%s%s", 
+				System.currentTimeMillis(),
+				image.getOriginalFilename().substring(image.getOriginalFilename().lastIndexOf(".")));
+		String absolutePath = String.format("%s%s", destFolder, filename);
+		String relatedPath = String.format("%s%s/%s", 
+				resourceConfigBean.getResourcePathPattern(), 
+				ImageType.getImageTypeByName(imageType).name,
+				filename);
+		
+		try {
+			File destFile = new File(absolutePath);
+			image.transferTo(destFile);
+		} catch (IllegalStateException | IOException e) {
+			e.printStackTrace();
+			return new ResultEntity<>(ResultStatus.FAILED.status, "File upload error.");
+		}
+		
+		return new ResultEntity<>(ResultStatus.SUCCESS.status, "File upload success.", relatedPath);
 	}
 }
