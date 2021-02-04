@@ -81,8 +81,9 @@
 	
 	<!-- 上传文件 -->
 	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
-		<!-- 设置上传文件的最大尺寸为 10M -->
-		<property name="maxUploadSize" value="10240"></property>
+		<!-- 1TB=1024GB,1GB=1024MB,1MB=1024KB,1KB=1024Byte,1Byte=8bit -->
+		<!-- 此处配置数值的单位是Byte，设置上传文件的最大尺寸为 10M：10*1024*1024 -->
+		<property name="maxUploadSize" value="10485760"></property>
 		<property name="defaultEncoding" value="UTF-8"></property>
 	</bean>
 </beans>
