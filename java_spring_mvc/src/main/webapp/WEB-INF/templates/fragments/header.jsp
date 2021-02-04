@@ -15,6 +15,7 @@
 		</div>
 
 		<div class="navbar-buttons navbar-header pull-right" role="navigation">
+			<input type="hidden" id="userId" value="3"/>
 			<ul class="nav ace-nav">
 				<li class="grey dropdown-modal">
 					<a data-toggle="dropdown" class="dropdown-toggle" href="#">

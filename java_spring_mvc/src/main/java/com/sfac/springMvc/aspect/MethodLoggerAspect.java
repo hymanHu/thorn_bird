@@ -52,13 +52,13 @@ public class MethodLoggerAspect {
 		String className = joinPoint.getTarget().getClass().getName();
 		String methodName = joinPoint.getSignature().getName();
 		Object[] args = joinPoint.getArgs();
-		List<String> argsList = new ArrayList<String>();
-		for (Object item : args) {
-			argsList.add(mapper.writeValueAsString(item));
-		}
+//		List<String> argsList = new ArrayList<String>();
+//		for (Object item : args) {
+//			argsList.add(mapper.writeValueAsString(item));
+//		}
 		LOGGER.debug(String.format("Call class: %s", className));
 		LOGGER.debug(String.format("Call method: %s", methodName));
-		LOGGER.debug(String.format("Call method args: %s", argsList));
+		LOGGER.debug(String.format("Call method args: %s", args));
 	}
 	
 	@Around(value = "methodLoggerPointCut()")

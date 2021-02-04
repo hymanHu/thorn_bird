@@ -18,6 +18,8 @@
 	<link href="/static/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet" />
 	<!-- text fonts -->
 	<link href="/static/css/fonts.googleapis.com.css" rel="stylesheet" />
+	<!-- fileinput -->
+	<link href="/static/plugin/bootstrap-fileinput/css/fileinput.css" rel="stylesheet" />
 	<!-- ace styles -->
 	<link href="/static/css/ace.min.css" class="ace-main-stylesheet" id="main-ace-style" rel="stylesheet" />
 	<link href="/static/css/ace-skins.min.css" rel="stylesheet" />
@@ -50,15 +52,14 @@
 								<div class="col-xs-12 col-sm-3 center">
 									<div>
 										<span class="profile-picture">
-											<img id="avatar" class="editable img-responsive" alt="Alex's Avatar" 
-												src="/static/images/avatars/profile-pic.jpg" />
+											<img name="userImage" class="editable img-responsive" src="" />
 										</span>
 										<div class="space-4"></div>
 										<div class="width-80 label label-info label-xlg arrowed-in arrowed-in-right">
 											<div class="inline position-relative">
 												<a href="javascript:void(0);" class="user-title-label">
 													<i class="ace-icon fa fa-circle light-green"></i>
-													<span class="white">Hyman Hu</span>
+													<span name="userName" class="white">Hyman Hu</span>
 												</a>
 											</div>
 										</div>
@@ -142,7 +143,13 @@
 										<div class="profile-info-row">
 											<div class="profile-info-name"> Username </div>
 											<div class="profile-info-value">
-												<span class="editable" id="username">alexdoe</span>
+												<span class="editable" name="userName">Hyman Hu</span>
+											</div>
+										</div>
+										<div class="profile-info-row">
+											<div class="profile-info-name"> Email </div>
+											<div class="profile-info-value">
+												<span class="editable" name="email">hj@163.com</span>
 											</div>
 										</div>
 										<div class="profile-info-row">
@@ -307,6 +314,8 @@
 	<script src="https://cdn.bootcss.com/layer/2.1/layer.js"></script>
 	<!-- confirm box -->
 	<script src="/static/js/bootbox.js"></script>
+	<!-- fileinput -->
+	<script src="/static/plugin/bootstrap-fileinput/js/fileinput.js"></script>
 	<!-- ace -->
 	<script src="/static/js/ace-elements.min.js"></script>
 	<script src="/static/js/ace.min.js"></script>
@@ -317,7 +326,66 @@
 	
 	<script type="text/javascript">
 		$(function() {
+			initProfile()
+			initFileInput();
 		});
+		
+		function initProfile() {
+			var userId = $("#userId").val();
+			$.ajax({
+				url : "/api/user/" + userId,
+				type : "get",
+				//contentType: "application/json",
+				//data : JSON.stringify(role),
+				success : function (data) {
+					var userImage = "/static/images/avatars/profile-pic.jpg";
+					if (data.userImage != null) {
+						userImage = data.userImage;
+					}
+					$("[name=userImage]").attr("src", userImage);
+					$("[name=userName]").html(data.userName);
+					$("[name=userName]").val(data.userName);
+					$("[name=email]").val(data.email);
+				},
+				error : function (data) {
+					layer.msg(data.responseText, {icon: 0});
+				}
+			});
+		}
+		
+		function initFileInput() {
+			$("#uploadImage").fileinput({
+				uploadUrl: "/api/image/profile-big",
+				enctype: 'multipart/form-data',
+				previewFileType: "image",
+				uploadAsync: true,
+				allowedFileExtensions: ["png", "jpg", "jpeg", "ico", "bmp", "gif"],
+				maxFileCount: 1,
+				maxFileSize: 1024,
+				minImageWidth: 50,
+		        minImageHeight: 50,
+		        maxImageWidth: 300,
+		        maxImageHeight: 500,
+		        msgFilesTooMany: "Upload file count({n} - {m})",
+				showCaption: false,
+				dropZoneEnabled:false,
+				showBrowse: true,
+				browseClass: "btn btn-primary",
+				uploadClass: "btn btn-info",
+				removeClass: "btn btn-danger"
+			}).on('fileerror', function (event, data, msg) {
+				layer.alert("Upload file failed" + msg, {icon: 0});
+			}).on('fileuploaded', function (event, data) {
+				if (data.response.status == 200) {
+					$("#userImage").val(data.response.data);
+					$('#uploadImage').fileinput('disable');
+				} else {
+					$(".fileinput-remove-button").click()
+				}
+				layer.alert(data.response.message, {icon: 0});
+			}).on('fileclear', function (event) {
+			});
+		}
 		
 	</script>
 </body>

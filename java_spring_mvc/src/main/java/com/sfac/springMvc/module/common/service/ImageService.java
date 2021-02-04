@@ -11,5 +11,5 @@ import com.sfac.springMvc.module.common.entity.ResultEntity;
  */
 public interface ImageService {
 
-	ResultEntity<String> uploadImage(MultipartFile image, String imageType);
+	ResultEntity<String> uploadImage(MultipartFile image, String type);
 }

@@ -23,7 +23,13 @@
 								type="text" placeholder="Enter user name">
 						</div>
 					</div>
-					<input type="hidden" id="userImageForEditPage" name="userImage" value=""/>
+					<div class="form-group row">
+						<label class="control-label col-md-3">User Image</label>
+						<div class="col-md-8">
+							<input type="hidden" id="userImage" value=""/>
+							<input id="uploadImage" name="image" type="file" multiple=true>
+						</div>
+					</div>
 				</form>
 			</div>
 			<div class="modal-footer">

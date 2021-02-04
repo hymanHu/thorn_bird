@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,7 +48,8 @@ public class SpringMvcHandlerExceptionResolver implements HandlerExceptionResolv
 			String className = handlerMethod.getBeanType().getName();
 			String methodName = handlerMethod.getMethod().getName();
 			String exceptionType = ex.getClass().getSimpleName();
-			String exceptionMessage = StringUtil.splitString(ex.getMessage().trim(), 200);
+			String exceptionMessage = StringUtils.isBlank(ex.getMessage()) ? "" : 
+				StringUtil.splitString(ex.getMessage().trim(), 200);
 			
 			ExceptionLog exceptionLog = new ExceptionLog();
 			exceptionLog.setIp(ip);
