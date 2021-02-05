@@ -13,6 +13,8 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sfac.springMvc.module.account.dao.RoleDao;
+import com.sfac.springMvc.module.account.dao.RoleResourceDao;
+import com.sfac.springMvc.module.account.dao.UserRoleDao;
 import com.sfac.springMvc.module.account.entity.Role;
 import com.sfac.springMvc.module.account.service.RoleService;
 import com.sfac.springMvc.module.common.entity.ResultEntity;
@@ -28,6 +30,10 @@ public class RoleServiceImpl implements RoleService {
 	
 	@Autowired
 	private RoleDao roleDao;
+	@Autowired
+	private UserRoleDao userRoleDao;
+	@Autowired
+	private RoleResourceDao roleResourceDao;
 
 	@Override
 	@Transactional
@@ -48,6 +54,8 @@ public class RoleServiceImpl implements RoleService {
 	@Transactional
 	public ResultEntity<Object> deleteRoelById(int id) {
 		roleDao.deleteRoelById(id);
+		userRoleDao.deleteUserRoleByRoleId(id);
+		roleResourceDao.deleteRoleResourceByRoleId(id);
 		return new ResultEntity<Object>(ResultEntity.ResultStatus.SUCCESS.status, "Delete success");
 	}
 

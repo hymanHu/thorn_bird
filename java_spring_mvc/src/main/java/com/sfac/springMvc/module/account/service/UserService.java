@@ -25,4 +25,6 @@ public interface UserService {
 	ResultEntity<Object> deleteUserById(int id);
 	
 	PageInfo<User> getUsersBySearchBean(SearchBean searchBean);
+	
+	User getUserByUserName(String userName);
 }

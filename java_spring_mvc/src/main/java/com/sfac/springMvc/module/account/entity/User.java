@@ -24,6 +24,8 @@ public class User extends AbstractEntity {
 	private String password;
 	private String userImage;
 	@Transient
+	private boolean rememberMe;
+	@Transient
 	private List<Role> roles;
 
 	public String getEmail() {
@@ -56,6 +58,14 @@ public class User extends AbstractEntity {
 
 	public void setUserImage(String userImage) {
 		this.userImage = userImage;
+	}
+
+	public boolean getRememberMe() {
+		return rememberMe;
+	}
+
+	public void setRememberMe(boolean rememberMe) {
+		this.rememberMe = rememberMe;
 	}
 
 	public List<Role> getRoles() {

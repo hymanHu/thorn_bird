@@ -1,5 +1,6 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" isELIgnored="false" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://shiro.apache.org/tags" prefix="shiro" %>
 
 <div id="sidebar" class="sidebar responsive ace-save-state">
 	<div class="sidebar-shortcuts" id="sidebar-shortcuts">
@@ -48,6 +49,7 @@
 					</a>
 					<b class="arrow"></b>
 				</li>
+				<shiro:hasAnyRoles name="admin,manager">
 				<li>
 					<a href="/account/users">
 						<i class="menu-icon fa fa-caret-right"></i>Users
@@ -66,6 +68,7 @@
 					</a>
 					<b class="arrow"></b>
 				</li>
+				</shiro:hasAnyRoles>
 			</ul>
 		</li>
 		<li class="">

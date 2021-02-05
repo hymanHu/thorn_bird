@@ -52,13 +52,16 @@ public class MethodLoggerAspect {
 		String className = joinPoint.getTarget().getClass().getName();
 		String methodName = joinPoint.getSignature().getName();
 		Object[] args = joinPoint.getArgs();
+		// 部分参数不能用 Jackson 序列化
 //		List<String> argsList = new ArrayList<String>();
 //		for (Object item : args) {
 //			argsList.add(mapper.writeValueAsString(item));
 //		}
 		LOGGER.debug(String.format("Call class: %s", className));
 		LOGGER.debug(String.format("Call method: %s", methodName));
-		LOGGER.debug(String.format("Call method args: %s", args));
+		if (args.length > 0) {
+			LOGGER.debug(String.format("Call method args: %s", args));
+		}
 	}
 	
 	@Around(value = "methodLoggerPointCut()")

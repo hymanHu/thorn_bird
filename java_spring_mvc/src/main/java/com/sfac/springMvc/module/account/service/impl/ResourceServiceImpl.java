@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.sfac.springMvc.module.account.dao.ResourceDao;
-import com.sfac.springMvc.module.account.dao.RoleResouceDao;
+import com.sfac.springMvc.module.account.dao.RoleResourceDao;
 import com.sfac.springMvc.module.account.entity.Resource;
 import com.sfac.springMvc.module.account.entity.RoleResource;
 import com.sfac.springMvc.module.account.service.ResourceService;
@@ -31,7 +31,7 @@ public class ResourceServiceImpl implements ResourceService {
 	@Autowired
 	private ResourceDao resourceDao;
 	@Autowired
-	private RoleResouceDao roleResouceDao;
+	private RoleResourceDao roleResourceDao;
 
 	@Override
 	@Transactional
@@ -40,7 +40,7 @@ public class ResourceServiceImpl implements ResourceService {
 		resourceDao.insertResource(resource);
 		if (resource.getRoles() != null) {
 			resource.getRoles().stream()
-				.forEach(item -> {roleResouceDao.insertRoleResource(new RoleResource(item.getId(), resource.getId()));});
+				.forEach(item -> {roleResourceDao.insertRoleResource(new RoleResource(item.getId(), resource.getId()));});
 		}
 		return new ResultEntity<Resource>(ResultEntity.ResultStatus.SUCCESS.status, "Insert success", resource);
 	}
@@ -49,10 +49,10 @@ public class ResourceServiceImpl implements ResourceService {
 	@Transactional
 	public ResultEntity<Resource> updateResource(Resource resource) {
 		resourceDao.updateResource(resource);
-		roleResouceDao.deleteRoleResourceByResourceId(resource.getId());
+		roleResourceDao.deleteRoleResourceByResourceId(resource.getId());
 		if (resource.getRoles() != null) {
 			resource.getRoles().stream()
-				.forEach(item -> {roleResouceDao.insertRoleResource(new RoleResource(item.getId(), resource.getId()));});
+				.forEach(item -> {roleResourceDao.insertRoleResource(new RoleResource(item.getId(), resource.getId()));});
 		}
 		return new ResultEntity<Resource>(ResultEntity.ResultStatus.SUCCESS.status, "Update success", resource);
 	}
@@ -61,6 +61,7 @@ public class ResourceServiceImpl implements ResourceService {
 	@Transactional
 	public ResultEntity<Object> deleteResourceById(int id) {
 		resourceDao.deleteResourceById(id);
+		roleResourceDao.deleteRoleResourceByResourceId(id);
 		return new ResultEntity<Object>(ResultEntity.ResultStatus.SUCCESS.status, "Delete success");
 	}
 

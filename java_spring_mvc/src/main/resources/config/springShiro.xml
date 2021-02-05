@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context" 
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans-4.0.xsd 
+			http://www.springframework.org/schema/context  
+			http://www.springframework.org/schema/context/spring-context-4.0.xsd"
+	default-lazy-init="true">
+	
+    <!-- Realm 配置 -->
+	<bean id="myRealm" class="com.sfac.springMvc.config.MyRealm" />
+	<!-- Remember Me 配置 -->
+	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		<property name="name" value="rememberMe"/>
+		<property name="maxAge" value="604800"/>
+		<property name="httpOnly" value="true"/>
+	</bean>
+    <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+		<property name="cookie" ref="rememberMeCookie"/>
+	</bean>
+	<!-- Session 配置 -->
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<!-- Session 的失效时长，单位毫秒 -->
+		<property name="globalSessionTimeout" value="6000000"/>
+		<!-- 删除失效的 Session -->
+		<property name="deleteInvalidSessions" value="true"/>
+		<!-- 去掉重定向后 Url 追加 Session Id -->
+		<property name="sessionIdUrlRewritingEnabled" value="false" />
+	</bean>
+	
+	<!-- Security Manager -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">  
+		<property name="realm" ref="myRealm"/>
+		<property name="rememberMeManager" ref="rememberMeManager"></property>
+		<property name="sessionManager" ref="sessionManager" />
+	</bean>
+	
+	<!-- 
+		Shiro Filter 
+		anon：匿名访问，无需登录
+		authc：登录后才能访问
+		user：登录过能访问
+		logout：登出
+		roles：角色过滤器
+	-->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+        <property name="securityManager" ref="securityManager"/>
+        <property name="loginUrl" value="/login"/>
+        <property name="successUrl" value="/common/dashboard"/>
+        
+		<property name="filterChainDefinitions">  
+			<value>  
+                /static/**=anon
+                /register=anon
+                /login=anon
+                /forgot=anon
+                /logout=logout
+                /api/**=anon
+                /**=user
+			</value>  
+		</property>  
+	</bean>
+	
+    <!-- 配置验证表单名称，默认是：userName，password -->
+	<!-- <bean id="authc" class="org.apache.shiro.web.filter.authc.FormAuthenticationFilter">
+		<property name="usernameParam" value="account"></property>
+		<property name="passwordParam" value="password"></property>
+	</bean> -->
+	
+	<!-- Shiro 生命周期处理器 -->
+	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
+	<!-- 自动代理类，支持 Shiro 注解 -->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
+		depends-on="lifecycleBeanPostProcessor" />
+	<!-- 开启 Shiro 注解 -->
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
+		<property name="securityManager" ref="securityManager" />
+	</bean>
+</beans>  

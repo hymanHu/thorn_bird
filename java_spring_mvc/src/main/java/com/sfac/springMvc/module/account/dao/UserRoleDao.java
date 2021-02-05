@@ -16,11 +16,14 @@ import com.sfac.springMvc.module.account.entity.UserRole;
 @Mapper
 @Repository
 public interface UserRoleDao {
-
-	@Delete("delete from account_user_role where user_id = #{userId}")
-	void deleteUserRoleByUserId(int userId);
 	
 	@Insert("insert into account_user_role (user_id, role_id) values (#{userId}, #{roleId})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	void insertUserRole(UserRole userRole);
+
+	@Delete("delete from account_user_role where user_id = #{userId}")
+	void deleteUserRoleByUserId(int userId);
+	
+	@Delete("delete from account_user_role where role_id = #{roleId}")
+	void deleteUserRoleByRoleId(int roleId);
 }

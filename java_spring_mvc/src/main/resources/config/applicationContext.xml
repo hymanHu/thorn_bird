@@ -40,4 +40,5 @@
 	<import resource="springMybatis.xml"/>
 	<import resource="springHibernate.xml"/>
 	<import resource="springJpa.xml"/>
+	<import resource="springShiro.xml"/>
 </beans>

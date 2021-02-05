@@ -9,13 +9,13 @@ import org.springframework.stereotype.Repository;
 import com.sfac.springMvc.module.account.entity.RoleResource;
 
 /**
- * Description: Role Resouce Dao
+ * Description: Role Resource Dao
  * @author HymanHu
  * @date 2021-02-01 10:09:48
  */
 @Mapper
 @Repository
-public interface RoleResouceDao {
+public interface RoleResourceDao {
 	
 	@Insert("insert into account_role_resource (role_id, resource_id) values (#{roleId}, #{resourceId})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
@@ -23,4 +23,7 @@ public interface RoleResouceDao {
 	
 	@Delete("delete from account_role_resource where resource_id = #{resourceId}")
 	void deleteRoleResourceByResourceId(int resourceId);
+	
+	@Delete("delete from account_role_resource where role_id = #{roleId}")
+	void deleteRoleResourceByRoleId(int roleId);
 }

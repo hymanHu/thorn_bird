@@ -30,10 +30,13 @@ public interface UserDao {
 	User getUserByUserNameAndPassword(@Param("userName") String userName, @Param("password") String password);
 	
 	@Select("select * from account_user where email = #{email} or user_name = #{userName}")
-	List<User> getUserByUserName(@Param("email") String email, @Param("userName") String userName);
+	List<User> getUserByUserNameOrEmail(@Param("email") String email, @Param("userName") String userName);
+	
+	@Select("select * from account_user where user_name = #{userName}")
+	List<User> getUserByUserName(String userName);
 	
 	@Insert("insert into account_user (email, user_name, password, user_image, create_date) "
-			+ "values (#{email}, #{userName}, #{password}, ${userImage}, #{createDate})")
+			+ "values (#{email}, #{userName}, #{password}, #{userImage}, #{createDate})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	void insertUser(User user);
 	

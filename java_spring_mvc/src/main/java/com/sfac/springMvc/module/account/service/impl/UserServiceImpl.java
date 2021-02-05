@@ -7,6 +7,11 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -40,21 +45,37 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
+	public User getUserByUserName(String userName) {
+		List<User> users = Optional.ofNullable(userDao.getUserByUserName(userName)).orElse(Collections.emptyList());
+		return users.isEmpty() ? null : users.get(0);
+	}
+
+	@Override
 	public ResultEntity<User> login(User user) {
-		User userTemp = userDao.getUserByUserNameAndPassword(user.getUserName(), 
+		Subject subject = SecurityUtils.getSubject();
+		UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), 
 				MD5Util.getMD5(user.getUserName(), user.getPassword()));
-		if (userTemp != null) {
-			return new ResultEntity<User>(ResultEntity.ResultStatus.SUCCESS.status, "Login success", userTemp);
-		} else {
+		token.setRememberMe(user.getRememberMe());
+		
+		try {
+			subject.login(token);
+			subject.checkRoles();
+		} catch (Exception e) {
+			e.printStackTrace();
 			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "User name or password is error.");
 		}
+		
+		Session session = subject.getSession();
+		session.setAttribute("user", subject.getPrincipal());
+		
+		return new ResultEntity<User>(ResultEntity.ResultStatus.SUCCESS.status, "Login success", user);
 	}
 
 	@Override
 	@Transactional
 	public ResultEntity<User> insertUser(User user) {
 		List<User> users = Optional
-				.ofNullable(userDao.getUserByUserName(user.getEmail(), user.getUserName()))
+				.ofNullable(userDao.getUserByUserNameOrEmail(user.getEmail(), user.getUserName()))
 				.orElse(Collections.emptyList());
 		if (users.size() > 0) {
 			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "User Name or email is repeat.");
@@ -74,7 +95,7 @@ public class UserServiceImpl implements UserService {
 	@Transactional
 	public ResultEntity<User> updateUser(User user) {
 		List<User> users = Optional
-				.ofNullable(userDao.getUserByUserName(user.getEmail(), user.getUserName()))
+				.ofNullable(userDao.getUserByUserNameOrEmail(user.getEmail(), user.getUserName()))
 				.orElse(Collections.emptyList());
 		if (users.stream().filter(item -> item.getId() != user.getId()).count() > 0) {
 			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "User Name or email is repeat.");
@@ -98,8 +119,10 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
+	@RequiresPermissions("deleteUser")
 	public ResultEntity<Object> deleteUserById(int id) {
 		userDao.deleteUserById(id);
+		userRoleDao.deleteUserRoleByUserId(id);
 		return new ResultEntity<Object>(ResultEntity.ResultStatus.SUCCESS.status, "Delete success");
 	}
 
