@@ -328,7 +328,24 @@
 		$(function() {
 			initProfile()
 			initFileInput();
+			
+			$("#editBtn").bind("click", function() {
+				editProfile();
+			});
 		});
+		
+		function fillUserInfo(user) {
+			var userImage = "/static/images/avatars/profile-pic.jpg";
+			if (user.userImage != null && user.userImage != "") {
+				userImage = user.userImage;
+			}
+			$("[name=userImage]").attr("src", userImage);
+			$("[name=userName]").html(user.userName);
+			$("[name=userName]").val(user.userName);
+			$("[name=email]").val(user.email);
+			$("[name=email]").html(user.email);
+			$("#userImageForEditPage").val(user.userImage);
+		}
 		
 		function initProfile() {
 			var userId = $("#userId").val();
@@ -338,14 +355,7 @@
 				//contentType: "application/json",
 				//data : JSON.stringify(role),
 				success : function (data) {
-					var userImage = "/static/images/avatars/profile-pic.jpg";
-					if (data.userImage != null) {
-						userImage = data.userImage;
-					}
-					$("[name=userImage]").attr("src", userImage);
-					$("[name=userName]").html(data.userName);
-					$("[name=userName]").val(data.userName);
-					$("[name=email]").val(data.email);
+					fillUserInfo(data);
 				},
 				error : function (data) {
 					layer.msg(data.responseText, {icon: 0});
@@ -364,8 +374,8 @@
 				maxFileSize: 1024,
 				minImageWidth: 50,
 		        minImageHeight: 50,
-		        maxImageWidth: 300,
-		        maxImageHeight: 500,
+		        maxImageWidth: 1000,
+		        maxImageHeight: 1000,
 		        msgFilesTooMany: "Upload file count({n} - {m})",
 				showCaption: false,
 				dropZoneEnabled:false,
@@ -377,16 +387,39 @@
 				layer.alert("Upload file failed" + msg, {icon: 0});
 			}).on('fileuploaded', function (event, data) {
 				if (data.response.status == 200) {
-					$("#userImage").val(data.response.data);
-					$('#uploadImage').fileinput('disable');
+					$("#userImageForEditPage").val(data.response.data);
 				} else {
-					$(".fileinput-remove-button").click()
+					$(".fileinput-remove-button").click();
 				}
 				layer.alert(data.response.message, {icon: 0});
 			}).on('fileclear', function (event) {
 			});
 		}
 		
+		function editProfile() {
+			var user = {};
+			user.id = $("#userId").val();
+			user.email = $("#emailForEditPage").val();
+			user.userName = $("#userNameForEditPage").val();
+			user.userImage = $("#userImageForEditPage").val();
+			
+			$.ajax({
+				url : "/api/user",
+				type : "put",
+				contentType: "application/json",
+				data : JSON.stringify(user),
+				success : function (result) {
+					if (result.status == 200) {
+						fillUserInfo(result.data);
+					} else {
+						layer.msg("Update user profile error.", {icon: 0});
+					}
+				},
+				error : function (data) {
+					layer.msg(data.responseText, {icon: 0});
+				}
+			});
+		}
 	</script>
 </body>
 </html>

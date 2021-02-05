@@ -51,7 +51,8 @@ public class ImageServiceImpl implements ImageService {
 				resourceConfigBean.getResourcePathPattern(), 
 				imageType.name,
 				filename);
-		LOGGER.debug(absolutePath);
+		LOGGER.debug("absolutePath: " + absolutePath);
+		LOGGER.debug("relatedPath: " + relatedPath);
 		
 		try {
 			File destFile = new File(absolutePath);

@@ -8,7 +8,6 @@
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal">
-					<input type="hidden" id="idForEditPage" value="" />
 					<div class="form-group row">
 						<label class="control-label col-md-3">Email</label>
 						<div class="col-md-8">
@@ -26,7 +25,7 @@
 					<div class="form-group row">
 						<label class="control-label col-md-3">User Image</label>
 						<div class="col-md-8">
-							<input type="hidden" id="userImage" value=""/>
+							<input type="hidden" id="userImageForEditPage" value=""/>
 							<input id="uploadImage" name="image" type="file" multiple=true>
 						</div>
 					</div>

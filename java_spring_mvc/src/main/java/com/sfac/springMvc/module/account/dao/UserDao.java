@@ -38,7 +38,7 @@ public interface UserDao {
 	void insertUser(User user);
 	
 	@Update("update account_user set email = #{email}, user_name = #{userName}, "
-			+ "user_image = ${userImage} where id = #{id}")
+			+ "user_image = #{userImage} where id = #{id}")
 	void updateUser(User user);
 	
 	@Update("update account_user set password = #{password} where id = ${id}")
