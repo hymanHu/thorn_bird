@@ -57,7 +57,7 @@
                 /forgot=anon
                 /logout=logout
                 /api/**=anon
-                /**=user
+                /**=authc
 			</value>  
 		</property>  
 	</bean>
@@ -70,10 +70,12 @@
 	
 	<!-- Shiro 生命周期处理器 -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
-	<!-- 自动代理类，支持 Shiro 注解 -->
+	<!-- DefaultAdvisorAutoProxyCreator 创建 Advisor 代理类 -->
 	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
-		depends-on="lifecycleBeanPostProcessor" />
-	<!-- 开启 Shiro 注解 -->
+		depends-on="lifecycleBeanPostProcessor">
+		<property name="proxyTargetClass" value="true" />
+	</bean>
+	<!-- 创建 AuthorizationAttributeSourceAdvisor，扫描 Shiro 注解 -->
 	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager" />
 	</bean>

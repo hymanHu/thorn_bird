@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -103,8 +102,8 @@ public class UserServiceImpl implements UserService {
 		
 		user.setPassword(MD5Util.getMD5(user.getUserName(), user.getPassword()));
 		userDao.updateUser(user);
-		userRoleDao.deleteUserRoleByUserId(user.getId());
-		if (user.getRoles() != null) {
+		if (user.getRoles() != null && !user.getRoles().isEmpty()) {
+			userRoleDao.deleteUserRoleByUserId(user.getId());
 			user.getRoles().stream()
 				.forEach(item -> {userRoleDao.insertUserRole(new UserRole(user.getId(), item.getId()));});
 		}
@@ -119,7 +118,6 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	@Transactional
-	@RequiresPermissions("deleteUser")
 	public ResultEntity<Object> deleteUserById(int id) {
 		userDao.deleteUserById(id);
 		userRoleDao.deleteUserRoleByUserId(id);

@@ -119,6 +119,8 @@
 	<script type="text/javascript">
 		$(function() {
 			initTable(DEFAULT_PAGE_SIZE);
+			initRoles("rolesForAddPage", "roleForAddPage");
+			initRoles("rolesForEditPage", "roleForEditPage");
 			
 			$("#addModuleBtn").bind("click", function() {
 				initAddModal();
@@ -232,7 +234,7 @@
 			$("#emailForAddPage").val("");
 			$("#userNameForAddPage").val("");
 			$("#passwordForAddPage").val("");
-			initRoles("rolesForAddPage", "roleForAddPage");
+			$("input[name='roleForAddPage']").removeAttr("checked");
 		}
 		
 		// 添加模型
@@ -271,8 +273,6 @@
 		
 		// 初始化编辑页面
 		function initEditModal(id) {
-			initRoles("rolesForEditPage", "roleForEditPage");
-			
 			$.ajax({
 				url : "/api/user/" + id,
 				type : "get",

@@ -1,5 +1,6 @@
 package com.sfac.springMvc.module.account.controller;
 
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -67,6 +68,7 @@ public class UserController {
 	 * 127.0.0.1/api/user/1 ---- delete
 	 */
 	@DeleteMapping("/user/{id}")
+	@RequiresPermissions("deleteUser")
 	public ResultEntity<Object> deleteUserById(@PathVariable int id) {
 		return userService.deleteUserById(id);
 	}
