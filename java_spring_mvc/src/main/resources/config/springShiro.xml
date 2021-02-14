@@ -10,6 +10,7 @@
 	
     <!-- Realm 配置 -->
 	<bean id="myRealm" class="com.sfac.springMvc.config.MyRealm" />
+	
 	<!-- Remember Me 配置 -->
 	<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
 		<property name="name" value="rememberMe"/>
@@ -19,6 +20,7 @@
     <bean id="rememberMeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
 		<property name="cookie" ref="rememberMeCookie"/>
 	</bean>
+	
 	<!-- Session 配置 -->
 	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
 		<!-- Session 的失效时长，单位毫秒 -->
@@ -70,7 +72,7 @@
 	
 	<!-- Shiro 生命周期处理器 -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor"/>
-	<!-- DefaultAdvisorAutoProxyCreator 创建 Advisor 代理类 -->
+	<!-- DefaultAdvisorAutoProxyCreator, Advisor 代理类生成器 -->
 	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator"
 		depends-on="lifecycleBeanPostProcessor">
 		<property name="proxyTargetClass" value="true" />
@@ -79,4 +81,4 @@
 	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
 		<property name="securityManager" ref="securityManager" />
 	</bean>
-</beans>  
+</beans>

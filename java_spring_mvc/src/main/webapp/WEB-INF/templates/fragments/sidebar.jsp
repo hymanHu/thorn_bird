@@ -37,7 +37,7 @@
 
 		<li class="">
 			<a href="#" class="dropdown-toggle">
-				<i class="menu-icon fa fa-desktop"></i>
+				<i class="menu-icon fa fa-user"></i>
 				<span class="menu-text"> Account </span>
 				<b class="arrow fa fa-angle-down"></b>
 			</a>
@@ -73,7 +73,31 @@
 		</li>
 		<li class="">
 			<a href="#" class="dropdown-toggle">
-				<i class="menu-icon fa fa-desktop"></i>
+				<i class="menu-icon fa fa-vine"></i>
+				<span class="menu-text"> Human Nature </span>
+				<b class="arrow fa fa-angle-down"></b>
+			</a>
+			<b class="arrow"></b>
+			<ul class="submenu">
+				<shiro:hasAnyRoles name="admin,manager">
+				<li>
+					<a href="/humanNature/tracks">
+						<i class="menu-icon fa fa-caret-right"></i>Tracks
+					</a>
+					<b class="arrow"></b>
+				</li>
+				<li>
+					<a href="/humanNature/trackChart">
+						<i class="menu-icon fa fa-caret-right"></i>TrackChart
+					</a>
+					<b class="arrow"></b>
+				</li>
+				</shiro:hasAnyRoles>
+			</ul>
+		</li>
+		<li class="">
+			<a href="#" class="dropdown-toggle">
+				<i class="menu-icon fa fa-leaf"></i>
 				<span class="menu-text"> Test </span>
 				<b class="arrow fa fa-angle-down"></b>
 			</a>

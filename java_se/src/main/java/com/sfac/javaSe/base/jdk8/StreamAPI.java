@@ -62,6 +62,8 @@ public class StreamAPI {
 		System.out.println(list2.stream().map(i -> i + 2).reduce((i, j) -> i + j).get());
 		// 根据某字段排序
 		//questions.stream().sorted(Comparator.comparing(Question :: getType)).collect(Collectors.toList());
+		// 根据某字段分组，并转 Map
+		//trackTypeVos.stream().collect(Collectors.groupingBy(TrackTypeVo :: getType));
 		
 		// list
 		List<String> list1 = Stream.of("cdsa", "cdsa", null, "fdads", "", "cdsac")
@@ -84,12 +86,13 @@ public class StreamAPI {
 			System.out.println(item.getKey() + "--" + item.getValue());
 		});
 		Map<String, String> resultMap = map.entrySet()
-				.stream()
-				.sorted(Map.Entry.comparingByKey())
-				.collect(Collectors.toMap(
-						Map.Entry :: getKey, 
-						Map.Entry :: getValue, 
-						(oldValue, newValue) -> oldValue, LinkedHashMap :: new));
+				.stream() // 将 Map 类型转换为 Stream 流类型
+				.sorted(Map.Entry.comparingByKey()) // 按照 Map 的键排序
+				.collect(Collectors.toMap( // collect 方法将 Stream 流转成 LinkedHashMap
+						Map.Entry :: getKey, // 向 map 里面 put 的键
+						Map.Entry :: getValue, // 向 map 里面 put 的值
+						(oldValue, newValue) -> oldValue, // 如果键发生重复，如何处理值
+						LinkedHashMap :: new)); // toMap 默认返回 HashMap，用 LinkedHashMap 来保持顺序
 		System.out.println(resultMap);
 		String key = map.entrySet().stream()
 				.filter(item -> item.getValue().equals("c_c_c_c"))

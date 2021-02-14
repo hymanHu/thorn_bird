@@ -1,7 +1,5 @@
 package com.sfac.springMvc.module.common.entity;
 
-import org.apache.commons.lang3.StringUtils;
-
 /**
  * Description: Search Bean
  * @author HymanHu
@@ -22,7 +20,6 @@ public class SearchBean {
 		if (this != null) {
 			this.setCurrentPage(this.getCurrentPage() == 0 ? DEFAULT_CURRENT_PAGE : this.getCurrentPage());
 			this.setPageSize(this.getPageSize() == 0 ? DEFAULT_PAGE_SIZE : this.getPageSize());
-			this.setDirection(StringUtils.isBlank(this.getDirection()) ? "asc" : this.getDirection());
 		}
 	}
 
