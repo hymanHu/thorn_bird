@@ -1,4 +1,4 @@
-package com.sfac.springMvc.module.test.dao;
+package com.sfac.springBoot.modules.test.dao;
 
 import java.util.List;
 
@@ -10,8 +10,8 @@ import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
 
-import com.sfac.springMvc.module.common.entity.SearchBean;
-import com.sfac.springMvc.module.test.entity.City;
+import com.sfac.springBoot.modules.common.entity.SearchBean;
+import com.sfac.springBoot.modules.test.entity.City;
 
 /**
  * Description: City Dao
@@ -21,6 +21,15 @@ import com.sfac.springMvc.module.test.entity.City;
 @Repository
 @Mapper
 public interface CityDao {
+	
+	/**
+	 * 配置文件方式
+	 * application.properties
+	 * mybatis.type-aliases-package=com.hqyj.demo.modules.*.entity
+	 * mybatis.mapper-locations=classpath:mapper/*Mapper.xml
+	 * 读取cityMapper.xml，方法名和mapper中设置的id一致
+	 */
+	List<City> getCitiesByCountryId(int countryId);
 	
 	@Insert("insert into test_city (city_id, city_name, local_city_name, country_id, district, population, "
 			+ "date_modified, date_created) values (#{cityId}, #{cityName}, #{localCityName}, "
@@ -42,7 +51,7 @@ public interface CityDao {
 	City getCityByCityId(int cityId);
 	
 	@Select("select * from test_city where country_id = #{countryId}")
-	List<City> getCitiesByCountryId(int countryId);
+	List<City> getCitiesByCountryId2(int countryId);
 	
 	@Select("<script>"
 		+ "select ci.*, co.country_name from test_city ci left join test_country co "
