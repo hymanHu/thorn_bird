@@ -2,6 +2,7 @@ package com.sfac.springBoot.modules.test.controller;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -11,6 +12,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -58,6 +63,27 @@ public class TestController {
 	private CountryService countryService;
 	@Autowired
 	private ResourceConfigBean resourceConfigBean;
+	
+	/**
+	 * 127.0.0.1/test/file?fileName=***.jpg ---- get
+	 */
+	@RequestMapping("/file")
+	public ResponseEntity<Resource> downLoadFile(@RequestParam String fileName) {
+		try {
+			Resource resource = new UrlResource(Paths.get(
+					resourceConfigBean.getLocalPathForWindow() + fileName).toUri());
+			
+			return ResponseEntity.ok()
+					.header(HttpHeaders.CONTENT_TYPE, "application/octet-stream")
+					.header(HttpHeaders.CONTENT_DISPOSITION, 
+							String.format("attachment; filename=\"%s\"", resource.getFilename()))
+					.body(resource);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return null;
+	}
 	
 	/**
 	 * 127.0.0.1/test/files ---- post
