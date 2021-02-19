@@ -23,7 +23,7 @@ public class LogFileDestroyListener implements ServletContextListener {
 
 	@Override
 	public void contextInitialized(ServletContextEvent sce) {
-		LOGGER.debug("==== Init context ====");
+		LOGGER.debug("==== Init context listener ====");
 		File file = new File("/log");
 		if (file == null || !file.exists()) {
 			return;
@@ -43,7 +43,7 @@ public class LogFileDestroyListener implements ServletContextListener {
 
 	@Override
 	public void contextDestroyed(ServletContextEvent sce) {
-		LOGGER.debug("==== Destroy context ====");
+		LOGGER.debug("==== Destroy context listener ====");
 	}
 
 }
