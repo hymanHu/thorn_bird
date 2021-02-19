@@ -123,8 +123,8 @@ public class TestController {
 			return "redirect:/test/index";
 		}
 		
-		String absolutePath = resourceConfigBean.getResourcePathLocalWindows() + file.getOriginalFilename();
-		String relativePath = resourceConfigBean.getResourcePathPattern() + file.getOriginalFilename();
+		String absolutePath = resourceConfigBean.getLocalPathForWindow() + file.getOriginalFilename();
+		String relativePath = resourceConfigBean.getResourcePath() + file.getOriginalFilename();
 		try {
 			File destFile = new File(absolutePath);
 			file.transferTo(destFile);
@@ -161,7 +161,7 @@ public class TestController {
 				}
 				
 				String fileName = file.getOriginalFilename();
-				String destFilePath = resourceConfigBean.getResourcePathLocalWindows() + fileName;
+				String destFilePath = resourceConfigBean.getLocalPathForWindow() + fileName;
 				File destFile = new File(destFilePath);
 				file.transferTo(destFile);
 				
@@ -187,7 +187,7 @@ public class TestController {
 	@RequestMapping("/file1")
 	public void downloadFile1(HttpServletRequest request, 
 			HttpServletResponse response, @RequestParam String fileName) {
-		String filePath = resourceConfigBean.getResourcePathLocalWindows() + fileName;
+		String filePath = resourceConfigBean.getLocalPathForWindow() + fileName;
 		File downloadFile = new File(filePath);
 		
 		if (downloadFile.exists()) {
@@ -232,7 +232,7 @@ public class TestController {
 	@RequestMapping("/file2")
 	public void downloadFile2(HttpServletRequest request, 
 			HttpServletResponse response, @RequestParam String fileName) {
-		String filePath = resourceConfigBean.getResourcePathLocalWindows() + fileName;
+		String filePath = resourceConfigBean.getLocalPathForWindow() + fileName;
 		File downloadFile = new File(filePath);
 		
 		try {
@@ -259,7 +259,7 @@ public class TestController {
 	public ResponseEntity<Resource> downLoadFile(@RequestParam String fileName) {
 		try {
 			Resource resource = new UrlResource(Paths.get(
-					resourceConfigBean.getResourcePathLocalWindows() + fileName).toUri());
+					resourceConfigBean.getLocalPathForWindow() + fileName).toUri());
 			
 			return ResponseEntity.ok()
 					.header(HttpHeaders.CONTENT_TYPE, "application/octet-stream")

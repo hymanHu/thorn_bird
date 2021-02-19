@@ -64,7 +64,7 @@
 	-->
 	<!-- <mvc:resources location="/static/" mapping="/**" /> -->
 	<!-- <mvc:resources location="file:d:/upload/springMvc/" mapping="/upload/**" /> -->
-	<mvc:resources location="file:${resource.path.local.windows}" mapping="${resource.path.mapping}" />
+	<mvc:resources location="file:${spring.resource.folder.windows}" mapping="${spring.resource.path.pattern}" />
 	
 	<!-- 视图解析器 -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"   

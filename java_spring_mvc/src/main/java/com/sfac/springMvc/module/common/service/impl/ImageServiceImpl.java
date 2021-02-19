@@ -37,7 +37,7 @@ public class ImageServiceImpl implements ImageService {
 		ImageType imageType = ImageType.getImageTypeByName(type);
 		
 		File destFolder = new File(String.format("%s%s", 
-				resourceConfigBean.getResourcePathLocalWindows(), 
+				resourceConfigBean.getLocalPathForWindow(), 
 				imageType.name));
 		if (!destFolder.exists()) {
 			destFolder.mkdir();
@@ -48,7 +48,7 @@ public class ImageServiceImpl implements ImageService {
 				FileUtil.getFileType(image.getOriginalFilename()));
 		String absolutePath = String.format("%s/%s", destFolder, filename);
 		String relatedPath = String.format("%s%s/%s", 
-				resourceConfigBean.getResourcePathPattern(), 
+				resourceConfigBean.getResourcePath(), 
 				imageType.name,
 				filename);
 		LOGGER.debug("absolutePath: " + absolutePath);

@@ -13,14 +13,22 @@ import org.springframework.stereotype.Component;
 @PropertySource("classpath:config/properties/springMvcParms.properties")
 public class ResourceConfigBean {
 
-	@Value("${resource.path.pattern}")
+	@Value("${spring.resource.path}")
+	private String resourcePath;
+	@Value("${spring.resource.path.pattern}")
 	private String resourcePathPattern;
-	@Value("${resource.path.mapping}")
-	private String resourcePathMapping;
-	@Value("${resource.path.local.windows}")
-	private String resourcePathLocalWindows;
-	@Value("${resource.path.local.linux}")
-	private String resourcePathLocalLinux;
+	@Value("${spring.resource.folder.windows}")
+	private String localPathForWindow;
+	@Value("${spring.resource.folder.linux}")
+	private String localPathForLinux;
+
+	public String getResourcePath() {
+		return resourcePath;
+	}
+
+	public void setResourcePath(String resourcePath) {
+		this.resourcePath = resourcePath;
+	}
 
 	public String getResourcePathPattern() {
 		return resourcePathPattern;
@@ -30,27 +38,20 @@ public class ResourceConfigBean {
 		this.resourcePathPattern = resourcePathPattern;
 	}
 
-	public String getResourcePathMapping() {
-		return resourcePathMapping;
+	public String getLocalPathForWindow() {
+		return localPathForWindow;
 	}
 
-	public void setResourcePathMapping(String resourcePathMapping) {
-		this.resourcePathMapping = resourcePathMapping;
+	public void setLocalPathForWindow(String localPathForWindow) {
+		this.localPathForWindow = localPathForWindow;
 	}
 
-	public String getResourcePathLocalWindows() {
-		return resourcePathLocalWindows;
+	public String getLocalPathForLinux() {
+		return localPathForLinux;
 	}
 
-	public void setResourcePathLocalWindows(String resourcePathLocalWindows) {
-		this.resourcePathLocalWindows = resourcePathLocalWindows;
+	public void setLocalPathForLinux(String localPathForLinux) {
+		this.localPathForLinux = localPathForLinux;
 	}
 
-	public String getResourcePathLocalLinux() {
-		return resourcePathLocalLinux;
-	}
-
-	public void setResourcePathLocalLinux(String resourcePathLocalLinux) {
-		this.resourcePathLocalLinux = resourcePathLocalLinux;
-	}
 }
