@@ -72,7 +72,7 @@ public class TestController {
 		modelMap.addAttribute("city", cities.get(0));
 		modelMap.addAttribute("thymeleafTitle", "This is thymeleaf page.");
 		
-		modelMap.addAttribute("template", "test/index");
+//		modelMap.addAttribute("template", "test/index");
 		return "index";
 	}
 	

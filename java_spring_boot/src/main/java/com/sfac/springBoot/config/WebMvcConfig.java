@@ -10,8 +10,11 @@ import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import com.sfac.springBoot.interceptor.RequestViewMappingInterceptor;
 
 /**
  * Description: Web Mvc Config
@@ -26,6 +29,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
 	private int httpPort;
 	@Autowired
 	private ResourceConfigBean resourceConfigBean;
+	@Autowired
+	private RequestViewMappingInterceptor requestViewMappingInterceptor;
 	
 	@Bean
 	public Connector connector() {
@@ -59,6 +64,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
 			registry.addResourceHandler(resourceConfigBean.getResourcePathPattern())
 				.addResourceLocations(ResourceUtils.FILE_URL_PREFIX + resourceConfigBean.getLocalPathForLinux());
 		}
+	}
+
+	/**
+	 * - 注册拦截器
+	 */
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(requestViewMappingInterceptor).addPathPatterns("/**");
+		WebMvcConfigurer.super.addInterceptors(registry);
 	}
 
 }
