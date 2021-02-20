@@ -12,6 +12,7 @@ import javax.persistence.Table;
 @Table(name = "common_exception_log")
 public class ExceptionLog extends AbstractEntity {
 	private String ip;
+	private String path;
 	private String className;
 	private String methodName;
 	private String exceptionType;
@@ -23,6 +24,14 @@ public class ExceptionLog extends AbstractEntity {
 
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+
+	public String getPath() {
+		return path;
+	}
+
+	public void setPath(String path) {
+		this.path = path;
 	}
 
 	public String getClassName() {

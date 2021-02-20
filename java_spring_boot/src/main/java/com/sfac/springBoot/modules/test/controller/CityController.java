@@ -62,7 +62,7 @@ public class CityController {
 	 */
 	@GetMapping("/city/{cityId}")
 	public City getCityByCityId(@PathVariable int cityId) {
-		int i = 1 / 0;
+//		int i = 1 / 0;
 		return cityService.getCityByCityId(cityId);
 	}
 	

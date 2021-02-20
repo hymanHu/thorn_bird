@@ -19,8 +19,9 @@ import com.sfac.springMvc.module.common.entity.ExceptionLog;
 @Repository
 public interface ExceptionLogDao {
 
-	@Insert("insert into common_exception_log (create_date, ip, class_name, method_name, exception_type, exception_message) "
-			+ "values (#{createDate}, #{ip}, #{className}, #{methodName}, #{exceptionType}, #{exceptionMessage})")
+	@Insert("insert into common_exception_log (create_date, ip, path, class_name, method_name, exception_type, "
+			+ "exception_message) values (#{createDate}, #{ip}, #{path}, #{className}, #{methodName}, "
+			+ "#{exceptionType}, #{exceptionMessage})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	void insertExceptionLog(ExceptionLog exceptionLog);
 	

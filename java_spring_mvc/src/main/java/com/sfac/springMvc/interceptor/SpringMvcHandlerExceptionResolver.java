@@ -53,6 +53,7 @@ public class SpringMvcHandlerExceptionResolver implements HandlerExceptionResolv
 			
 			ExceptionLog exceptionLog = new ExceptionLog();
 			exceptionLog.setIp(ip);
+			exceptionLog.setPath(request.getServletPath());
 			exceptionLog.setClassName(className);
 			exceptionLog.setMethodName(methodName);
 			exceptionLog.setExceptionType(exceptionType);
