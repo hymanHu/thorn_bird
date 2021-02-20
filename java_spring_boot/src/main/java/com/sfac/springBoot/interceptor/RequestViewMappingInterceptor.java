@@ -31,8 +31,11 @@ public class RequestViewMappingInterceptor implements HandlerInterceptor {
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
 		LOGGER.debug("==== Post request view mapping interceptor ==== ");
+		LOGGER.debug("Servlet Path: " + request.getServletPath());
 		
-		if (modelAndView == null || modelAndView.getViewName().startsWith("redirect")) {
+		if (modelAndView == null 
+			|| modelAndView.getViewName().startsWith("redirect") 
+			|| modelAndView.getViewName().startsWith("forward")) {
 			return;
 		}
 		
