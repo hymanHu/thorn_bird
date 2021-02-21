@@ -1,0 +1,45 @@
+<!-- page content -->
+<div class="right_col" role="main">
+	<div class="row" style="display: inline-block;">
+	    <div id="userDiv">
+			Hello world! This is test module index page.
+		    <p>==================================================================</p>
+	    	<h3>文本绑定</h3>
+	    	<p>{{title}}</p>
+	    	<h3>单向绑定：Vue -> Dom</h3>
+	    	<p>User Name: <input type="text" :value="userName" /></p>
+	    	<h3>双向绑定：Vue - Dom</h3>
+	    	<p>Password: <input type="text" v-model:value="password" /></p>
+	    	<p>Email: <input type="text" v-model:value="email" /></p>
+	    	<p>Step: <input type="text" v-model.number="step" /></p>
+	    	<p>Total: <input type="text" v-model:value="total" /></p>
+	    	<h3>事件绑定</h3>
+		    <p>test_1: <input type="button" v-on:click="test_1()" value="test_1"></p>
+		    <p>test_2: <input type="button" @click="test_2()" value="test_2"></p>
+	    </div>
+	</div>
+</div>
+<!-- /page content -->
+<script type="text/javascript">
+	var user = new Vue({
+		el: "#userDiv",
+		data: {
+			title: "Vue test",
+			userName: "HymanHu",
+			password: "111111",
+			email: "hj@163.com",
+			step: 1,
+			total: 0,
+		},
+		methods: {
+            test_1: function() {
+                alert(this.userName + this.password);
+                this.userName = "Hujiang";
+                this.password = "aaaaaaa";
+            },
+            test_2: function() {
+                this.total = this.total + this.step;
+            },
+        },
+	});
+</script>

@@ -65,6 +65,14 @@ public class TestController {
 	private ResourceConfigBean resourceConfigBean;
 	
 	/**
+	 * 127.0.0.1/test/vueIndex ---- get
+	 */
+	@GetMapping("/vueIndex")
+	public String vueIndexPage() {
+		return "index";
+	}
+	
+	/**
 	 * 127.0.0.1/test/file?fileName=***.jpg ---- get
 	 */
 	@RequestMapping("/file")
@@ -159,7 +167,7 @@ public class TestController {
 	 * 127.0.0.1/test/thymeleafIndex ---- get
 	 */
 	@GetMapping("/thymeleafIndex")
-	public String testIndexPage(ModelMap modelMap) {
+	public String thymeleafIndexPage(ModelMap modelMap) {
 		int countryId = 522;
 		Country country = countryService.getCountryByCountryId(countryId);
 		List<City> cities = cityService.getCitiesByCountryId(countryId);
