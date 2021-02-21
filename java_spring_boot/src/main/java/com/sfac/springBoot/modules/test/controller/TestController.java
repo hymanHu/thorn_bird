@@ -109,7 +109,7 @@ public class TestController {
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 			redirectAttributes.addFlashAttribute("message", "Upload file failed.");
-			return "redirect:/test/index";
+			return "redirect:/test/thymeleafIndex";
 		}
 		
 		if (isEmpty) {
@@ -118,7 +118,7 @@ public class TestController {
 			redirectAttributes.addFlashAttribute("message", "Upload file success.");
 		}
 		
-		return "redirect:/test/index";
+		return "redirect:/test/thymeleafIndex";
 	}
 
 	/**
@@ -129,7 +129,7 @@ public class TestController {
 		
 		if (file.isEmpty()) {
 			redirectAttributes.addFlashAttribute("message", "Please select file");
-			return "redirect:/test/index";
+			return "redirect:/test/thymeleafIndex";
 		}
 		
 		String absolutePath = resourceConfigBean.getLocalPathForWindow() + file.getOriginalFilename();
@@ -146,19 +146,19 @@ public class TestController {
 		} catch (IllegalStateException | IOException e) {
 			e.printStackTrace();
 			redirectAttributes.addFlashAttribute("message", "Upload fail.");
-			return "redirect:/test/index";
+			return "redirect:/test/thymeleafIndex";
 		}
 		
 		redirectAttributes.addFlashAttribute("message", "Upload success.");
 		redirectAttributes.addFlashAttribute("relativePath", relativePath);
 		
-		return "redirect:/test/index";
+		return "redirect:/test/thymeleafIndex";
 	}
 	
 	/**
-	 * 127.0.0.1/test/index ---- get
+	 * 127.0.0.1/test/thymeleafIndex ---- get
 	 */
-	@GetMapping("/index")
+	@GetMapping("/thymeleafIndex")
 	public String testIndexPage(ModelMap modelMap) {
 		int countryId = 522;
 		Country country = countryService.getCountryByCountryId(countryId);
