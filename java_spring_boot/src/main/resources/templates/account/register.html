@@ -1,0 +1,79 @@
+<div>
+	<div id="registerForm" class="login_wrapper">
+		<div class="animate form login_form">
+			<section class="login_content">
+				<form>
+					<h1>Create Account</h1>
+					<div>
+						<input type="text" v-model:value="userName" class="form-control" 
+							placeholder="Username" required="required" />
+					</div>
+					<div>
+						<input type="email" v-model:value="email" 
+							class="form-control" placeholder="Email" required="required" />
+					</div>
+					<div>
+						<input type="password" v-model:value="password" 
+							class="form-control" placeholder="Password" required="required" />
+					</div>
+					<div>
+						<a @click="register()" class="btn btn-default submit" href="javascript:void(0);">Submit</a>
+					</div>
+					
+					<div class="clearfix"></div>
+					
+					<div class="separator">
+						<p class="change_link">Already a member ?
+							<a href="/login" class="to_register"> Log in</a>
+						</p>
+						<div class="clearfix"></div>
+						<br />
+						<div>
+							<h1>
+								<i class="fa fa-paw"></i> Gentelella Alela!
+							</h1>
+							<p>©2016 All Rights Reserved. Java Spring Boot!</p>
+						</div>
+					</div>
+				</form>
+			</section>
+		</div>
+	</div>
+</div>
+
+<script stype="text/javascript">
+	var user = new Vue({
+		el: "#registerForm",
+		data: {
+			userName: "",
+			email: "",
+			password: "",
+		},
+		methods: {
+			register: function () {
+				var user = {};
+				user.userName = this.userName;
+				user.email = this.email;
+				user.password = this.password;
+				console.log(user);
+				
+				$.ajax({
+					url : "/api/user",
+					type : "post",
+					contentType: "application/json",
+					data : JSON.stringify(user),
+					success : function (rs) {
+						if (rs.status == 200) {
+							window.location.href = "/login";
+						} else {
+							layer.msg(rs.message, {icon: 0});
+						}
+					},
+					error : function (rs) {
+						layer.msg(rs.responseText, {icon: 0});
+					}
+				});
+			}
+		}
+	});
+</script>

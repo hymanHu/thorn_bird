@@ -52,7 +52,7 @@ public interface UserDao {
 		@Result(column="id", property="id"),
 		@Result(column="id",property="roles",
 			javaType=List.class,
-			many=@Many(select="com.sfac.springMvc.module.account.dao.RoleDao.getRolesByUserId"))
+			many=@Many(select="com.sfac.springBoot.modules.account.dao.RoleDao.getRolesByUserId"))
 	})
 	User getUserById(int id);
 	
