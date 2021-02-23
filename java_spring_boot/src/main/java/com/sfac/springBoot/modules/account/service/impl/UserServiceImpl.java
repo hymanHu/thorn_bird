@@ -7,6 +7,10 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.session.Session;
+import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -49,12 +53,29 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ResultEntity<User> login(User user) {
-		User userTemp = getUserByUserNameAndPassword(user.getUserName(), user.getPassword());
-		if (userTemp == null) {
-			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, 
-					"User name or password error", user);
+		Subject subject = SecurityUtils.getSubject();
+		UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
+				user.getUserName(), MD5Util.getMD5(user.getPassword(), user.getUserName()));
+		usernamePasswordToken.setRememberMe(user.getRememberMe());
+
+		try {
+			subject.login(usernamePasswordToken);
+			subject.checkRoles();
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "Credentials faild");
 		}
-		return new ResultEntity<User>(ResultEntity.ResultStatus.SUCCESS.status, "Login success", user);
+
+		User object = (User) subject.getPrincipal();
+		Session session = subject.getSession();
+		session.setAttribute("user", object);
+		return new ResultEntity<User>(ResultEntity.ResultStatus.SUCCESS.status, "Success", user);
+	}
+
+	@Override
+	public void logout() {
+		Subject subject = SecurityUtils.getSubject();
+		subject.logout();
 	}
 
 	@Override

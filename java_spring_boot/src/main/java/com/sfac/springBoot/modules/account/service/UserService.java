@@ -15,6 +15,8 @@ public interface UserService {
 	User getUserByUserNameAndPassword(String userName, String password);
 	
 	ResultEntity<User> login(User user);
+
+	void logout();
 	
 	ResultEntity<User> insertUser(User user);
 	
