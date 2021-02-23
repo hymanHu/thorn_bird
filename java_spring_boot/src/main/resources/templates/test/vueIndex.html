@@ -16,6 +16,21 @@
 	    	<h3>事件绑定</h3>
 		    <p>test_1: <input type="button" v-on:click="test_1()" value="test_1"></p>
 		    <p>test_2: <input type="button" @click="test_2()" value="test_2"></p>
+			<h3>循环</h3>
+			<p>
+				<span v-for="(role, index) in roles">
+					<input type="checkbox" :value="role.id" />{{role.roleName}}
+				</span>
+			</p>
+			<p>
+				<table>
+					<tr><td>Id</td><td>Role Name</td></tr>
+					<tr v-for="(role, index) in roles">
+						<td>{{role.id}}</td>
+						<td>{{role.roleName}}</td>
+					</tr>
+				</table>
+			</p>
 	    </div>
 	</div>
 </div>
@@ -30,6 +45,11 @@
 			email: "hj@163.com",
 			step: 1,
 			total: 0,
+			roles: [
+				{id:1,roleName:"admin"},
+				{id:2,roleName:"manager"},
+				{id:1,roleName:"staff"},
+			],
 		},
 		methods: {
             test_1: function() {
