@@ -40,7 +40,7 @@ public interface ResourceDao {
 			@Result(column="id", property="id"),
 			@Result(column="id",property="roles",
 				javaType=List.class,
-				many=@Many(select="com.sfac.springMvc.module.account.dao.RoleDao.getRolesByResourceId"))
+				many=@Many(select="com.sfac.springBoot.modules.account.dao.RoleDao.getRolesByResourceId"))
 		})
 	Resource getResourceById(int id);
 	

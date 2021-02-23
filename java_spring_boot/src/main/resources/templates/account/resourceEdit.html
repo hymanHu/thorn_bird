@@ -1,0 +1,39 @@
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="editLabel" style="font-size: 18px; font-weight: 500;">Resource Edit</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<div class="form-group row">
+						<label class="control-label col-md-3">Permission</label>
+						<div class="col-md-8">
+							<input v-model="resource.permission" class="form-control"
+								   type="text" placeholder="Enter permission">
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">Roles</label>
+						<div class="col-md-8">
+							<span v-for="(role, index) in allRoles">
+								<input type="checkbox" :value="role.id" v-model="resource.roles"/>{{role.roleName}}
+							</span>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<!-- data-dismiss="modal"关闭模态框 -->
+				<a class="btn btn-secondary" href="#" data-dismiss="modal">
+					<i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel
+				</a>
+				<button id="editBtn" data-dismiss="modal" class="btn btn-primary"
+						type="button" @click="editModule()">
+					<i class="fa fa-fw fa-lg fa-check-circle"></i>Submit
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

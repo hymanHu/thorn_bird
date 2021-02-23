@@ -45,4 +45,12 @@ public class AccountController {
 	public String rolesPage() {
 		return "index";
 	}
+
+	/**
+	 * 127.0.0.1/account/resources ---- get
+	 */
+	@GetMapping("/account/resources")
+	public String resourcesPage() {
+		return "index";
+	}
 }
