@@ -1,4 +1,4 @@
-package com.sfac.springMvc.module.common.entity;
+package com.sfac.springBoot.modules.common.entity;
 
 import java.util.Arrays;
 
@@ -12,7 +12,7 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 @JsonFormat(shape = JsonFormat.Shape.OBJECT)
 public enum ImageType {
 	
-	PROFILE_BIG("profile-big", 180, 200, 1024),
+	PROFILE_BIG("profile-big", 220, 220, 1024),
 	PROFILE_MIDDLE("profile-small", 50, 50, 100);
 
 	public String name;
