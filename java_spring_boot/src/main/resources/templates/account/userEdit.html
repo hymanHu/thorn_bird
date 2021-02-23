@@ -22,13 +22,6 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="control-label col-md-3">Password</label>
-						<div class="col-md-8">
-							<input v-model="user.password" class="form-control" 
-								type="password" placeholder="Enter user password">
-						</div>
-					</div>
-					<div class="form-group row">
 						<label class="control-label col-md-3">Roles</label>
 						<div class="col-md-8">
 							<span v-for="(role, index) in allRoles">
@@ -43,7 +36,8 @@
 				<a class="btn btn-secondary" href="#" data-dismiss="modal">
 					<i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel
 				</a>
-				<button id="editBtn" data-dismiss="modal" class="btn btn-primary" type="button" @click="insertModule()">
+				<button id="editBtn" data-dismiss="modal" class="btn btn-primary"
+						type="button" @click="editModule()">
 					<i class="fa fa-fw fa-lg fa-check-circle"></i>Submit
 				</button>
 			</div>

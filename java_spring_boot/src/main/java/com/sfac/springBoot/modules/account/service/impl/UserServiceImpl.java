@@ -87,7 +87,6 @@ public class UserServiceImpl implements UserService {
 			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "User Name or email is repeat.");
 		}
 		
-		user.setPassword(MD5Util.getMD5(user.getUserName(), user.getPassword()));
 		userDao.updateUser(user);
 		if (user.getRoles() != null && !user.getRoles().isEmpty()) {
 			userRoleDao.deleteUserRoleByUserId(user.getId());

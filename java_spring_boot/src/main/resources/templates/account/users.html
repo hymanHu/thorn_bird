@@ -1,10 +1,5 @@
 <!-- Datatables -->
 <link href="/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
-<!-- <style type="text/css">
-.active {
-	background: #3498DB !important;
-}
-</style> -->
 
 <!-- page content -->
 <div id="moduleList" class="right_col" role="main">
@@ -204,7 +199,8 @@
 				};
 			},
 			insertModule: function () {
-				this.user.roles = this.user.roles.map(item => {var role = {}; role.id = item; return role;});
+				this.user.roles = this.user.roles.map(
+						item => {var role = {}; role.id = item; return role;});
 				var self = this;
 				$.ajax({
 					url : "/api/user",
@@ -231,15 +227,62 @@
 					contentType: "application/json",
 					success : function (rs) {
 						self.user = rs;
+						self.user.roles = self.user.roles.map(item => item.id);
 					},
 					error : function (data) {
 						layer.alert(data.responseText, {icon: 0});
 					}
 				});
 			},
+			editModule: function () {
+				var self = this;
+				self.user.roles = self.user.roles.map(
+						item => {var role = {}; role.id = item; return role;});
+
+				$.ajax({
+					url : "/api/user",
+					type : "put",
+					contentType: "application/json",
+					data : JSON.stringify(self.user),
+					success : function (rs) {
+						if (rs.status == 200) {
+							self.initTable(self.defaultPageSize);
+						} else {
+							layer.msg(rs.message, {icon: 0});
+						}
+					},
+					error : function (rs) {
+						layer.msg(rs.responseText, {icon: 0});
+					}
+				});
+			},
+			deleteModule: function (id) {
+				var self = this;
+				bootbox.confirm("Are you sure?", function(result) {
+					if(result) {
+						$.ajax({
+							url : "/api/user/" + id,
+							type : "delete",
+							success : function (rs) {
+								if (rs.status == 200) {
+									self.initTable(self.defaultPageSize);
+								} else {
+									//window.location.href = data.object;
+									layer.msg(rs.message, {icon: 0});
+								}
+							},
+							error : function (rs) {
+								layer.msg(rs.responseText, {icon: 0});
+							}
+						});
+					}
+				});
+			},
 		},
 		created: function () {
+			// 将 Vue 的方法赋值给 window 对象，以解决动态生成 Html 不能解析 @click 标签的问题
 			window.initEditModal = this.initEditModal;
+			window.deleteModule = this.deleteModule;
 		},
 		mounted: function () {
 			this.initTable(this.defaultPageSize);
