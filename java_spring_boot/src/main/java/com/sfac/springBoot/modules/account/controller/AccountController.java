@@ -37,4 +37,12 @@ public class AccountController {
 	public String usersPage() {
 		return "index";
 	}
+
+	/**
+	 * 127.0.0.1/account/roles ---- get
+	 */
+	@GetMapping("/account/roles")
+	public String rolesPage() {
+		return "index";
+	}
 }
