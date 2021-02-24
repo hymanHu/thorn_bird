@@ -1,9 +1,14 @@
 package com.sfac.springBoot.config.shiro;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
+import org.apache.shiro.codec.Base64;
+import org.apache.shiro.crypto.AesCipherService;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
+import org.apache.shiro.web.mgt.CookieRememberMeManager;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
+import org.apache.shiro.web.servlet.SimpleCookie;
+import org.apache.shiro.web.session.mgt.DefaultWebSessionManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -25,9 +30,51 @@ public class ShiroConfig {
     private MyRealm myRealm;
 
     @Bean
+    public SimpleCookie rememberMeCookie() {
+        SimpleCookie simpleCookie = new SimpleCookie("rememberMe");
+        simpleCookie.setHttpOnly(true);
+        simpleCookie.setMaxAge(1 * 24 * 60 * 60);
+        return simpleCookie;
+    }
+
+    /**
+     * -- 记住我管理器
+     */
+    @Bean
+    public CookieRememberMeManager rememberMeManager() {
+        CookieRememberMeManager cookieRememberMeManager = new CookieRememberMeManager();
+        cookieRememberMeManager.setCookie(rememberMeCookie());
+        byte[] cipherKey = Base64.decode("wGiHplamyXlVB11UXWol8g==");
+        cookieRememberMeManager.setCipherService(new AesCipherService());
+        cookieRememberMeManager.setCipherKey(cipherKey);
+        return cookieRememberMeManager;
+    }
+
+    @Bean
+    public SimpleCookie sessionCookie() {
+        SimpleCookie simpleCookie = new SimpleCookie("shiro.sesssion");
+        simpleCookie.setPath("/");
+        simpleCookie.setHttpOnly(true);
+        simpleCookie.setMaxAge(1 * 24 * 60 * 60);
+        return simpleCookie;
+    }
+
+    @Bean
+    public DefaultWebSessionManager sessionManager() {
+        DefaultWebSessionManager sessionManager = new DefaultWebSessionManager();
+        sessionManager.setSessionIdCookie(sessionCookie());
+        sessionManager.setDeleteInvalidSessions(true);
+		sessionManager.setSessionValidationInterval(1 * 24 * 60 * 60 * 1000);
+		sessionManager.setGlobalSessionTimeout(1 * 24 * 60 * 60 * 1000);
+        return sessionManager;
+    }
+
+    @Bean
     public DefaultWebSecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
         securityManager.setRealm(myRealm);
+        securityManager.setRememberMeManager(rememberMeManager());
+        securityManager.setSessionManager(sessionManager());
         return securityManager;
     }
 
@@ -54,7 +101,7 @@ public class ShiroConfig {
     public ShiroFilterFactoryBean shiroFilterFactoryBean() {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
         shiroFilterFactoryBean.setSecurityManager(securityManager());
-        shiroFilterFactoryBean.setLoginUrl("/manager/login");
+        shiroFilterFactoryBean.setLoginUrl("/login");
         shiroFilterFactoryBean.setSuccessUrl("/common/dashboard");
 
         // 设置访问规则
@@ -70,11 +117,10 @@ public class ShiroConfig {
         map.put("/login", "anon");
         map.put("/register", "anon");
         map.put("/logout", "anon");
-        map.put("/test/**", "anon");
         map.put("/api/**", "anon");
 
         // 登录访问规则
-        map.put("/**", "authc");
+        map.put("/**", "user");
         shiroFilterFactoryBean.setFilterChainDefinitionMap(map);
 
         return shiroFilterFactoryBean;

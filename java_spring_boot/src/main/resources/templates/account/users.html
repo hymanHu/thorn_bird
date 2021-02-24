@@ -267,8 +267,8 @@
 								if (rs.status == 200) {
 									self.initTable(self.defaultPageSize);
 								} else {
-									//window.location.href = data.object;
-									layer.msg(rs.message, {icon: 0});
+									window.location.href = rs.data;
+									// layer.msg(rs.message, {icon: 0});
 								}
 							},
 							error : function (rs) {

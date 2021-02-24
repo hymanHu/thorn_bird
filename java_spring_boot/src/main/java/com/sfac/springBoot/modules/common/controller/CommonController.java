@@ -14,6 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class CommonController {
 
 	/**
+	 * 127.0.0.1/common/dashboard ---- get
+	 */
+	@GetMapping("/dashboard")
+	public String dashboardPage() {
+		return "index";
+	}
+
+	/**
 	 * 127.0.0.1/common/403 ---- get
 	 */
 	@GetMapping("/403")

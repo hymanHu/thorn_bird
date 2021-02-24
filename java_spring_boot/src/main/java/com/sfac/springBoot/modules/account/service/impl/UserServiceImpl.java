@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
 	public ResultEntity<User> login(User user) {
 		Subject subject = SecurityUtils.getSubject();
 		UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
-				user.getUserName(), MD5Util.getMD5(user.getPassword(), user.getUserName()));
+				user.getUserName(), MD5Util.getMD5(user.getUserName(), user.getPassword()));
 		usernamePasswordToken.setRememberMe(user.getRememberMe());
 
 		try {

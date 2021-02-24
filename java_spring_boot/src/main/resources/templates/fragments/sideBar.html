@@ -10,11 +10,11 @@
 		<!-- menu profile quick info -->
 		<div class="profile clearfix">
 			<div class="profile_pic">
-				<img src="/images/img.jpg" alt="..." class="img-circle profile_img">
+				<img th:src="${session.user.userImage}" alt="..." class="img-circle profile_img">
 			</div>
 			<div class="profile_info">
 				<span>Welcome,</span>
-				<h2>John Doe</h2>
+				<h2 th:text="${session.user.UserName}"></h2>
 			</div>
 		</div>
 		<!-- /menu profile quick info -->
@@ -41,7 +41,7 @@
 							<li shiro:hasAnyRoles="admin,manager"><a href="/account/resources">Resources</a></li>
 						</ul>
 					</li>
-					<li>
+					<li shiro:hasAnyRoles="admin,manager,staff">
 						<a>
 							<i class="fa fa-leaf"></i> Test <span class="fa fa-chevron-down"></span>
 						</a>

@@ -1,5 +1,6 @@
 package com.sfac.springBoot.modules.account.entity;
 
+import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;

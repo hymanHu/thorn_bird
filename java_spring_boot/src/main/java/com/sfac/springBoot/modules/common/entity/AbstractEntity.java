@@ -1,5 +1,6 @@
 package com.sfac.springBoot.modules.common.entity;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -20,7 +21,8 @@ import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
  * @date 2021-01-13 13:44:42
  */
 @MappedSuperclass
-public class AbstractEntity {
+public class AbstractEntity implements Serializable {
+	private static final long serialVersionUID = 1L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(nullable = false, updatable = false)
