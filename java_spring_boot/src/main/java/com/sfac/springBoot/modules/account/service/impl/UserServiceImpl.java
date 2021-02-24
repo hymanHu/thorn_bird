@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import javax.transaction.Transactional;
 
+import com.sfac.springBoot.util.RedisUtils;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.session.Session;
@@ -37,6 +38,8 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 	@Autowired
 	private UserRoleDao userRoleDao;
+	@Autowired
+	private RedisUtils redisUtils;
 
 	@Override
 	public User getUserByUserNameAndPassword(String userName, String password) {
@@ -53,6 +56,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ResultEntity<User> login(User user) {
+		Object temp = redisUtils.get(String.valueOf(user.getUserName()));
+		int time = temp == null ? 0 : (int) temp;
+		if (time > 5) {
+			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status,
+					"User locked 30 seconds.");
+		}
+
 		Subject subject = SecurityUtils.getSubject();
 		UsernamePasswordToken usernamePasswordToken = new UsernamePasswordToken(
 				user.getUserName(), MD5Util.getMD5(user.getUserName(), user.getPassword()));
@@ -63,7 +73,17 @@ public class UserServiceImpl implements UserService {
 			subject.checkRoles();
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "Credentials faild");
+//			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "Credentials faild");
+			if (time < 4) {
+				redisUtils.increment(String.valueOf(user.getUserName()), 1);
+				return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status,
+						String.format("Credentials faild, remain %d times", (4 - time)));
+			} else {
+				redisUtils.increment(String.valueOf(user.getUserName()), 1);
+				redisUtils.expire(String.valueOf(user.getUserName()), 30);
+				return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status,
+						"Credentials faild, try 5 times, lock user 30 seconds.");
+			}
 		}
 
 		User object = (User) subject.getPrincipal();
