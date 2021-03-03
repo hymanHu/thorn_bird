@@ -1,65 +1,120 @@
 <!-- page content -->
 <div class="right_col" role="main">
-	<div class="row" style="display: inline-block;">
-	    <div id="userDiv">
-			Hello world! This is test module index page.
-		    <p>==================================================================</p>
-	    	<h3>文本绑定</h3>
-	    	<p>{{title}}</p>
-	    	<h3>单向绑定：Vue -> Dom</h3>
-	    	<p>User Name: <input type="text" :value="userName" /></p>
-	    	<h3>双向绑定：Vue - Dom</h3>
-	    	<p>Password: <input type="text" v-model:value="password" /></p>
-	    	<p>Email: <input type="text" v-model:value="email" /></p>
-	    	<p>Step: <input type="text" v-model.number="step" /></p>
-	    	<p>Total: <input type="text" v-model:value="total" /></p>
-	    	<h3>事件绑定</h3>
-		    <p>test_1: <input type="button" v-on:click="test_1()" value="test_1"></p>
-		    <p>test_2: <input type="button" @click="test_2()" value="test_2"></p>
-			<h3>循环</h3>
-			<p>
+	<div class="">
+		<div class="page-title">
+			<div class="title_left">
+				<h3>
+					Vue Index Page
+				</h3>
+			</div>
+		</div>
+
+		<div class="clearfix"></div>
+
+		<h3>This is vue index page.</h3>
+		<p>===========================================</p>
+		<div id="vueTest">
+			<form action="javascript:void(0);">
+				<h3>{{title}}</h3>
+				<h3>单向绑定</h3>
+				<p>UserName: <input type="text" v-bind:value="user.userName"/></p>
+				<p>Password: <input type="text" :value="user.password" /></p>
+				<p>===========================================</p>
+				<h3>双向绑定</h3>
+				<input type="hidden" v-model:value="user.id"/>
+				<p>UserName: <input type="text" v-model:value="user.userName"/></p>
+				<p>Password: <input type="text" v-model:value="user.password" /></p>
+				<p>Email: <input type="text" v-model:value="user.email" /></p>
+				<p>UserImage: <input type="text" v-model:value="user.userImage" /></p>
+				<p>===========================================</p>
+				<h3>事件绑定</h3>
+				<input type="button" @click="test1()" value="test_1">
+				<p>===========================================</p>
+				<h3>循环</h3>
 				<span v-for="(role, index) in roles">
-					<input type="checkbox" :value="role.id" />{{role.roleName}}
+					<input type="checkbox" :value="role.id" /> {{role.name}}
 				</span>
-			</p>
-			<p>
 				<table>
-					<tr><td>Id</td><td>Role Name</td></tr>
+					<tr><td>ID</td><td>Name</td></tr>
 					<tr v-for="(role, index) in roles">
-						<td>{{role.id}}</td>
-						<td>{{role.roleName}}</td>
+						<td>{{role.id}}</td><td>{{role.name}}</td>
 					</tr>
 				</table>
-			</p>
-	    </div>
+				<p>===========================================</p>
+				<h3>自定义组件</h3>
+				<p>简单组件：<button-demo></button-demo></p>
+				<p>复杂组件：<button-count></button-count></p>
+			</form>
+		</div>
 	</div>
 </div>
 <!-- /page content -->
+
 <script type="text/javascript">
-	var user = new Vue({
-		el: "#userDiv",
-		data: {
-			title: "Vue test",
-			userName: "HymanHu",
-			password: "111111",
-			email: "hj@163.com",
-			step: 1,
-			total: 0,
-			roles: [
-				{id:1,roleName:"admin"},
-				{id:2,roleName:"manager"},
-				{id:1,roleName:"staff"},
-			],
+	/* $(function() {
+		initUser();
+	}); */
+	
+	// 注册组件须放在 Vue 示例之前，不然会抛出警告信息
+	Vue.component("button-demo", {
+		template: "<button>11111</button>",
+	});
+	
+	Vue.component("button-count", {
+		data: function() {
+			return {count: 0}
 		},
 		methods: {
-            test_1: function() {
-                alert(this.userName + this.password);
-                this.userName = "Hujiang";
-                this.password = "aaaaaaa";
-            },
-            test_2: function() {
-                this.total = this.total + this.step;
-            },
-        },
+			countFunction: function () {
+				this.count ++;
+			}
+		},
+		template: "<button @click='countFunction()'>{{count}}</button>",
 	});
+	
+	var vueTest = new Vue({
+		el: "#vueTest",
+		data: {
+			title: "Vue test",
+			user: {
+				id: "11",
+				userName:"HymanHu",
+				password:"111111",
+				email:"hj@163.com",
+				userImage:"/upload/18.png",
+			},
+			roles: [
+				{id: 1, name: "admin"},
+				{id: 2, name: "manager"},
+				{id: 3, name: "staff"},
+			],
+		},
+		methods:{
+			test1: function() {
+				console.log(this.user);
+				
+			},
+			initUser: function() {
+				var userId = $("#userId").val();
+				var self = this;
+				$.ajax({
+					url : "/api/user/" + userId,
+					type : "get",
+					success : function (rs) {
+						self.user = rs;
+					},
+					error : function (data) {
+						layer.msg(data.responseText, {icon: 0});
+					}
+				});
+			}
+		},
+		created: function() {
+			window.initUser = this.initUser;
+		},
+		mounted: function() {
+			this.initUser();
+		}
+	});
+	
 </script>
