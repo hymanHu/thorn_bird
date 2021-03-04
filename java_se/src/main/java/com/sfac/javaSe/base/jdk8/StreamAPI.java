@@ -64,6 +64,8 @@ public class StreamAPI {
 		//questions.stream().sorted(Comparator.comparing(Question :: getType)).collect(Collectors.toList());
 		// 根据某字段分组，并转 Map
 		//trackTypeVos.stream().collect(Collectors.groupingBy(TrackTypeVo :: getType));
+		// 数组 - list - 操作 - 数组
+		//Arrays.asList(values).stream().map(item -> item.replaceAll("fuck", "***")).toArray(String[] :: new);
 		
 		// list
 		List<String> list1 = Stream.of("cdsa", "cdsa", null, "fdads", "", "cdsac")

@@ -1,6 +1,7 @@
 package com.sfac.springBoot.filter;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -52,12 +53,16 @@ public class ParameterFilter implements Filter {
 
 			@Override
 			public String[] getParameterValues(String name) {
-				String[] values = httpRequest.getParameterValues(name);
-				if (values != null && values.length > 0) {
-					values[0] = values[0].replace("fuck", "*****");
-					return values;
-				}
-				return super.getParameterValues(name);
+				String[] values = super.getParameterValues(name);
+//              List<String> temp = new ArrayList<>();
+//              for (String value : values) {
+//                  temp.add(value.replaceAll("fuck", "***"));
+//              }
+//              return temp.toArray(new String[temp.size()]);
+
+              return Arrays.asList(values).stream()
+                      .map(item -> item.replaceAll("fuck", "***"))
+                      .toArray(String[] :: new);
 			}
 
 		};
