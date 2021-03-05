@@ -59,7 +59,8 @@ public class MyAspect {
                 joinPoint.getTarget().getClass().getName()));
         LOGGER.debug(String.format("请求方法： %s",
                 joinPoint.getSignature().getName()));
-        LOGGER.debug(String.format("请求参数： %s", joinPoint.getArgs()));
+        LOGGER.debug(String.format("请求参数： %s",
+                joinPoint.getArgs() == null ? "" : joinPoint.getArgs()));
     }
 
     @Around(value="controllerPointCut()")
