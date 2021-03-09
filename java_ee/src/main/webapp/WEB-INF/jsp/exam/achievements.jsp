@@ -180,13 +180,13 @@
 					});
 				},
 				"columns": [ //定义行数据字段
-					{data: 'id', name: "id", sortable: true}, 
-					{data: 'subject', name: "subject", sortable: true}, 
-					{data: 'userName', name: "user_name", sortable: true}, 
-					{data: 'referenceScore', name: "reference_score", sortable: true}, 
-					{data: 'score', name: "score", sortable: true}, 
-					{data: 'spendTime', name: "spend_time", sortable: true}, 
-					{data: 'examDate', name: "exam_date", sortable: true}, 
+					{data: 'id', name: "a.id", sortable: true}, 
+					{data: 'subject', name: "a.subject", sortable: true}, 
+					{data: 'userName', name: "u.user_name", sortable: true}, 
+					{data: 'referenceScore', name: "a.reference_score", sortable: true}, 
+					{data: 'score', name: "a.score", sortable: true}, 
+					{data: 'spendTime', name: "a.spend_time", sortable: true}, 
+					{data: 'examDate', name: "a.exam_date", sortable: true}, 
 					{data: 'operate', width: '80px', sortable: false}
 				]
 			});

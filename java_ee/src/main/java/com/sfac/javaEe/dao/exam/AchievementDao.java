@@ -68,12 +68,12 @@ public class AchievementDao {
 			throws ClassNotFoundException, SQLException {
 		List<Achievement> achievements = new ArrayList<Achievement>();
 		StringBuffer sql = new StringBuffer("select * from exam_achievement a "
-				+ "left join account_user u on a.user_id = u.user_id ");
+				+ "left join account_user u on a.user_id = u.id ");
 		if (StringUtils.isNotBlank(searchBean.getKeyWord())) {
 			sql.append("where subject like '%" + searchBean.getKeyWord() + "%' ");
 		}
 		sql.append("order by ")
-			.append(StringUtils.isNotBlank(searchBean.getOrderBy()) ? searchBean.getOrderBy() + " " : " id ")
+			.append(StringUtils.isNotBlank(searchBean.getOrderBy()) ? searchBean.getOrderBy() + " " : " a.id ")
 			.append(StringUtils.isNotBlank(searchBean.getDirection()) ? searchBean.getDirection() + " " : " ASC ")
 			.append("limit ")
 			.append((searchBean.getCurrentPage() - 1) * searchBean.getPageSize())
@@ -133,7 +133,7 @@ public class AchievementDao {
 	}
 	
 	public Achievement getAchievementById(int id) throws ClassNotFoundException, SQLException {
-		String sql = "select * from exam_achievement a left join account_user u on a.user_id = u.user_id where id = ?";
+		String sql = "select * from exam_achievement a left join account_user u on a.user_id = u.id where a.id = ?";
 		
 		Achievement achievement = null;
 		Connection conn = null;

@@ -2,7 +2,7 @@
 <!-- Navbar -->
 <nav class="main-header navbar navbar-expand-md navbar-light navbar-white">
 	<div class="container">
-		<input type="hidden" id="userId" value="${user.userId}"/>
+		<input type="hidden" id="userId" value="${user.id}"/>
 		<input type="hidden" id="userName" value="${user.userName}"/>
 		<a href="/dashboard" class="navbar-brand">
 		<img src="/static/img/AdminLTELogo.png" alt="AdminLTE Logo"
