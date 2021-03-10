@@ -36,12 +36,12 @@ public class MyAspect {
      * (..) 代表参数不限
      * Order 代表优先级，数字越小优先级越高
      */
-    @Pointcut("execution(public * com.sfac.javaSpringBoot.modules.*.controller.*.*(..))")
+    @Pointcut("execution(public * com.sfac.springBoot.modules.*.controller.*.*(..))")
     @Order(1)
     public void controllerPointCut(){}
 
     // 采用注解切点，精确切入
-    @Pointcut("@annotation(com.sfac.javaSpringBoot.aspect.MyAnnotation)")
+    @Pointcut("@annotation(com.sfac.springBoot.aspect.MyAnnotation)")
     @Order(1)
     public void annotationPointCut(){}
 

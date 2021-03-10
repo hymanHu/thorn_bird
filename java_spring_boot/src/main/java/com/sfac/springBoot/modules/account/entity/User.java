@@ -1,6 +1,5 @@
 package com.sfac.springBoot.modules.account.entity;
 
-import java.io.Serializable;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -18,6 +17,7 @@ import com.sfac.springBoot.modules.common.entity.AbstractEntity;
 @Entity
 @Table(name = "account_user")
 public class User extends AbstractEntity {
+	private static final long serialVersionUID = 1L;
 	@Column(unique = true)
 	private String email;
 	@Column(unique = true)
