@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sfac.springBoot.modules.common.entity.ImageType;
+import com.sfac.springBoot.modules.traffic.entity.CarType;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -26,6 +27,7 @@ public class DictionaryController {
     @SuppressWarnings({ "rawtypes", "serial" })
 	private static Map<String, Class> enumMap = new HashMap<String, Class>() {{
         put("imageType", ImageType.class);
+        put("CarType", CarType.class);
     }};
 
     /**

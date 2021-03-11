@@ -1,15 +1,24 @@
-package com.sfac.springBoot.modules.parking.entity;
+package com.sfac.springBoot.modules.traffic.entity;
 
 import java.time.LocalDateTime;
 
+import javax.persistence.Entity;
+import javax.persistence.Table;
+
 import com.sfac.springBoot.modules.common.entity.AbstractEntity;
 
-public class Charge extends AbstractEntity {
+/**
+ * Description: Parking Charge
+ * @author HymanHu
+ * @date 2021-03-11 16:00:29
+ */
+@Entity
+@Table(name = "traffic_parking_charge")
+public class ParkingCharge extends AbstractEntity {
 	private static final long serialVersionUID = 1L;
-
 	private String carLicense;
-	private String type;
-	private int stationmentId;
+	private int chargeType; // 0：临停；1：包月用户
+	private int parkingId;
 	private LocalDateTime start;
 	private LocalDateTime end;
 	private int sum;
@@ -23,20 +32,20 @@ public class Charge extends AbstractEntity {
 		this.carLicense = carLicense;
 	}
 
-	public String getType() {
-		return type;
+	public int getChargeType() {
+		return chargeType;
 	}
 
-	public void setType(String type) {
-		this.type = type;
+	public void setChargeType(int chargeType) {
+		this.chargeType = chargeType;
 	}
 
-	public int getStationmentId() {
-		return stationmentId;
+	public int getParkingId() {
+		return parkingId;
 	}
 
-	public void setStationmentId(int stationmentId) {
-		this.stationmentId = stationmentId;
+	public void setParkingId(int parkingId) {
+		this.parkingId = parkingId;
 	}
 
 	public LocalDateTime getStart() {
