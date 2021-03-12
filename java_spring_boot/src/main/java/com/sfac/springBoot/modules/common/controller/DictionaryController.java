@@ -7,6 +7,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.sfac.springBoot.modules.common.entity.ImageType;
 import com.sfac.springBoot.modules.traffic.entity.CarType;
+import com.sfac.springBoot.modules.traffic.entity.ParkingSpace.ParkingSpaceStatus;
+import com.sfac.springBoot.modules.traffic.entity.ParkingSpace.ParkingSpaceType;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -27,7 +29,9 @@ public class DictionaryController {
     @SuppressWarnings({ "rawtypes", "serial" })
 	private static Map<String, Class> enumMap = new HashMap<String, Class>() {{
         put("imageType", ImageType.class);
-        put("CarType", CarType.class);
+        put("carType", CarType.class);
+        put("parkingSpaceType", ParkingSpaceType.class);
+        put("parkingSpaceStatus", ParkingSpaceStatus.class);
     }};
 
     /**

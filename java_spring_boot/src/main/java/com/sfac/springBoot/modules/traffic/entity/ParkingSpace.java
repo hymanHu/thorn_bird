@@ -19,6 +19,7 @@ public class ParkingSpace extends AbstractEntity {
 
 	private static final long serialVersionUID = 1L;
 	private String parkingSpaceType;
+	private int status; // 0：空闲，1: 已停，2：停用
 
 	public String getParkingSpaceType() {
 		return parkingSpaceType;
@@ -26,6 +27,14 @@ public class ParkingSpace extends AbstractEntity {
 
 	public void setParkingSpaceType(String parkingSpaceType) {
 		this.parkingSpaceType = parkingSpaceType;
+	}
+
+	public int getStatus() {
+		return status;
+	}
+
+	public void setStatus(int status) {
+		this.status = status;
 	}
 
 	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
@@ -59,6 +68,21 @@ public class ParkingSpace extends AbstractEntity {
 					.findFirst()
 					.orElse(null);
 		}
-
+	}
+	
+	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+	public enum ParkingSpaceStatus {
+		IDLE(0, "空闲"),
+		USED(1, "已用"),
+		OUT_SERVICE(1, "停用"),
+		;
+		
+		public int status;
+		public String desc;
+		
+		private ParkingSpaceStatus(int status, String desc) {
+			this.status = status;
+			this.desc = desc;
+		}
 	}
 }

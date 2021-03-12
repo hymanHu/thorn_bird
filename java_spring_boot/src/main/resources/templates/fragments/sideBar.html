@@ -30,7 +30,7 @@
 							<i class="fa fa-dashboard"></i> Dashboard
 						</a>
 					</li>
-					<li>
+					<li shiro:hasAnyRoles="admin,manager,staff">
 						<a>
 							<i class="fa fa-user"></i> Account <span class="fa fa-chevron-down"></span>
 						</a>
@@ -39,6 +39,14 @@
 							<li shiro:hasAnyRoles="admin,manager"><a href="/account/users">Users</a></li>
 							<li shiro:hasAnyRoles="admin,manager"><a href="/account/roles">Roles</a></li>
 							<li shiro:hasAnyRoles="admin,manager"><a href="/account/resources">Resources</a></li>
+						</ul>
+					</li>
+					<li shiro:hasAnyRoles="admin,manager,staff">
+						<a>
+							<i class="fa fa-car"></i> Traffic <span class="fa fa-chevron-down"></span>
+						</a>
+						<ul class="nav child_menu">
+							<li><a href="/traffic/parkingSpaces">Parking Space</a></li>
 						</ul>
 					</li>
 					<li shiro:hasAnyRoles="admin,manager,staff">
