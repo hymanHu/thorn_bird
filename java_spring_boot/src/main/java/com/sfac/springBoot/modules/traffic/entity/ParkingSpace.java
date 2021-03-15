@@ -40,7 +40,7 @@ public class ParkingSpace extends AbstractEntity {
 	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 	public enum ParkingSpaceType {
 		MINI_PARK("mini", "微型停车位", 4, 2, 5, 1),
-		STANDARD_PARK("standard", "微型停车位", 5.3, 2.5, 5, 1.5),
+		STANDARD_PARK("standard", "标准停车位", 5.3, 2.5, 5, 1.5),
 		LARGE_PARK("large", "大型停车位", 8, 3, 5, 2),
 		;
 
@@ -74,7 +74,7 @@ public class ParkingSpace extends AbstractEntity {
 	public enum ParkingSpaceStatus {
 		IDLE(0, "空闲"),
 		USED(1, "已用"),
-		OUT_SERVICE(1, "停用"),
+		OUT_SERVICE(2, "停用"),
 		;
 		
 		public int status;

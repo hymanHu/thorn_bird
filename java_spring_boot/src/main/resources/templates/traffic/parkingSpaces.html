@@ -172,8 +172,8 @@
 			initAddModal: function () {
 				this.parkingSpace = {
 					id: "",
-					parkingSpaceType: "",
-					status: "",
+					parkingSpaceType: "mini",
+					status: "0",
 					createDate: "",
 				};
 			},
@@ -252,11 +252,12 @@
 				});
 			},
 			initParkingSpaceTypes: function() {
+				var self = this;
 				$.ajax({
 					url : "/api/dictionary/parkingSpaceType",
 					type : "get",
 					success : function (rs) {
-						parkingSpaceTypes = rs;
+						self.parkingSpaceTypes = rs;
 					},
 					error : function (rs) {
 						layer.msg(rs.responseText, {icon: 0});
@@ -264,11 +265,12 @@
 				});
 			},
 			initParkingSpaceStatus: function() {
+				var self = this;
 				$.ajax({
 					url : "/api/dictionary/parkingSpaceStatus",
 					type : "get",
 					success : function (rs) {
-						parkingSpaceStatus = rs;
+						self.parkingSpaceStatus = rs;
 					},
 					error : function (rs) {
 						layer.msg(rs.responseText, {icon: 0});
@@ -283,6 +285,8 @@
 		},
 		mounted: function () {
 			this.initTable(this.defaultPageSize);
+			this.initParkingSpaceTypes();
+			this.initParkingSpaceStatus();
 		}
 	});
 </script>
