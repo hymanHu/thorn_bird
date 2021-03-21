@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.sfac.springBoot.modules.common.entity.AbstractEntity;
 
 /**
@@ -17,7 +18,7 @@ import com.sfac.springBoot.modules.common.entity.AbstractEntity;
 public class ParkingCharge extends AbstractEntity {
 	private static final long serialVersionUID = 1L;
 	private String carLicense;
-	private int chargeType; // 0：临停；1：包月用户
+	private int chargeType; // 0：临停用户；1：长期用户
 	private int parkingId;
 	private LocalDateTime start;
 	private LocalDateTime end;
@@ -78,6 +79,26 @@ public class ParkingCharge extends AbstractEntity {
 
 	public void setFee(double fee) {
 		this.fee = fee;
+	}
+	
+	/**
+	 * @Description: Parking Charge Type
+	 * @author: HymanHu
+	 * @date: 2021年3月21日
+	 */
+	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
+	public enum ParkingChargeType {
+		TEMPORARY_STOP(0, "临时停车"),
+		LONG_TIME_STOP(1, "长期停车"),
+		;
+		
+		public int code;
+		public String desc;
+		
+		private ParkingChargeType(int code, String desc) {
+			this.code = code;
+			this.desc = desc;
+		}
 	}
 
 }

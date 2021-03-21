@@ -16,6 +16,7 @@ import com.sfac.springBoot.modules.common.entity.AbstractEntity;
 @Entity
 @Table(name = "account_resource")
 public class Resource extends AbstractEntity {
+	private static final long serialVersionUID = 1L;
 	private String permission;
 	@Transient
 	private List<Role> roles;

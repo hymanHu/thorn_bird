@@ -37,6 +37,11 @@ public class ParkingSpace extends AbstractEntity {
 		this.status = status;
 	}
 
+	/**
+	 * @Description: Parking Space Type
+	 * @author: HymanHu
+	 * @date: 2021年3月21日
+	 */
 	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 	public enum ParkingSpaceType {
 		MINI_PARK("mini", "微型停车位", 4, 2, 5, 1),
@@ -70,6 +75,11 @@ public class ParkingSpace extends AbstractEntity {
 		}
 	}
 	
+	/**
+	 * @Description: Parking Space Status
+	 * @author: HymanHu
+	 * @date: 2021年3月21日
+	 */
 	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 	public enum ParkingSpaceStatus {
 		IDLE(0, "空闲"),

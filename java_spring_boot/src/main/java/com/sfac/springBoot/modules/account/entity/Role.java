@@ -13,6 +13,7 @@ import com.sfac.springBoot.modules.common.entity.AbstractEntity;
 @Entity
 @Table(name = "account_role")
 public class Role extends AbstractEntity {
+	private static final long serialVersionUID = 1L;
 	private String roleName;
 
 	public String getRoleName() {
