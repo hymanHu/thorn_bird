@@ -11,6 +11,7 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "common_exception_log")
 public class ExceptionLog extends AbstractEntity {
+	private static final long serialVersionUID = 1L;
 	private String ip;
 	private String path;
 	private String className;
