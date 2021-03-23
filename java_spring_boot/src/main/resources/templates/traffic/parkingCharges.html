@@ -187,6 +187,8 @@
 					]
 				});
 			},
+			initDateTimePicker: function () {
+			},
 			initAddModal: function () {
 				this.parkingCharge = {
 					id: "",
@@ -296,6 +298,7 @@
 		mounted: function () {
 			this.initTable(this.defaultPageSize);
 			this.initParkingChargeTypes();
+			this.initDateTimePicker();
 		}
 	});
 </script>

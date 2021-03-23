@@ -20,5 +20,13 @@ public class TrafficController {
 	public String parkingSpacesPage() {
 		return "index";
 	}
+	
+	/**
+	 * 127.0.0.1/traffic/parkingCharges ---- get
+	 */
+	@GetMapping("/parkingCharges")
+	public String ParkingChargePage() {
+		return "index";
+	}
 
 }
