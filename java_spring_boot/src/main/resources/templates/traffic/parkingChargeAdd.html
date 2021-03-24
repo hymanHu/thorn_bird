@@ -25,9 +25,9 @@
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-4">Start Time</label>
-						<div class="col-md-8">
+						<div class="col-md-8 input-group">
 							<input name="dateTime" class="form-control" type="text" 
-								v-model:value="parkingCharge.start">
+								v-model:value="parkingCharge.start" data-datetimepicker data-click-target>
 							<span class="input-group-addon">
 								<i class="fa fa-calendar bigger-110"></i>
 							</span>
@@ -40,7 +40,8 @@
 				<a class="btn btn-secondary" href="#" data-dismiss="modal">
 					<i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel
 				</a>
-				<button id="addBtn" data-dismiss="modal" class="btn btn-primary" type="button" @click="insertModule()">
+				<button id="addBtn" data-dismiss="modal" class="btn btn-primary" type="button" 
+					@click="insertModule()">
 					<i class="fa fa-fw fa-lg fa-check-circle"></i>Submit
 				</button>
 			</div>

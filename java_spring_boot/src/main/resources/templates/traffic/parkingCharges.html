@@ -1,5 +1,7 @@
 <!-- Datatables -->
 <link href="/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<!-- datetimepicker -->
+<link href="/vendors/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
 
 <!-- page content -->
 <div id="moduleList" class="right_col" role="main">
@@ -52,13 +54,17 @@
 	
 	<!-- 碎片文件要放在 Vue 控制的 Div 里 -->
 	<div th:replace="traffic/parkingChargeAdd"></div>
-	<div th:replace="traffic/parkingChargeEdit"></div>
+	<!-- <div th:replace="traffic/parkingChargeEdit"></div> -->
 </div>
 <!-- /page content -->
 
 <!-- Datatables -->
 <script src="/vendors/datatables.net/js/jquery.dataTables.min.js" stype="text/javascript"></script>
 <script src="/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js" stype="text/javascript"></script>
+<!-- datetimepicker -->
+<script src="/vendors/moment/moment.min.js" stype="text/javascript"></script>
+<script src="/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" 
+	stype="text/javascript"></script>
 
 <script stype="text/javascript">
 	var parkingCharges = new Vue({
@@ -188,6 +194,22 @@
 				});
 			},
 			initDateTimePicker: function () {
+				$('[name=dateTime]').datetimepicker({
+					format: 'YYYY-MM-DD HH:mm:ss',
+		            locale: moment.locale('zh-cn'),
+		            showTodayButton: true,
+					icons: {
+						time: 'fa fa-clock-o',
+						date: 'fa fa-calendar',
+						up: 'fa fa-chevron-up',
+						down: 'fa fa-chevron-down',
+						previous: 'fa fa-chevron-left',
+						next: 'fa fa-chevron-right',
+						today: 'fa fa-arrows ',
+						clear: 'fa fa-trash',
+						close: 'fa fa-times'
+					}
+				});
 			},
 			initAddModal: function () {
 				this.parkingCharge = {
