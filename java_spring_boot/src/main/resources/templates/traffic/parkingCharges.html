@@ -1,7 +1,7 @@
 <!-- Datatables -->
 <link href="/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
 <!-- datetimepicker -->
-<link href="/vendors/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
+<link href="/vendors/jquery-dateTimePicker/jquery.datetimepicker.min.css" rel="stylesheet" />
 
 <!-- page content -->
 <div id="moduleList" class="right_col" role="main">
@@ -21,7 +21,7 @@
 				<div class="x_panel">
 					<div class="x_title">
 						<button type="button" class="btn btn-primary" @click="initAddModal()" 
-							data-toggle='modal' data-target='#addModal'>新增</button>
+							data-toggle='modal' data-target='#addModal'>车辆进场</button>
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
@@ -62,11 +62,14 @@
 <script src="/vendors/datatables.net/js/jquery.dataTables.min.js" stype="text/javascript"></script>
 <script src="/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js" stype="text/javascript"></script>
 <!-- datetimepicker -->
-<script src="/vendors/moment/moment.min.js" stype="text/javascript"></script>
-<script src="/vendors/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" 
-	stype="text/javascript"></script>
+<script src="/vendors/jquery-dateTimePicker/jquery.datetimepicker.full.min.js" stype="text/javascript"></script>
 
 <script stype="text/javascript">
+	$(function () {
+		$('[name=dateTime]').datetimepicker({
+			format: 'Y-m-d H:i:s',
+		});
+	})
 	var parkingCharges = new Vue({
 		el: "#moduleList",
 		data: {
@@ -194,21 +197,9 @@
 				});
 			},
 			initDateTimePicker: function () {
+				var self = this;
 				$('[name=dateTime]').datetimepicker({
-					format: 'YYYY-MM-DD HH:mm:ss',
-		            locale: moment.locale('zh-cn'),
-		            showTodayButton: true,
-					icons: {
-						time: 'fa fa-clock-o',
-						date: 'fa fa-calendar',
-						up: 'fa fa-chevron-up',
-						down: 'fa fa-chevron-down',
-						previous: 'fa fa-chevron-left',
-						next: 'fa fa-chevron-right',
-						today: 'fa fa-arrows ',
-						clear: 'fa fa-trash',
-						close: 'fa fa-times'
-					}
+					format: 'Y-m-d H:i:s',
 				});
 			},
 			initAddModal: function () {
@@ -226,7 +217,8 @@
 			},
 			insertModule: function () {
 				var self = this;
-				$.ajax({
+				console.log(self.parkingCharge);
+				/* $.ajax({
 					url : "/api/parkingCharge",
 					type : "post",
 					contentType: "application/json",
@@ -241,7 +233,7 @@
 					error : function (rs) {
 						layer.msg(rs.responseText, {icon: 0});
 					}
-				});
+				}); */
 			},
 			initEditModal: function (id) {
 				var self = this;
@@ -320,7 +312,7 @@
 		mounted: function () {
 			this.initTable(this.defaultPageSize);
 			this.initParkingChargeTypes();
-			this.initDateTimePicker();
+			//this.initDateTimePicker();
 		}
 	});
 </script>
