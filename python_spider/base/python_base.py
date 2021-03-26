@@ -228,16 +228,24 @@ print(sum(range(1, 101))); # 求和
 print(sum(list(range(101))));
 print("cdaDcdsa".capitalize()); # 将字符串第一个字符变成大写，其他小写
 
+def fun(s):
+    s = s.strip()
+    return s
+
+
 if __name__ == "__main__":
-    function_2("hello", "hyman");
-    function_2("hello");
-    print(function_3());
-    print(function_3(*list(range(1, 9))));
-    print(function_3(1, 2, 3, 4, 5));
-    function_4("hujiang", **{"age":33});
-    function_4("hujiang", **{"age":33, "city": "cd"});
-    function_5("hujiang", city="cd");
+#     function_2("hello", "hyman");
+#     function_2("hello");
+#     print(function_3());
+#     print(function_3(*list(range(1, 9))));
+#     print(function_3(1, 2, 3, 4, 5));
+#     function_4("hujiang", **{"age":33});
+#     function_4("hujiang", **{"age":33, "city": "cd"});
+#     function_5("hujiang", city="cd");
     # test_5(111, city="cd");
+    print(fun("  cdascdasc cdascdas  "));
+    
+    
 
 
 
