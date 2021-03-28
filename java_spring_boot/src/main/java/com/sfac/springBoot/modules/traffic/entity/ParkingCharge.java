@@ -6,6 +6,8 @@ import javax.persistence.Entity;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.sfac.springBoot.modules.common.entity.AbstractEntity;
 
 /**
@@ -20,7 +22,11 @@ public class ParkingCharge extends AbstractEntity {
 	private String carLicense;
 	private int chargeType; // 0：临停用户；1：长期用户
 	private int parkingId;
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private LocalDateTime start;
+	@JsonSerialize(using = LocalDateTimeSerializer.class)
+	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private LocalDateTime end;
 	private int sum;
 	private double fee;

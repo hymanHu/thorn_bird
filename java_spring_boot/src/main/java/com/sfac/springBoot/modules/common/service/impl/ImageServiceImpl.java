@@ -38,7 +38,7 @@ public class ImageServiceImpl implements ImageService {
 				resourceConfigBean.getLocalPathForWindow(), 
 				imageType.name));
 		if (!destFolder.exists()) {
-			destFolder.mkdir();
+			destFolder.mkdirs();
 		}
 		
 		String filename = String.format("%s.%s", 

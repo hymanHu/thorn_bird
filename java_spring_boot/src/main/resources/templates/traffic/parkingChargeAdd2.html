@@ -1,8 +1,8 @@
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addLabel" aria-hidden="true">
+<div class="modal fade" id="addModal2" tabindex="-1" role="dialog" aria-labelledby="addLabel" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title" id="addLabel" style="font-size: 18px; font-weight: 500;">车辆进场</h4>
+				<h4 class="modal-title" id="addLabel" style="font-size: 18px; font-weight: 500;">会员缴费</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body">
@@ -25,10 +25,17 @@
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="control-label col-md-4">进场时间</label>
+						<label class="control-label col-md-4">开始时间</label>
 						<div class="col-md-8 input-group">
-							<input name="dateTimePicker" modelProperty="start" class="form-control" type="text" 
+							<input name="datePicker" modelProperty="start" class="form-control" type="text" 
 								v-model="parkingCharge.start" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-4">结束时间</label>
+						<div class="col-md-8 input-group">
+							<input name="datePicker" modelProperty="end" class="form-control" type="text" 
+								v-model="parkingCharge.end" />
 						</div>
 					</div>
 				</form>
