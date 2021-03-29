@@ -113,6 +113,13 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
 		</dependency>
+		
+		<!-- alipay -->
+		<dependency>
+		    <groupId>com.alipay.sdk</groupId>
+		    <artifactId>alipay-sdk-java</artifactId>
+		    <version>4.13.0.ALL</version>
+		</dependency>
 
 		<!-- test -->
 		<dependency>

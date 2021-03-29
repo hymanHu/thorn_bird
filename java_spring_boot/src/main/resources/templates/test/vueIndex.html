@@ -44,13 +44,24 @@
 				<h3>自定义组件</h3>
 				<p>简单组件：<button-demo></button-demo></p>
 				<p>复杂组件：<button-count></button-count></p>
+				<p>===========================================</p>
+				<h3>Vue-qr 二维码插件</h3>
+				<p>
+					<template>
+						<vue-qr ref="Qrcode" 
+				            :text="dataObj.text" 
+				            :logoSrc="dataObj.logo" 
+				            :callback="test" qid="testQrId">
+				        </vue-qr>
+					</template>
+				</p>
 			</form>
 		</div>
 	</div>
 </div>
 <!-- /page content -->
 
-<script type="text/javascript">
+<script type="module">
 	/* $(function() {
 		initUser();
 	}); */
@@ -72,8 +83,10 @@
 		template: "<button @click='countFunction()'>{{count}}</button>",
 	});
 	
+	import VueQr from 'vue-qr'
 	var vueTest = new Vue({
 		el: "#vueTest",
+		components: { VueQr },
 		data: {
 			title: "Vue test",
 			user: {
@@ -88,6 +101,10 @@
 				{id: 2, name: "manager"},
 				{id: 3, name: "staff"},
 			],
+			dataObj: {
+				text: 'https://blog.csdn.net/weixin_43760328/rss/list',
+				logo: require('/images/picture.jpg')
+			},
 		},
 		methods:{
 			test1: function() {
