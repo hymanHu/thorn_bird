@@ -1,4 +1,4 @@
-package com.sfac.springBoot.modules.alipay.entity;
+package com.sfac.springBoot.modules.pay.entity;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -27,6 +27,10 @@ public class AlipayConfigBean {
 	private String publicKey;
 	@Value("${alipayPublicKey}")
 	private String alipayPublicKey;
+	@Value("${notifyUrl}")
+	private String notifyUrl;
+	@Value("${returnUrl}")
+	private String returnUrl;
 	@Value("${signType}")
 	private String signType;
 	@Value("${maxQueryRetry}")
@@ -41,6 +45,10 @@ public class AlipayConfigBean {
 	private int heartbeatDelay;
 	@Value("${heartbeatDuration}")
 	private int heartbeatDuration;
+	@Value("${charset}")
+	private String charset;
+	@Value("${format}")
+	private String format;
 
 	public String getAlipayGateway() {
 		return alipayGateway;
@@ -98,6 +106,22 @@ public class AlipayConfigBean {
 		this.alipayPublicKey = alipayPublicKey;
 	}
 
+	public String getNotifyUrl() {
+		return notifyUrl;
+	}
+
+	public void setNotifyUrl(String notifyUrl) {
+		this.notifyUrl = notifyUrl;
+	}
+
+	public String getReturnUrl() {
+		return returnUrl;
+	}
+
+	public void setReturnUrl(String returnUrl) {
+		this.returnUrl = returnUrl;
+	}
+
 	public String getSignType() {
 		return signType;
 	}
@@ -152,6 +176,22 @@ public class AlipayConfigBean {
 
 	public void setHeartbeatDuration(int heartbeatDuration) {
 		this.heartbeatDuration = heartbeatDuration;
+	}
+
+	public String getCharset() {
+		return charset;
+	}
+
+	public void setCharset(String charset) {
+		this.charset = charset;
+	}
+
+	public String getFormat() {
+		return format;
+	}
+
+	public void setFormat(String format) {
+		this.format = format;
 	}
 
 }

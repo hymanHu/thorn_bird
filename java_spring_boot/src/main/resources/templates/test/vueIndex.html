@@ -29,6 +29,7 @@
 				<p>===========================================</p>
 				<h3>事件绑定</h3>
 				<input type="button" @click="test1()" value="test_1">
+				<input type="button" @click="test2($event)" name="test_2" value="test_2">
 				<p>===========================================</p>
 				<h3>循环</h3>
 				<span v-for="(role, index) in roles">
@@ -46,22 +47,14 @@
 				<p>复杂组件：<button-count></button-count></p>
 				<p>===========================================</p>
 				<h3>Vue-qr 二维码插件</h3>
-				<p>
-					<template>
-						<vue-qr ref="Qrcode" 
-				            :text="dataObj.text" 
-				            :logoSrc="dataObj.logo" 
-				            :callback="test" qid="testQrId">
-				        </vue-qr>
-					</template>
-				</p>
+				<p></p>
 			</form>
 		</div>
 	</div>
 </div>
 <!-- /page content -->
 
-<script type="module">
+<script type="text/javascript">
 	/* $(function() {
 		initUser();
 	}); */
@@ -83,10 +76,8 @@
 		template: "<button @click='countFunction()'>{{count}}</button>",
 	});
 	
-	import VueQr from 'vue-qr'
 	var vueTest = new Vue({
 		el: "#vueTest",
-		components: { VueQr },
 		data: {
 			title: "Vue test",
 			user: {
@@ -101,15 +92,14 @@
 				{id: 2, name: "manager"},
 				{id: 3, name: "staff"},
 			],
-			dataObj: {
-				text: 'https://blog.csdn.net/weixin_43760328/rss/list',
-				logo: require('/images/picture.jpg')
-			},
 		},
 		methods:{
 			test1: function() {
 				console.log(this.user);
 				
+			},
+			test2: function(event) {
+				console.log(event.currentTarget.name);
 			},
 			initUser: function() {
 				var userId = $("#userId").val();
