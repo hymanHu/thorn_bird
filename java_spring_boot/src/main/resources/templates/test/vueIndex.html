@@ -1,3 +1,7 @@
+<!-- httpVueLoader -->
+<script src="/vendors/httpVueLoader/httpVueLoader.js" type="text/javascript"></script>
+<!-- <script src="https://unpkg.com/http-vue-loader"></script> -->
+
 <!-- page content -->
 <div class="right_col" role="main">
 	<div class="">
@@ -46,8 +50,11 @@
 				<p>简单组件：<button-demo></button-demo></p>
 				<p>复杂组件：<button-count></button-count></p>
 				<p>===========================================</p>
-				<h3>Vue-qr 二维码插件</h3>
-				<p></p>
+				<h3>引入单个 Vue 组件</h3>
+				<p>
+					<hello-component></hello-component>
+					<vueqr-component></vueqr-component>
+				</p>
 			</form>
 		</div>
 	</div>
@@ -115,6 +122,10 @@
 					}
 				});
 			}
+		},
+		components: {
+			"hello-component": httpVueLoader('/components/hello.vue'),
+			"vueqr-component": httpVueLoader('/components/qrCode.vue'),
 		},
 		created: function() {
 			window.initUser = this.initUser;
