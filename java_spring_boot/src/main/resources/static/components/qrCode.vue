@@ -6,7 +6,7 @@
 </template>
 
 <script>
-import VueQr from "vue-qr";
+import VueQr from "/vendors/vue-qr/vue-qr.js";
 export default {
     name: "HelloWorld",
     components: { VueQr },
