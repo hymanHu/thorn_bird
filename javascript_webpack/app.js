@@ -1,1 +1,0 @@
-const vueQrCode1 = require('./components/qrCode.vue');
