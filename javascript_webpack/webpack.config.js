@@ -14,7 +14,7 @@ module.exports = {
 	// 入口
 	entry: {
 		jsEntry: path.join(__dirname, "./src/entry.js"),
-		vueEntry: path.join(__dirname, "./src/vueEntry.js"),
+		vueQrEntry: path.join(__dirname, "./src/vueQrEntry.js"),
 	},
 	// 出口
 	output: {
