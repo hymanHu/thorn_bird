@@ -1,4 +1,4 @@
-package com.sfac.springBoot.modules.pay.entity;
+package com.sfac.springBoot.config.pay;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;

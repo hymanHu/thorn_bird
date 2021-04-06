@@ -26,8 +26,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.sfac.springBoot.config.ApplicationTest;
 import com.sfac.springBoot.config.ResourceConfigBean;
+import com.sfac.springBoot.modules.test.entity.ApplicationTest;
 import com.sfac.springBoot.modules.test.entity.City;
 import com.sfac.springBoot.modules.test.entity.Country;
 import com.sfac.springBoot.modules.test.service.CityService;

@@ -12,14 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.alipay.api.AlipayClient;
-import com.alipay.api.DefaultAlipayClient;
 import com.alipay.api.internal.util.AlipaySignature;
 import com.alipay.api.request.AlipayTradePagePayRequest;
+import com.alipay.api.request.AlipayTradePrecreateRequest;
+import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sfac.springBoot.config.pay.AlipayConfigBean;
 import com.sfac.springBoot.modules.common.entity.ResultEntity;
 import com.sfac.springBoot.modules.common.entity.ResultEntity.ResultStatus;
 import com.sfac.springBoot.modules.pay.entity.Alipay;
-import com.sfac.springBoot.modules.pay.entity.AlipayConfigBean;
 import com.sfac.springBoot.modules.pay.service.AlipayService;
 
 /**
@@ -33,50 +34,96 @@ public class AlipayServiceImpl implements AlipayService {
 	private final static Logger LOGGER = LoggerFactory.getLogger(AlipayServiceImpl.class);
 	@Autowired
 	private AlipayConfigBean alipayConfigBean;
+	@Autowired
+	private AlipayClient alipayClient;
 
 	@Override
-	public String tradePayPage(Alipay alipay) throws Exception {
+	public String tradePayPage(Alipay alipay) {
 		LOGGER.debug("==== 请求支付宝扫码界面 ====");
 		
-		// 初始化 alipayClient、alipayRequest
-		AlipayClient alipayClient = new DefaultAlipayClient(
-				alipayConfigBean.getAlipayGateway(), 
-				alipayConfigBean.getAppId(), 
-				alipayConfigBean.getPrivateKey(), 
-				alipayConfigBean.getFormat(), 
-				alipayConfigBean.getCharset(), 
-				alipayConfigBean.getAlipayPublicKey(), 
-				alipayConfigBean.getSignType());
-		AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
-		alipayRequest.setReturnUrl(alipayConfigBean.getReturnUrl());
-		alipayRequest.setNotifyUrl(alipayConfigBean.getNotifyUrl());
+		try {
+			// 构造请求参数 Json 格式
+			Map<String, Object> map = new HashMap<>();
+	        map.put("out_trade_no", alipay.getOutTradeNo());
+	        map.put("product_code", "FAST_INSTANT_TRADE_PAY");
+	        map.put("total_amount", alipay.getTotalAmount());
+	        map.put("subject", alipay.getSubject());
+	        map.put("body", alipay.getBody());
+			ObjectMapper objectMapper = new ObjectMapper();
+			String alipayJson = objectMapper.writeValueAsString(map);
+			LOGGER.debug(alipayJson);
+			
+			// 设置支付内容，发送请求，返回结果
+			AlipayTradePagePayRequest alipayRequest = new AlipayTradePagePayRequest();
+			alipayRequest.setReturnUrl(alipayConfigBean.getReturnUrl());
+			alipayRequest.setNotifyUrl(alipayConfigBean.getNotifyUrl());
+			alipayRequest.setBizContent(alipayJson);
+			return alipayClient.pageExecute(alipayRequest).getBody();
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
+		}
 		
-		// 构造请求参数 Json 格式
-		Map<String, Object> map = new HashMap<>();
-        map.put("out_trade_no", alipay.getOutTradeNo());
-        map.put("product_code", "FAST_INSTANT_TRADE_PAY");
-        map.put("total_amount", alipay.getTotalAmount());
-        map.put("subject", alipay.getSubject());
-        map.put("body", alipay.getBody());
-		ObjectMapper objectMapper = new ObjectMapper();
-		String alipayJson = objectMapper.writeValueAsString(map);
-		LOGGER.debug(alipayJson);
-		
-		// 设置支付内容，发送请求，返回结果
-		alipayRequest.setBizContent(alipayJson);
-		return alipayClient.pageExecute(alipayRequest).getBody();
+		return "";
 	}
 
 	@Override
-	public void tradePayNotify(HttpServletRequest request) throws Exception {
+	public String tradePayQr(Alipay alipay) {
+		LOGGER.debug("==== 请求支付宝支付二维码 ====");
+		
+		try {
+			// 构造请求参数 Json 格式
+			Map<String, Object> map = new HashMap<>();
+			map.put("out_trade_no", alipay.getOutTradeNo());
+			map.put("total_amount", alipay.getTotalAmount());
+			map.put("subject", alipay.getSubject());
+			map.put("body", alipay.getBody());
+			ObjectMapper objectMapper = new ObjectMapper();
+			String alipayJson = objectMapper.writeValueAsString(map);
+			LOGGER.debug(alipayJson);
+			
+			// 设置支付内容，发送请求，返回结果
+			AlipayTradePrecreateRequest alipayRequest = new AlipayTradePrecreateRequest();
+			alipayRequest.setReturnUrl(alipayConfigBean.getReturnUrl());
+			alipayRequest.setNotifyUrl(alipayConfigBean.getNotifyUrl());
+			alipayRequest.setBizContent(alipayJson);
+			AlipayTradePrecreateResponse alipayResponse = alipayClient.execute(alipayRequest);
+			LOGGER.debug(String.format("%s-%s-%s-%s", alipayResponse.getCode(), alipayResponse.getMsg(), 
+					alipayResponse.getSubCode(), alipayResponse.getSubMsg()));
+			
+			if (alipayResponse.isSuccess()) {
+				return alipayResponse.getQrCode();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
+		}
+		return "";
+	}
+
+	@Override
+	public void tradePayNotify(HttpServletRequest request) {
 		LOGGER.debug("==== 支付异步回调，验签 ====");
-		verifySignature(request);
+		try {
+			verifySignature(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
+		}
 	}
 
 	@Override
-	public ResultEntity<Object> tradePayReturn(HttpServletRequest request) throws Exception {
+	public ResultEntity<Object> tradePayReturn(HttpServletRequest request) {
 		LOGGER.debug("==== 支付同步回调，验签 ====");
-		boolean signVerified = verifySignature(request);
+		
+		boolean signVerified = false;
+		try {
+			signVerified = verifySignature(request);
+		} catch (Exception e) {
+			e.printStackTrace();
+			LOGGER.debug(e.getMessage());
+		}
+		
 		if (signVerified) {
 			return new ResultEntity<Object>(ResultStatus.SUCCESS.status, "Pay success.");
 		}

@@ -1,5 +1,6 @@
 package com.sfac.springBoot.modules.pay.controller;
 
+import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +11,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.sfac.springBoot.config.pay.AlipayConfigBean;
 import com.sfac.springBoot.modules.common.entity.ResultEntity;
 import com.sfac.springBoot.modules.pay.entity.Alipay;
-import com.sfac.springBoot.modules.pay.entity.AlipayConfigBean;
 import com.sfac.springBoot.modules.pay.service.AlipayService;
 
 /**
@@ -34,15 +36,32 @@ public class AlipayController {
 	
 	/**
 	 * 127.0.0.1/api/alipay/tradePayPage ---- post
-	 * {"subject":"无忧停车"}
 	 */
 	@PostMapping(value = "/tradePayPage", consumes = "application/x-www-form-urlencoded")
-	public void tradePayPage(HttpServletResponse response, @ModelAttribute Alipay alipay) throws Exception {
+	public void tradePayPage(HttpServletResponse response, @ModelAttribute Alipay alipay) {
 		response.setContentType("text/html;charset=" + alipayConfigBean.getCharset());
-		PrintWriter pw = response.getWriter();
-		pw.write(alipayService.tradePayPage(alipay));
-		pw.flush();
-		pw.close();
+		PrintWriter pw = null;
+		try {
+			pw = response.getWriter();
+			pw.write(alipayService.tradePayPage(alipay));
+			pw.flush();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			if (pw != null) {
+				pw.close();
+			}
+		}
+	}
+	
+	/**
+	 * 127.0.0.1/api/alipay/tradePayQr ---- get
+	 * {"outTradeNo":"ORDER_1617684756223", "totalAmount":4.44, "subject":"川A44444 停车缴费", "body":"停车无忧"}
+	 */
+	@GetMapping(value = "/tradePayQr", consumes = "application/json")
+	@ResponseBody
+	public String tradePayQr(@RequestBody Alipay alipay) {
+		return alipayService.tradePayQr(alipay);
 	}
 	
 	/**
@@ -51,7 +70,7 @@ public class AlipayController {
 	 */
 	@PostMapping("/tradePayNotify")
 	@ResponseBody
-	public void tradePayNotify(HttpServletRequest request) throws Exception {
+	public void tradePayNotify(HttpServletRequest request) {
 		alipayService.tradePayNotify(request);
 	}
 	
@@ -61,7 +80,7 @@ public class AlipayController {
 	 */
 	@GetMapping("/tradePayReturn")
 	@ResponseBody
-	public ResultEntity<Object> tradePayReturn(HttpServletRequest request) throws Exception {
+	public ResultEntity<Object> tradePayReturn(HttpServletRequest request) {
 		return alipayService.tradePayReturn(request);
 	}
 

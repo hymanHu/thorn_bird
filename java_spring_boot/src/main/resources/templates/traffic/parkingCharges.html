@@ -66,6 +66,8 @@
 <script src="/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js" stype="text/javascript"></script>
 <!-- datetimepicker -->
 <script src="/vendors/jquery-dateTimePicker/jquery.datetimepicker.full.min.js" stype="text/javascript"></script>
+<!-- qrcode -->
+<script src="/vendors/qrcode/qrcode.js" stype="text/javascript"></script>
 
 <script stype="text/javascript">
 	var parkingCharges = new Vue({
@@ -324,6 +326,9 @@
 						layer.msg(rs.responseText, {icon: 0});
 					}
 				});
+			},
+			tradePayQr: function() {
+				var self = this;
 			},
 		},
 		created: function () {
