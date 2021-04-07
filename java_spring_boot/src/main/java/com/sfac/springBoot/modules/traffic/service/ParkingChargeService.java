@@ -21,4 +21,6 @@ public interface ParkingChargeService {
 	ParkingCharge getParkingChargeById(int id);
 	
 	PageInfo<ParkingCharge> getParkingChargesBySearchBean(SearchBean searchBean);
+	
+	ResultEntity<ParkingCharge> calculateParkingCharge(ParkingCharge parkingCharge);
 }

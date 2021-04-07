@@ -28,7 +28,7 @@ public class ParkingCharge extends AbstractEntity {
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
 	private LocalDateTime end;
-	private int sum;
+	private int sum; // 停车时长，单位小时
 	private double fee;
 
 	public String getCarLicense() {
@@ -89,21 +89,30 @@ public class ParkingCharge extends AbstractEntity {
 	
 	/**
 	 * @Description: Parking Charge Type
+	 * - 长期停车，每小时 4 毛，至少缴费 30 天
+	 * - 临时停车，缴费按车位收费标准收取，若没确定车位，则按照每小时 1 元收费
 	 * @author: HymanHu
 	 * @date: 2021年3月21日
 	 */
 	@JsonFormat(shape = JsonFormat.Shape.OBJECT)
 	public enum ParkingChargeType {
-		TEMPORARY_STOP(0, "临时停车"),
-		LONG_TIME_STOP(1, "长期停车"),
+		TEMPORARY_STOP(0, "临时停车", 1.00),
+		LONG_TIME_STOP(1, "长期停车", 0.40),
 		;
 		
 		public int code;
 		public String desc;
+		public double unitPrice;
 		
 		private ParkingChargeType(int code, String desc) {
 			this.code = code;
 			this.desc = desc;
+		}
+
+		private ParkingChargeType(int code, String desc, double unitPrice) {
+			this.code = code;
+			this.desc = desc;
+			this.unitPrice = unitPrice;
 		}
 	}
 

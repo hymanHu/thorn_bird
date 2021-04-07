@@ -70,4 +70,14 @@ public class ParkingChargeController {
 	public PageInfo<ParkingCharge> getParkingChargesBySearchBean(@RequestBody SearchBean searchBean) {
 		return parkingChargeService.getParkingChargesBySearchBean(searchBean);
 	}
+	
+	/**
+	 * 127.0.0.1/api/parkingCharge/fee ---- post
+	 * {"carLicense":"川A44444","chargeType":1,"parkingId":0,"start":"2021-04-01 00:00:00",
+	 * "end":"2021-04-07 23:59:59","sum":0,"fee":0.0}
+	 */
+	@PostMapping(value = "/parkingCharge/fee", consumes = "application/json")
+	public ResultEntity<ParkingCharge> calculateParkingCharge(@RequestBody ParkingCharge parkingCharge) {
+		return parkingChargeService.calculateParkingCharge(parkingCharge);
+	}
 }

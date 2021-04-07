@@ -2,7 +2,7 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title" id="addLabel" style="font-size: 18px; font-weight: 500;">会员缴费</h4>
+				<h4 class="modal-title" id="addLabel" style="font-size: 18px; font-weight: 500">会员缴费</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body">
@@ -10,47 +10,81 @@
 					<div class="form-group row">
 						<label class="control-label col-md-4">车牌号</label>
 						<div class="col-md-8">
-							<input v-model:value="parkingCharge.carLicense" class="form-control" 
-								type="text" placeholder="Enter car license">
+							<input
+								v-model:value="parkingCharge.carLicense"
+								class="form-control"
+								type="text"
+								placeholder="Enter car license"
+								@change="initPayInfo()"
+							/>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-4">停车类型</label>
 						<div class="col-md-8">
-							<select class="form-control" disabled="disabled" 
-								v-model:value="parkingCharge.chargeType" >
-								<option v-for="(type, index) in parkingChargeTypes"
-									 :value="type.code">{{type.desc}}</option>
+							<select class="form-control" disabled="disabled" v-model:value="parkingCharge.chargeType">
+								<option v-for="(type, index) in parkingChargeTypes" :value="type.code">
+									{{type.desc}}
+								</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-4">开始时间</label>
 						<div class="col-md-8 input-group">
-							<input name="datePicker" modelProperty="start" class="form-control" type="text" 
-								v-model="parkingCharge.start" />
+							<input
+								name="datePicker"
+								modelProperty="start"
+								class="form-control"
+								type="text"
+								v-model="parkingCharge.start"
+								@change="initPayInfo()"
+							/>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-4">结束时间</label>
 						<div class="col-md-8 input-group">
-							<input name="datePicker" modelProperty="end" class="form-control" type="text" 
-								v-model="parkingCharge.end" />
+							<input
+								name="datePicker"
+								modelProperty="end"
+								class="form-control"
+								type="text"
+								v-model="parkingCharge.end"
+								@change="initPayInfo()"
+							/>
+						</div>
+					</div>
+					<div class="form-group row" style="border-top: 1px solid #dee2e6"></div>
+					<div class="form-group row">
+						<label class="control-label col-md-4">订单</label>
+						<div class="col-md-8 input-group">
+							<input type="hidden" v-model="pay.outTradeNo" />
+							<input type="hidden" v-model="pay.body" />
+							<input class="form-control" type="text" v-model="pay.subject" readonly />
 						</div>
 					</div>
 					<div class="form-group row">
-						<button class="btn btn-primary" type="button">支付</button>
+						<label class="control-label col-md-4">付费</label>
+						<div class="col-md-8 input-group">
+							<input class="form-control" type="text" v-model="pay.totalAmount" readonly />
+						</div>
+					</div>
+					<div class="form-group row">
+						<button class="btn btn-success btn-block" type="button" @click="tradePayQr()">支付</button>
+						<div id="qrcode" style="margin: 0 auto"></div>
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
 				<!-- data-dismiss="modal"关闭模态框 -->
 				<a class="btn btn-secondary" href="#" data-dismiss="modal">
-					<i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel
+					<i class="fa fa-fw fa-lg fa-times-circle"></i>
+					Cancel
 				</a>
-				<button id="addBtn" data-dismiss="modal" class="btn btn-primary" type="button" 
-					@click="insertModule()">
-					<i class="fa fa-fw fa-lg fa-check-circle"></i>Submit
+				<button id="addBtn" data-dismiss="modal" class="btn btn-primary" type="button" @click="insertModule()">
+					<i class="fa fa-fw fa-lg fa-check-circle"></i>
+					Submit
 				</button>
 			</div>
 		</div>

@@ -1,7 +1,10 @@
 package com.sfac.springBoot.modules.traffic.service.impl;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -16,6 +19,7 @@ import com.sfac.springBoot.modules.common.entity.ResultEntity.ResultStatus;
 import com.sfac.springBoot.modules.common.entity.SearchBean;
 import com.sfac.springBoot.modules.traffic.dao.ParkingChargeDao;
 import com.sfac.springBoot.modules.traffic.entity.ParkingCharge;
+import com.sfac.springBoot.modules.traffic.entity.ParkingCharge.ParkingChargeType;
 import com.sfac.springBoot.modules.traffic.service.ParkingChargeService;
 
 /**
@@ -63,5 +67,26 @@ public class ParkingChargeServiceImpl implements ParkingChargeService {
 		return new PageInfo<ParkingCharge>(
 				Optional.ofNullable(parkingChargeDao.getParkingChargesBySearchBean(searchBean))
 				.orElse(Collections.emptyList()));
+	}
+
+	@Override
+	public ResultEntity<ParkingCharge> calculateParkingCharge(ParkingCharge parkingCharge) {
+		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		List<ParkingCharge> parkingCharges = Optional
+				.ofNullable(parkingChargeDao.getRepeatParkingCharges(parkingCharge.getStart(), parkingCharge.getEnd()))
+				.orElse(Collections.emptyList());
+		if (parkingCharge.getChargeType() == ParkingChargeType.LONG_TIME_STOP.code) {
+			if (!parkingCharges.isEmpty()) {
+				return new ResultEntity<ParkingCharge>(
+						ResultStatus.FAILED.status, 
+						String.format("缴费时间重复，请从 %s 后开始缴费。", dtf.format(parkingCharges.get(0).getEnd())));
+			}
+			Duration duration = Duration.between(parkingCharge.getStart(), parkingCharge.getEnd());
+			parkingCharge.setSum((duration.toMillis() % 60) > 0 ? (int)duration.toHours() + 1 : (int)duration.toHours());
+			parkingCharge.setFee(ParkingChargeType.LONG_TIME_STOP.unitPrice * duration.toHours());
+			return new ResultEntity<ParkingCharge>(
+					ResultStatus.SUCCESS.status, "计费成功。", parkingCharge);
+		}
+		return null;
 	}
 }

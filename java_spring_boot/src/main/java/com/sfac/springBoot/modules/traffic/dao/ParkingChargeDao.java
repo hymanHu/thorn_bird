@@ -1,11 +1,13 @@
 package com.sfac.springBoot.modules.traffic.dao;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
@@ -60,5 +62,8 @@ public interface ParkingChargeDao {
 	@Select("select * from traffic_parking_charge where car_license = #{carLicense} "
 			+ "and charge_type = 1 order by end desc limit 1")
 	ParkingCharge getLastLongTimeChargeByCarLicense(String carLicense);
+	
+	@Select("select * from traffic_parking_charge where start < #{end} and end > #{start} order by end desc")
+	List<ParkingCharge> getRepeatParkingCharges(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
 }

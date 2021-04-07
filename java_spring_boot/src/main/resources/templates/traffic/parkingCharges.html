@@ -1,5 +1,5 @@
 <!-- Datatables -->
-<link href="/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<link href="/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 <!-- datetimepicker -->
 <link href="/vendors/jquery-dateTimePicker/jquery.datetimepicker.min.css" rel="stylesheet" />
 
@@ -9,28 +9,47 @@
 		<div class="page-title">
 			<div class="title_left">
 				<h3>
-					ParkingCharges <small>list</small>
+					ParkingCharges
+					<small>list</small>
 				</h3>
 			</div>
 		</div>
-		
+
 		<div class="clearfix"></div>
-		
+
 		<div class="row">
-			<div class="col-md-12 col-sm-12 ">
+			<div class="col-md-12 col-sm-12">
 				<div class="x_panel">
 					<div class="x_title">
-						<button type="button" class="btn btn-primary" @click="initAddModal2()" 
-							data-toggle='modal' data-target='#addModal2'>会员缴费</button>
-						<button type="button" class="btn btn-primary" @click="initAddModal()" 
-							data-toggle='modal' data-target='#addModal'>车辆进场</button>
+						<button
+							type="button"
+							class="btn btn-primary"
+							@click="initAddModal2()"
+							data-toggle="modal"
+							data-target="#addModal2"
+						>
+							会员缴费
+						</button>
+						<button
+							type="button"
+							class="btn btn-primary"
+							@click="initAddModal()"
+							data-toggle="modal"
+							data-target="#addModal"
+						>
+							车辆进场
+						</button>
 						<div class="clearfix"></div>
 					</div>
 					<div class="x_content">
 						<div class="row">
 							<div class="col-sm-12">
 								<div class="card-box table-responsive">
-									<table id="moduleTable" class="table table-striped table-bordered" style="width: 100%">
+									<table
+										id="moduleTable"
+										class="table table-striped table-bordered"
+										style="width: 100%"
+									>
 										<thead>
 											<tr>
 												<th>编号</th>
@@ -53,7 +72,7 @@
 			</div>
 		</div>
 	</div>
-	
+
 	<!-- 碎片文件要放在 Vue 控制的 Div 里 -->
 	<div th:replace="traffic/parkingChargeAdd"></div>
 	<div th:replace="traffic/parkingChargeAdd2"></div>
@@ -86,12 +105,19 @@
 				sum: "0",
 				fee: "0",
 			},
-			parkingChargeTypes: []
+			parkingChargeTypes: [],
+			pay: {
+				outTradeNo: "",
+				totalAmount: "",
+				subject: "",
+				body: "",
+				calculated: false,
+			},
+			qrcode: "",
 		},
 		methods: {
 			// 表格行数据结构
-			RowData: function (id, carLicense, chargeType, parkingId, 
-					start, end, sum, fee, createDate) {
+			RowData: function (id, carLicense, chargeType, parkingId, start, end, sum, fee, createDate) {
 				var RowData = {};
 				RowData.id = id;
 				RowData.carLicense = carLicense;
@@ -103,74 +129,86 @@
 				RowData.fee = fee;
 				RowData.createDate = createDate;
 				RowData.operate = function () {
-					return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#editModal' " + 
-						"onclick='initEditModal(\"" + id + "\")'>编辑</a>&nbsp;" + 
-						"<a href='javascript:void(0);' onclick='deleteModule(\"" + id + 
-						"\")' class='btn_editcolor'>删除</a>";
+					return (
+						"<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#editModal' " +
+						"onclick='initEditModal(\"" +
+						id +
+						"\")'>编辑</a>&nbsp;" +
+						"<a href='javascript:void(0);' onclick='deleteModule(\"" +
+						id +
+						"\")' class='btn_editcolor'>删除</a>"
+					);
 				};
 				return RowData;
 			},
 			initTable: function (pageSize) {
 				var self = this;
-				self.moduleTable = $('#moduleTable').DataTable({
-					'paging': true, //分页
-					"serverSide": true, //开启后端分页
-					"pagingType": "full_numbers", //分页样式的类型simple/simple_numbers/full/full_numbers
-					"pageLength": pageSize, //定义初始的页长
-					"processing": true, 
-					"destroy": true, //允许销毁替换，在表格重新查询时，可以自动销毁以前的data
-					'lengthChange': true, //控制是否能够调整每页的条数
-					'lengthMenu': [5, 10, 25, 50], // 控制页长
-					'searching': true,
-					'data-show-refresh': true,
-					'ordering': true,
-					'autoWidth': false,
-					"ajax": function (data, callback, settings) {
+				self.moduleTable = $("#moduleTable").DataTable({
+					paging: true, //分页
+					serverSide: true, //开启后端分页
+					pagingType: "full_numbers", //分页样式的类型simple/simple_numbers/full/full_numbers
+					pageLength: pageSize, //定义初始的页长
+					processing: true,
+					destroy: true, //允许销毁替换，在表格重新查询时，可以自动销毁以前的data
+					lengthChange: true, //控制是否能够调整每页的条数
+					lengthMenu: [5, 10, 25, 50], // 控制页长
+					searching: true,
+					"data-show-refresh": true,
+					ordering: true,
+					autoWidth: false,
+					ajax: function (data, callback, settings) {
 						// 从data获取查询数据
 						var columIndex = data.order[0].column;
 						var direction = data.order[0].dir;
 						var orderBy = data.columns[columIndex].name;
-						pageSize = data.length == undefined  ? pageSize : data.length;
-						
+						pageSize = data.length == undefined ? pageSize : data.length;
+
 						var searchBean = {};
-						searchBean.currentPage = (data.start / pageSize) + 1;
+						searchBean.currentPage = data.start / pageSize + 1;
 						searchBean.pageSize = pageSize;
 						searchBean.orderBy = orderBy;
 						searchBean.direction = direction;
 						searchBean.keyWord = data.search.value;
-						
+
 						$.ajax({
-							url : "/api/parkingCharges",
-							type : "post",
+							url: "/api/parkingCharges",
+							type: "post",
 							contentType: "application/json",
-							data : JSON.stringify(searchBean),
-							success : function (rs) {
+							data: JSON.stringify(searchBean),
+							success: function (rs) {
 								// 定义表格数据结构
 								var tableData = {
-									draw :0,
+									draw: 0,
 									recordsTotal: 0,
 									recordsFiltered: 0,
-									data: []
+									data: [],
 								};
 								if (!rs) {
-									layer.alert("请求出错，请稍后重试" + rs.errmsg, {icon: 2});
-									callback(tableData);
-									return;
-								};
-								if (rs.list == null) {
-									$('#moduleTable tbody tr').remove();
-									$('#loading').remove();
+									layer.alert("请求出错，请稍后重试" + rs.errmsg, { icon: 2 });
 									callback(tableData);
 									return;
 								}
-								$('#loading').remove();
+								if (rs.list == null) {
+									$("#moduleTable tbody tr").remove();
+									$("#loading").remove();
+									callback(tableData);
+									return;
+								}
+								$("#loading").remove();
 								var rowsData = [];
 								for (var i = 0; i < rs.list.length; i++) {
 									//包装行数据
-									var rowData = self.RowData(rs.list[i].id, rs.list[i].carLicense, 
-											rs.list[i].chargeType, rs.list[i].parkingId, rs.list[i].start, 
-											rs.list[i].end, rs.list[i].sum, rs.list[i].fee, 
-											rs.list[i].createDate);
+									var rowData = self.RowData(
+										rs.list[i].id,
+										rs.list[i].carLicense,
+										rs.list[i].chargeType,
+										rs.list[i].parkingId,
+										rs.list[i].start,
+										rs.list[i].end,
+										rs.list[i].sum,
+										rs.list[i].fee,
+										rs.list[i].createDate
+									);
 									// 将行数据放到数组里
 									rowsData.push(rowData);
 								}
@@ -179,37 +217,46 @@
 								tableData.recordsFiltered = rs.total;
 								callback(tableData);
 							},
-							error : function (data) {
-								layer.alert(data.responseText, {icon: 0});
-							}
+							error: function (data) {
+								layer.alert(data.responseText, { icon: 0 });
+							},
 						});
 					},
-					"columns": [ //定义行数据字段
-						{data: 'id', name: "id", sortable: true}, 
-						{data: 'carLicense', name: "car_license", sortable: true}, 
-						{data: 'chargeType', name: "charge_type", sortable: true}, 
-						{data: 'start', name: "start", sortable: true}, 
-						{data: 'end', name: "end", sortable: true}, 
-						{data: 'sum', name: "sum", sortable: true}, 
-						{data: 'fee', name: "fee", sortable: true}, 
-						{data: 'operate', width: '80px', sortable: false}
-					]
+					columns: [
+						//定义行数据字段
+						{ data: "id", name: "id", sortable: true },
+						{ data: "carLicense", name: "car_license", sortable: true },
+						{ data: "chargeType", name: "charge_type", sortable: true },
+						{ data: "start", name: "start", sortable: true },
+						{ data: "end", name: "end", sortable: true },
+						{ data: "sum", name: "sum", sortable: true },
+						{ data: "fee", name: "fee", sortable: true },
+						{ data: "operate", width: "80px", sortable: false },
+					],
 				});
 			},
 			initDateTimePicker: function () {
 				var self = this;
-				$('[name=dateTimePicker]').datetimepicker({
-					format: 'Y-m-d H:i:s',
+				$("[name=dateTimePicker]").datetimepicker({
+					format: "Y-m-d H:i:s",
 					onChangeDateTime: function (dp, $input) {
 						var modelProperty = $input.attr("modelProperty");
 						self.$set(self.parkingCharge, modelProperty, $input.val());
+						// 时间插件对于 @change 无效，在此绑定变更函数
+						initPayInfo();
 					},
 				});
-				$('[name=datePicker]').datetimepicker({
-					format: 'Y-m-d',
+				$("[name=datePicker]").datetimepicker({
+					format: "Y-m-d",
+					timepicker: false,
 					onChangeDateTime: function (dp, $input) {
 						var modelProperty = $input.attr("modelProperty");
-						self.$set(self.parkingCharge, modelProperty, $input.val());
+						if (modelProperty == "start") {
+							self.$set(self.parkingCharge, modelProperty, $input.val() + " 00:00:00");
+						} else if (modelProperty == "end") {
+							self.$set(self.parkingCharge, modelProperty, $input.val() + " 23:59:59");
+						}
+						initPayInfo();
 					},
 				});
 			},
@@ -219,19 +266,6 @@
 					createDate: "",
 					carLicense: "",
 					chargeType: "0",
-					parkingId: "0",
-					start: "",
-					end: "",
-					sum: "0",
-					fee: "0",
-				};
-			},
-			initAddModal2: function () {
-				this.parkingCharge = {
-					id: "",
-					createDate: "",
-					carLicense: "",
-					chargeType: "1",
 					parkingId: "0",
 					start: "",
 					end: "",
@@ -259,47 +293,113 @@
 					}
 				}); */
 			},
+			initAddModal2: function () {
+				this.parkingCharge = {
+					id: "",
+					createDate: "",
+					carLicense: "",
+					chargeType: "1",
+					parkingId: "0",
+					start: "",
+					end: "",
+					sum: "0",
+					fee: "0",
+					qrcode: "",
+				};
+				$("#qrcode").html("");
+			},
+			initPayInfo: function () {
+				var self = this;
+				self.pay.calculated = false;
+				if (
+					self.parkingCharge.carLicense == "" ||
+					self.parkingCharge.start == "" ||
+					self.parkingCharge.end == ""
+				) {
+					return;
+				}
+
+				$.ajax({
+					url: "/api/parkingCharge/fee",
+					type: "post",
+					contentType: "application/json",
+					data: JSON.stringify(self.parkingCharge),
+					success: function (rs) {
+						if (rs.status == 200) {
+							self.parkingCharge = rs.data;
+							self.pay.subject = self.parkingCharge.carLicense + " 缴费";
+							self.pay.outTradeNo = "PARKING_ORDER_" + new Date().getTime();
+							self.pay.totalAmount = self.parkingCharge.fee;
+							self.pay.body = "SFAC·停车缴费";
+							self.pay.calculated = true;
+							return;
+						} else {
+							return;
+						}
+					},
+					error: function (rs) {
+						return;
+					},
+				});
+			},
+			tradePayQr: function () {
+				// var self = this;
+				// if (!self.pay.calculated) {
+				// 	layer.alert("请输入车牌号、起止时间。", { icon: 0 });
+				// }
+
+				// var qrcode = new QRCode("qrcode", {
+				// 	width: 150,
+				// 	height: 150,
+				// });
+				this.qrcode = new QRCode("qrcode", {
+					width: 150,
+					height: 150,
+				});
+				this.qrcode.clear();
+				this.qrcode.makeCode("http://www.sfac.com" + Math.random());
+			},
 			initEditModal: function (id) {
 				var self = this;
 				$.ajax({
-					url : "/api/parkingCharge/" + id,
-					type : "get",
+					url: "/api/parkingCharge/" + id,
+					type: "get",
 					contentType: "application/json",
-					success : function (rs) {
+					success: function (rs) {
 						self.parkingCharge = rs;
 					},
-					error : function (data) {
-						layer.alert(data.responseText, {icon: 0});
-					}
+					error: function (data) {
+						layer.alert(data.responseText, { icon: 0 });
+					},
 				});
 			},
 			editModule: function () {
 				var self = this;
 				$.ajax({
-					url : "/api/parkingCharge",
-					type : "put",
+					url: "/api/parkingCharge",
+					type: "put",
 					contentType: "application/json",
-					data : JSON.stringify(self.parkingCharge),
-					success : function (rs) {
+					data: JSON.stringify(self.parkingCharge),
+					success: function (rs) {
 						if (rs.status == 200) {
 							self.initTable(self.defaultPageSize);
 						} else {
-							layer.msg(rs.message, {icon: 0});
+							layer.msg(rs.message, { icon: 0 });
 						}
 					},
-					error : function (rs) {
-						layer.msg(rs.responseText, {icon: 0});
-					}
+					error: function (rs) {
+						layer.msg(rs.responseText, { icon: 0 });
+					},
 				});
 			},
 			deleteModule: function (id) {
 				var self = this;
-				bootbox.confirm("Are you sure?", function(result) {
-					if(result) {
+				bootbox.confirm("Are you sure?", function (result) {
+					if (result) {
 						$.ajax({
-							url : "/api/parkingCharge/" + id,
-							type : "delete",
-							success : function (rs) {
+							url: "/api/parkingCharge/" + id,
+							type: "delete",
+							success: function (rs) {
 								if (rs.status == 200) {
 									self.initTable(self.defaultPageSize);
 								} else {
@@ -307,39 +407,37 @@
 									// layer.msg(rs.message, {icon: 0});
 								}
 							},
-							error : function (rs) {
-								layer.msg(rs.responseText, {icon: 0});
-							}
+							error: function (rs) {
+								layer.msg(rs.responseText, { icon: 0 });
+							},
 						});
 					}
 				});
 			},
-			initParkingChargeTypes: function() {
+			initParkingChargeTypes: function () {
 				var self = this;
 				$.ajax({
-					url : "/api/dictionary/parkingChargeType",
-					type : "get",
-					success : function (rs) {
+					url: "/api/dictionary/parkingChargeType",
+					type: "get",
+					success: function (rs) {
 						self.parkingChargeTypes = rs;
 					},
-					error : function (rs) {
-						layer.msg(rs.responseText, {icon: 0});
-					}
+					error: function (rs) {
+						layer.msg(rs.responseText, { icon: 0 });
+					},
 				});
-			},
-			tradePayQr: function() {
-				var self = this;
 			},
 		},
 		created: function () {
 			// 将 Vue 的方法赋值给 window 对象，以解决动态生成 Html 不能解析 @click 标签的问题
 			window.initEditModal = this.initEditModal;
 			window.deleteModule = this.deleteModule;
+			window.initPayInfo = this.initPayInfo;
 		},
 		mounted: function () {
 			this.initTable(this.defaultPageSize);
 			this.initParkingChargeTypes();
 			this.initDateTimePicker();
-		}
+		},
 	});
 </script>
