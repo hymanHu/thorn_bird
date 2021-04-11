@@ -306,7 +306,7 @@
 					fee: "0",
 					qrcode: "",
 				};
-				$("#qrcode").html("");
+				$("#qrcode").hide();
 			},
 			initPayInfo: function () {
 				var self = this;
@@ -348,16 +348,41 @@
 				// 	layer.alert("请输入车牌号、起止时间。", { icon: 0 });
 				// }
 
-				// var qrcode = new QRCode("qrcode", {
-				// 	width: 150,
-				// 	height: 150,
-				// });
-				this.qrcode = new QRCode("qrcode", {
-					width: 150,
-					height: 150,
-				});
+				// 生成二维码
+				if (this.qrcode == "") {
+					this.qrcode = new QRCode("qrcode", {
+						width: 150,
+						height: 150,
+					});
+				}
 				this.qrcode.clear();
 				this.qrcode.makeCode("http://www.sfac.com" + Math.random());
+				$("#qrcode").show();
+
+				// WebSocket
+				if (typeof WebSocket == "undefined") {
+					console.log("您的浏览器不支持 WebSocket.");
+				} else {
+					// 初始化 WebSocket 实例
+					var ws = new WebSocket("ws://127.0.0.1/api/webSocket");
+					// 创建连接
+					ws.onopen = function () {
+						console.log("websocket 已打开");
+						// ws.send("这是客户端发送到服务器的消息");
+					};
+					// 关闭连接
+					ws.onclose = function () {
+						console.log("连接已关闭...");
+					};
+					// 发生错误
+					ws.onerror = function () {
+						console.log("websocket发生了错误");
+					};
+					// 接收服务端消息
+					socket.onmessage = function (message) {
+						console.log("收到服务端信息：" + message);
+					};
+				}
 			},
 			initEditModal: function (id) {
 				var self = this;
