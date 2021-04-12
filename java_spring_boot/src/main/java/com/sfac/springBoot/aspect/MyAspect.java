@@ -36,7 +36,8 @@ public class MyAspect {
      * (..) 代表参数不限
      * Order 代表优先级，数字越小优先级越高
      */
-    @Pointcut("execution(public * com.sfac.springBoot.modules.*.controller.*.*(..))")
+    @Pointcut("execution(public * com.sfac.springBoot.modules.*.controller.*.*(..)) && "
+    		+ "!execution(public * com.sfac.springBoot.modules.common.controller.WebSocketController.*(..))")
     @Order(1)
     public void controllerPointCut(){}
 

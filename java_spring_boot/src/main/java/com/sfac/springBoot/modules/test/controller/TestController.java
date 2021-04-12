@@ -27,7 +27,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.sfac.springBoot.config.ResourceConfigBean;
-import com.sfac.springBoot.modules.common.controller.WebSocketController;
 import com.sfac.springBoot.modules.test.entity.ApplicationTest;
 import com.sfac.springBoot.modules.test.entity.City;
 import com.sfac.springBoot.modules.test.entity.Country;
@@ -64,18 +63,6 @@ public class TestController {
 	private CountryService countryService;
 	@Autowired
 	private ResourceConfigBean resourceConfigBean;
-	@Autowired
-	private WebSocketController webSocketController;
-	
-	/**
-	 * 127.0.0.1/test/webSocket ---- get
-	 */
-	@GetMapping("/webSocket")
-	@ResponseBody
-	public String sendMessageByWebSocket() {
-		webSocketController.onMessage("服务器群发消息……");
-		return "调用 WebSocket 广播消息。";
-	}
 	
 	/**
 	 * 127.0.0.1/test/webSocketIndex ---- get
