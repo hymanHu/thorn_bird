@@ -18,6 +18,7 @@ import com.alipay.api.request.AlipayTradePrecreateRequest;
 import com.alipay.api.response.AlipayTradePrecreateResponse;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sfac.springBoot.config.pay.AlipayConfigBean;
+import com.sfac.springBoot.modules.common.controller.WebSocketController;
 import com.sfac.springBoot.modules.common.entity.ResultEntity;
 import com.sfac.springBoot.modules.common.entity.ResultEntity.ResultStatus;
 import com.sfac.springBoot.modules.pay.entity.Alipay;
@@ -36,6 +37,8 @@ public class AlipayServiceImpl implements AlipayService {
 	private AlipayConfigBean alipayConfigBean;
 	@Autowired
 	private AlipayClient alipayClient;
+	@Autowired
+	private WebSocketController webSocketController;
 
 	@Override
 	public String tradePayPage(Alipay alipay) {
@@ -104,8 +107,14 @@ public class AlipayServiceImpl implements AlipayService {
 	@Override
 	public void tradePayNotify(HttpServletRequest request) {
 		LOGGER.debug("==== 支付异步回调，验签 ====");
+		ResultEntity<Object> result = null;
 		try {
 			verifySignature(request);
+			
+			result = new ResultEntity<Object>(ResultStatus.SUCCESS.status, "Pay success.");
+			ObjectMapper objectMapper = new ObjectMapper();
+			// 调用 WebSocket 通知页面扫码结果
+			webSocketController.sendMessage(objectMapper.writeValueAsString(result));
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOGGER.debug(e.getMessage());
@@ -117,17 +126,25 @@ public class AlipayServiceImpl implements AlipayService {
 		LOGGER.debug("==== 支付同步回调，验签 ====");
 		
 		boolean signVerified = false;
+		ResultEntity<Object> result = null;
 		try {
 			signVerified = verifySignature(request);
+			
+			if (signVerified) {
+				result = new ResultEntity<Object>(ResultStatus.SUCCESS.status, "Pay success.");
+			} else  {
+				result = new ResultEntity<Object>(ResultStatus.FAILED.status, "Pay Failed.");
+			}
+			
+			ObjectMapper objectMapper = new ObjectMapper();
+			// 调用 WebSocket 通知页面扫码结果
+			webSocketController.sendMessage(objectMapper.writeValueAsString(result));
 		} catch (Exception e) {
 			e.printStackTrace();
 			LOGGER.debug(e.getMessage());
 		}
 		
-		if (signVerified) {
-			return new ResultEntity<Object>(ResultStatus.SUCCESS.status, "Pay success.");
-		}
-		return new ResultEntity<Object>(ResultStatus.FAILED.status, "Pay Failed.");
+		return result;
 	}
 	
 	/**

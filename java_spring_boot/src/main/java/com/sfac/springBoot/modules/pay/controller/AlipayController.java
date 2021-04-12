@@ -55,10 +55,10 @@ public class AlipayController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/alipay/tradePayQr ---- get
+	 * 127.0.0.1/api/alipay/tradePayQr ---- post
 	 * {"outTradeNo":"ORDER_1617684756223", "totalAmount":4.44, "subject":"川A44444 停车缴费", "body":"停车无忧"}
 	 */
-	@GetMapping(value = "/tradePayQr", consumes = "application/json")
+	@PostMapping(value = "/tradePayQr", consumes = "application/json")
 	@ResponseBody
 	public String tradePayQr(@RequestBody Alipay alipay) {
 		return alipayService.tradePayQr(alipay);

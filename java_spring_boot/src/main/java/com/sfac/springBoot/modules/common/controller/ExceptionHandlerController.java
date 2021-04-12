@@ -57,7 +57,7 @@ public class ExceptionHandlerController {
         insertExceptionLog(request, ex);
         if (isInterface(request)) {
             return jsonResult(ResultEntity.ResultStatus.FAILED.status,
-                    "Unauthorized error", "/common/403");
+            		ex.getMessage(), "/common/500");
         } else {
             return pageResult("/common/500", HttpStatus.INTERNAL_SERVER_ERROR);
         }

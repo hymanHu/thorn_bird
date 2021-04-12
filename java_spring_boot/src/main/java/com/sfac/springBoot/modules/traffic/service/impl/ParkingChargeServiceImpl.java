@@ -6,6 +6,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 
 import javax.transaction.Transactional;
 
@@ -83,7 +84,8 @@ public class ParkingChargeServiceImpl implements ParkingChargeService {
 			}
 			Duration duration = Duration.between(parkingCharge.getStart(), parkingCharge.getEnd());
 			parkingCharge.setSum((duration.toMillis() % 60) > 0 ? (int)duration.toHours() + 1 : (int)duration.toHours());
-			parkingCharge.setFee(ParkingChargeType.LONG_TIME_STOP.unitPrice * duration.toHours());
+//			parkingCharge.setFee(ParkingChargeType.LONG_TIME_STOP.unitPrice * duration.toHours());
+			parkingCharge.setFee(new Random().nextInt(10));
 			return new ResultEntity<ParkingCharge>(
 					ResultStatus.SUCCESS.status, "计费成功。", parkingCharge);
 		}

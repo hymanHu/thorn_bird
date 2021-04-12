@@ -38,7 +38,6 @@
 								class="form-control"
 								type="text"
 								v-model="parkingCharge.start"
-								@change="initPayInfo()"
 							/>
 						</div>
 					</div>
@@ -51,7 +50,6 @@
 								class="form-control"
 								type="text"
 								v-model="parkingCharge.end"
-								@change="initPayInfo()"
 							/>
 						</div>
 					</div>
@@ -59,15 +57,15 @@
 					<div class="form-group row">
 						<label class="control-label col-md-4">订单</label>
 						<div class="col-md-8 input-group">
-							<input type="hidden" v-model="pay.outTradeNo" />
-							<input type="hidden" v-model="pay.body" />
-							<input class="form-control" type="text" v-model="pay.subject" readonly />
+							<input type="hidden" v-model="aliPay.outTradeNo" />
+							<input type="hidden" v-model="aliPay.body" />
+							<input class="form-control" type="text" v-model="aliPay.subject" readonly />
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-4">付费</label>
 						<div class="col-md-8 input-group">
-							<input class="form-control" type="text" v-model="pay.totalAmount" readonly />
+							<input class="form-control" type="text" v-model="aliPay.totalAmount" readonly />
 						</div>
 					</div>
 					<div class="form-group row">
@@ -77,17 +75,6 @@
 						<div id="qrcode" style="margin: 0 auto"></div>
 					</div>
 				</form>
-			</div>
-			<div class="modal-footer">
-				<!-- data-dismiss="modal"关闭模态框 -->
-				<a class="btn btn-secondary" href="#" data-dismiss="modal">
-					<i class="fa fa-fw fa-lg fa-times-circle"></i>
-					Cancel
-				</a>
-				<button id="addBtn" data-dismiss="modal" class="btn btn-primary" type="button" @click="insertModule()">
-					<i class="fa fa-fw fa-lg fa-check-circle"></i>
-					Submit
-				</button>
 			</div>
 		</div>
 	</div>
