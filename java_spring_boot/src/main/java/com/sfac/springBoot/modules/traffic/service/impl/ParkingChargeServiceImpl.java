@@ -74,7 +74,10 @@ public class ParkingChargeServiceImpl implements ParkingChargeService {
 	public ResultEntity<ParkingCharge> calculateParkingCharge(ParkingCharge parkingCharge) {
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		List<ParkingCharge> parkingCharges = Optional
-				.ofNullable(parkingChargeDao.getRepeatParkingCharges(parkingCharge.getStart(), parkingCharge.getEnd()))
+				.ofNullable(parkingChargeDao.getRepeatParkingCharges(
+						parkingCharge.getStart(), 
+						parkingCharge.getEnd(), 
+						parkingCharge.getCarLicense()))
 				.orElse(Collections.emptyList());
 		if (parkingCharge.getChargeType() == ParkingChargeType.LONG_TIME_STOP.code) {
 			if (!parkingCharges.isEmpty()) {

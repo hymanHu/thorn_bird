@@ -24,7 +24,7 @@
 						<button
 							type="button"
 							class="btn btn-primary"
-							@click="initAddModal2()"
+							@click="initAddModal()"
 							data-toggle="modal"
 							data-target="#addModal2"
 						>
@@ -273,6 +273,16 @@
 					sum: "0",
 					fee: "0",
 				};
+				this.aliPay = {
+					outTradeNo: "",
+					totalAmount: "",
+					subject: "",
+					body: "",
+					calculated: false,
+				};
+				this.qrcode = "";
+				this.ws = "";
+				$("#qrcode").hide();
 			},
 			insertModule: function () {
 				console.log(this.parkingCharge);
@@ -295,21 +305,6 @@
 						layer.msg(rs.responseText, { icon: 0 });
 					},
 				});
-			},
-			initAddModal2: function () {
-				this.parkingCharge = {
-					id: "",
-					createDate: "",
-					carLicense: "",
-					chargeType: "1",
-					parkingId: "0",
-					start: "",
-					end: "",
-					sum: "0",
-					fee: "0",
-					qrcode: "",
-				};
-				$("#qrcode").hide();
 			},
 			initPayInfo: function () {
 				var self = this;
@@ -335,13 +330,12 @@
 							self.aliPay.totalAmount = self.parkingCharge.fee;
 							self.aliPay.body = "SFAC·停车缴费";
 							self.aliPay.calculated = true;
-							return;
 						} else {
-							return;
+							layer.msg(rs.message, { icon: 0 });
 						}
 					},
 					error: function (rs) {
-						return;
+						layer.msg(rs.message, { icon: 0 });
 					},
 				});
 			},

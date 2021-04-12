@@ -63,7 +63,11 @@ public interface ParkingChargeDao {
 			+ "and charge_type = 1 order by end desc limit 1")
 	ParkingCharge getLastLongTimeChargeByCarLicense(String carLicense);
 	
-	@Select("select * from traffic_parking_charge where start < #{end} and end > #{start} order by end desc")
-	List<ParkingCharge> getRepeatParkingCharges(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
+	@Select("select * from traffic_parking_charge where start < #{end} and end > #{start} "
+			+ "and car_license = #{carLicense} order by end desc")
+	List<ParkingCharge> getRepeatParkingCharges(
+			@Param("start") LocalDateTime start, 
+			@Param("end") LocalDateTime end, 
+			@Param("carLicense") String carLicense);
 
 }
