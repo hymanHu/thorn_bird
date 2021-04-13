@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2021-03-12 17:06:57
+Date: 2021-04-13 13:36:01
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -29,11 +29,12 @@ CREATE TABLE `traffic_parking_charge` (
   `sum` int(11) NOT NULL,
   `fee` double NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of traffic_parking_charge
 -- ----------------------------
+INSERT INTO `traffic_parking_charge` VALUES ('1', '2021-04-13 13:35:17', '川A11111', '1', '0', '2021-04-01 00:00:00', '2021-04-30 23:59:59', '720', '1');
 
 -- ----------------------------
 -- Table structure for `traffic_parking_space`
@@ -45,12 +46,12 @@ CREATE TABLE `traffic_parking_space` (
   `parking_space_type` varchar(255) DEFAULT NULL,
   `status` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=102 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of traffic_parking_space
 -- ----------------------------
-INSERT INTO `traffic_parking_space` VALUES ('1', '2021-03-11 16:43:47', 'standard', '1');
+INSERT INTO `traffic_parking_space` VALUES ('1', '2021-03-11 16:43:47', 'mini', '0');
 INSERT INTO `traffic_parking_space` VALUES ('2', '2021-03-11 16:43:47', 'mini', '0');
 INSERT INTO `traffic_parking_space` VALUES ('3', '2021-03-11 16:43:47', 'mini', '0');
 INSERT INTO `traffic_parking_space` VALUES ('4', '2021-03-11 16:43:47', 'mini', '0');

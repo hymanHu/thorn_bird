@@ -2,40 +2,91 @@
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title" id="editLabel" style="font-size: 18px; font-weight: 500;">ParkingCharge Edit</h4>
+				<h4 class="modal-title" id="editLabel" style="font-size: 18px; font-weight: 500">车辆出场</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
 			</div>
 			<div class="modal-body">
 				<form class="form-horizontal">
 					<input type="hidden" v-model:value="parkingCharge.id" />
 					<div class="form-group row">
-						<label class="control-label col-md-4">Parking Space Type</label>
+						<label class="control-label col-md-4">车牌号</label>
 						<div class="col-md-8">
-							<select class="form-control" v-model:value="parkingCharge.parkingChargeType">
-								<option v-for="(type, index) in parkingChargeTypes"
-									 :value="type.name">{{type.desc}}</option>
+							<input
+								v-model:value="parkingCharge.carLicense"
+								class="form-control"
+								type="text"
+								placeholder="Enter car license"
+								@change="initPayInfo()"
+								readonly
+							/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-4">停车类型</label>
+						<div class="col-md-8">
+							<select class="form-control" disabled="disabled" v-model:value="parkingCharge.chargeType">
+								<option v-for="(type, index) in parkingChargeTypes" :value="type.code">
+									{{type.desc}}
+								</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="control-label col-md-4">Parking Space Status</label>
-						<div class="col-md-8">
-							<select class="form-control" v-model:value="parkingCharge.status">
-								<option v-for="(status, index) in parkingChargeStatus"
-									 :value="status.status">{{status.desc}}</option>
-							</select>
+						<label class="control-label col-md-4">进场时间</label>
+						<div class="col-md-8 input-group">
+							<input
+								modelProperty="start"
+								class="form-control"
+								type="text"
+								v-model="parkingCharge.start"
+								readonly
+							/>
 						</div>
 					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-4">出场时间</label>
+						<div class="col-md-8 input-group">
+							<input
+								name="dateTimePicker"
+								modelProperty="end"
+								class="form-control"
+								type="text"
+								v-model="parkingCharge.end"
+							/>
+						</div>
+					</div>
+					<div class="form-group row" style="border-top: 1px solid #dee2e6"></div>
+					<div class="form-group row">
+						<label class="control-label col-md-4">订单</label>
+						<div class="col-md-8 input-group">
+							<input type="hidden" v-model="aliPay.outTradeNo" />
+							<input type="hidden" v-model="aliPay.body" />
+							<input class="form-control" type="text" v-model="aliPay.subject" readonly />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-4">付费</label>
+						<div class="col-md-8 input-group">
+							<input class="form-control" type="text" v-model="aliPay.totalAmount" readonly />
+						</div>
+					</div>
+					<div id="payDiv" class="form-group row">
+						<button class="btn btn-success btn-block" type="button" @click="tradePayQr()">支付</button>
+					</div>
+					<div class="form-group row">
+						<div id="qrcode2" style="margin: 0 auto"></div>
+					</div>
+					<div id="nonPayDiv" class="form-group row">
+						<button
+							data-dismiss="modal"
+							class="btn btn-success btn-block"
+							type="button"
+							@click="editModule()"
+						>
+							无需付费出场
+						</button>
+					</div>
 				</form>
-			</div>
-			<div class="modal-footer">
-				<!-- data-dismiss="modal"关闭模态框 -->
-				<a class="btn btn-secondary" href="#" data-dismiss="modal">
-					<i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel
-				</a>
-				<button id="editBtn" data-dismiss="modal" class="btn btn-primary" type="button" @click="editModule()">
-					<i class="fa fa-fw fa-lg fa-check-circle"></i>Submit
-				</button>
 			</div>
 		</div>
 	</div>

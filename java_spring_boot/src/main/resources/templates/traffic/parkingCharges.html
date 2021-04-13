@@ -24,7 +24,7 @@
 						<button
 							type="button"
 							class="btn btn-primary"
-							@click="initAddModal()"
+							@click="initAddModal($event)"
 							data-toggle="modal"
 							data-target="#addModal2"
 						>
@@ -33,7 +33,7 @@
 						<button
 							type="button"
 							class="btn btn-primary"
-							@click="initAddModal()"
+							@click="initAddModal($event)"
 							data-toggle="modal"
 							data-target="#addModal"
 						>
@@ -76,7 +76,7 @@
 	<!-- 碎片文件要放在 Vue 控制的 Div 里 -->
 	<div th:replace="traffic/parkingChargeAdd"></div>
 	<div th:replace="traffic/parkingChargeAdd2"></div>
-	<!-- <div th:replace="traffic/parkingChargeEdit"></div> -->
+	<div th:replace="traffic/parkingChargeEdit"></div>
 </div>
 <!-- /page content -->
 
@@ -122,7 +122,7 @@
 				var RowData = {};
 				RowData.id = id;
 				RowData.carLicense = carLicense;
-				RowData.chargeType = chargeType;
+				RowData.chargeType = chargeType == 0 ? "临时停车" : "会员缴费";
 				RowData.parkingId = parkingId;
 				RowData.start = start;
 				RowData.end = end;
@@ -130,15 +130,23 @@
 				RowData.fee = fee;
 				RowData.createDate = createDate;
 				RowData.operate = function () {
-					return (
-						"<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#editModal' " +
-						"onclick='initEditModal(\"" +
-						id +
-						"\")'>编辑</a>&nbsp;" +
-						"<a href='javascript:void(0);' onclick='deleteModule(\"" +
-						id +
-						"\")' class='btn_editcolor'>删除</a>"
-					);
+					var opreteString = "";
+					if (chargeType == 1) {
+						opreteString =
+							"<a href='javascript:void(0);' onclick='deleteModule(\"" +
+							id +
+							"\")' class='btn_editcolor'>删除</a>";
+					} else {
+						opreteString =
+							"<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#editModal' " +
+							"onclick='initEditModal(\"" +
+							id +
+							"\")'>出场</a>&nbsp;&nbsp;" +
+							"<a href='javascript:void(0);' onclick='deleteModule(\"" +
+							id +
+							"\")' class='btn_editcolor'>删除</a>";
+					}
+					return opreteString;
 				};
 				return RowData;
 			},
@@ -247,23 +255,29 @@
 						initPayInfo();
 					},
 				});
-				$("[name=datePicker]").datetimepicker({
-					format: "Y-m-d",
+				$("[name=datePickerForStart]").datetimepicker({
+					format: "Y-m-d 00:00:00",
 					timepicker: false,
 					onChangeDateTime: function (dp, $input) {
 						var modelProperty = $input.attr("modelProperty");
-						if (modelProperty == "start") {
-							self.$set(self.parkingCharge, modelProperty, $input.val() + " 00:00:00");
-						} else if (modelProperty == "end") {
-							self.$set(self.parkingCharge, modelProperty, $input.val() + " 23:59:59");
-						}
+						self.$set(self.parkingCharge, modelProperty, $input.val());
+						initPayInfo();
+					},
+				});
+				$("[name=datePickerForEnd]").datetimepicker({
+					format: "Y-m-d 23:59:59",
+					timepicker: false,
+					onChangeDateTime: function (dp, $input) {
+						var modelProperty = $input.attr("modelProperty");
+						self.$set(self.parkingCharge, modelProperty, $input.val());
 						initPayInfo();
 					},
 				});
 			},
-			initAddModal: function () {
+			initAddModal: function (event) {
+				var targer = event.currentTarget.attributes.getNamedItem("data-target").value;
 				this.parkingCharge = {
-					id: "",
+					id: "0",
 					createDate: "",
 					carLicense: "",
 					chargeType: "0",
@@ -273,6 +287,10 @@
 					sum: "0",
 					fee: "0",
 				};
+				// 默认临时停车，此处为会员交费类型
+				if (targer == "#addModal2") {
+					this.parkingCharge.chargeType = "1";
+				}
 				this.aliPay = {
 					outTradeNo: "",
 					totalAmount: "",
@@ -282,7 +300,7 @@
 				};
 				this.qrcode = "";
 				this.ws = "";
-				$("#qrcode").hide();
+				$("#qrcode2").hide();
 			},
 			insertModule: function () {
 				console.log(this.parkingCharge);
@@ -306,108 +324,19 @@
 					},
 				});
 			},
-			initPayInfo: function () {
-				var self = this;
-				self.aliPay.calculated = false;
-				if (
-					self.parkingCharge.carLicense == "" ||
-					self.parkingCharge.start == "" ||
-					self.parkingCharge.end == ""
-				) {
-					return;
-				}
-
-				$.ajax({
-					url: "/api/parkingCharge/fee",
-					type: "post",
-					contentType: "application/json",
-					data: JSON.stringify(self.parkingCharge),
-					success: function (rs) {
-						if (rs.status == 200) {
-							self.parkingCharge = rs.data;
-							self.aliPay.subject = self.parkingCharge.carLicense + " 缴费";
-							self.aliPay.outTradeNo = "PARKING_ORDER_" + new Date().getTime();
-							self.aliPay.totalAmount = self.parkingCharge.fee;
-							self.aliPay.body = "SFAC·停车缴费";
-							self.aliPay.calculated = true;
-						} else {
-							layer.msg(rs.message, { icon: 0 });
-						}
-					},
-					error: function (rs) {
-						layer.msg(rs.message, { icon: 0 });
-					},
-				});
-			},
-			tradePayQr: function () {
-				var self = this;
-				if (!self.aliPay.calculated) {
-					layer.alert("请输入车牌号、起止时间。", { icon: 0 });
-					return;
-				}
-
-				$.ajax({
-					url: "/api/alipay/tradePayQr",
-					type: "post",
-					contentType: "application/json",
-					data: JSON.stringify(self.aliPay),
-					success: function (rs) {
-						if (rs == "") {
-							layer.alert("生成二维码失败！", { icon: 0 });
-							return;
-						}
-
-						// 生成二维码
-						if (self.qrcode == "") {
-							self.qrcode = new QRCode("qrcode", {
-								width: 150,
-								height: 150,
-							});
-						}
-						self.qrcode.clear();
-						self.qrcode.makeCode(rs);
-						$("#qrcode").show();
-
-						// 创建 WebSocket
-						if (typeof WebSocket == "undefined") {
-							console.log("您的浏览器不支持 WebSocket.");
-						} else {
-							// 初始化 WebSocket 实例
-							if (self.ws == "") {
-								// ws = new WebSocket("wss://127.0.0.1/api/webSocket");
-								self.ws = new WebSocket("ws://127.0.0.1/api/webSocket");
-							}
-							// 创建连接
-							self.ws.onopen = function () {
-								console.log("websocket 已打开");
-							};
-							// 关闭连接
-							self.ws.onclose = function () {
-								console.log("连接已关闭...");
-							};
-							// 发生错误
-							self.ws.onerror = function () {
-								console.log("websocket发生了错误");
-							};
-							// 接收服务端消息
-							self.ws.onmessage = function (message) {
-								console.log("收到服务端信息：" + message);
-
-								var result = eval("(" + message.data + ")");
-								if (result.status == 200) {
-									self.insertModule();
-								} else {
-									layer.msg(result.message, { icon: 0 });
-								}
-							};
-						}
-					},
-					error: function (rs) {
-						layer.msg(rs.responseText, { icon: 0 });
-					},
-				});
-			},
 			initEditModal: function (id) {
+				this.aliPay = {
+					outTradeNo: "",
+					totalAmount: "",
+					subject: "",
+					body: "",
+					calculated: false,
+				};
+				this.qrcode = "";
+				this.ws = "";
+				$("#payDiv").hide();
+				$("#nonPayDiv").hide();
+				$("#qrcode2").hide();
 				var self = this;
 				$.ajax({
 					url: "/api/parkingCharge/" + id,
@@ -431,6 +360,8 @@
 					success: function (rs) {
 						if (rs.status == 200) {
 							self.initTable(self.defaultPageSize);
+							// 关闭模态框
+							$("#editModal").modal("hide");
 						} else {
 							layer.msg(rs.message, { icon: 0 });
 						}
@@ -469,6 +400,119 @@
 					type: "get",
 					success: function (rs) {
 						self.parkingChargeTypes = rs;
+					},
+					error: function (rs) {
+						layer.msg(rs.responseText, { icon: 0 });
+					},
+				});
+			},
+			initPayInfo: function () {
+				var self = this;
+				self.aliPay.calculated = false;
+				if (
+					self.parkingCharge.carLicense == "" ||
+					self.parkingCharge.start == "" ||
+					self.parkingCharge.end == ""
+				) {
+					return;
+				}
+
+				$.ajax({
+					url: "/api/parkingCharge/fee",
+					type: "post",
+					contentType: "application/json",
+					data: JSON.stringify(self.parkingCharge),
+					success: function (rs) {
+						if (rs.status == 200) {
+							self.parkingCharge = rs.data;
+							self.aliPay.subject = self.parkingCharge.carLicense + " 缴费";
+							self.aliPay.outTradeNo = "PARKING_ORDER_" + new Date().getTime();
+							self.aliPay.totalAmount = self.parkingCharge.fee;
+							self.aliPay.body = "SFAC·停车缴费";
+							self.aliPay.calculated = true;
+							if (self.aliPay.totalAmount > 0) {
+								$("#payDiv").show();
+								$("#nonPayDiv").hide();
+							} else {
+								$("#payDiv").hide();
+								$("#nonPayDiv").show();
+							}
+						} else {
+							layer.msg(rs.message, { icon: 0 });
+						}
+					},
+					error: function (rs) {
+						layer.msg(rs.message, { icon: 0 });
+					},
+				});
+			},
+			tradePayQr: function () {
+				var self = this;
+				if (!self.aliPay.calculated) {
+					layer.alert("请输入车牌号、起止时间。", { icon: 0 });
+					return;
+				}
+
+				$.ajax({
+					url: "/api/alipay/tradePayQr",
+					type: "post",
+					contentType: "application/json",
+					data: JSON.stringify(self.aliPay),
+					success: function (rs) {
+						if (rs == "") {
+							layer.alert("生成二维码失败！", { icon: 0 });
+							return;
+						}
+
+						// 生成二维码
+						if (self.qrcode == "") {
+							var qrcodeDiv = self.parkingCharge.id > 0 ? "qrcode2" : "qrcode";
+							self.qrcode = new QRCode(qrcodeDiv, {
+								width: 150,
+								height: 150,
+							});
+						}
+						self.qrcode.clear();
+						self.qrcode.makeCode(rs);
+						$("#" + qrcodeDiv + "").show();
+
+						// 创建 WebSocket
+						if (typeof WebSocket == "undefined") {
+							console.log("您的浏览器不支持 WebSocket.");
+						} else {
+							// 初始化 WebSocket 实例
+							if (self.ws == "") {
+								// ws = new WebSocket("wss://127.0.0.1/api/webSocket");
+								self.ws = new WebSocket("ws://127.0.0.1/api/webSocket");
+							}
+							// 创建连接
+							self.ws.onopen = function () {
+								console.log("websocket 已打开");
+							};
+							// 关闭连接
+							self.ws.onclose = function () {
+								console.log("连接已关闭...");
+							};
+							// 发生错误
+							self.ws.onerror = function () {
+								console.log("websocket发生了错误");
+							};
+							// 接收服务端消息
+							self.ws.onmessage = function (message) {
+								console.log("收到服务端信息：" + message);
+
+								var result = eval("(" + message.data + ")");
+								if (result.status == 200) {
+									if (self.parkingCharge.id > 0) {
+										self.editModule();
+									} else {
+										self.insertModule();
+									}
+								} else {
+									layer.msg(result.message, { icon: 0 });
+								}
+							};
+						}
 					},
 					error: function (rs) {
 						layer.msg(rs.responseText, { icon: 0 });

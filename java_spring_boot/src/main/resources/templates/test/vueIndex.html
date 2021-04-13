@@ -7,9 +7,7 @@
 	<div class="">
 		<div class="page-title">
 			<div class="title_left">
-				<h3>
-					Vue Index Page
-				</h3>
+				<h3>Vue Index Page</h3>
 			</div>
 		</div>
 
@@ -21,28 +19,30 @@
 			<form action="javascript:void(0);">
 				<h3>{{title}}</h3>
 				<h3>单向绑定</h3>
-				<p>UserName: <input type="text" v-bind:value="user.userName"/></p>
+				<p>UserName: <input type="text" v-bind:value="user.userName" /></p>
 				<p>Password: <input type="text" :value="user.password" /></p>
 				<p>===========================================</p>
 				<h3>双向绑定</h3>
-				<input type="hidden" v-model:value="user.id"/>
-				<p>UserName: <input type="text" v-model:value="user.userName"/></p>
+				<input type="hidden" v-model:value="user.id" />
+				<p>UserName: <input type="text" v-model:value="user.userName" /></p>
 				<p>Password: <input type="text" v-model:value="user.password" /></p>
 				<p>Email: <input type="text" v-model:value="user.email" /></p>
 				<p>UserImage: <input type="text" v-model:value="user.userImage" /></p>
 				<p>===========================================</p>
 				<h3>事件绑定</h3>
-				<input type="button" @click="test1()" value="test_1">
-				<input type="button" @click="test2($event)" name="test_2" value="test_2">
+				<input type="button" @click="test1()" value="test_1" />
+				<input type="button" @click="test2($event)" name="test_2" value="test_2" myData="hoho" />
 				<p>===========================================</p>
 				<h3>循环</h3>
-				<span v-for="(role, index) in roles">
-					<input type="checkbox" :value="role.id" /> {{role.name}}
-				</span>
+				<span v-for="(role, index) in roles"> <input type="checkbox" :value="role.id" /> {{role.name}} </span>
 				<table>
-					<tr><td>ID</td><td>Name</td></tr>
+					<tr>
+						<td>ID</td>
+						<td>Name</td>
+					</tr>
 					<tr v-for="(role, index) in roles">
-						<td>{{role.id}}</td><td>{{role.name}}</td>
+						<td>{{role.id}}</td>
+						<td>{{role.name}}</td>
 					</tr>
 				</table>
 				<p>===========================================</p>
@@ -66,74 +66,75 @@
 	/* $(function() {
 		initUser();
 	}); */
-	
+
 	// 注册组件须放在 Vue 示例之前，不然会抛出警告信息
 	Vue.component("button-demo", {
 		template: "<button>11111</button>",
 	});
-	
+
 	Vue.component("button-count", {
-		data: function() {
-			return {count: 0}
+		data: function () {
+			return { count: 0 };
 		},
 		methods: {
 			countFunction: function () {
-				this.count ++;
-			}
+				this.count++;
+			},
 		},
 		template: "<button @click='countFunction()'>{{count}}</button>",
 	});
-	
+
 	var vueTest = new Vue({
 		el: "#vueTest",
 		data: {
 			title: "Vue test",
 			user: {
 				id: "11",
-				userName:"HymanHu",
-				password:"111111",
-				email:"hj@163.com",
-				userImage:"/upload/18.png",
+				userName: "HymanHu",
+				password: "111111",
+				email: "hj@163.com",
+				userImage: "/upload/18.png",
 			},
 			roles: [
-				{id: 1, name: "admin"},
-				{id: 2, name: "manager"},
-				{id: 3, name: "staff"},
+				{ id: 1, name: "admin" },
+				{ id: 2, name: "manager" },
+				{ id: 3, name: "staff" },
 			],
 		},
-		methods:{
-			test1: function() {
+		methods: {
+			test1: function () {
 				console.log(this.user);
-				
 			},
-			test2: function(event) {
+			test2: function (event) {
 				console.log(event.currentTarget.name);
+				console.log(event.currentTarget.attributes.getNamedItem("myData"));
+				console.log(event.currentTarget.attributes.getNamedItem("myData").name);
+				console.log(event.currentTarget.attributes.getNamedItem("myData").value);
 			},
-			initUser: function() {
+			initUser: function () {
 				var userId = $("#userId").val();
 				var self = this;
 				$.ajax({
-					url : "/api/user/" + userId,
-					type : "get",
-					success : function (rs) {
+					url: "/api/user/" + userId,
+					type: "get",
+					success: function (rs) {
 						self.user = rs;
 					},
-					error : function (data) {
-						layer.msg(data.responseText, {icon: 0});
-					}
+					error: function (data) {
+						layer.msg(data.responseText, { icon: 0 });
+					},
 				});
-			}
+			},
 		},
 		components: {
-			"hello-component": httpVueLoader('/components/hello.vue'),
-			"vueqr-component": httpVueLoader('/components/qrCode.vue'),
+			"hello-component": httpVueLoader("/components/hello.vue"),
+			"vueqr-component": httpVueLoader("/components/qrCode.vue"),
 		},
-		created: function() {
+		created: function () {
 			window.initUser = this.initUser;
 		},
-		mounted: function() {
+		mounted: function () {
 			this.initUser();
-		}
+		},
 	});
-	
 </script>

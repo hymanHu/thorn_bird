@@ -32,7 +32,7 @@ public interface ParkingChargeDao {
 	void insertParkingCharge(ParkingCharge parkingCharge);
 	
 	@Update("update traffic_parking_charge set car_license = #{carLicense}, charge_type = #{chargeType}, "
-			+ "parking_id = #{parkingId}, start = #{start}, end = #{end}, sum = #{sum}, fee = #{fee}")
+			+ "parking_id = #{parkingId}, start = #{start}, end = #{end}, sum = #{sum}, fee = #{fee} where id = #{id}")
 	void updateParkingCharge(ParkingCharge parkingCharge);
 	
 	@Delete("delete from traffic_parking_charge where id = #{id}")
