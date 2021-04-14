@@ -14,10 +14,6 @@ public interface UserService {
 	
 	User getUserByUserNameAndPassword(String userName, String password);
 	
-	ResultEntity<User> login(User user);
-
-	void logout();
-	
 	ResultEntity<User> insertUser(User user);
 	
 	ResultEntity<User> updateUser(User user);
@@ -28,5 +24,4 @@ public interface UserService {
 	
 	PageInfo<User> getUsersBySearchBean(SearchBean searchBean);
 	
-	User getUserByUserName(String userName);
 }

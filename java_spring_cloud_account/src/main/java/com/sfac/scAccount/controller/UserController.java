@@ -1,6 +1,5 @@
 package com.sfac.scAccount.controller;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,15 +28,6 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-	/**
-	 * 127.0.0.1/api/login ---- post
-	 * {"userName":"admin", "password":"111111"}
-	 */
-	@PostMapping(value = "/login", consumes = "application/json")
-	public ResultEntity<User> login(@RequestBody User user) {
-		return userService.login(user);
-	}
-	
 	/**
 	 * 127.0.0.1/api/user ---- post
 	 * {"userName":"admin", "password":"111111"}
@@ -68,7 +58,6 @@ public class UserController {
 	 * 127.0.0.1/api/user/1 ---- delete
 	 */
 	@DeleteMapping("/user/{id}")
-	@RequiresPermissions("deleteUser")
 	public ResultEntity<Object> deleteUserById(@PathVariable int id) {
 		return userService.deleteUserById(id);
 	}
