@@ -1,4 +1,4 @@
-package com.sfac.springBoot.util;
+package com.sfac.common.util;
 
 import org.apache.commons.lang3.StringUtils;
 
