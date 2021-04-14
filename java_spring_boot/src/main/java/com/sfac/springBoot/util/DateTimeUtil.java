@@ -65,7 +65,7 @@ public class DateTimeUtil {
 		System.out.println(DateTimeUtil.calculateOverlappingTime(
 				LocalDateTime.parse("2021-04-01T00:00"), 
 				LocalDateTime.parse("2021-04-30T23:59:59"), 
-				LocalDateTime.parse("2021-04-13T13:37:11"), 
-				LocalDateTime.parse("2021-04-14T13:38:41")));
+				LocalDateTime.parse("2021-04-14T09:05:46"), 
+				LocalDateTime.parse("2021-04-24T09:05:54")));
 	}
 }

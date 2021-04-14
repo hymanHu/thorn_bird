@@ -131,7 +131,7 @@
 				RowData.createDate = createDate;
 				RowData.operate = function () {
 					var opreteString = "";
-					if (chargeType == 1) {
+					if (chargeType == 1 || end != null) {
 						opreteString =
 							"<a href='javascript:void(0);' onclick='deleteModule(\"" +
 							id +

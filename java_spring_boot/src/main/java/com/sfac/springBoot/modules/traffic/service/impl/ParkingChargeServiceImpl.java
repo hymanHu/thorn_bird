@@ -73,6 +73,10 @@ public class ParkingChargeServiceImpl implements ParkingChargeService {
 	@Transactional
 	public ResultEntity<ParkingCharge> updateParkingCharge(ParkingCharge parkingCharge) {
 		parkingChargeDao.updateParkingCharge(parkingCharge);
+		// 车位变更状态
+		ParkingSpace parkingSpace = parkingSpaceDao.getParkingSpaceById(parkingCharge.getParkingId());
+		parkingSpace.setStatus(ParkingSpaceStatus.IDLE.status);
+		parkingSpaceDao.updateParkingSpace(parkingSpace);
 		return new ResultEntity<ParkingCharge>(ResultStatus.SUCCESS.status, "Update success.", parkingCharge);
 	}
 
@@ -137,7 +141,7 @@ public class ParkingChargeServiceImpl implements ParkingChargeService {
 			
 			// 设置总停车时间
 			Duration duration = Duration.between(parkingCharge.getStart(), parkingCharge.getEnd());
-			int sum = (duration.toMillis() % 60) > 0 ? (int)duration.toHours() + 1 : (int)duration.toHours();
+			int sum = (duration.toMinutes() % 60) > 0 ? (int)duration.toHours() + 1 : (int)duration.toHours();
 			parkingCharge.setSum(sum);
 			// 根据停车位和时间计算价格，计费时间要减去会员缴费重叠时间
 			ParkingSpace parkingSpace = parkingSpaceDao.getParkingSpaceById(parkingCharge.getParkingId());
