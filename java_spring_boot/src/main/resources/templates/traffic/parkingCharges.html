@@ -465,8 +465,8 @@
 						}
 
 						// 生成二维码
+						var qrcodeDiv = self.parkingCharge.id > 0 ? "qrcode2" : "qrcode";
 						if (self.qrcode == "") {
-							var qrcodeDiv = self.parkingCharge.id > 0 ? "qrcode2" : "qrcode";
 							self.qrcode = new QRCode(qrcodeDiv, {
 								width: 150,
 								height: 150,
