@@ -24,7 +24,7 @@ public class JavaEEApplication {
 		String classesDir = new File("target/classes").getAbsolutePath();
 		String appDir = new File("src/main/webapp").getAbsolutePath();
 		System.out.println(String.format("Classes Dir: %s", classesDir));
-		System.out.println(String.format("Webapp Dir: %s", classesDir));
+		System.out.println(String.format("Webapp Dir: %s", appDir));
 		
 		// 创建 Tomcat，并设置基础目录、端口、连接器
 		Tomcat tomcat = new Tomcat();

@@ -5,7 +5,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,8 +29,11 @@ import com.sfac.scTest.service.CityService;
 @Service
 public class CityServiceImpl implements CityService {
 	
+	private final static Logger LOGGER = LoggerFactory.getLogger(CityServiceImpl.class);
 	@Autowired
 	private CityDao cityDao;
+	@Value("${server.port}")
+	private int port;
 
 	@Override
 	@Transactional
@@ -55,6 +61,7 @@ public class CityServiceImpl implements CityService {
 
 	@Override
 	public City getCityByCityId(int cityId) {
+		LOGGER.debug(String.format("==== %d ====", port));
 		return cityDao.getCityByCityId(cityId);
 	}
 

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Repository;
 
 import com.sfac.common.entity.account.User;
 import com.sfac.common.entity.common.SearchBean;
+import com.sfac.scAccount.entity.UserVo;
 
 /**
  * @Description: User Dao
@@ -55,6 +56,9 @@ public interface UserDao {
 			many=@Many(select="com.sfac.scAccount.dao.RoleDao.getRolesByUserId"))
 	})
 	User getUserById(int id);
+	
+	@Select("select * from account_user where id = #{id}")
+	UserVo getUserVoById(int id);
 	
 	@Delete("delete from account_user where id = #{id}")
 	void deleteUserById(int id);

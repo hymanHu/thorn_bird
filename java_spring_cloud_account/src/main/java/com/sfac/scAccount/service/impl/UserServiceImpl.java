@@ -9,6 +9,7 @@ import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -16,8 +17,10 @@ import com.sfac.common.entity.account.User;
 import com.sfac.common.entity.account.UserRole;
 import com.sfac.common.entity.common.ResultEntity;
 import com.sfac.common.entity.common.SearchBean;
+import com.sfac.common.entity.test.City;
 import com.sfac.scAccount.dao.UserDao;
 import com.sfac.scAccount.dao.UserRoleDao;
+import com.sfac.scAccount.entity.UserVo;
 import com.sfac.scAccount.service.UserService;
 import com.sfac.scAccount.util.MD5Util;
 
@@ -33,6 +36,21 @@ public class UserServiceImpl implements UserService {
 	private UserDao userDao;
 	@Autowired
 	private UserRoleDao userRoleDao;
+	@Autowired
+	private RestTemplate restTemplate;
+	
+	@Override
+	public UserVo getUserVoById(int id) {
+		UserVo userVo = userDao.getUserVoById(id);
+		/*
+		 * getForEntity：返回 ResponseEntity<T>，Spring 对 HTTP 请求响应的封装，
+		 * - 包括了几个重要的元素，如响应码、contentType、contentLength、响应消息体等
+		 * getForObject：只注返回的消息体的内容
+		 */
+		City city = restTemplate.getForObject("http://client-test/api/city/{countryId}", City.class, 1890);
+		userVo.setCity(city);
+		return userVo;
+	}
 
 	@Override
 	public User getUserByUserNameAndPassword(String userName, String password) {

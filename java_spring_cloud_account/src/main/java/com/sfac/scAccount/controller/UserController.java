@@ -14,6 +14,7 @@ import com.github.pagehelper.PageInfo;
 import com.sfac.common.entity.account.User;
 import com.sfac.common.entity.common.ResultEntity;
 import com.sfac.common.entity.common.SearchBean;
+import com.sfac.scAccount.entity.UserVo;
 import com.sfac.scAccount.service.UserService;
 
 /**
@@ -52,6 +53,14 @@ public class UserController {
 	@GetMapping("/user/{id}")
 	public User getUserById(@PathVariable int id) {
 		return userService.getUserById(id);
+	}
+	
+	/**
+	 * 127.0.0.1/api/userVo/1 ---- get
+	 */
+	@GetMapping("/userVo/{id}")
+	public UserVo getUserVoById(@PathVariable int id) {
+		return userService.getUserVoById(id);
 	}
 	
 	/**
