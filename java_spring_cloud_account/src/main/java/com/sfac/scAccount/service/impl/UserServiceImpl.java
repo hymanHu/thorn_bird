@@ -1,9 +1,11 @@
 package com.sfac.scAccount.service.impl;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Supplier;
 
 import javax.transaction.Transactional;
 
@@ -24,6 +26,14 @@ import com.sfac.scAccount.entity.UserVo;
 import com.sfac.scAccount.service.UserService;
 import com.sfac.scAccount.util.MD5Util;
 
+import io.github.resilience4j.circuitbreaker.CircuitBreaker;
+import io.github.resilience4j.circuitbreaker.CircuitBreakerConfig;
+import io.github.resilience4j.ratelimiter.RateLimiter;
+import io.github.resilience4j.ratelimiter.RateLimiterConfig;
+import io.github.resilience4j.retry.Retry;
+import io.github.resilience4j.retry.RetryConfig;
+import io.vavr.control.Try;
+
 /**
  * @Description: User Service Impl
  * @author: HymanHu
@@ -42,13 +52,61 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public UserVo getUserVoById(int id) {
 		UserVo userVo = userDao.getUserVoById(id);
+		
 		/*
 		 * getForEntity：返回 ResponseEntity<T>，Spring 对 HTTP 请求响应的封装，
 		 * - 包括了几个重要的元素，如响应码、contentType、contentLength、响应消息体等
 		 * getForObject：只注返回的消息体的内容
 		 */
-		City city = restTemplate.getForObject("http://client-test/api/city/{countryId}", City.class, 1890);
-		userVo.setCity(city);
+//		City city = restTemplate.getForObject("http://client-test/api/city/{countryId}", City.class, 1890);
+//		userVo.setCity(city);
+		
+		/*
+		 * - 重试策略
+		 * - 在生产者接口里书写 1/0 运行时异常，调用该接口可查看生产者控制台，调用了三次
+		 */
+//		RetryConfig retryConfig = RetryConfig
+//				.custom()
+//				.maxAttempts(3)
+//				.waitDuration(Duration.ofMillis(3000))
+//				.build();
+//		Retry retry = Retry.of("retryPloy", retryConfig);
+//		Try<City> retrySupplier = Try.ofSupplier(Retry.decorateSupplier(
+//					retry, 
+//					() -> restTemplate.getForObject("http://client-test/api/city/{countryId}", City.class, 1890)
+//				));
+//		userVo.setCity(retrySupplier.get());
+		
+		/*
+		 * - 限流策略配置
+		 */
+//		RateLimiterConfig rateLimiterConfig = RateLimiterConfig.custom()
+//				.limitRefreshPeriod(Duration.ofMillis(5000))
+//				.limitForPeriod(1)
+//				.timeoutDuration(Duration.ofMillis(6000))
+//				.build();
+//		RateLimiter rateLimiter = RateLimiter.of("rateLimiterPloy", rateLimiterConfig);
+//		Try<City> rateLimiterSupplier = Try.ofSupplier(RateLimiter.decorateSupplier(
+//					rateLimiter, 
+//					() -> restTemplate.getForObject("http://client-test/api/city/{countryId}", City.class, 1890)
+//				));
+//		userVo.setCity(rateLimiterSupplier.get());
+		
+		/*
+		 * - 熔断器策略配置
+		 * - 生产者抛出异常或停掉的情况，都会返回默认值
+		 */
+		CircuitBreakerConfig circuitBreakerConfig = CircuitBreakerConfig.custom()
+				.failureRateThreshold(50)
+				.waitDurationInOpenState(Duration.ofMillis(1000))
+				.build();
+		CircuitBreaker circuitBreaker = CircuitBreaker.of("circuitBreakerPloy", circuitBreakerConfig);
+		Try<City> circuitBreakerSupplier = Try.ofSupplier(CircuitBreaker.decorateSupplier(
+					circuitBreaker, 
+					() -> restTemplate.getForObject("http://client-test/api/city/{countryId}", City.class, 1890)
+				)).recover(Exception.class, new City());
+		userVo.setCity(circuitBreakerSupplier.get());
+		
 		return userVo;
 	}
 

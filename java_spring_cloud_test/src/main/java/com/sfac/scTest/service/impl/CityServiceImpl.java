@@ -62,6 +62,7 @@ public class CityServiceImpl implements CityService {
 	@Override
 	public City getCityByCityId(int cityId) {
 		LOGGER.debug(String.format("==== %d ====", port));
+//		int i = 1 / 0;
 		return cityDao.getCityByCityId(cityId);
 	}
 
