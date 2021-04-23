@@ -23,6 +23,7 @@ import com.sfac.common.entity.test.City;
 import com.sfac.scAccount.dao.UserDao;
 import com.sfac.scAccount.dao.UserRoleDao;
 import com.sfac.scAccount.entity.UserVo;
+import com.sfac.scAccount.service.TestFeignClient;
 import com.sfac.scAccount.service.UserService;
 import com.sfac.scAccount.util.MD5Util;
 
@@ -48,6 +49,8 @@ public class UserServiceImpl implements UserService {
 	private UserRoleDao userRoleDao;
 	@Autowired
 	private RestTemplate restTemplate;
+	@Autowired
+	private TestFeignClient testFeignClient;
 	
 	@Override
 	public UserVo getUserVoById(int id) {
@@ -101,9 +104,13 @@ public class UserServiceImpl implements UserService {
 				.waitDurationInOpenState(Duration.ofMillis(1000))
 				.build();
 		CircuitBreaker circuitBreaker = CircuitBreaker.of("circuitBreakerPloy", circuitBreakerConfig);
+//		Try<City> circuitBreakerSupplier = Try.ofSupplier(CircuitBreaker.decorateSupplier(
+//					circuitBreaker, 
+//					() -> restTemplate.getForObject("http://client-test/api/city/{countryId}", City.class, 1890)
+//				)).recover(Exception.class, new City());
 		Try<City> circuitBreakerSupplier = Try.ofSupplier(CircuitBreaker.decorateSupplier(
-					circuitBreaker, 
-					() -> restTemplate.getForObject("http://client-test/api/city/{countryId}", City.class, 1890)
+				circuitBreaker, 
+				() -> testFeignClient.getCityByCityId(1890)
 				)).recover(Exception.class, new City());
 		userVo.setCity(circuitBreakerSupplier.get());
 		
