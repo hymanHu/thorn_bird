@@ -16,14 +16,14 @@ import com.sfac.scTest.service.CountryService;
  * @date 2020-12-10 10:22:52
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/test")
 public class CountryController {
 	
 	@Autowired
 	private CountryService countryService;
 
 	/**
-	 * 127.0.0.1/api/country/522 ---- get
+	 * 127.0.0.1/api/test/country/522 ---- get
 	 */
 	@GetMapping("/country/{countryId}")
 	public Country getCountryByCountryId(@PathVariable int countryId) {
@@ -31,7 +31,7 @@ public class CountryController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/country?countryName=China ---- get
+	 * 127.0.0.1/api/test/country?countryName=China ---- get
 	 */
 	@GetMapping("/country")
 	public Country getCountryByCountryName(@RequestParam String countryName) {

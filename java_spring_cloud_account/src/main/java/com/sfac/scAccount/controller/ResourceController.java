@@ -22,14 +22,14 @@ import com.sfac.scAccount.service.ResourceService;
  * @date: 2021年2月21日
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/account")
 public class ResourceController {
 
 	@Autowired
 	private ResourceService resourceService;
 	
 	/**
-	 * 127.0.0.1/api/resource ---- post
+	 * 127.0.0.1/api/account/resource ---- post
 	 * {"permission":"deleteUser"}
 	 */
 	@PostMapping(value = "/resource", consumes = "application/json")
@@ -38,7 +38,7 @@ public class ResourceController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/resource ---- put
+	 * 127.0.0.1/api/account/resource ---- put
 	 * {"id":"1","permission":"deleteUser"}
 	 */
 	@PutMapping(value = "/resource", consumes = "application/json")
@@ -47,7 +47,7 @@ public class ResourceController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/resource/2 ---- delete
+	 * 127.0.0.1/api/account/resource/2 ---- delete
 	 */
 	@DeleteMapping("/resource/{id}")
 	public ResultEntity<Object> deleteResourceById(@PathVariable int id) {
@@ -55,7 +55,7 @@ public class ResourceController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/resource/1 ---- get
+	 * 127.0.0.1/api/account/resource/1 ---- get
 	 */
 	@GetMapping("/resource/{id}")
 	public Resource getResourceById(@PathVariable int id) {
@@ -63,7 +63,7 @@ public class ResourceController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/resources ---- post
+	 * 127.0.0.1/api/account/resources ---- post
 	 * {"currentPage":"1","pageSize":"5","orderBy":"id","direction":"desc","keyWord":""}
 	 */
 	@PostMapping(value = "/resources", consumes = "application/json")

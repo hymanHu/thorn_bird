@@ -23,14 +23,14 @@ import com.sfac.scTest.service.CityService;
  * @date 2020-12-09 14:45:34
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/test")
 public class CityController {
 	
 	@Autowired
 	private CityService cityService;
 
 	/**
-	 * 127.0.0.1/api/city ---- post
+	 * 127.0.0.1/api/test/city ---- post
 	 * {"cityName":"dreamCity", "localCityName":"梦想城市", "countryId":522, 
 	 * "district":"sichuan", "population":1780000}
 	 */
@@ -40,7 +40,7 @@ public class CityController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/city ---- put
+	 * 127.0.0.1/api/test/city ---- put
 	 * cityId=2261,cityName=dreamCity,localCityName=梦想城市1,
 	 * countryId=522,district=sichuan,population=1780001
 	 */
@@ -50,7 +50,7 @@ public class CityController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/city/2260 ---- delete
+	 * 127.0.0.1/api/test/city/2260 ---- delete
 	 */
 	@DeleteMapping("/city/{cityId}")
 	public ResultEntity<Object> deleteCityByCityId(@PathVariable int cityId) {
@@ -58,7 +58,7 @@ public class CityController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/city/2261 ---- get
+	 * 127.0.0.1/api/test/city/2261 ---- get
 	 */
 	@GetMapping("/city/{cityId}")
 	public City getCityByCityId(@PathVariable int cityId) {

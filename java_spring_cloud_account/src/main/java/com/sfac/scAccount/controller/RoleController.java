@@ -24,14 +24,14 @@ import com.sfac.scAccount.service.RoleService;
  * @date: 2021年2月21日
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/account")
 public class RoleController {
 
 	@Autowired
 	private RoleService roleService;
 	
 	/**
-	 * 127.0.0.1/api/role ---- post
+	 * 127.0.0.1/api/account/role ---- post
 	 * {"roleName":"admin"}
 	 */
 	@PostMapping(value = "/role", consumes = "application/json")
@@ -40,7 +40,7 @@ public class RoleController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/role ---- put
+	 * 127.0.0.1/api/account/role ---- put
 	 * {"id":"1", "roleName":"admin"}
 	 */
 	@PutMapping(value = "/role", consumes = "application/json")
@@ -49,7 +49,7 @@ public class RoleController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/role/3 ---- delete
+	 * 127.0.0.1/api/account/role/3 ---- delete
 	 */
 	@DeleteMapping("/role/{id}")
 	public ResultEntity<Object> deleteRoelById(@PathVariable int id) {
@@ -57,7 +57,7 @@ public class RoleController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/role/1 ---- get
+	 * 127.0.0.1/api/account/role/1 ---- get
 	 */
 	@GetMapping("/role/{id}")
 	public Role getRoleById(@PathVariable int id) {
@@ -65,7 +65,7 @@ public class RoleController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/roles ---- get
+	 * 127.0.0.1/api/account/roles ---- get
 	 */
 	@GetMapping("/roles")
 	public List<Role> getRoles() {
@@ -73,7 +73,7 @@ public class RoleController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/roles ---- post
+	 * 127.0.0.1/api/account/roles ---- post
 	 * {"currentPage":"1","pageSize":"5","orderBy":"id","direction":"desc","keyWord":""}
 	 */
 	@PostMapping(value = "/roles", consumes = "application/json")

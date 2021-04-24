@@ -23,14 +23,14 @@ import com.sfac.scAccount.service.UserService;
  * @date: 2021年2月21日
  */
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/account")
 public class UserController {
 	
 	@Autowired
 	private UserService userService;
 
 	/**
-	 * 127.0.0.1/api/user ---- post
+	 * 127.0.0.1/api/account/user ---- post
 	 * {"userName":"admin", "password":"111111"}
 	 */
 	@PostMapping(value = "/user", consumes = "application/json")
@@ -39,7 +39,7 @@ public class UserController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/user ---- put
+	 * 127.0.0.1/api/account/user ---- put
 	 * {"id":"1", "userName":"admin", "password":"111111"}
 	 */
 	@PutMapping(value = "/user", consumes = "application/json")
@@ -48,7 +48,7 @@ public class UserController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/user/1 ---- get
+	 * 127.0.0.1/api/account/user/1 ---- get
 	 */
 	@GetMapping("/user/{id}")
 	public User getUserById(@PathVariable int id) {
@@ -56,7 +56,7 @@ public class UserController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/userVo/1 ---- get
+	 * 127.0.0.1/api/account/userVo/1 ---- get
 	 */
 	@GetMapping("/userVo/{id}")
 	public UserVo getUserVoById(@PathVariable int id) {
@@ -64,7 +64,7 @@ public class UserController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/user/1 ---- delete
+	 * 127.0.0.1/api/account/user/1 ---- delete
 	 */
 	@DeleteMapping("/user/{id}")
 	public ResultEntity<Object> deleteUserById(@PathVariable int id) {
@@ -72,7 +72,7 @@ public class UserController {
 	}
 	
 	/**
-	 * 127.0.0.1/api/users ---- post
+	 * 127.0.0.1/api/account/users ---- post
 	 * {"currentPage":"1","pageSize":"5","orderBy":"id","direction":"desc","keyWord":""}
 	 */
 	@PostMapping(value = "/users", consumes = "application/json")

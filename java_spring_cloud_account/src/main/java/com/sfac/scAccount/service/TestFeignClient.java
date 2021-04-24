@@ -17,9 +17,9 @@ import com.sfac.common.entity.test.City;
 public interface TestFeignClient {
 
 	/**
-	 * 127.0.0.1/api/city/2261 ---- get
+	 * 127.0.0.1/api/test/city/2261 ---- get
 	 * - 此处整合了 Spring MVC 的用法
 	 */
-	@GetMapping("/api/city/{cityId}")
+	@GetMapping("/api/test/city/{cityId}")
 	public City getCityByCityId(@PathVariable int cityId);
 }
