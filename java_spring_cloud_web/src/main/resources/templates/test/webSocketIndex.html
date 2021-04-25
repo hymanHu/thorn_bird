@@ -1,0 +1,69 @@
+<!-- page content -->
+<div class="right_col" role="main">
+	<div class="">
+		<div class="page-title">
+			<div class="title_left">
+				<h3>WebSocket Index Page</h3>
+			</div>
+		</div>
+
+		<div class="clearfix"></div>
+
+		<h3>WebSocket 测试</h3>
+		<p>===========================================</p>
+		<p><input type="button" id="openBtn" value="开启 WebSocket" /></p>
+		<p><input type="text" id="send" /><input type="button" id="sendBtn" value="发送消息" /></p>
+		<p><div id="message"></div></p>
+	</div>
+</div>
+<!-- /page content -->
+<script type="text/javascript">
+	$(function () {
+		$("#openBtn").bind("click", function () {
+			openSocket();
+		});
+		$("#sendBtn").bind("click", function () {
+			sendMessage();
+		});
+	});
+
+	var ws;
+	function openSocket() {
+		// WebSocket
+		if (typeof WebSocket == "undefined") {
+			console.log("您的浏览器不支持 WebSocket.");
+		} else {
+			// 初始化 WebSocket 实例
+			if (ws == undefined) {
+				// ws = new WebSocket("wss://127.0.0.1/api/webSocket");
+				ws = new WebSocket("ws://127.0.0.1/api/webSocket");
+			}
+			// 创建连接
+			ws.onopen = function () {
+				console.log("webSocket 已打开");
+			};
+			// 关闭连接
+			ws.onclose = function () {
+				console.log("连接已关闭...");
+			};
+			// 发生错误
+			ws.onerror = function () {
+				console.log("WebSocket 发生了错误");
+			};
+			// 接收服务端消息
+			ws.onmessage = function (message) {
+				console.log("收到服务端信息：" + message.data);
+				$("#message").append(message.data + "<br/>");
+			};
+		}
+	}
+
+	function sendMessage() {
+		if (ws == undefined) {
+			openSocket();
+		}
+		var message = "你好，服务端！" + $("#send").val();
+		ws.send(message);
+		$("#message").append(message + "<br/>");
+	}
+</script>
