@@ -55,7 +55,7 @@ public class UserServlet extends HttpServlet {
 		
 		String resultJson = objectMapper.writeValueAsString(resultMap);
 		
-		resp.setContentType("test/json;charset=utf-8");
+		resp.setContentType("text/json;charset=utf-8");
 		PrintWriter printWriter = resp.getWriter();
 		printWriter.append(resultJson);
 		printWriter.flush();
