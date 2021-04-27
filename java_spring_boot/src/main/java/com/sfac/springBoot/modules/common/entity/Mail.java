@@ -16,7 +16,7 @@ public class Mail {
 	private String[] bcc;
 	private String replyTo;
 	private String subject;
-	private String content;
+	private String text;
 	// 附件地址
 	private String[] attachments;
 	// 图片地址
@@ -75,12 +75,12 @@ public class Mail {
 		this.subject = subject;
 	}
 
-	public String getContent() {
-		return content;
+	public String getText() {
+		return text;
 	}
 
-	public void setContent(String content) {
-		this.content = content;
+	public void setText(String text) {
+		this.text = text;
 	}
 
 	public String[] getAttachments() {
