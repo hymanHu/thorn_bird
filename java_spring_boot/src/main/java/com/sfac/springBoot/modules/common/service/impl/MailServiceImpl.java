@@ -1,7 +1,6 @@
 package com.sfac.springBoot.modules.common.service.impl;
 
 import java.io.File;
-import java.util.Arrays;
 import java.util.Date;
 
 import javax.mail.MessagingException;
@@ -15,8 +14,12 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.context.Context;
 
 import com.sfac.springBoot.modules.common.entity.Mail;
+import com.sfac.springBoot.modules.common.entity.ResultEntity;
+import com.sfac.springBoot.modules.common.entity.ResultEntity.ResultStatus;
 import com.sfac.springBoot.modules.common.service.MailService;
 
 /**
@@ -29,11 +32,13 @@ public class MailServiceImpl implements MailService {
 	
 	@Autowired
 	private JavaMailSender javaMailSender;
+	@Autowired
+	private TemplateEngine templateEngine;
 	@Value("${spring.mail.username}")
 	private String from;
 
 	@Override
-	public void sendSimpleMail(Mail mail) {
+	public ResultEntity<Object> sendSimpleMail(Mail mail) {
 		SimpleMailMessage smm = new SimpleMailMessage();
 		smm.setFrom(from);
 		smm.setTo(mail.getTo());
@@ -43,15 +48,17 @@ public class MailServiceImpl implements MailService {
 		smm.setSubject(mail.getSubject());
 		smm.setText(mail.getText());
 		smm.setSentDate(new Date());
-		
 		javaMailSender.send(smm);
+		
+		return new ResultEntity<Object>(ResultStatus.SUCCESS.status, "Send success.");
 	}
 
 	@Override
-	public void sendComplexMail(Mail mail) {
+	public ResultEntity<Object> sendComplexMail(Mail mail) {
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = null;
 		try {
-			MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-			MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, true);
+			helper = new MimeMessageHelper(mimeMessage, true);
 			// build base info
 			helper.setFrom(from);
 			helper.setTo(mail.getTo());
@@ -89,12 +96,40 @@ public class MailServiceImpl implements MailService {
 			javaMailSender.send(mimeMessage);
 		} catch (MessagingException e) {
 			e.printStackTrace();
+			return new ResultEntity<Object>(ResultStatus.FAILED.status, "Send failed.");
 		}
+		
+		return new ResultEntity<Object>(ResultStatus.SUCCESS.status, "Send success.");
 		
 	}
 
 	@Override
-	public void sendTemplateMail(Mail mail) {
-		// TODO Auto-generated method stub
+	public ResultEntity<Object> sendTemplateMail(Mail mail) {
+		Context context = new Context();
+		mail.getTemplateMap().entrySet().stream().forEach(item -> {
+			context.setVariable(item.getKey(), item.getValue());
+		});
+		String emailContent = templateEngine.process("mail/" + mail.getTemplateId(), context);
+		
+		MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+		MimeMessageHelper helper = null;
+		try {
+			helper = new MimeMessageHelper(mimeMessage, true);
+			helper.setFrom(from);
+			helper.setTo(mail.getTo());
+			helper.setBcc(mail.getBcc());
+			helper.setCc(mail.getCc());
+			helper.setReplyTo(mail.getReplyTo());
+			helper.setSubject(mail.getSubject());
+			helper.setText(emailContent, true);
+			helper.setSentDate(new Date());
+			
+			javaMailSender.send(mimeMessage);
+		} catch (MessagingException e) {
+			e.printStackTrace();
+			return new ResultEntity<Object>(ResultStatus.FAILED.status, "Send failed.");
+		}
+		
+		return new ResultEntity<Object>(ResultStatus.SUCCESS.status, "Send success.");
 	}
 }

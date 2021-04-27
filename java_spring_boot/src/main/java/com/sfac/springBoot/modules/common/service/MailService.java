@@ -1,6 +1,7 @@
 package com.sfac.springBoot.modules.common.service;
 
 import com.sfac.springBoot.modules.common.entity.Mail;
+import com.sfac.springBoot.modules.common.entity.ResultEntity;
 
 /**
  * Description: Mail Service
@@ -9,9 +10,9 @@ import com.sfac.springBoot.modules.common.entity.Mail;
  */
 public interface MailService {
 	
-	void sendSimpleMail(Mail mail);
+	ResultEntity<Object> sendSimpleMail(Mail mail);
 	
-	void sendComplexMail(Mail mail);
+	ResultEntity<Object> sendComplexMail(Mail mail);
 	
-	void sendTemplateMail(Mail mail);
+	ResultEntity<Object> sendTemplateMail(Mail mail);
 }
