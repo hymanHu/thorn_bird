@@ -26,7 +26,7 @@ public class Mail {
 	private String templateId;
 	// 模版参数
 	private Map<String, String> templateMap;
-
+	
 	public String getFrom() {
 		return from;
 	}

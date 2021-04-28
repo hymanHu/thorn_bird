@@ -1,6 +1,7 @@
 package com.sfac.springBoot.modules.common.service.impl;
 
-import java.io.File;
+import java.net.MalformedURLException;
+import java.nio.file.Paths;
 import java.util.Date;
 
 import javax.mail.MessagingException;
@@ -9,7 +10,8 @@ import javax.mail.internet.MimeMessage;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.Resource;
+import org.springframework.core.io.UrlResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -42,9 +44,15 @@ public class MailServiceImpl implements MailService {
 		SimpleMailMessage smm = new SimpleMailMessage();
 		smm.setFrom(from);
 		smm.setTo(mail.getTo());
-		smm.setBcc(mail.getBcc());
-		smm.setCc(mail.getCc());
-		smm.setReplyTo(mail.getReplyTo());
+		if (mail.getCc() != null) {
+			smm.setCc(mail.getCc());
+		}
+		if (mail.getBcc() != null) {
+			smm.setBcc(mail.getBcc());
+		}
+		if (StringUtils.isNotBlank(mail.getReplyTo())) {
+			smm.setReplyTo(mail.getReplyTo());
+		}
 		smm.setSubject(mail.getSubject());
 		smm.setText(mail.getText());
 		smm.setSentDate(new Date());
@@ -62,39 +70,37 @@ public class MailServiceImpl implements MailService {
 			// build base info
 			helper.setFrom(from);
 			helper.setTo(mail.getTo());
-			helper.setBcc(mail.getBcc());
-			helper.setCc(mail.getCc());
-			helper.setReplyTo(mail.getReplyTo());
+			if (mail.getCc() != null) {
+				helper.setCc(mail.getCc());
+			}
+			if (mail.getBcc() != null) {
+				helper.setBcc(mail.getBcc());
+			}
+			if (StringUtils.isNotBlank(mail.getReplyTo())) {
+				helper.setReplyTo(mail.getReplyTo());
+			}
 			helper.setSubject(mail.getSubject());
 			helper.setText(mail.getText());
 			helper.setSentDate(new Date());
 			
 			// build attachments
-			if (null != mail.getAttachments() && mail.getAttachments().length > 0) {
+			if (null != mail.getAttachments()) {
 				for (String attachment : mail.getAttachments()) {
-					if (StringUtils.isNotBlank(attachment)) {
-						FileSystemResource attachmentFile = new FileSystemResource(new File(attachment));
-						helper.addAttachment(attachmentFile.getFilename(), attachmentFile);
-					}
+					Resource resource = new UrlResource(Paths.get(attachment).toUri());
+					helper.addAttachment(resource.getFilename(), resource);
 				}
 			}
 			
 			// build images
-			if (null != mail.getImages() && mail.getImages().length > 0) {
+			if (null != mail.getImages()) {
 				for (int i = 0; i < mail.getImages().length; i++) {
-					String imagePath = mail.getImages()[i];
-					FileSystemResource imageFile = new FileSystemResource(new File(imagePath));
-					String imageCid = null;
-					if (null != mail.getImageCids() && mail.getImageCids().length > mail.getImages().length) {
-						imageCid = mail.getImageCids()[i];
-					}
-					helper.addInline(StringUtils.isNotBlank(imageCid) ? imageCid : String.format("%s%d", "image-", i), 
-						imageFile);
+					Resource resource = new UrlResource(Paths.get(mail.getImages()[i]).toUri());
+					helper.addInline(String.format("%s%d", "image-", i), resource);
 				}
 			}
 			
 			javaMailSender.send(mimeMessage);
-		} catch (MessagingException e) {
+		} catch (MessagingException | MalformedURLException e) {
 			e.printStackTrace();
 			return new ResultEntity<Object>(ResultStatus.FAILED.status, "Send failed.");
 		}
@@ -117,9 +123,15 @@ public class MailServiceImpl implements MailService {
 			helper = new MimeMessageHelper(mimeMessage, true);
 			helper.setFrom(from);
 			helper.setTo(mail.getTo());
-			helper.setBcc(mail.getBcc());
-			helper.setCc(mail.getCc());
-			helper.setReplyTo(mail.getReplyTo());
+			if (mail.getCc() != null) {
+				helper.setCc(mail.getCc());
+			}
+			if (mail.getBcc() != null) {
+				helper.setBcc(mail.getBcc());
+			}
+			if (StringUtils.isNotBlank(mail.getReplyTo())) {
+				helper.setReplyTo(mail.getReplyTo());
+			}
 			helper.setSubject(mail.getSubject());
 			helper.setText(emailContent, true);
 			helper.setSentDate(new Date());

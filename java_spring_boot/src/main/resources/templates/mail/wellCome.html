@@ -2,15 +2,12 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8" />
-		<title>Welcome ThornBird</title>
+		<title>Welcome SFAC</title>
 	</head>
 	<body>
-		Hi guys, Welcome to my home, ThornBird site.
-		<br />
-		<a href="#" th:href="@{https://www.baidu.com/}">进入查看</a>
-		<br />
-		<a href="#" th:href="@{https://www.baidu.com/{id}(id=${id})}">进入查看2</a>
-		<br />
-		<p th:text="${name}">this is the thymeleaf title</p>
+		<h3>Hi <span th:text="${name}"></span>, Welcome to SFAC.</h3>
+		<p><a th:href="@{http://www.baidu.com}">百度</a></p>
+		<p><a th:href="@{'/test/city/' + ${id}}">路径参数</a></p>
+		<p><a th:href="@{/test/city(id=${id},name=${name})}">查询参数</a></p>
 	</body>
 </html>
