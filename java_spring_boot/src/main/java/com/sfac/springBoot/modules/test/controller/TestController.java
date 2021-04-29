@@ -54,6 +54,8 @@ public class TestController {
 	private String description;
 	@Value("${com.sfac.random}")
 	private String random;
+	@Value("${artifactId}")
+	private String artifactId;
 	
 	@Autowired
 	private ApplicationTest applicationTest;
@@ -221,7 +223,8 @@ public class TestController {
 			.append(name).append("----")
 			.append(age).append("----")
 			.append(description).append("----")
-			.append(random).append("<br>");
+			.append(random).append("----")
+			.append(artifactId).append("<br>");
 		sb.append(applicationTest.getName()).append("----")
 			.append(applicationTest.getAge()).append("----")
 			.append(applicationTest.getDescription()).append("----")

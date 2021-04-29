@@ -1,50 +1,55 @@
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addLabel" aria-hidden="true">
+<!-- 模态框 -->
+<div id="modalAdd" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
 	<div class="modal-dialog">
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title" id="addLabel" style="font-size: 18px; font-weight: 500;">User Add</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+				<h4 class="modal-title" id="myModalLabel">User Add</h4>
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
 			</div>
 			<div class="modal-body">
-				<form class="form-horizontal">
+				<form action="javascript:void(0);" class="form-horizontal">
 					<div class="form-group row">
-						<label class="control-label col-md-3">Email</label>
+						<label class="control-label col-md-4">Email</label>
 						<div class="col-md-8">
-							<input v-model="user.email" class="form-control" 
-								type="text" placeholder="Enter user email">
+							<input class="form-control" type="text" v-model="model.email" placeholder="Enter email" />
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="control-label col-md-3">User Name</label>
+						<label class="control-label col-md-4">User Name</label>
 						<div class="col-md-8">
-							<input v-model="user.userName" class="form-control" 
-								type="text" placeholder="Enter user name">
+							<input
+								class="form-control"
+								type="text"
+								v-model="model.userName"
+								placeholder="Enter user name"
+							/>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="control-label col-md-3">Password</label>
+						<label class="control-label col-md-4">Password</label>
 						<div class="col-md-8">
-							<input v-model="user.password" class="form-control" 
-								type="password" placeholder="Enter user password">
+							<input
+								class="form-control"
+								type="password"
+								v-model="model.password"
+								placeholder="Enter password"
+							/>
 						</div>
 					</div>
 					<div class="form-group row">
-						<label class="control-label col-md-3">Roles</label>
+						<label class="control-label col-md-4">Roles</label>
 						<div class="col-md-8">
-							<span v-for="(role, index) in allRoles">
-								<input type="checkbox" :value="role.id" v-model="user.roles"/>{{role.roleName}}
+							<span v-for="(role, index) in roles">
+								<input type="checkbox" :value="role.id" v-model="model.roles" />{{role.roleName}}
 							</span>
 						</div>
 					</div>
 				</form>
 			</div>
 			<div class="modal-footer">
-				<!-- data-dismiss="modal"关闭模态框 -->
-				<a class="btn btn-secondary" href="#" data-dismiss="modal">
-					<i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel
-				</a>
-				<button id="addBtn" data-dismiss="modal" class="btn btn-primary" type="button" @click="addModule()">
-					<i class="fa fa-fw fa-lg fa-check-circle"></i>Submit
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" @click="addModel()">
+					Save changes
 				</button>
 			</div>
 		</div>

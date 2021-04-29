@@ -1,42 +1,76 @@
 <!-- Datatables -->
-<link href="/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet">
+<link href="cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css" />
+<link href="/vendors/datatables.net-bs/css/dataTables.bootstrap.min.css" rel="stylesheet" />
 
 <!-- page content -->
-<div id="moduleList" class="right_col" role="main">
+<div id="modelDiv" class="right_col" role="main">
 	<div class="">
 		<div class="page-title">
 			<div class="title_left">
-				<h3>
-					Roles <small>list</small>
-				</h3>
+				<h3>Roles <small>Role list</small></h3>
 			</div>
 		</div>
-		
+
 		<div class="clearfix"></div>
-		
+
 		<div class="row">
-			<div class="col-md-12 col-sm-12 ">
+			<div class="col-md-12 col-sm-12">
 				<div class="x_panel">
 					<div class="x_title">
-						<button type="button" class="btn btn-primary" @click="initAddModal()" 
-							data-toggle='modal' data-target='#addModal'>新增</button>
+						<button
+							type="button"
+							class="btn btn-primary"
+							data-toggle="modal"
+							data-target="#modalAdd"
+							@click="initAddModal()"
+						>
+							新增
+						</button>
+						<ul class="nav navbar-right panel_toolbox">
+							<li>
+								<a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
+							</li>
+							<li class="dropdown">
+								<a
+									href="#"
+									class="dropdown-toggle"
+									data-toggle="dropdown"
+									role="button"
+									aria-expanded="false"
+									><i class="fa fa-wrench"></i
+								></a>
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+									<a class="dropdown-item" href="#">Settings 1</a>
+									<a class="dropdown-item" href="#">Settings 2</a>
+								</div>
+							</li>
+							<li>
+								<a class="close-link"><i class="fa fa-close"></i></a>
+							</li>
+						</ul>
 						<div class="clearfix"></div>
-					</div>
-					<div class="x_content">
-						<div class="row">
-							<div class="col-sm-12">
-								<div class="card-box table-responsive">
-									<table id="moduleTable" class="table table-striped table-bordered" style="width: 100%">
-										<thead>
-											<tr>
-												<th>Id</th>
-												<th>Role Name</th>
-												<th>Create Date</th>
-												<th>Operation</th>
-											</tr>
-										</thead>
-										<tbody></tbody>
-									</table>
+						<div class="x_content">
+							<div class="row">
+								<div class="col-sm-12">
+									<div class="card-box table-responsive">
+										<p class="text-muted font-13 m-b-30"></p>
+										<table
+											id="modelTable"
+											class="table table-striped table-bordered"
+											style="width: 100%"
+										>
+											<thead>
+												<tr>
+													<th>Id</th>
+													<th>RoleName</th>
+													<th>CreateDate</th>
+													<th>Operate</th>
+												</tr>
+											</thead>
+
+											<tbody></tbody>
+										</table>
+									</div>
 								</div>
 							</div>
 						</div>
@@ -45,214 +79,224 @@
 			</div>
 		</div>
 	</div>
-	
-	<!-- 碎片文件要放在 Vue 控制的 Div 里 -->
+
+	<!-- 引入模态框 -->
 	<div th:replace="account/roleAdd"></div>
 	<div th:replace="account/roleEdit"></div>
 </div>
-<!-- /page content -->
 
 <!-- Datatables -->
-<script src="/vendors/datatables.net/js/jquery.dataTables.min.js" stype="text/javascript"></script>
-<script src="/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js" stype="text/javascript"></script>
+<script src="/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+<script src="/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
 
-<script stype="text/javascript">
-	var roles = new Vue({
-		el: "#moduleList",
+<script type="text/javascript">
+	var modelVue = new Vue({
+		el: "#modelDiv",
 		data: {
+			// 默认页长
 			defaultPageSize: 5,
-			moduleTable: {},
-			role: {
-				id: "",
+			// 本页操作的模型
+			model: {
+				id: 0,
 				roleName: "",
 				createDate: "",
 			},
+			// 搜索 bean
+			searchBean: {
+				currentPage: 1,
+				pageSize: 5,
+				orderBy: "id",
+				direction: "asc",
+				keyWord: "",
+			},
+			// 表格数据结构
+			tableData: {
+				draw: 0,
+				recordsTotal: 0,
+				recordsFiltered: 0,
+				data: [],
+			},
 		},
 		methods: {
-			// 表格行数据结构
-			RowData: function (id, roleName, createDate) {
-				var RowData = {};
-				RowData.id = id;
-				RowData.roleName = roleName;
-				RowData.createDate = createDate;
-				RowData.operate = function () {
-					return "<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#editModal' " + 
-						"onclick='initEditModal(\"" + id + "\")'>编辑</a>&nbsp;" + 
-						"<a href='javascript:void(0);' onclick='deleteModule(\"" + id + 
-						"\")' class='btn_editcolor'>删除</a>";
+			// 行数据结构定义函数
+			rowData: function (id, roleName, createDate) {
+				var row = {};
+				row.id = id;
+				row.roleName = roleName;
+				row.createDate = createDate;
+				row.operate = function () {
+					return (
+						"<a href='#' class='btn_editcolor' data-toggle='modal' data-target='#modalEdit' " +
+						"onclick='initEditModal(\"" +
+						id +
+						"\")'>编辑</a>&nbsp;" +
+						"<a href='javascript:void(0);' onclick='deleteModel(\"" +
+						id +
+						"\")' class='btn_editcolor'>删除</a>"
+					);
 				};
-				return RowData;
+				return row;
 			},
+			// 初始化表格数据
 			initTable: function (pageSize) {
 				var self = this;
-				self.moduleTable = $('#moduleTable').DataTable({
-					'paging': true, //分页
-					"serverSide": true, //开启后端分页
-					"pagingType": "full_numbers", //分页样式的类型simple/simple_numbers/full/full_numbers
-					"pageLength": pageSize, //定义初始的页长
-					"processing": true, 
-					"destroy": true, //允许销毁替换，在表格重新查询时，可以自动销毁以前的data
-					'lengthChange': true, //控制是否能够调整每页的条数
-					'lengthMenu': [5, 10, 25, 50], // 控制页长
-					'searching': true,
-					'data-show-refresh': true,
-					'ordering': true,
-					'autoWidth': false,
-					"ajax": function (data, callback, settings) {
+				$("#modelTable").DataTable({
+					paging: true, //分页
+					serverSide: true, //开启后端分页
+					pagingType: "full_numbers", //分页样式的类型simple/simple_numbers/full/full_numbers
+					pageLength: pageSize, //定义初始的页长
+					processing: true,
+					destroy: true, //允许销毁替换，在表格重新查询时，可以自动销毁以前的data
+					lengthChange: true, //控制是否能够调整每页的条数
+					lengthMenu: [5, 10, 25, 50], // 控制页长
+					searching: true,
+					"data-show-refresh": true,
+					ordering: true,
+					autoWidth: true,
+					ajax: function (data, callback, settings) {
 						// 从data获取查询数据
 						var columIndex = data.order[0].column;
 						var direction = data.order[0].dir;
 						var orderBy = data.columns[columIndex].name;
-						pageSize = data.length == undefined  ? pageSize : data.length;
-						
-						var searchBean = {};
-						searchBean.currentPage = (data.start / pageSize) + 1;
-						searchBean.pageSize = pageSize;
-						searchBean.orderBy = orderBy;
-						searchBean.direction = direction;
-						searchBean.keyWord = data.search.value;
-						
+						pageSize = data.length == undefined ? pageSize : data.length;
+
+						self.searchBean.currentPage = data.start / pageSize + 1;
+						self.searchBean.pageSize = pageSize;
+						self.searchBean.orderBy = orderBy;
+						self.searchBean.direction = direction;
+						self.searchBean.keyWord = data.search.value;
+
 						$.ajax({
-							url : "/api/roles",
-							type : "post",
+							url: "/api/roles",
+							type: "post",
 							contentType: "application/json",
-							data : JSON.stringify(searchBean),
-							success : function (rs) {
-								// 定义表格数据结构
-								var tableData = {
-									draw :0,
-									recordsTotal: 0,
-									recordsFiltered: 0,
-									data: []
-								};
+							data: JSON.stringify(self.searchBean),
+							success: function (rs) {
 								if (!rs) {
-									layer.alert("请求出错，请稍后重试" + rs.errmsg, {icon: 2});
-									callback(tableData);
-									return;
-								};
-								if (rs.list == null) {
-									$('#moduleTable tbody tr').remove();
-									$('#loading').remove();
-									callback(tableData);
+									layer.alert("请求出错，请稍后重试" + rs.errmsg, { icon: 2 });
+									callback(self.tableData);
 									return;
 								}
-								$('#loading').remove();
+								if (rs.list == null) {
+									$("#moduleTable tbody tr").remove();
+									$("#loading").remove();
+									callback(self.tableData);
+									return;
+								}
+								$("#loading").remove();
 								var rowsData = [];
-								for (var i = 0; i < rs.list.length; i++) {
+								$.each(rs.list, function (i, item) {
 									//包装行数据
-									var rowData = self.RowData(rs.list[i].id, rs.list[i].roleName,
-											rs.list[i].createDate);
+									var rowData = self.rowData(item.id, item.roleName, item.createDate);
 									// 将行数据放到数组里
 									rowsData.push(rowData);
-								}
-								tableData.data = rowsData;
-								tableData.recordsTotal = rs.total;
-								tableData.recordsFiltered = rs.total;
-								callback(tableData);
+								});
+								self.tableData.data = rowsData;
+								self.tableData.recordsTotal = rs.total;
+								self.tableData.recordsFiltered = rs.total;
+								callback(self.tableData);
 							},
-							error : function (data) {
-								layer.alert(data.responseText, {icon: 0});
-							}
+							error: function (data) {
+								layer.alert(data.responseText, { icon: 0 });
+							},
 						});
 					},
-					"columns": [ //定义行数据字段
-						{data: 'id', name: "id", sortable: true}, 
-						{data: 'roleName', name: "role_name", sortable: true},
-						{data: 'createDate', name: "create_date", sortable: true},
-						{data: 'operate', width: '80px', sortable: false}
-					]
+					columns: [
+						//定义行数据字段
+						{ data: "id", name: "id", sortable: true },
+						{ data: "roleName", name: "role_name", sortable: true },
+						{ data: "createDate", name: "create_date", sortable: true },
+						{ data: "operate", width: "80px", sortable: false },
+					],
 				});
 			},
 			initAddModal: function () {
-				this.role = {
-					id: "",
+				this.model = {
+					id: 0,
 					roleName: "",
 					createDate: "",
 				};
 			},
-			insertModule: function () {
+			addModel: function () {
 				var self = this;
 				$.ajax({
-					url : "/api/role",
-					type : "post",
+					url: "/api/role",
+					type: "post",
 					contentType: "application/json",
-					data : JSON.stringify(self.role),
-					success : function (rs) {
+					data: JSON.stringify(self.model),
+					success: function (rs) {
 						if (rs.status == 200) {
-							self.initTable(self.defaultPageSize);
+							self.initTable(this.defaultPageSize);
 						} else {
-							layer.msg(rs.message, {icon: 0});
+							layer.alert(rs.message, { icon: 0 });
 						}
 					},
-					error : function (rs) {
-						layer.msg(rs.responseText, {icon: 0});
-					}
+					error: function (data) {
+						layer.alert(data.responseText, { icon: 0 });
+					},
 				});
 			},
+			// 初始化编辑模态框
 			initEditModal: function (id) {
 				var self = this;
 				$.ajax({
-					url : "/api/role/" + id,
-					type : "get",
-					contentType: "application/json",
-					success : function (rs) {
-						self.role = rs;
+					url: "/api/role/" + id,
+					type: "get",
+					success: function (rs) {
+						self.model = rs;
 					},
-					error : function (data) {
-						layer.alert(data.responseText, {icon: 0});
-					}
+					error: function (data) {
+						layer.alert(data.responseText, { icon: 0 });
+					},
 				});
 			},
-			editModule: function () {
+			updateModel: function () {
 				var self = this;
-
 				$.ajax({
-					url : "/api/role",
-					type : "put",
+					url: "/api/role",
+					type: "put",
 					contentType: "application/json",
-					data : JSON.stringify(self.role),
-					success : function (rs) {
+					data: JSON.stringify(self.model),
+					success: function (rs) {
 						if (rs.status == 200) {
-							self.initTable(self.defaultPageSize);
+							self.initTable(this.defaultPageSize);
 						} else {
-							layer.msg(rs.message, {icon: 0});
+							layer.alert(rs.message, { icon: 0 });
 						}
 					},
-					error : function (rs) {
-						layer.msg(rs.responseText, {icon: 0});
-					}
+					error: function (data) {
+						layer.alert(data.responseText, { icon: 0 });
+					},
 				});
 			},
-			deleteModule: function (id) {
+			deleteModel: function (id) {
 				var self = this;
-				bootbox.confirm("Are you sure?", function(result) {
-					if(result) {
+				bootbox.confirm("Are you sure?", function (result) {
+					if (result) {
 						$.ajax({
-							url : "/api/role/" + id,
-							type : "delete",
-							success : function (rs) {
+							url: "/api/role/" + id,
+							type: "delete",
+							success: function (rs) {
 								if (rs.status == 200) {
-									self.initTable(self.defaultPageSize);
+									self.initTable(this.defaultPageSize);
 								} else {
-									//window.location.href = data.object;
-									layer.msg(rs.message, {icon: 0});
+									layer.alert(rs.message, { icon: 0 });
 								}
 							},
-							error : function (rs) {
-								layer.msg(rs.responseText, {icon: 0});
-							}
+							error: function (data) {
+								layer.alert(data.responseText, { icon: 0 });
+							},
 						});
 					}
 				});
 			},
 		},
 		created: function () {
-			// 将 Vue 的方法赋值给 window 对象，以解决动态生成 Html 不能解析 @click 标签的问题
 			window.initEditModal = this.initEditModal;
-			window.deleteModule = this.deleteModule;
+			window.deleteModel = this.deleteModel;
 		},
 		mounted: function () {
 			this.initTable(this.defaultPageSize);
-		}
+		},
 	});
 </script>
