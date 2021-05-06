@@ -1,13 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 	<head>
 		<meta charset="UTF-8" />
 		<title>Welcome SFAC</title>
 	</head>
 	<body>
 		<h3>Hi <span th:text="${name}"></span>, Welcome to SFAC.</h3>
-		<p><a th:href="@{http://www.baidu.com}">百度</a></p>
-		<p><a th:href="@{'/test/city/' + ${id}}">路径参数</a></p>
-		<p><a th:href="@{/test/city(id=${id},name=${name})}">查询参数</a></p>
+		<p><a th:href="@{http://www.baidu.com/{id}(id=${id},name=${name})}">路径参数 && 查询参数</a></p>
 	</body>
 </html>
