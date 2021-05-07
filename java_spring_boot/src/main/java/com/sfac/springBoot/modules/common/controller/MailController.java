@@ -36,6 +36,12 @@ public class MailController {
 	/**
 	 * - 富文本邮件
 	 * 127.0.0.1/api/complexMail ---- post
+	 * 
+	 * {"to":["898899721@qq.com"],"cc":["hujiang_cd@hqyj.com"],"subject":"complexMail",
+	 * "text":"<html><head></head><body><h1>hello! Welcome Hyman!</h1><br><img src='cid:image-0'>
+	 * </img><br><img src='cid:image-1'></img></body></html>","html":"true",
+	 * "attachments":["D:/temp/attachments_1.txt"],"images":["D:/temp/111.jpg","D:/temp/222.jpg"]}
+	 * 
 	 * {"to":["898899721@qq.com"],"cc":["hujiang_cd@hqyj.com"],"subject":"complexMail", 
 	 * "text":"<html><head></head><body><h1>hello! Welcome Hyman!</h1></body></html>",
 	 * "html":"true","attachments":["D:/temp/temp.txt","D:/temp/111.jpg","D:/temp/222.jpg"]}
