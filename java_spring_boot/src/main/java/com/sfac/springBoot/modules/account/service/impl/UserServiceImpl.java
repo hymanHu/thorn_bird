@@ -58,12 +58,13 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public ResultEntity<User> login(User user) {
-		String key = String.format("login_failed_count_%s", user.getUserName());
-		Object temp = redisUtils.get(key);
-		int count = temp == null ? 0 : (int)temp;
-		if (count >= 5) {
-			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status,
-					"登录失败 5 次，锁住账户 30 秒.");
+		// 根据登录失败次数，判断帐号是否为锁定状态
+		int loginFailMaxCount = 5;
+		String key = String.format("login_fail_count_%s", user.getUserName());
+		int loginFailCount = redisUtils.get(key) == null ? 0 : (int)redisUtils.get(key);
+		if (loginFailCount >= loginFailMaxCount) {
+			return new ResultEntity<>( ResultEntity.ResultStatus.FAILED.status,
+					String.format("该账户连续登录失败 %d 次，锁定账户 30 秒。", loginFailCount));
 		}
 
 		Subject subject = SecurityUtils.getSubject();
@@ -77,20 +78,23 @@ public class UserServiceImpl implements UserService {
 			
 			Session session = subject.getSession();
 			session.setAttribute("user", subject.getPrincipal());
+			
+			// 成功登录清除 key
+			redisUtils.delete(key);
 		} catch (Exception e) {
 			e.printStackTrace();
-//			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "Credentials faild");
 			
-			// 登录失败，累计登录失败次数
-			if (count < 4) {
-				redisUtils.increment(key, 1);
-				return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status,
-						String.format("用户或密码错误，登录失败，还剩余%s次机会。", (4 - count)));
+			// 登录失败，增加错误次数、设置过期时间
+			redisUtils.increment(key, 1);
+			loginFailCount += 1;
+			if (loginFailCount < loginFailMaxCount) {
+				return new ResultEntity<>( ResultEntity.ResultStatus.FAILED.status,
+						String.format("登录失败 %d 次，还剩 %d 次。",
+								loginFailCount, (loginFailMaxCount - loginFailCount)));
 			} else {
-				redisUtils.increment(key, 1);
 				redisUtils.expire(key, 30);
-				return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status,
-						"用户或密码错误，登录失败 5 次，账户锁定 30 秒");
+				return new ResultEntity<>( ResultEntity.ResultStatus.FAILED.status,
+						String.format("登录失败超过 %d 次，锁定账户 30 秒。", loginFailMaxCount));
 			}
 		}
 

@@ -37,9 +37,8 @@ public class MailController {
 	 * - 富文本邮件
 	 * 127.0.0.1/api/complexMail ---- post
 	 * {"to":["898899721@qq.com"],"cc":["hujiang_cd@hqyj.com"],"subject":"complexMail", 
-	 * "text":"<html><head></head><body><h1>hello! Welcome Hyman!</h1><br><img src='cid:image-0'>
-	 * </img><br><img src='cid:image-1'></img></body></html>","attachments":["D:/temp/attachments_1.txt"],
-	 * "images":["D:/temp/111.jpg","D:/temp/222.jpg"]}
+	 * "text":"<html><head></head><body><h1>hello! Welcome Hyman!</h1></body></html>",
+	 * "html":"true","attachments":["D:/temp/temp.txt","D:/temp/111.jpg","D:/temp/222.jpg"]}
 	 */
 	@PostMapping(value = "/complexMail",consumes = "application/json")
 	public ResultEntity<Object> sendComplexMail(@RequestBody Mail mail) {
@@ -48,9 +47,9 @@ public class MailController {
 	
 	/**
 	 * - Thymeleaf 模版邮件
-	 * 127.0.0.1/api/templateMail/wellCome ---- post
-	 * {"to":["898899721@qq.com"],"cc":["hujiang_cd@hqyj.com"],"subject":"SimpleMailSubject", 
-	 * "text":"SimpleMailContent","templateMap":{"name":"HymanHu","id":"12345"},"templateId":"wellCome"}
+	 * 127.0.0.1/api/templateMail ---- post
+	 * {"to":["898899721@qq.com"],"cc":["hujiang_cd@hqyj.com"],"subject":"TemplateMailSubject","text":
+	 * "TemplateMailContent","templateMap":{"name":"HymanHu","id":"12345"},"templateId":"wellCome"}
 	 */
 	@PostMapping(value = "/templateMail/{templateId}",consumes = "application/json")
 	public ResultEntity<Object> sendTemplateMail(@RequestBody Mail mail) {

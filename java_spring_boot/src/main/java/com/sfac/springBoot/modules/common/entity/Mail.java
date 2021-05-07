@@ -17,6 +17,7 @@ public class Mail {
 	private String replyTo;
 	private String subject;
 	private String text;
+	private boolean html;
 	// 附件地址
 	private String[] attachments;
 	// 图片地址
@@ -81,6 +82,14 @@ public class Mail {
 
 	public void setText(String text) {
 		this.text = text;
+	}
+
+	public boolean getHtml() {
+		return html;
+	}
+
+	public void setHtml(boolean html) {
+		this.html = html;
 	}
 
 	public String[] getAttachments() {

@@ -80,7 +80,7 @@ public class MailServiceImpl implements MailService {
 				helper.setReplyTo(mail.getReplyTo());
 			}
 			helper.setSubject(mail.getSubject());
-			helper.setText(mail.getText());
+			helper.setText(mail.getText(), mail.getHtml());
 			helper.setSentDate(new Date());
 			
 			// build attachments
