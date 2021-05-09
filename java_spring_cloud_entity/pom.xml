@@ -3,10 +3,10 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sfac</groupId>
-	<artifactId>java_spring_cloud_common</artifactId>
+	<artifactId>java_spring_cloud_entity</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>java_spring_cloud_common</name>
-	<description>java_spring_cloud_common</description>
+	<name>java_spring_cloud_entity</name>
+	<description>java_spring_cloud_entity</description>
 
 	<properties>
 		<java.version>11</java.version>
