@@ -137,7 +137,7 @@ public class ParkingChargeServiceImpl implements ParkingChargeService {
 							item.getStart(), item.getEnd(), 
 							parkingCharge.getStart(), parkingCharge.getEnd()))
 				.reduce((i, j) -> i + j)
-				.get();
+				.orElse(0);
 			
 			// 设置总停车时间
 			Duration duration = Duration.between(parkingCharge.getStart(), parkingCharge.getEnd());
