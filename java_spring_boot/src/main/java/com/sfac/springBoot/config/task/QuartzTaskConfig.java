@@ -1,5 +1,7 @@
 package com.sfac.springBoot.config.task;
 
+import org.quartz.CronScheduleBuilder;
+import org.quartz.CronTrigger;
 import org.quartz.Job;
 import org.quartz.JobBuilder;
 import org.quartz.JobDetail;
@@ -16,6 +18,11 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.quartz.QuartzJobBean;
 
+/**
+ * Description: Quartz Task Config
+ * @author HymanHu
+ * @date 2021-05-11 16:09:38
+ */
 @Configuration
 public class QuartzTaskConfig {
 	
@@ -35,10 +42,15 @@ public class QuartzTaskConfig {
 	
 	@Bean
 	public Trigger trigger_1() {
-		ScheduleBuilder<SimpleTrigger> scheduleBuilder = SimpleScheduleBuilder
-				.simpleSchedule()
-				.withIntervalInSeconds(10)
-				.repeatForever();
+		// 任务调度 ---- 编码方式
+//		ScheduleBuilder<SimpleTrigger> scheduleBuilder = SimpleScheduleBuilder
+//				.simpleSchedule()
+//				.withIntervalInSeconds(10)
+//				.repeatForever();
+		// 任务调度 ---- Cron 表达式方式
+		ScheduleBuilder<?> scheduleBuilder = CronScheduleBuilder
+				.cronSchedule("0/10 * * * * ?");
+		
 		return TriggerBuilder.newTrigger().forJob(jobDetail_1()).withSchedule(scheduleBuilder).build();
 	}
 
