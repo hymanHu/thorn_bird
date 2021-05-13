@@ -4,6 +4,7 @@ sql 文件
 	account.sql ---- 账户模块数据库
 	countryAndCity.sql ---- 测试数据库
 	traffic.sql ---- 停车场收费模块数据库
+	quartz.sql ---- quartz 任务持久化数据库
 
 启动
 	启动 Redis ---- 添加了输入密码三次错误锁定账户的功能

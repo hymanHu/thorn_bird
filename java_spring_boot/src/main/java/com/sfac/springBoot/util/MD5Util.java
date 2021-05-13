@@ -18,4 +18,8 @@ public class MD5Util {
 		String base = password + "/" + SALT;
 		return DigestUtils.md5DigestAsHex(base.getBytes());
 	}
+	
+	public static void main(String[] args) {
+		System.out.println(MD5Util.getMD5("111111"));
+	}
 }

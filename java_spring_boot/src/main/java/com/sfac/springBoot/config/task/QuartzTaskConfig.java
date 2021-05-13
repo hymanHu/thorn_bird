@@ -41,17 +41,18 @@ public class QuartzTaskConfig {
 	}
 	
 	@Bean
+	@SuppressWarnings("unused")
 	public Trigger trigger_1() {
 		// 任务调度 ---- 编码方式
-//		ScheduleBuilder<SimpleTrigger> scheduleBuilder = SimpleScheduleBuilder
-//				.simpleSchedule()
-//				.withIntervalInSeconds(10)
-//				.repeatForever();
+		ScheduleBuilder<SimpleTrigger> codeScheduleBuilder = SimpleScheduleBuilder
+				.simpleSchedule()
+				.withIntervalInSeconds(10)
+				.repeatForever();
 		// 任务调度 ---- Cron 表达式方式
-		ScheduleBuilder<?> scheduleBuilder = CronScheduleBuilder
-				.cronSchedule("0/10 * * * * ?");
+		ScheduleBuilder<CronTrigger> cronScheduleBuilder = CronScheduleBuilder
+				.cronSchedule("0/30 * * * * ?");
 		
-		return TriggerBuilder.newTrigger().forJob(jobDetail_1()).withSchedule(scheduleBuilder).build();
+		return TriggerBuilder.newTrigger().forJob(jobDetail_1()).withSchedule(cronScheduleBuilder).build();
 	}
 
 }
