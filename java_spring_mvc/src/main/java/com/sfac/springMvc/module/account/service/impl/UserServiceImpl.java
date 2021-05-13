@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public User getUserByUserNameAndPassword(String userName, String password) {
-		return userDao.getUserByUserNameAndPassword(userName, MD5Util.getMD5(userName, password));
+		return userDao.getUserByUserNameAndPassword(userName, MD5Util.getMD5(password));
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class UserServiceImpl implements UserService {
 	public ResultEntity<User> login(User user) {
 		Subject subject = SecurityUtils.getSubject();
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUserName(), 
-				MD5Util.getMD5(user.getUserName(), user.getPassword()));
+				MD5Util.getMD5(user.getPassword()));
 		token.setRememberMe(user.getRememberMe());
 		
 		try {
@@ -81,7 +81,7 @@ public class UserServiceImpl implements UserService {
 		}
 		
 		user.setCreateDate(LocalDateTime.now());
-		user.setPassword(MD5Util.getMD5(user.getUserName(), user.getPassword()));
+		user.setPassword(MD5Util.getMD5(user.getPassword()));
 		userDao.insertUser(user);
 		if (user.getRoles() != null) {
 			user.getRoles().stream()
@@ -100,7 +100,7 @@ public class UserServiceImpl implements UserService {
 			return new ResultEntity<User>(ResultEntity.ResultStatus.FAILED.status, "User Name or email is repeat.");
 		}
 		
-		user.setPassword(MD5Util.getMD5(user.getUserName(), user.getPassword()));
+		user.setPassword(MD5Util.getMD5(user.getPassword()));
 		userDao.updateUser(user);
 		if (user.getRoles() != null && !user.getRoles().isEmpty()) {
 			userRoleDao.deleteUserRoleByUserId(user.getId());

@@ -123,6 +123,7 @@
 	<script src="/static/js/custom.js"></script>
 	
 	<script type="text/javascript">
+		var DEFAULT_PAGE_SIZE = 5;
 		$(function() {
 			initTable(DEFAULT_PAGE_SIZE);
 			initTrackType();
