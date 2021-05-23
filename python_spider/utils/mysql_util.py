@@ -9,10 +9,11 @@ mysql utils
 __author__ = "HymanHu";
 
 def get_connect_cursor():
-    connect = pymysql.connect(host='localhost', user='root', passwd='root', db='maindb', charset='utf8')
+    connect = pymysql.connect(host='localhost', user='root', passwd='root', db='test', charset='utf8')
     return connect, connect.cursor();
 
 def execute_insert_update_delete(cursor, sql):
+    print(sql);
     result = cursor.execute(sql)
     return result
 

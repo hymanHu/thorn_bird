@@ -1,11 +1,45 @@
---
--- Table structure for table `university`
---
+/*
+Navicat MySQL Data Transfer
 
-DROP TABLE IF EXISTS `university`;
-/*!40101 SET @saved_cs_client     = @@character_set_client */;
-/*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `university` (
+Source Server         : MyConnect
+Source Server Version : 80018
+Source Host           : localhost:3306
+Source Database       : test
+
+Target Server Type    : MYSQL
+Target Server Version : 80018
+File Encoding         : 65001
+
+Date: 2021-05-23 20:21:23
+*/
+
+SET FOREIGN_KEY_CHECKS=0;
+-- ----------------------------
+-- Table structure for `spider_coronavirus`
+-- ----------------------------
+DROP TABLE IF EXISTS `spider_coronavirus`;
+CREATE TABLE `spider_coronavirus` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `date` varchar(20) DEFAULT NULL,
+  `region` varchar(20) DEFAULT NULL,
+  `diagnosis` int(11) DEFAULT NULL,
+  `overseas_import` int(11) DEFAULT NULL,
+  `cure` int(11) DEFAULT NULL,
+  `death` int(11) DEFAULT NULL,
+  `therapy` int(11) DEFAULT NULL,
+  `observation` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of spider_coronavirus
+-- ----------------------------
+
+-- ----------------------------
+-- Table structure for `spider_university`
+-- ----------------------------
+DROP TABLE IF EXISTS `spider_university`;
+CREATE TABLE `spider_university` (
   `id` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `school_name` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
   `type` varchar(55) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
@@ -27,8 +61,7 @@ CREATE TABLE `university` (
   `view_total_number` bigint(20) DEFAULT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
-/*!40101 SET character_set_client = @saved_cs_client */;
 
---
--- Dumping data for table `university`
---
+-- ----------------------------
+-- Records of spider_university
+-- ----------------------------

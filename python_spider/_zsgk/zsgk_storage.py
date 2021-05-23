@@ -13,8 +13,8 @@ def university_storage(universities):
         connection, cursor = mysql_util.get_connect_cursor()
         for university in universities:
             id = university.get("id")
-            query_sql = "select * from university where id = '%s'"%(id,)
-            insert_sql = "insert into university (id, school_name, type, level, nature, belong, central, department, " \
+            query_sql = "select * from spider_university where id = '%s'"%(id,)
+            insert_sql = "insert into spider_university (id, school_name, type, level, nature, belong, central, department, " \
                          "doublehigh, f211, f985, is_recruitment, dual_class, address, province_name, single_province, " \
                          "city_name, county_name, view_total_number) values " \
                          "('%s', '%s', '%s', '%s', '%s', '%s', %s, %s, %s, %s, %s, %s, '%s', '%s', '%s', '%s', '%s', '%s', %s)" \

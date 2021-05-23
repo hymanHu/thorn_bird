@@ -13,30 +13,31 @@ __author__ = "HymanHu";
 request_headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0',
 }
-base_url_format = 'https://image.baidu.com/search/acjson?tn=resultjson_com&ipn=rj&ct=201326592&is=' \
-            '&fp=result&queryWord={0}&cl=2&lm=-1&ie=utf-8&oe=utf-8&adpicid=&st=-1&z=&ic=0&hd=' \
-            '&latest=&copyright=&word={1}&s=&se=&tab=&width=&height=&face=0&istype=2&qc=&nc=1' \
-            '&fr=&expermode=&force=&pn={2}&rn=30&gsm=5a'
-url_count = 3
-def bdtp_data(keyword):
-    images = []
-    urls = [base_url_format.format(keyword, keyword, i * 30) for i in range(1, url_count + 1)]
-    for url in urls:
-        print("Visit url: %s"%url)
-        try:
-            r = requests.get(url, headers=request_headers)
-            if r.status_code == 200:
-                data = r.json().get("data")
-                for item in data:
-                    images.append(item.get("middleURL"))
-            else:
-                print("Returen error status code(%d)" % (r.status_code,))
-        except Exception as e:
-            print(e)
+import requests;
+from _bdtp import bdtp_storage;
 
-    return images
+PAGE_COUNT = 3;
+PAGE_SIZE = 30;
+headers = {"User-Agent":"Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:88.0) Gecko/20100101 Firefox/88.0"};
+
+def bdtp_data(keyword):
+    urls = list("https://image.baidu.com/search/acjson?tn=resultjson_com&logid=11630114429471695285&"
+                "ipn=rj&ct=201326592&is=&fp=result&queryWord=%s&cl=%d&lm=-1&ie=utf-8&oe=utf-8&"
+                "adpicid=&st=&z=&ic=&hd=&latest=&copyright=&word=%s&s=&se=&tab=&width=&height=&"
+                "face=&istype=&qc=&nc=1&fr=&expermode=&force=&pn=%d&rn=%d&gsm=3c&1621407427506=" % (keyword, page,
+                keyword, page * PAGE_SIZE, PAGE_SIZE) for page in range(1, PAGE_COUNT + 1));
+
+    images = [];
+    for url in urls:
+        r = requests.get(url, headers = headers);
+        for image in r.json().get("data"):
+            if image.get("middleURL"):
+                images.append(image.get("middleURL"));
+
+    print(images);
+    return images;
 
 if __name__ == "__main__":
-    keyword = "风铃"
+    keyword = "美女"
     images = bdtp_data(keyword)
     bdtp_storage.bdtu_storage(keyword, images)

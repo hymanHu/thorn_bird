@@ -194,5 +194,5 @@ if __name__ == "__main__":
     # url = "http://wsjkw.sc.gov.cn/scwsjkw/gzbd01/ztwzlmgl.shtml"
     # print(news_page_data(url))
     gzbd_data = gzbd_all_data()
-    # gzbd_storage.storage_mysql(gzbd_data)
+    gzbd_storage.storage_mysql(gzbd_data)
 
