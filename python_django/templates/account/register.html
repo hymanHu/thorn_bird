@@ -1,0 +1,88 @@
+<div id="registerDiv" class="login_wrapper">
+	<div id="register" class="animate form login_form">
+		<section class="login_content">
+			<form action="javascript:void(0);">
+				<h1>Create Account</h1>
+				<div>
+					<input
+						type="text"
+						v-model="user.userName"
+						class="form-control"
+						placeholder="Username"
+						required=""
+					/>
+				</div>
+				<div>
+					<input type="email" v-model="user.email" class="form-control" placeholder="Email" required="" />
+				</div>
+				<div>
+					<input
+						type="password"
+						v-model="user.password"
+						class="form-control"
+						placeholder="Password"
+						required=""
+					/>
+				</div>
+				<div>
+					<a class="btn btn-default submit" href="javascript:void(0);" @click="register()">Submit</a>
+				</div>
+
+				<div class="clearfix"></div>
+
+				<div class="separator">
+					<p class="change_link">
+						Already a member ?
+						<a href="/login" class="to_register"> Log in </a>
+					</p>
+
+					<div class="clearfix"></div>
+					<br />
+
+					<div>
+						<h1><i class="fa fa-paw"></i> Java Spring Boot!</h1>
+						<p>©2016 All Rights Reserved. Java Spring Boot! is a Bootstrap 3 template.</p>
+					</div>
+				</div>
+			</form>
+		</section>
+	</div>
+</div>
+<script type="text/javascript">
+	var registerVue = new Vue({
+		el: "#registerDiv",
+		data: {
+			user: {
+				email: "",
+				userName: "",
+				password: "",
+			},
+		},
+		methods: {
+			register: function () {
+				var self = this;
+				if (self.user.email == "" || self.user.userName == "" || self.user.password == "") {
+					layer.msg("Please input register info", { icon: 0 });
+					return;
+				}
+
+				$.ajax({
+					url: "/api/user",
+					type: "post",
+					contentType: "application/json",
+					data: JSON.stringify(self.user),
+					success: function (data) {
+						if (data.status == 200) {
+							location.href = "/login";
+						} else {
+							layer.msg(data.message, { icon: 0 });
+						}
+					},
+					error: function (data) {
+						layer.msg(data.responseText, { icon: 0 });
+					},
+				});
+			},
+		},
+	})();
+</script>

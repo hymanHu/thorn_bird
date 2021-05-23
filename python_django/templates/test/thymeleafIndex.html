@@ -1,0 +1,84 @@
+<!-- page content -->
+<div class="right_col" role="main">
+	<div class="">
+		<div class="page-title">
+			<div class="title_left">
+				<h3>Test <small>index</small></h3>
+			</div>
+		</div>
+
+		<div class="clearfix"></div>
+
+		<div class="row">
+			<div class="col-md-12 col-sm-12">
+				<h3>This is Test index page.</h3>
+				<p>Hello World!</p>
+				<p>====================================</p>
+				<h3>文件下载</h3>
+				<a href="/test/file?fileName=161655462952412.jpg">161655462952412.jpg</a>
+				<p>====================================</p>
+				<h3>文件上传</h3>
+				<p th:text="${message}" style="color: red"></p>
+				<img th:src="${imagePath}" />
+				<form action="/test/file" method="post" enctype="multipart/form-data">
+					<input type="file" name="file" />
+					<input type="submit" value="上传"/>
+				</form>
+				<p>====================================</p>
+				<h3>获取值</h3>
+				<div th:text="${thymeleafTitle}"></div>
+				<span th:text="${thymeleafTitle}"></span>
+				<p>====================================</p>
+				<h3>判断</h3>
+				<p th:if="${checked} == true">checked is true</p>
+				<p th:unless="${checked} != true">checked is true</p>
+				<p th:if="${currentNumber} &lt; 100">current number < 100</p>
+				<p th:if="${thymeleafTitle} == null">thymeleafTitle is null</p>
+				<p>====================================</p>
+				<h3>属性设定</h3>
+				<input type="checkbox" th:checked="${checked}"/>
+				<p><img th:src="${src}"/></p>
+				<p><a th:href="${href}">我的链接</a></p>
+				<p><a th:href="@{'/api/city/' + ${city.cityId}}">上海</a></p>
+				<p><a th:href="@{/api/city(cityId=${city.cityId}, cityName=${city.cityName})}">上海</a></p>
+				<p>====================================</p>
+				<h3>加载对象</h3>
+				<div th:object="${city}">
+					<p th:text="${city.cityId}"></p>
+					<p th:text="*{cityName}"></p>
+				</div>
+				<p>===========================================</p>
+				<h3>循环</h3>
+				<ul th:each="city : ${cities}">
+					<li th:text="${city.cityName}"></li>
+				</ul>
+				<table>
+					<thead><tr><td>Id</td><td>Name</td></tr></thead>
+					<tbody th:each="city : ${cities}">
+						<tr>
+							<td th:text="${city.cityId}"></td>
+							<td th:text="${city.cityName}"></td>
+						</tr>
+					</tbody>
+				</table>
+				<select>
+					<option th:each="city : ${cities}"
+							th:value="${city.cityId}" th:text="${city.cityName}"></option>
+				</select>
+				<p>===========================================</p>
+				<h3>表单</h3>
+				<form action="/api/city" method="post">
+					<!-- 有的浏览器并不支持 PUT 请求，SpringMVC 为我们提供了一种解决方案
+						全局配置开启 hidden method：spring.mvc.hiddenmethod.filter.enabled=true
+						表单中添加 hidden 指定 method
+					-->
+					<input type="hidden" name="_method" value="PUT">
+					<input type="text" th:value="${city.cityId}" name="cityId" readonly/>
+					<input type="text" th:value="${city.cityName}" name="cityName" readonly/>
+					<input type="text" th:value="${city.localCityName}" name="localCityName"/>
+					<input type="submit" value="提交"/>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>

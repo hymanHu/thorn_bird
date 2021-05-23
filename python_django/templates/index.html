@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:v-bind="http://www.w3.org/1999/xhtml"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+>
+	<head>
+		<meta charset="UTF-8" />
+		<title>Java Spring Boot</title>
+
+		<!-- Bootstrap -->
+		<link href="/static/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+		<!-- Font Awesome -->
+		<link href="/static/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
+		<!-- Custom Theme Style -->
+		<link href="/static/css/custom.css" rel="stylesheet" />
+
+		<!-- jQuery -->
+		<script src="/static/vendors/jquery/dist/jquery.min.js"></script>
+		<!-- Bootstrap -->
+		<script src="/static/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+		<!-- vue -->
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" type="text/javascript"></script>
+		<!-- layer -->
+		<script src="https://cdn.bootcss.com/layer/2.1/layer.js" type="text/javascript"></script>
+		<!-- 删除确认框-->
+		<script src="/static/vendors/bootbox/js/bootbox.js" type="text/javascript"></script>
+	</head>
+	<body class="nav-md">
+		<div id="modelDiv" class="container body">
+			<div class="main_container">
+				<div class="col-md-3 left_col">
+                    {% include "fragments/sideBar.html" %}
+                    {% include "fragments/header.html" %}
+
+					<!-- body content -->
+                    {% block content %}
+                    {% endblock content %}
+
+                    {% include "fragments/footer.html" %}
+				</div>
+			</div>
+		</div>
+
+		<!-- Custom Theme Scripts -->
+		<script src="/static/js/custom.js"></script>
+	</body>
+</html>

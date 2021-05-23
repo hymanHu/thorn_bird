@@ -1,0 +1,57 @@
+<!-- 模态框 -->
+<div id="modalAdd" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="myModalLabel">User Add</h4>
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">×</span></button>
+			</div>
+			<div class="modal-body">
+				<form action="javascript:void(0);" class="form-horizontal">
+					<div class="form-group row">
+						<label class="control-label col-md-4">Email</label>
+						<div class="col-md-8">
+							<input class="form-control" type="text" v-model="model.email" placeholder="Enter email" />
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-4">User Name</label>
+						<div class="col-md-8">
+							<input
+								class="form-control"
+								type="text"
+								v-model="model.userName"
+								placeholder="Enter user name"
+							/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-4">Password</label>
+						<div class="col-md-8">
+							<input
+								class="form-control"
+								type="password"
+								v-model="model.password"
+								placeholder="Enter password"
+							/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-4">Roles</label>
+						<div class="col-md-8">
+							<span v-for="(role, index) in roles">
+								<input type="checkbox" :value="role.id" v-model="model.roles" />{{role.roleName}}
+							</span>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" @click="addModel()">
+					Save changes
+				</button>
+			</div>
+		</div>
+	</div>
+</div>
