@@ -6,6 +6,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sfac.springBoot.modules.common.entity.ImageType;
+import com.sfac.springBoot.modules.exam.entity.QuestionFlag;
+import com.sfac.springBoot.modules.exam.entity.QuestionType;
 import com.sfac.springBoot.modules.traffic.entity.CarType;
 import com.sfac.springBoot.modules.traffic.entity.ParkingCharge.ParkingChargeType;
 import com.sfac.springBoot.modules.traffic.entity.ParkingSpace.ParkingSpaceStatus;
@@ -34,6 +36,8 @@ public class DictionaryController {
         put("parkingSpaceType", ParkingSpaceType.class);
         put("parkingSpaceStatus", ParkingSpaceStatus.class);
         put("parkingChargeType", ParkingChargeType.class);
+        put("questionType", QuestionType.class);
+        put("questionFlag", QuestionFlag.class);
     }};
 
     /**
