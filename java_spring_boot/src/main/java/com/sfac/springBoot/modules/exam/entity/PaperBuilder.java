@@ -1,6 +1,7 @@
 package com.sfac.springBoot.modules.exam.entity;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Description: Paper Builder
@@ -11,7 +12,17 @@ public class PaperBuilder {
 	private String paperTitle;
 	private String paperFlage;
 	private List<String> paperTypes;
+	private String paperTypesString;
 	private int paperTime;
+	
+	public void initPaperTypesString() {
+		if (this.getPaperTypes() != null) {
+			this.setPaperTypesString(String.join(",", 
+					this.getPaperTypes().stream()
+						.map(item -> String.format("'%s'", item))
+						.collect(Collectors.toList())));
+		}
+	}
 
 	public String getPaperTitle() {
 		return paperTitle;
@@ -35,6 +46,14 @@ public class PaperBuilder {
 
 	public void setPaperTypes(List<String> paperTypes) {
 		this.paperTypes = paperTypes;
+	}
+
+	public String getPaperTypesString() {
+		return paperTypesString;
+	}
+
+	public void setPaperTypesString(String paperTypesString) {
+		this.paperTypesString = paperTypesString;
 	}
 
 	public int getPaperTime() {
