@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : MyConnect
-Source Server Version : 80018
+Source Server         : myConnection
+Source Server Version : 50525
 Source Host           : localhost:3306
 Source Database       : test
 
 Target Server Type    : MYSQL
-Target Server Version : 80018
+Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2020-12-27 20:45:29
+Date: 2021-05-25 14:50:46
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,21 +21,27 @@ DROP TABLE IF EXISTS `exam_achievement`;
 CREATE TABLE `exam_achievement` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `user_id` int(11) NOT NULL,
-  `subject` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `subject` varchar(255) NOT NULL,
   `total_score` double(11,2) NOT NULL,
-  `reference_score` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci DEFAULT NULL,
+  `reference_score` varchar(255) DEFAULT NULL,
   `score` double(11,2) DEFAULT NULL,
   `total_time` int(11) DEFAULT NULL,
   `spend_time` int(11) DEFAULT NULL,
   `exam_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=23 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of exam_achievement
 -- ----------------------------
-INSERT INTO `exam_achievement` VALUES ('21', '1', 'Java_Framework_20201224_admin', '100.00', '40.0 ~ 95.0', '0.00', '60', '1', '2020-12-27 20:41:49');
-INSERT INTO `exam_achievement` VALUES ('22', '1', 'Java_Framework_1932_admin', '67.50', '52.5', '52.50', '60', '1', '2020-12-27 20:42:50');
+INSERT INTO `exam_achievement` VALUES ('60', '1', 'Java_Framework_j2101_周岩_admin', '67.50', '52.5', '52.50', '45', '14', '2021-05-13 13:53:38');
+INSERT INTO `exam_achievement` VALUES ('62', '1', 'Java_Framework_j2101_李家富_admin', '67.50', '57.5', '57.50', '45', '15', '2021-05-13 13:57:14');
+INSERT INTO `exam_achievement` VALUES ('63', '1', 'Java_Framework_j2101_尤行_admin', '67.50', '50.0', '50.00', '45', '15', '2021-05-13 13:57:37');
+INSERT INTO `exam_achievement` VALUES ('64', '1', 'Java_Framework_j2101_朱彦宝_admin', '67.50', '57.5', '57.50', '45', '15', '2021-05-13 14:08:02');
+INSERT INTO `exam_achievement` VALUES ('65', '1', 'Java_Framework_j2101_王天石_admin', '67.50', '47.5', '47.50', '45', '11', '2021-05-13 14:10:09');
+INSERT INTO `exam_achievement` VALUES ('66', '1', 'Java_Framework_j2101_王永佳_admin', '67.50', '52.5', '52.50', '45', '11', '2021-05-13 14:12:24');
+INSERT INTO `exam_achievement` VALUES ('67', '1', 'Java_Framework_j2101_覃运泉_admin', '67.50', '60.0', '60.00', '45', '11', '2021-05-13 16:35:28');
+INSERT INTO `exam_achievement` VALUES ('68', '1', 'Java_Framework_j2101_王炼_admin', '67.50', '55.0', '55.00', '45', '12', '2021-05-14 09:05:24');
 
 -- ----------------------------
 -- Table structure for `exam_answer`
@@ -47,61 +53,211 @@ CREATE TABLE `exam_answer` (
   `question_id` int(11) NOT NULL,
   `user_answer` varchar(255) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=551 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1622 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of exam_answer
 -- ----------------------------
-INSERT INTO `exam_answer` VALUES ('501', '21', '15', 'A');
-INSERT INTO `exam_answer` VALUES ('502', '21', '8', 'D');
-INSERT INTO `exam_answer` VALUES ('503', '21', '7', 'D');
-INSERT INTO `exam_answer` VALUES ('504', '21', '12', 'A');
-INSERT INTO `exam_answer` VALUES ('505', '21', '9', 'C');
-INSERT INTO `exam_answer` VALUES ('506', '21', '53', 'B');
-INSERT INTO `exam_answer` VALUES ('507', '21', '6', 'D');
-INSERT INTO `exam_answer` VALUES ('508', '21', '18', 'B');
-INSERT INTO `exam_answer` VALUES ('509', '21', '56', 'A');
-INSERT INTO `exam_answer` VALUES ('510', '21', '57', 'A');
-INSERT INTO `exam_answer` VALUES ('511', '21', '13', 'A,D');
-INSERT INTO `exam_answer` VALUES ('512', '21', '14', 'A,B');
-INSERT INTO `exam_answer` VALUES ('513', '21', '47', 'True');
-INSERT INTO `exam_answer` VALUES ('514', '21', '49', 'True');
-INSERT INTO `exam_answer` VALUES ('515', '21', '46', 'True');
-INSERT INTO `exam_answer` VALUES ('516', '21', '55', 'True');
-INSERT INTO `exam_answer` VALUES ('517', '21', '19', 'cascscas');
-INSERT INTO `exam_answer` VALUES ('518', '21', '24', 'cdsacdsa');
-INSERT INTO `exam_answer` VALUES ('519', '21', '22', 'cdsacdas');
-INSERT INTO `exam_answer` VALUES ('520', '21', '21', 'cdsacads');
-INSERT INTO `exam_answer` VALUES ('521', '21', '31', 'cdsacdsa');
-INSERT INTO `exam_answer` VALUES ('522', '21', '26', 'cdsacdas');
-INSERT INTO `exam_answer` VALUES ('523', '21', '32', 'cdsacdas');
-INSERT INTO `exam_answer` VALUES ('524', '21', '45', 'cdascads');
-INSERT INTO `exam_answer` VALUES ('525', '21', '43', 'cdsacdas');
-INSERT INTO `exam_answer` VALUES ('526', '22', '9', 'C');
-INSERT INTO `exam_answer` VALUES ('527', '22', '54', 'D');
-INSERT INTO `exam_answer` VALUES ('528', '22', '7', 'D');
-INSERT INTO `exam_answer` VALUES ('529', '22', '17', 'D');
-INSERT INTO `exam_answer` VALUES ('530', '22', '58', 'A');
-INSERT INTO `exam_answer` VALUES ('531', '22', '12', 'A');
-INSERT INTO `exam_answer` VALUES ('532', '22', '16', 'C');
-INSERT INTO `exam_answer` VALUES ('533', '22', '50', 'A');
-INSERT INTO `exam_answer` VALUES ('534', '22', '10', 'C');
-INSERT INTO `exam_answer` VALUES ('535', '22', '6', 'D');
-INSERT INTO `exam_answer` VALUES ('536', '22', '53', 'B');
-INSERT INTO `exam_answer` VALUES ('537', '22', '15', 'A');
-INSERT INTO `exam_answer` VALUES ('538', '22', '18', 'B');
-INSERT INTO `exam_answer` VALUES ('539', '22', '5', 'A');
-INSERT INTO `exam_answer` VALUES ('540', '22', '8', 'D');
-INSERT INTO `exam_answer` VALUES ('541', '22', '52', 'C');
-INSERT INTO `exam_answer` VALUES ('542', '22', '56', 'A');
-INSERT INTO `exam_answer` VALUES ('543', '22', '57', 'A');
-INSERT INTO `exam_answer` VALUES ('544', '22', '13', 'A,D');
-INSERT INTO `exam_answer` VALUES ('545', '22', '14', 'A,B');
-INSERT INTO `exam_answer` VALUES ('546', '22', '49', '');
-INSERT INTO `exam_answer` VALUES ('547', '22', '55', 'False');
-INSERT INTO `exam_answer` VALUES ('548', '22', '46', 'True');
-INSERT INTO `exam_answer` VALUES ('549', '22', '47', 'False');
-INSERT INTO `exam_answer` VALUES ('550', '22', '48', 'True');
+INSERT INTO `exam_answer` VALUES ('1397', '60', '53', 'A');
+INSERT INTO `exam_answer` VALUES ('1398', '60', '10', '');
+INSERT INTO `exam_answer` VALUES ('1399', '60', '15', 'A');
+INSERT INTO `exam_answer` VALUES ('1400', '60', '52', 'C');
+INSERT INTO `exam_answer` VALUES ('1401', '60', '17', 'B');
+INSERT INTO `exam_answer` VALUES ('1402', '60', '8', 'D');
+INSERT INTO `exam_answer` VALUES ('1403', '60', '54', 'D');
+INSERT INTO `exam_answer` VALUES ('1404', '60', '9', 'C');
+INSERT INTO `exam_answer` VALUES ('1405', '60', '7', 'D');
+INSERT INTO `exam_answer` VALUES ('1406', '60', '6', 'D');
+INSERT INTO `exam_answer` VALUES ('1407', '60', '50', 'A');
+INSERT INTO `exam_answer` VALUES ('1408', '60', '18', 'B');
+INSERT INTO `exam_answer` VALUES ('1409', '60', '12', 'C');
+INSERT INTO `exam_answer` VALUES ('1410', '60', '56', 'D');
+INSERT INTO `exam_answer` VALUES ('1411', '60', '58', 'B');
+INSERT INTO `exam_answer` VALUES ('1412', '60', '57', 'A');
+INSERT INTO `exam_answer` VALUES ('1413', '60', '16', 'C');
+INSERT INTO `exam_answer` VALUES ('1414', '60', '5', 'A');
+INSERT INTO `exam_answer` VALUES ('1415', '60', '14', 'A,B');
+INSERT INTO `exam_answer` VALUES ('1416', '60', '13', 'A,D');
+INSERT INTO `exam_answer` VALUES ('1417', '60', '47', 'False');
+INSERT INTO `exam_answer` VALUES ('1418', '60', '46', 'False');
+INSERT INTO `exam_answer` VALUES ('1419', '60', '55', 'True');
+INSERT INTO `exam_answer` VALUES ('1420', '60', '49', 'True');
+INSERT INTO `exam_answer` VALUES ('1421', '60', '48', 'True');
+INSERT INTO `exam_answer` VALUES ('1447', '62', '52', 'C');
+INSERT INTO `exam_answer` VALUES ('1448', '62', '6', 'C');
+INSERT INTO `exam_answer` VALUES ('1449', '62', '50', 'A');
+INSERT INTO `exam_answer` VALUES ('1450', '62', '17', 'D');
+INSERT INTO `exam_answer` VALUES ('1451', '62', '10', '');
+INSERT INTO `exam_answer` VALUES ('1452', '62', '58', 'B');
+INSERT INTO `exam_answer` VALUES ('1453', '62', '54', 'A');
+INSERT INTO `exam_answer` VALUES ('1454', '62', '5', 'A');
+INSERT INTO `exam_answer` VALUES ('1455', '62', '12', 'A');
+INSERT INTO `exam_answer` VALUES ('1456', '62', '16', 'C');
+INSERT INTO `exam_answer` VALUES ('1457', '62', '15', 'A');
+INSERT INTO `exam_answer` VALUES ('1458', '62', '56', 'A');
+INSERT INTO `exam_answer` VALUES ('1459', '62', '7', 'D');
+INSERT INTO `exam_answer` VALUES ('1460', '62', '57', 'A');
+INSERT INTO `exam_answer` VALUES ('1461', '62', '8', 'D');
+INSERT INTO `exam_answer` VALUES ('1462', '62', '9', 'C');
+INSERT INTO `exam_answer` VALUES ('1463', '62', '53', 'B');
+INSERT INTO `exam_answer` VALUES ('1464', '62', '18', 'D');
+INSERT INTO `exam_answer` VALUES ('1465', '62', '14', 'A,B');
+INSERT INTO `exam_answer` VALUES ('1466', '62', '13', 'A,D');
+INSERT INTO `exam_answer` VALUES ('1467', '62', '46', 'True');
+INSERT INTO `exam_answer` VALUES ('1468', '62', '47', 'False');
+INSERT INTO `exam_answer` VALUES ('1469', '62', '49', 'True');
+INSERT INTO `exam_answer` VALUES ('1470', '62', '55', 'True');
+INSERT INTO `exam_answer` VALUES ('1471', '62', '48', 'True');
+INSERT INTO `exam_answer` VALUES ('1472', '63', '9', 'C');
+INSERT INTO `exam_answer` VALUES ('1473', '63', '50', 'A');
+INSERT INTO `exam_answer` VALUES ('1474', '63', '10', 'B');
+INSERT INTO `exam_answer` VALUES ('1475', '63', '56', 'D');
+INSERT INTO `exam_answer` VALUES ('1476', '63', '53', 'D');
+INSERT INTO `exam_answer` VALUES ('1477', '63', '5', 'A');
+INSERT INTO `exam_answer` VALUES ('1478', '63', '6', 'C');
+INSERT INTO `exam_answer` VALUES ('1479', '63', '57', 'A');
+INSERT INTO `exam_answer` VALUES ('1480', '63', '52', 'C');
+INSERT INTO `exam_answer` VALUES ('1481', '63', '18', 'B');
+INSERT INTO `exam_answer` VALUES ('1482', '63', '17', 'D');
+INSERT INTO `exam_answer` VALUES ('1483', '63', '54', 'D');
+INSERT INTO `exam_answer` VALUES ('1484', '63', '58', 'D');
+INSERT INTO `exam_answer` VALUES ('1485', '63', '8', 'D');
+INSERT INTO `exam_answer` VALUES ('1486', '63', '16', 'C');
+INSERT INTO `exam_answer` VALUES ('1487', '63', '7', 'D');
+INSERT INTO `exam_answer` VALUES ('1488', '63', '15', 'A');
+INSERT INTO `exam_answer` VALUES ('1489', '63', '12', 'A');
+INSERT INTO `exam_answer` VALUES ('1490', '63', '13', 'A,D');
+INSERT INTO `exam_answer` VALUES ('1491', '63', '14', 'A,B');
+INSERT INTO `exam_answer` VALUES ('1492', '63', '49', 'True');
+INSERT INTO `exam_answer` VALUES ('1493', '63', '47', 'False');
+INSERT INTO `exam_answer` VALUES ('1494', '63', '55', 'False');
+INSERT INTO `exam_answer` VALUES ('1495', '63', '46', 'False');
+INSERT INTO `exam_answer` VALUES ('1496', '63', '48', 'True');
+INSERT INTO `exam_answer` VALUES ('1497', '64', '9', 'C');
+INSERT INTO `exam_answer` VALUES ('1498', '64', '57', 'A');
+INSERT INTO `exam_answer` VALUES ('1499', '64', '18', 'B');
+INSERT INTO `exam_answer` VALUES ('1500', '64', '5', 'A');
+INSERT INTO `exam_answer` VALUES ('1501', '64', '7', 'D');
+INSERT INTO `exam_answer` VALUES ('1502', '64', '54', 'A');
+INSERT INTO `exam_answer` VALUES ('1503', '64', '6', 'C');
+INSERT INTO `exam_answer` VALUES ('1504', '64', '12', 'A');
+INSERT INTO `exam_answer` VALUES ('1505', '64', '52', 'C');
+INSERT INTO `exam_answer` VALUES ('1506', '64', '50', 'A');
+INSERT INTO `exam_answer` VALUES ('1507', '64', '53', 'B');
+INSERT INTO `exam_answer` VALUES ('1508', '64', '56', 'A');
+INSERT INTO `exam_answer` VALUES ('1509', '64', '17', 'D');
+INSERT INTO `exam_answer` VALUES ('1510', '64', '58', 'B');
+INSERT INTO `exam_answer` VALUES ('1511', '64', '8', 'D');
+INSERT INTO `exam_answer` VALUES ('1512', '64', '16', 'C');
+INSERT INTO `exam_answer` VALUES ('1513', '64', '10', '');
+INSERT INTO `exam_answer` VALUES ('1514', '64', '15', 'A');
+INSERT INTO `exam_answer` VALUES ('1515', '64', '13', 'A,C,D');
+INSERT INTO `exam_answer` VALUES ('1516', '64', '14', 'A,B');
+INSERT INTO `exam_answer` VALUES ('1517', '64', '46', 'False');
+INSERT INTO `exam_answer` VALUES ('1518', '64', '55', 'True');
+INSERT INTO `exam_answer` VALUES ('1519', '64', '49', 'True');
+INSERT INTO `exam_answer` VALUES ('1520', '64', '47', 'False');
+INSERT INTO `exam_answer` VALUES ('1521', '64', '48', 'True');
+INSERT INTO `exam_answer` VALUES ('1522', '65', '5', 'A');
+INSERT INTO `exam_answer` VALUES ('1523', '65', '15', 'A');
+INSERT INTO `exam_answer` VALUES ('1524', '65', '12', 'B');
+INSERT INTO `exam_answer` VALUES ('1525', '65', '8', 'D');
+INSERT INTO `exam_answer` VALUES ('1526', '65', '58', 'B');
+INSERT INTO `exam_answer` VALUES ('1527', '65', '56', 'A');
+INSERT INTO `exam_answer` VALUES ('1528', '65', '16', 'C');
+INSERT INTO `exam_answer` VALUES ('1529', '65', '52', 'C');
+INSERT INTO `exam_answer` VALUES ('1530', '65', '17', 'D');
+INSERT INTO `exam_answer` VALUES ('1531', '65', '6', 'D');
+INSERT INTO `exam_answer` VALUES ('1532', '65', '18', 'B');
+INSERT INTO `exam_answer` VALUES ('1533', '65', '54', 'A');
+INSERT INTO `exam_answer` VALUES ('1534', '65', '50', 'A');
+INSERT INTO `exam_answer` VALUES ('1535', '65', '7', 'D');
+INSERT INTO `exam_answer` VALUES ('1536', '65', '53', 'B');
+INSERT INTO `exam_answer` VALUES ('1537', '65', '57', 'C');
+INSERT INTO `exam_answer` VALUES ('1538', '65', '10', '');
+INSERT INTO `exam_answer` VALUES ('1539', '65', '9', 'C');
+INSERT INTO `exam_answer` VALUES ('1540', '65', '14', 'A,B,D');
+INSERT INTO `exam_answer` VALUES ('1541', '65', '13', 'A,C,D');
+INSERT INTO `exam_answer` VALUES ('1542', '65', '55', 'True');
+INSERT INTO `exam_answer` VALUES ('1543', '65', '47', 'False');
+INSERT INTO `exam_answer` VALUES ('1544', '65', '46', 'True');
+INSERT INTO `exam_answer` VALUES ('1545', '65', '49', 'True');
+INSERT INTO `exam_answer` VALUES ('1546', '65', '48', 'True');
+INSERT INTO `exam_answer` VALUES ('1547', '66', '53', 'B');
+INSERT INTO `exam_answer` VALUES ('1548', '66', '57', 'A');
+INSERT INTO `exam_answer` VALUES ('1549', '66', '15', 'A');
+INSERT INTO `exam_answer` VALUES ('1550', '66', '9', 'C');
+INSERT INTO `exam_answer` VALUES ('1551', '66', '17', 'D');
+INSERT INTO `exam_answer` VALUES ('1552', '66', '18', 'B');
+INSERT INTO `exam_answer` VALUES ('1553', '66', '54', 'A');
+INSERT INTO `exam_answer` VALUES ('1554', '66', '7', 'D');
+INSERT INTO `exam_answer` VALUES ('1555', '66', '16', 'C');
+INSERT INTO `exam_answer` VALUES ('1556', '66', '5', 'A');
+INSERT INTO `exam_answer` VALUES ('1557', '66', '56', 'D');
+INSERT INTO `exam_answer` VALUES ('1558', '66', '6', 'A');
+INSERT INTO `exam_answer` VALUES ('1559', '66', '58', 'B');
+INSERT INTO `exam_answer` VALUES ('1560', '66', '12', 'C');
+INSERT INTO `exam_answer` VALUES ('1561', '66', '8', 'D');
+INSERT INTO `exam_answer` VALUES ('1562', '66', '50', 'A');
+INSERT INTO `exam_answer` VALUES ('1563', '66', '10', 'B');
+INSERT INTO `exam_answer` VALUES ('1564', '66', '52', 'A');
+INSERT INTO `exam_answer` VALUES ('1565', '66', '13', 'A,D');
+INSERT INTO `exam_answer` VALUES ('1566', '66', '14', 'A,B');
+INSERT INTO `exam_answer` VALUES ('1567', '66', '46', 'True');
+INSERT INTO `exam_answer` VALUES ('1568', '66', '48', 'True');
+INSERT INTO `exam_answer` VALUES ('1569', '66', '47', 'False');
+INSERT INTO `exam_answer` VALUES ('1570', '66', '49', 'True');
+INSERT INTO `exam_answer` VALUES ('1571', '66', '55', 'True');
+INSERT INTO `exam_answer` VALUES ('1572', '67', '54', 'A');
+INSERT INTO `exam_answer` VALUES ('1573', '67', '9', 'A');
+INSERT INTO `exam_answer` VALUES ('1574', '67', '10', 'D');
+INSERT INTO `exam_answer` VALUES ('1575', '67', '12', 'A');
+INSERT INTO `exam_answer` VALUES ('1576', '67', '7', 'D');
+INSERT INTO `exam_answer` VALUES ('1577', '67', '8', 'D');
+INSERT INTO `exam_answer` VALUES ('1578', '67', '16', 'C');
+INSERT INTO `exam_answer` VALUES ('1579', '67', '53', 'B');
+INSERT INTO `exam_answer` VALUES ('1580', '67', '18', 'B');
+INSERT INTO `exam_answer` VALUES ('1581', '67', '50', 'A');
+INSERT INTO `exam_answer` VALUES ('1582', '67', '17', 'D');
+INSERT INTO `exam_answer` VALUES ('1583', '67', '56', 'A');
+INSERT INTO `exam_answer` VALUES ('1584', '67', '5', 'A');
+INSERT INTO `exam_answer` VALUES ('1585', '67', '6', 'D');
+INSERT INTO `exam_answer` VALUES ('1586', '67', '52', 'C');
+INSERT INTO `exam_answer` VALUES ('1587', '67', '57', 'A');
+INSERT INTO `exam_answer` VALUES ('1588', '67', '58', 'B');
+INSERT INTO `exam_answer` VALUES ('1589', '67', '15', '');
+INSERT INTO `exam_answer` VALUES ('1590', '67', '14', 'A,B');
+INSERT INTO `exam_answer` VALUES ('1591', '67', '13', 'A,D');
+INSERT INTO `exam_answer` VALUES ('1592', '67', '46', 'False');
+INSERT INTO `exam_answer` VALUES ('1593', '67', '55', 'True');
+INSERT INTO `exam_answer` VALUES ('1594', '67', '48', 'True');
+INSERT INTO `exam_answer` VALUES ('1595', '67', '47', 'False');
+INSERT INTO `exam_answer` VALUES ('1596', '67', '49', 'True');
+INSERT INTO `exam_answer` VALUES ('1597', '68', '56', 'A');
+INSERT INTO `exam_answer` VALUES ('1598', '68', '18', 'B');
+INSERT INTO `exam_answer` VALUES ('1599', '68', '10', '');
+INSERT INTO `exam_answer` VALUES ('1600', '68', '50', 'A');
+INSERT INTO `exam_answer` VALUES ('1601', '68', '58', 'B');
+INSERT INTO `exam_answer` VALUES ('1602', '68', '16', 'C');
+INSERT INTO `exam_answer` VALUES ('1603', '68', '5', 'A');
+INSERT INTO `exam_answer` VALUES ('1604', '68', '15', 'A');
+INSERT INTO `exam_answer` VALUES ('1605', '68', '8', 'D');
+INSERT INTO `exam_answer` VALUES ('1606', '68', '52', 'C');
+INSERT INTO `exam_answer` VALUES ('1607', '68', '6', 'D');
+INSERT INTO `exam_answer` VALUES ('1608', '68', '9', 'C');
+INSERT INTO `exam_answer` VALUES ('1609', '68', '53', 'B');
+INSERT INTO `exam_answer` VALUES ('1610', '68', '57', 'A');
+INSERT INTO `exam_answer` VALUES ('1611', '68', '12', 'A');
+INSERT INTO `exam_answer` VALUES ('1612', '68', '54', 'C');
+INSERT INTO `exam_answer` VALUES ('1613', '68', '17', 'D');
+INSERT INTO `exam_answer` VALUES ('1614', '68', '7', 'D');
+INSERT INTO `exam_answer` VALUES ('1615', '68', '14', 'A,B');
+INSERT INTO `exam_answer` VALUES ('1616', '68', '13', 'A,C,D');
+INSERT INTO `exam_answer` VALUES ('1617', '68', '47', 'False');
+INSERT INTO `exam_answer` VALUES ('1618', '68', '46', 'False');
+INSERT INTO `exam_answer` VALUES ('1619', '68', '49', 'True');
+INSERT INTO `exam_answer` VALUES ('1620', '68', '55', 'True');
+INSERT INTO `exam_answer` VALUES ('1621', '68', '48', 'False');
 
 -- ----------------------------
 -- Table structure for `exam_paper`
@@ -114,15 +270,12 @@ CREATE TABLE `exam_paper` (
   `total_score` double(11,2) DEFAULT NULL,
   `create_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=47 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=68 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of exam_paper
 -- ----------------------------
-INSERT INTO `exam_paper` VALUES ('43', 'Java_Framework_20201224_admin', '60', '100.00', '2020-12-24 08:18:05');
-INSERT INTO `exam_paper` VALUES ('44', 'Java_Framework_1932_admin', '60', '67.50', '2020-12-25 21:58:37');
-INSERT INTO `exam_paper` VALUES ('45', 'Java_Framework_20201227_admin', '60', '100.00', '2020-12-27 14:13:42');
-INSERT INTO `exam_paper` VALUES ('46', 'Java_Framework_202012271_admin', '60', '100.00', '2020-12-27 15:42:00');
+INSERT INTO `exam_paper` VALUES ('67', 'Java_Framework_j2101_王炼_admin', '45', '67.50', '2021-05-14 08:39:14');
 
 -- ----------------------------
 -- Table structure for `exam_paper_question`
@@ -133,111 +286,36 @@ CREATE TABLE `exam_paper_question` (
   `paper_id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=1017 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1497 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of exam_paper_question
 -- ----------------------------
-INSERT INTO `exam_paper_question` VALUES ('917', '43', '15');
-INSERT INTO `exam_paper_question` VALUES ('918', '43', '7');
-INSERT INTO `exam_paper_question` VALUES ('919', '43', '12');
-INSERT INTO `exam_paper_question` VALUES ('920', '43', '9');
-INSERT INTO `exam_paper_question` VALUES ('921', '43', '53');
-INSERT INTO `exam_paper_question` VALUES ('922', '43', '6');
-INSERT INTO `exam_paper_question` VALUES ('923', '43', '18');
-INSERT INTO `exam_paper_question` VALUES ('924', '43', '57');
-INSERT INTO `exam_paper_question` VALUES ('925', '43', '19');
-INSERT INTO `exam_paper_question` VALUES ('926', '43', '24');
-INSERT INTO `exam_paper_question` VALUES ('927', '43', '22');
-INSERT INTO `exam_paper_question` VALUES ('928', '43', '21');
-INSERT INTO `exam_paper_question` VALUES ('929', '43', '13');
-INSERT INTO `exam_paper_question` VALUES ('930', '43', '14');
-INSERT INTO `exam_paper_question` VALUES ('931', '43', '46');
-INSERT INTO `exam_paper_question` VALUES ('932', '43', '55');
-INSERT INTO `exam_paper_question` VALUES ('933', '43', '47');
-INSERT INTO `exam_paper_question` VALUES ('934', '43', '49');
-INSERT INTO `exam_paper_question` VALUES ('935', '43', '31');
-INSERT INTO `exam_paper_question` VALUES ('936', '43', '26');
-INSERT INTO `exam_paper_question` VALUES ('937', '43', '45');
-INSERT INTO `exam_paper_question` VALUES ('938', '43', '43');
-INSERT INTO `exam_paper_question` VALUES ('939', '43', '56');
-INSERT INTO `exam_paper_question` VALUES ('940', '43', '32');
-INSERT INTO `exam_paper_question` VALUES ('941', '43', '8');
-INSERT INTO `exam_paper_question` VALUES ('942', '44', '9');
-INSERT INTO `exam_paper_question` VALUES ('943', '44', '17');
-INSERT INTO `exam_paper_question` VALUES ('944', '44', '58');
-INSERT INTO `exam_paper_question` VALUES ('945', '44', '16');
-INSERT INTO `exam_paper_question` VALUES ('946', '44', '10');
-INSERT INTO `exam_paper_question` VALUES ('947', '44', '53');
-INSERT INTO `exam_paper_question` VALUES ('948', '44', '18');
-INSERT INTO `exam_paper_question` VALUES ('949', '44', '52');
-INSERT INTO `exam_paper_question` VALUES ('950', '44', '13');
-INSERT INTO `exam_paper_question` VALUES ('951', '44', '14');
-INSERT INTO `exam_paper_question` VALUES ('952', '44', '55');
-INSERT INTO `exam_paper_question` VALUES ('953', '44', '46');
-INSERT INTO `exam_paper_question` VALUES ('954', '44', '47');
-INSERT INTO `exam_paper_question` VALUES ('955', '44', '48');
-INSERT INTO `exam_paper_question` VALUES ('956', '44', '5');
-INSERT INTO `exam_paper_question` VALUES ('957', '44', '56');
-INSERT INTO `exam_paper_question` VALUES ('958', '44', '54');
-INSERT INTO `exam_paper_question` VALUES ('959', '44', '49');
-INSERT INTO `exam_paper_question` VALUES ('960', '44', '12');
-INSERT INTO `exam_paper_question` VALUES ('961', '44', '50');
-INSERT INTO `exam_paper_question` VALUES ('962', '44', '6');
-INSERT INTO `exam_paper_question` VALUES ('963', '44', '15');
-INSERT INTO `exam_paper_question` VALUES ('964', '44', '8');
-INSERT INTO `exam_paper_question` VALUES ('965', '44', '57');
-INSERT INTO `exam_paper_question` VALUES ('966', '44', '7');
-INSERT INTO `exam_paper_question` VALUES ('967', '45', '7');
-INSERT INTO `exam_paper_question` VALUES ('968', '45', '50');
-INSERT INTO `exam_paper_question` VALUES ('969', '45', '12');
-INSERT INTO `exam_paper_question` VALUES ('970', '45', '15');
-INSERT INTO `exam_paper_question` VALUES ('971', '45', '18');
-INSERT INTO `exam_paper_question` VALUES ('972', '45', '17');
-INSERT INTO `exam_paper_question` VALUES ('973', '45', '16');
-INSERT INTO `exam_paper_question` VALUES ('974', '45', '9');
-INSERT INTO `exam_paper_question` VALUES ('975', '45', '20');
-INSERT INTO `exam_paper_question` VALUES ('976', '45', '19');
-INSERT INTO `exam_paper_question` VALUES ('977', '45', '22');
-INSERT INTO `exam_paper_question` VALUES ('978', '45', '24');
-INSERT INTO `exam_paper_question` VALUES ('979', '45', '14');
-INSERT INTO `exam_paper_question` VALUES ('980', '45', '13');
-INSERT INTO `exam_paper_question` VALUES ('981', '45', '47');
-INSERT INTO `exam_paper_question` VALUES ('982', '45', '49');
-INSERT INTO `exam_paper_question` VALUES ('983', '45', '48');
-INSERT INTO `exam_paper_question` VALUES ('984', '45', '46');
-INSERT INTO `exam_paper_question` VALUES ('985', '45', '41');
-INSERT INTO `exam_paper_question` VALUES ('986', '45', '25');
-INSERT INTO `exam_paper_question` VALUES ('987', '45', '44');
-INSERT INTO `exam_paper_question` VALUES ('988', '45', '45');
-INSERT INTO `exam_paper_question` VALUES ('989', '45', '30');
-INSERT INTO `exam_paper_question` VALUES ('990', '45', '8');
-INSERT INTO `exam_paper_question` VALUES ('991', '45', '52');
-INSERT INTO `exam_paper_question` VALUES ('992', '46', '18');
-INSERT INTO `exam_paper_question` VALUES ('993', '46', '56');
-INSERT INTO `exam_paper_question` VALUES ('994', '46', '16');
-INSERT INTO `exam_paper_question` VALUES ('995', '46', '50');
-INSERT INTO `exam_paper_question` VALUES ('996', '46', '8');
-INSERT INTO `exam_paper_question` VALUES ('997', '46', '9');
-INSERT INTO `exam_paper_question` VALUES ('998', '46', '6');
-INSERT INTO `exam_paper_question` VALUES ('999', '46', '58');
-INSERT INTO `exam_paper_question` VALUES ('1000', '46', '22');
-INSERT INTO `exam_paper_question` VALUES ('1001', '46', '20');
-INSERT INTO `exam_paper_question` VALUES ('1002', '46', '24');
-INSERT INTO `exam_paper_question` VALUES ('1003', '46', '21');
-INSERT INTO `exam_paper_question` VALUES ('1004', '46', '14');
-INSERT INTO `exam_paper_question` VALUES ('1005', '46', '13');
-INSERT INTO `exam_paper_question` VALUES ('1006', '46', '46');
-INSERT INTO `exam_paper_question` VALUES ('1007', '46', '55');
-INSERT INTO `exam_paper_question` VALUES ('1008', '46', '48');
-INSERT INTO `exam_paper_question` VALUES ('1009', '46', '47');
-INSERT INTO `exam_paper_question` VALUES ('1010', '46', '31');
-INSERT INTO `exam_paper_question` VALUES ('1011', '46', '28');
-INSERT INTO `exam_paper_question` VALUES ('1012', '46', '43');
-INSERT INTO `exam_paper_question` VALUES ('1013', '46', '44');
-INSERT INTO `exam_paper_question` VALUES ('1014', '46', '42');
-INSERT INTO `exam_paper_question` VALUES ('1015', '46', '10');
-INSERT INTO `exam_paper_question` VALUES ('1016', '46', '57');
+INSERT INTO `exam_paper_question` VALUES ('1472', '67', '9');
+INSERT INTO `exam_paper_question` VALUES ('1473', '67', '57');
+INSERT INTO `exam_paper_question` VALUES ('1474', '67', '54');
+INSERT INTO `exam_paper_question` VALUES ('1475', '67', '7');
+INSERT INTO `exam_paper_question` VALUES ('1476', '67', '18');
+INSERT INTO `exam_paper_question` VALUES ('1477', '67', '50');
+INSERT INTO `exam_paper_question` VALUES ('1478', '67', '16');
+INSERT INTO `exam_paper_question` VALUES ('1479', '67', '5');
+INSERT INTO `exam_paper_question` VALUES ('1480', '67', '14');
+INSERT INTO `exam_paper_question` VALUES ('1481', '67', '13');
+INSERT INTO `exam_paper_question` VALUES ('1482', '67', '47');
+INSERT INTO `exam_paper_question` VALUES ('1483', '67', '49');
+INSERT INTO `exam_paper_question` VALUES ('1484', '67', '55');
+INSERT INTO `exam_paper_question` VALUES ('1485', '67', '48');
+INSERT INTO `exam_paper_question` VALUES ('1486', '67', '53');
+INSERT INTO `exam_paper_question` VALUES ('1487', '67', '12');
+INSERT INTO `exam_paper_question` VALUES ('1488', '67', '17');
+INSERT INTO `exam_paper_question` VALUES ('1489', '67', '56');
+INSERT INTO `exam_paper_question` VALUES ('1490', '67', '10');
+INSERT INTO `exam_paper_question` VALUES ('1491', '67', '58');
+INSERT INTO `exam_paper_question` VALUES ('1492', '67', '15');
+INSERT INTO `exam_paper_question` VALUES ('1493', '67', '8');
+INSERT INTO `exam_paper_question` VALUES ('1494', '67', '52');
+INSERT INTO `exam_paper_question` VALUES ('1495', '67', '46');
+INSERT INTO `exam_paper_question` VALUES ('1496', '67', '6');
 
 -- ----------------------------
 -- Table structure for `exam_question`
