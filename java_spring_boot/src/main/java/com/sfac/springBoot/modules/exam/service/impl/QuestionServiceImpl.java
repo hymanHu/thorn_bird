@@ -19,6 +19,11 @@ import com.sfac.springBoot.modules.exam.entity.PaperBuilder;
 import com.sfac.springBoot.modules.exam.entity.Question;
 import com.sfac.springBoot.modules.exam.service.QuestionService;
 
+/**
+ * Description: Question Service Impl
+ * @author HymanHu
+ * @date 2021-05-26 09:29:12
+ */
 @Service
 public class QuestionServiceImpl implements QuestionService {
 	

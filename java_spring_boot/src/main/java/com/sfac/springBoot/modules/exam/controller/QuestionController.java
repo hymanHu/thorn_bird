@@ -19,7 +19,7 @@ import com.sfac.springBoot.modules.exam.entity.Question;
 import com.sfac.springBoot.modules.exam.service.QuestionService;
 
 /**
- * Description: 
+ * Description: Question Controller
  * @author HymanHu
  * @date 2021-05-25 16:37:30
  */
