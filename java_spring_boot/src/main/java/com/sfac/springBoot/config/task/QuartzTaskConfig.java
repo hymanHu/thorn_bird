@@ -49,8 +49,10 @@ public class QuartzTaskConfig {
 				.withIntervalInSeconds(10)
 				.repeatForever();
 		// 任务调度 ---- Cron 表达式方式
+//		ScheduleBuilder<CronTrigger> cronScheduleBuilder = CronScheduleBuilder
+//				.cronSchedule("0/30 * * * * ?");
 		ScheduleBuilder<CronTrigger> cronScheduleBuilder = CronScheduleBuilder
-				.cronSchedule("0/30 * * * * ?");
+				.cronSchedule("0 0 0/1 * * ?");
 		
 		return TriggerBuilder.newTrigger().forJob(jobDetail_1()).withSchedule(cronScheduleBuilder).build();
 	}

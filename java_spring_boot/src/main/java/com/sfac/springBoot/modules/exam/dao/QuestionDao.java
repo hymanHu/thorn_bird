@@ -24,9 +24,9 @@ import com.sfac.springBoot.modules.exam.entity.Question;
 public interface QuestionDao {
 	
 	@Insert("insert into exam_question (type, flag, content, image, score, option_a, option_b, option_c, "
-			+ "option_d, reference_answer, comment) "
-			+ "values (#{type}, #{flag}, #{content}, , #{image}, #{score}, #{optionA}, #{optionB}, "
-			+ "#{optionC}, #{optionD}, #{referenceAnswer}, #{comment})")
+			+ "option_d, reference_answer, comment, create_date) "
+			+ "values (#{type}, #{flag}, #{content}, #{image}, #{score}, #{optionA}, #{optionB}, "
+			+ "#{optionC}, #{optionD}, #{referenceAnswer}, #{comment}, #{createDate})")
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	void insertQuestion(Question question);
 	
@@ -61,7 +61,7 @@ public interface QuestionDao {
 	List<Question> getQuestionsBySearchBean(SearchBean searchBean);
 	
 	@Select("select * from exam_question q left join exam_paper_question pq "
-			+ "on q.id = pq.question_id where pd.paper_id = #{paperId} order by type")
+			+ "on q.id = pq.question_id where pq.paper_id = #{paperId} order by type")
 	List<Question> getQuestionsByPaperId(int paperId);
 	
 	@Select("<script>"

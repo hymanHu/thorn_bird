@@ -32,6 +32,9 @@ public class QuestionController {
 	
 	/**
 	 * 127.0.0.1/api/question ---- post
+	 * {"type":"singleChoice","flag":"java","content":"Java 字节码文件的扩展名是？","image":"",
+	 * "score":2.5,"optionA":"java","optionB":"class","optionC":"exe","optionD":"jsp",
+	 * "referenceAnswer":"B","comment":""}
 	 */
 	@PostMapping(value = "/question", consumes = "application/json")
 	public ResultEntity<Question> insertQuestion(@RequestBody Question question) {
@@ -40,6 +43,9 @@ public class QuestionController {
 	
 	/**
 	 * 127.0.0.1/api/question ---- put
+	 * {"id":1,"type":"singleChoice1","flag":"java1","content":"Java 字节码文件的扩展名是？1","image":"1",
+	 * "score":3,"optionA":"java1","optionB":"class1","optionC":"exe1","optionD":"jsp1",
+	 * "referenceAnswer":"B1","comment":"1"}
 	 */
 	@PutMapping(value = "/question", consumes = "application/json")
 	public ResultEntity<Question> updateQuestion(@RequestBody Question question) {
@@ -64,6 +70,7 @@ public class QuestionController {
 	
 	/**
 	 * 127.0.0.1/api/questions ---- post
+	 * {"currentPage":"1","pageSize":"5","orderBy":"id","direction":"desc","keyWord":""}
 	 */
 	@PostMapping(value = "/questions", consumes = "application/json")
 	public PageInfo<Question> getQuestionsBySearchBean(@RequestBody SearchBean searchBean) {

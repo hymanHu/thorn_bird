@@ -1,5 +1,6 @@
 package com.sfac.springBoot.modules.exam.service.impl;
 
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -27,6 +28,7 @@ public class QuestionServiceImpl implements QuestionService {
 	@Override
 	@Transactional
 	public ResultEntity<Question> insertQuestion(Question question) {
+		question.setCreateDate(LocalDateTime.now());
 		questionDao.insertQuestion(question);
 		return new ResultEntity<Question>(ResultEntity.ResultStatus.SUCCESS.status, "Insert success.", question);
 	}

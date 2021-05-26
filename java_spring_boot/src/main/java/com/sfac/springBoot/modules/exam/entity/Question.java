@@ -23,9 +23,13 @@ public class Question extends AbstractEntity {
 	private String content;
 	private String image;
 	private Double score;
+	@Column(name = "option_a")
 	private String optionA;
+	@Column(name = "option_b")
 	private String optionB;
+	@Column(name = "option_c")
 	private String optionC;
+	@Column(name = "option_d")
 	private String optionD;
 	private String referenceAnswer;
 	@Column(columnDefinition="text")
