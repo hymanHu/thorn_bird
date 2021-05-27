@@ -123,6 +123,8 @@
 				recordsFiltered: 0,
 				data: [],
 			},
+			// 表格对象
+			dataTable:"",
 		},
 		methods: {
 			// 行数据结构定义函数
@@ -149,7 +151,7 @@
 			// 初始化表格数据
 			initTable: function (pageSize) {
 				var self = this;
-				$("#modelTable").DataTable({
+				self.dataTable = $("#modelTable").DataTable({
 					paging: true, //分页
 					serverSide: true, //开启后端分页
 					pagingType: "full_numbers", //分页样式的类型simple/simple_numbers/full/full_numbers
@@ -263,7 +265,7 @@
 					data: JSON.stringify(self.model),
 					success: function (rs) {
 						if (rs.status == 200) {
-							self.initTable(this.defaultPageSize);
+							self.initTable(self.defaultPageSize);
 						} else {
 							layer.alert(rs.message, { icon: 0 });
 						}
@@ -304,7 +306,9 @@
 					data: JSON.stringify(self.model),
 					success: function (rs) {
 						if (rs.status == 200) {
-							self.initTable(this.defaultPageSize);
+							//self.initTable(self.defaultPageSize);
+							// 重新绘制表格，页面不变更
+							self.dataTable.draw(false);
 						} else {
 							layer.alert(rs.message, { icon: 0 });
 						}
@@ -323,7 +327,7 @@
 							type: "delete",
 							success: function (rs) {
 								if (rs.status == 200) {
-									self.initTable(this.defaultPageSize);
+									self.initTable(self.defaultPageSize);
 								} else {
 									layer.alert(rs.message, { icon: 0 });
 								}
@@ -337,6 +341,7 @@
 			},
 		},
 		created: function () {
+			// 将 Vue 的方法赋值给 window 对象，以解决动态生成 Html 不能解析 @click 标签的问题
 			window.initEditModal = this.initEditModal;
 			window.deleteModel = this.deleteModel;
 		},
