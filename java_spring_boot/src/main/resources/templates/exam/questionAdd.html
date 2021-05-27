@@ -1,0 +1,132 @@
+<!-- 模态框 -->
+<div id="modalAdd" class="modal fade" tabindex="-1" role="dialog" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title" id="addLabel" style="font-size: 18px; font-weight: 500">添加试题</h4>
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal">
+					<div class="form-group row">
+						<label class="control-label col-md-3">试题类型</label>
+						<div class="col-md-8">
+							<select v-model="model.type" class="form-control">
+								<option v-for="(questionType, index) in questionTypes" :value="questionType.name">
+									{{questionType.localName}}
+								</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">试题标识</label>
+						<div class="col-md-8">
+							<select v-model="model.flag" class="form-control">
+								<option v-for="(questionFlag, index) in questionFlags" :value="questionFlag.flag">
+									{{questionFlag.flag}}
+								</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">试题分值</label>
+						<div class="col-md-8">
+							<select v-model="model.score" class="form-control">
+								<option value="2.5">2.5</option>
+								<option value="5">5</option>
+								<option value="10">10</option>
+								<option value="15">15</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">试题内容</label>
+						<div class="col-md-8">
+							<input
+								v-model="model.content"
+								class="form-control"
+								type="text"
+								placeholder="Enter content"
+							/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">选项 A</label>
+						<div class="col-md-8">
+							<input
+								v-model="model.optionA"
+								class="form-control"
+								type="text"
+								placeholder="Enter optionA"
+							/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">选项 B</label>
+						<div class="col-md-8">
+							<input
+								v-model="model.optionB"
+								class="form-control"
+								type="text"
+								placeholder="Enter optionB"
+							/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">选项 C</label>
+						<div class="col-md-8">
+							<input
+								v-model="model.optionC"
+								class="form-control"
+								type="text"
+								placeholder="Enter optionC"
+							/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">选项 D</label>
+						<div class="col-md-8">
+							<input
+								v-model="model.optionD"
+								class="form-control"
+								type="text"
+								placeholder="Enter optionD"
+							/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">参考答案</label>
+						<div class="col-md-8">
+							<input
+								v-model="model.referenceAnswer"
+								class="form-control"
+								type="text"
+								placeholder="Enter reference Answer"
+							/>
+						</div>
+					</div>
+					<div class="form-group row">
+						<label class="control-label col-md-3">备注</label>
+						<div class="col-md-8">
+							<input
+								v-model="model.comment"
+								class="form-control"
+								type="text"
+								placeholder="Enter comment"
+							/>
+						</div>
+					</div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<!-- data-dismiss="modal"关闭模态框 -->
+				<a class="btn btn-secondary" href="#" data-dismiss="modal">
+					<i class="fa fa-fw fa-lg fa-times-circle"></i>Cancel
+				</a>
+				<button type="button" class="btn btn-primary" data-dismiss="modal" @click="addModel()">
+					<i class="fa fa-fw fa-lg fa-check-circle"></i>Submit
+				</button>
+			</div>
+		</div>
+	</div>
+</div>

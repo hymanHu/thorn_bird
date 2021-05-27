@@ -35,6 +35,9 @@
 				<p>===========================================</p>
 				<h3>循环</h3>
 				<span v-for="(role, index) in roles"> <input type="checkbox" :value="role.id" /> {{role.name}} </span>
+				<select>
+					<option v-for="(role, index) in roles" :value="role.id">{{role.name}}</option>
+				</select>
 				<table>
 					<tr>
 						<td>ID</td>
