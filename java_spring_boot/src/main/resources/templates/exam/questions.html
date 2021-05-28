@@ -132,6 +132,7 @@
 			dataTable: "",
 			questionTypes: [],
 			questionFlags: [],
+			scores: [],
 		},
 		methods: {
 			// 行数据结构定义函数
@@ -273,11 +274,22 @@
 					type: "get",
 					success: function (rs) {
 						self.questionTypes = rs;
+						self.scores = rs
+							.map((item) => item.score)
+							.filter(function (element, index, array) {
+								return array.indexOf(element) === index;
+							})
+							.sort(function (a, b) {
+								return a - b;
+							});
 					},
 					error: function (data) {
 						layer.alert(data.responseText, { icon: 0 });
 					},
 				});
+			},
+			changeQuestionType: function (event) {
+				this.model.score = event.currentTarget.selectedOptions[0].getAttribute("score");
 			},
 			initQuestionFlags: function () {
 				var self = this;

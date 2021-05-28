@@ -13,7 +13,7 @@ public enum QuestionFlag {
 	PYTHON("Python"),
 	DB_SQL("DB_Sql"),
 	DB_NOSQL("DB_NoSql"),
-	HTML_CSS("Html_Css"),
+	HTML_CSS("Html_And_Css"),
 	JAVASCRIPT("JavaScript");
 
 	public String flag;

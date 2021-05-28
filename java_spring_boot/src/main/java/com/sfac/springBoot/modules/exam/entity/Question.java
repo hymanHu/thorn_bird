@@ -31,6 +31,7 @@ public class Question extends AbstractEntity {
 	private String optionC;
 	@Column(name = "option_d")
 	private String optionD;
+	@Column(columnDefinition="text")
 	private String referenceAnswer;
 	@Column(columnDefinition="text")
 	private String comment;

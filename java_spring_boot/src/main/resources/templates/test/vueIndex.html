@@ -35,8 +35,8 @@
 				<p>===========================================</p>
 				<h3>循环</h3>
 				<span v-for="(role, index) in roles"> <input type="checkbox" :value="role.id" /> {{role.name}} </span>
-				<select>
-					<option v-for="(role, index) in roles" :value="role.id">{{role.name}}</option>
+				<select @change="test3($event)">
+					<option v-for="(role, index) in roles" :id="role.id" :value="role.id">{{role.name}}</option>
 				</select>
 				<table>
 					<tr>
@@ -55,9 +55,7 @@
 				<p>===========================================</p>
 				<h3>引入单个 Vue 组件</h3>
 				<p>
-					<hello-component></hello-component>
 					<vueqr-component></vueqr-component>
-					<!-- <vueqr-component></vueqr-component> -->
 				</p>
 			</form>
 		</div>
@@ -114,6 +112,9 @@
 				console.log(event.currentTarget.attributes.getNamedItem("myData").name);
 				console.log(event.currentTarget.attributes.getNamedItem("myData").value);
 			},
+			test3: function (event) {
+				console.log(event.currentTarget.selectedOptions[0].getAttribute("id"));
+			},
 			initUser: function () {
 				var userId = $("#userId").val();
 				var self = this;
@@ -130,7 +131,7 @@
 			},
 		},
 		components: {
-			"hello-component": httpVueLoader("/components/hello.vue"),
+			// 加载异步组件报错，Failed to resolve async component
 			"vueqr-component": httpVueLoader("/components/qrCode.vue"),
 		},
 		created: function () {

@@ -12,8 +12,12 @@
 					<div class="form-group row">
 						<label class="control-label col-md-3">试题类型</label>
 						<div class="col-md-8">
-							<select v-model="model.type" class="form-control">
-								<option v-for="(questionType, index) in questionTypes" :value="questionType.name">
+							<select v-model="model.type" class="form-control" @change="changeQuestionType($event)">
+								<option
+									v-for="(questionType, index) in questionTypes"
+									:score="questionType.score"
+									:value="questionType.name"
+								>
 									{{questionType.localName}}
 								</option>
 							</select>
@@ -32,11 +36,8 @@
 					<div class="form-group row">
 						<label class="control-label col-md-3">试题分值</label>
 						<div class="col-md-8">
-							<select v-model="model.score" class="form-control">
-								<option value="2.5">2.5</option>
-								<option value="5">5</option>
-								<option value="10">10</option>
-								<option value="15">15</option>
+							<select v-model="model.score" class="form-control" disabled>
+								<option v-for="(score, index) in scores" :value="score">{{score}}</option>
 							</select>
 						</div>
 					</div>
