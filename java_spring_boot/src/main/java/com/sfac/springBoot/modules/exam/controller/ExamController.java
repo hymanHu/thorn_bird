@@ -20,5 +20,13 @@ public class ExamController {
 	public String questionsPage() {
 		return "index";
 	}
+	
+	/**
+	 * 127.0.0.1/exam/papers ---- get
+	 */
+	@GetMapping("/papers")
+	public String papersPage() {
+		return "exam/papers";
+	}
 
 }

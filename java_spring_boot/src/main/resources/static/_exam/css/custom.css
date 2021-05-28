@@ -1,0 +1,12 @@
+.dataTables_paginate a {
+  padding: 6px 9px !important;
+  background: #ddd !important;
+  border-color: #ddd !important; 
+}
+.dataTables_paginate li.active a {
+  background-color: rgba(165, 242, 242, 0.59) !important;
+  border-color: rgba(38, 185, 154, 0.59) !important; 
+}
+.pagination {
+    float: right;
+}

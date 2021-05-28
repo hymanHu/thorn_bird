@@ -40,6 +40,9 @@
 						<a> <i class="fa fa-user"></i> Exam <span class="fa fa-chevron-down"></span> </a>
 						<ul class="nav child_menu">
 							<li shiro:hasAnyRoles="admin,manager,staff"><a href="/exam/questions">试题集</a></li>
+							<li shiro:hasAnyRoles="admin,manager,staff">
+								<a href="/exam/papers" target="_blank">试题集</a>
+							</li>
 						</ul>
 					</li>
 					<li shiro:hasAnyRoles="admin,manager,staff">
