@@ -19,6 +19,8 @@ public interface PaperService {
 	
 	ResultEntity<Object> deletePaperById(int id);
 	
+	ResultEntity<Object> deletePapers();
+	
 	Paper getPaperById(int id);
 	
 	PageInfo<Paper> getPagersBySearchBean(SearchBean searchBean);

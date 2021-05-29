@@ -37,6 +37,9 @@ public interface PaperDao {
 	@Delete("delete from exam_paper where id = #{id}")
 	void deletePaperById(int id);
 	
+	@Delete("delete from exam_paper")
+	void deletePapers();
+	
 	@Select("select * from exam_paper where id = #{id}")
 	@Results(id="paperResult", value={
 			@Result(column="id", property="id"),

@@ -18,13 +18,13 @@ import com.sfac.springBoot.modules.exam.entity.PaperBuilder;
 import com.sfac.springBoot.modules.exam.service.PaperService;
 
 /**
- * Description: Page Controller
+ * Description: Pager Controller
  * @author HymanHu
  * @date 2021-05-26 10:16:28
  */
 @RestController
 @RequestMapping("/api")
-public class PageController {
+public class PagerController {
 
 	@Autowired
 	private PaperService paperService;
@@ -53,6 +53,14 @@ public class PageController {
 	@DeleteMapping("/paper/{id}")
 	public ResultEntity<Object> deletePaperById(@PathVariable int id) {
 		return paperService.deletePaperById(id);
+	}
+	
+	/**
+	 * 127.0.0.1/api/papers ---- delete
+	 */
+	@DeleteMapping("/papers")
+	public ResultEntity<Object> deletePapers() {
+		return paperService.deletePapers();
 	}
 	
 	/**

@@ -170,6 +170,13 @@ public class PaperServiceImpl implements PaperService {
 	}
 
 	@Override
+	public ResultEntity<Object> deletePapers() {
+		paperDao.deletePapers();
+		paperQuestionDao.deletePaperQuestions();
+		return new ResultEntity<Object>(ResultEntity.ResultStatus.SUCCESS.status, "Delete success.");
+	}
+
+	@Override
 	public Paper getPaperById(int id) {
 		return paperDao.getPaperById(id);
 	}
