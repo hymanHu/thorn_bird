@@ -163,20 +163,25 @@
 							<!-- /.card-body -->
 							<div class="card-footer">
 								<button @click="addModel()" type="button" class="btn btn-primary btn-lg">创建</button>
-								<button
-									shiro:hasAnyRoles="admin"
-									@click="deleteAllModel()"
-									type="button"
-									class="btn btn-primary btn-lg"
-								>
-									删除全部
-								</button>
 							</div>
 						</div>
 
 						<div class="card">
-							<div class="card-header">
-								<span class="nav-link col-md-6">试卷列表</span>
+							<div class="row card-header">
+								<div class="col-md-6">
+									<span class="nav-link col-md-6">已生成试卷</span>
+								</div>
+								<div class="col-md-6">
+									<button
+										shiro:hasAnyRoles="admin"
+										@click="deleteAllModel()"
+										type="button"
+										class="btn btn-primary btn-lg"
+										style="float: right"
+									>
+										删除全部
+									</button>
+								</div>
 							</div>
 							<div class="card-body">
 								<table id="modelTable" class="table table-bordered table-striped">
