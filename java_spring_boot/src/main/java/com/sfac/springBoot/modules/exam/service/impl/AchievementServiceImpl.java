@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.List;
 import java.util.Optional;
 
 import javax.transaction.Transactional;
@@ -72,7 +73,7 @@ public class AchievementServiceImpl implements AchievementService {
 		if (subjectiveQuestionsScore == 0) {
 			achievement.setScore(objectiveQuestionsScore);
 			BigDecimal bg = new BigDecimal(objectiveQuestionsScore / achievement.getTotalScore());
-			achievement.setPercentScore(bg.setScale(2, RoundingMode.HALF_UP).doubleValue());
+			achievement.setPercentScore(bg.setScale(2, RoundingMode.HALF_UP).doubleValue() * 100);
 		} else {
 			achievement.setScore(0.0);
 			achievement.setPercentScore(0.0);
@@ -107,6 +108,14 @@ public class AchievementServiceImpl implements AchievementService {
 		answerDao.deleteAnswersByAchievementId(id);
 		return new ResultEntity<Object>(ResultEntity.ResultStatus.SUCCESS.status, "Delete success.");
 	}
+	
+	@Override
+	@Transactional
+	public ResultEntity<Object> deleteAchievements() {
+		achievementDao.deleteAchievements();
+		answerDao.deleteAnswers();
+		return new ResultEntity<Object>(ResultEntity.ResultStatus.SUCCESS.status, "Delete success.");
+	}
 
 	@Override
 	public Achievement getAchievementById(int id) {
@@ -120,5 +129,13 @@ public class AchievementServiceImpl implements AchievementService {
 		return new PageInfo<Achievement>(
 				Optional.ofNullable(achievementDao.getAchievementsBySearchBean(searchBean))
 					.orElse(Collections.emptyList()));
+	}
+
+	@Override
+	public List<Achievement> getAchievementsByKeyWord(String keyWord) {
+		SearchBean searchBean = new SearchBean();
+		searchBean.setKeyWord(keyWord);
+		searchBean.initSearchBean();
+		return achievementDao.getAchievementsBySearchBean(searchBean);
 	}
 }

@@ -12,6 +12,8 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
 import com.sfac.springBoot.modules.common.entity.AbstractEntity;
 
+import cn.afterturn.easypoi.excel.annotation.Excel;
+
 /**
  * Description: 测试成绩
  * 
@@ -23,24 +25,31 @@ import com.sfac.springBoot.modules.common.entity.AbstractEntity;
 public class Achievement extends AbstractEntity {
 	private static final long serialVersionUID = 1L;
 	private int userId;
+	@Excel(name = "试卷标题", orderNum = "0", width = 15)
 	private String subject;
 	// 试卷总分
+	@Excel(name = "总分", orderNum = "2", width = 15)
 	private Double totalScore;
 	// 参考得分
 	private String referenceScore;
 	// 得分
+	@Excel(name = "得分", orderNum = "3", width = 15)
 	private Double score;
 	// 分数百分比，应对总分数不是 100 的情况
+	@Excel(name = "得分(百分比)", orderNum = "4", width = 15)
 	private Double percentScore;
 	private Integer totalTime;
+	@Excel(name = "耗时(分钟)", orderNum = "5", width = 15)
 	private Integer spendTime;
 	@JsonSerialize(using = LocalDateTimeSerializer.class)
 	@JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss", timezone = "GMT+8")
+	@Excel(name = "测试时间", orderNum = "6", width = 30, format = "yyyy-MM-dd")
 	private LocalDateTime examDate;
 	
 	@Transient
 	private List<Answer> answers;
 	@Transient
+	@Excel(name = "用户名", orderNum = "1", width = 15)
 	private String userName;
 
 	public int getUserId() {

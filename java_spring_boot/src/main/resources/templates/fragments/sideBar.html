@@ -39,9 +39,12 @@
 					<li shiro:hasAnyRoles="admin,manager,staff">
 						<a> <i class="fa fa-user"></i> Exam <span class="fa fa-chevron-down"></span> </a>
 						<ul class="nav child_menu">
-							<li shiro:hasAnyRoles="admin,manager,staff"><a href="/exam/questions">试题集</a></li>
+							<li shiro:hasAnyRoles="admin,manager"><a href="/exam/questions">试题集</a></li>
 							<li shiro:hasAnyRoles="admin,manager,staff">
-								<a href="/exam/papers" target="_blank">试题集</a>
+								<a href="/exam/papers" target="_blank">试卷列表</a>
+							</li>
+							<li shiro:hasAnyRoles="admin,manager">
+								<a href="/exam/achievements" target="_blank">成绩列表</a>
 							</li>
 						</ul>
 					</li>

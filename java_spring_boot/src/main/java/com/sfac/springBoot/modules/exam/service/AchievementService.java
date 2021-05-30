@@ -1,5 +1,7 @@
 package com.sfac.springBoot.modules.exam.service;
 
+import java.util.List;
+
 import com.github.pagehelper.PageInfo;
 import com.sfac.springBoot.modules.common.entity.ResultEntity;
 import com.sfac.springBoot.modules.common.entity.SearchBean;
@@ -18,7 +20,11 @@ public interface AchievementService {
 	
 	ResultEntity<Object> deleteAchievementById(int id);
 	
+	ResultEntity<Object> deleteAchievements();
+	
 	Achievement getAchievementById(int id);
 	
 	PageInfo<Achievement> getAchievementsBySearchBean(SearchBean searchBean);
+	
+	List<Achievement> getAchievementsByKeyWord(String keyWord);
 }

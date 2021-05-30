@@ -50,6 +50,7 @@ public class PaperServiceImpl implements PaperService {
 	@Override
 	@Transactional
 	public ResultEntity<Paper> insertPaper(PaperBuilder paperBuilder) {
+		paperBuilder.initPaperTypesString();
 		Paper paper = new Paper();
 		paper.setSubject(paperBuilder.getPaperTitle());
 		paper.setTotalTime(paperBuilder.getPaperTime());

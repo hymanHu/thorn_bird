@@ -38,6 +38,9 @@ public interface AnswerDao {
 	@Delete("delete from exam_answer where achievement_id = #{achievementId}")
 	void deleteAnswersByAchievementId(int achievementId);
 	
+	@Delete("delete from exam_answer")
+	void deleteAnswers();
+	
 	@Select("select * from exam_answer where id = #{id}")
 	@Results(id="answerResult", value={
 			@Result(column="question_id", property="questionId"),

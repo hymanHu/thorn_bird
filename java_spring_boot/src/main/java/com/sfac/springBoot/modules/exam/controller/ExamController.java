@@ -39,5 +39,13 @@ public class ExamController {
 		modelMap.put("paperId", paperId);
 		return "exam/paper";
 	}
+	
+	/**
+	 * 127.0.0.1/exam/achievements ---- get
+	 */
+	@GetMapping("/achievements")
+	public String achievementsPage() {
+		return "exam/achievements";
+	}
 
 }

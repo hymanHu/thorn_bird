@@ -114,13 +114,14 @@ public class ShiroConfig {
         map.put("/vendors/**", "anon");
         map.put("/upload/**", "anon");
         map.put("/_exam/**", "anon");
-        // ---- 登录、注册、测试、api ----
+        // ---- 登录、注册、测试、在线考试模块、api ----
         map.put("/login", "anon");
         map.put("/register", "anon");
         map.put("/logout", "anon");
         map.put("/exam/papers", "anon");
         map.put("/exam/papers", "anon");
         map.put("/exam/paper/**", "anon");
+        map.put("/exam/achievements", "anon");
         map.put("/api/**", "anon");
 
         // 登录访问规则

@@ -36,7 +36,7 @@
 	<body class="hold-transition layout-top-nav">
 		<input type="hidden" id="paperId" th:value="${paperId }" />
 		<input type="hidden" id="userName" th:if="${session.user} == null" th:value="游客" />
-		<input type="hidden" id="userId" th:if="${session.user} != null" th:value="${session.user.userName}" />
+		<input type="hidden" id="userName" th:if="${session.user} != null" th:value="${session.user.userName}" />
 		<div class="wrapper">
 			<!-- 导航条 -->
 			<div th:replace="fragments/examNavigation"></div>

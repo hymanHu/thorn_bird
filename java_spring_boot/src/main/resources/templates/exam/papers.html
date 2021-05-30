@@ -401,6 +401,14 @@
 						});
 						$("[name=paperFlag]").change();
 					},
+					initPaperBuilder: function () {
+						this.paperBuilder = {
+							paperTitle: "",
+							paperFlage: "",
+							paperTypes: [],
+							paperTime: "",
+						};
+					},
 					addModel: function () {
 						var self = this;
 						self.paperBuilder.paperFlage = $("[name=paperFlag]").val();
@@ -428,6 +436,7 @@
 								$("body").mLoading("hide");
 								if (data.status == 200) {
 									self.initTable(self.defaultPageSize);
+									self.initPaperBuilder();
 								} else {
 									layer.msg(data.message, { icon: 0 });
 								}

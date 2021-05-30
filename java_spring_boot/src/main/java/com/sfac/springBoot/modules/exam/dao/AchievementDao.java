@@ -39,6 +39,9 @@ public interface AchievementDao {
 	@Delete("delete from exam_achievement where id = #{id}")
 	void deleteAchievementById(int id);
 	
+	@Delete("delete from exam_achievement")
+	void deleteAchievements();
+	
 	@Select("select * from exam_achievement a left join account_user u on a.user_id = u.id where a.id = #{id}")
 	@Results(id="achievementResult", value={
 			@Result(column="id", property="id"),
@@ -49,10 +52,11 @@ public interface AchievementDao {
 	Achievement getAchievementById(int id);
 	
 	@Select("<script>"
-			+ "select * from exam_achievement "
+			+ "select *, ifnull(au.user_name, '游客') as userName from exam_achievement ea "
+			+ "left join account_user au on ea.user_id = au.id "
 			+ "<where> "
 			+ "<if test='keyWord != \"\" and keyWord != null'>"
-			+ " and (subject like '%${keyWord}%' "
+			+ " and (ea.subject like '%${keyWord}%') "
 			+ "</if>"
 			+ "</where>"
 			+ "<choose>"
@@ -60,7 +64,7 @@ public interface AchievementDao {
 			+ " order by ${orderBy} ${direction}"
 			+ "</when>"
 			+ "<otherwise>"
-			+ " order by id desc"
+			+ " order by ea.id desc"
 			+ "</otherwise>"
 			+ "</choose>"
 			+ "</script>")

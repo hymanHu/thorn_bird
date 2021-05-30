@@ -65,8 +65,9 @@ public interface QuestionDao {
 	List<Question> getQuestionsByPaperId(int paperId);
 	
 	@Select("<script>"
-			+ "select * from exam_question where flag = #{paperFlage}"
+			+ "select * from exam_question"
 			+ "<where> "
+			+ " and (flag = #{paperFlage})"
 			+ "<if test='paperTypesString != \"\" and paperTypesString != null'>"
 			+ " and (type in (${paperTypesString})) "
 			+ "</if>"
