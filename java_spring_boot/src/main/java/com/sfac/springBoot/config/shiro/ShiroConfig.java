@@ -118,6 +118,7 @@ public class ShiroConfig {
         map.put("/login", "anon");
         map.put("/register", "anon");
         map.put("/logout", "anon");
+        map.put("/favicon.ico", "anon");
         map.put("/exam/papers", "anon");
         map.put("/exam/papers", "anon");
         map.put("/exam/paper/**", "anon");

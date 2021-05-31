@@ -25,7 +25,7 @@ import cn.afterturn.easypoi.excel.annotation.Excel;
 public class Achievement extends AbstractEntity {
 	private static final long serialVersionUID = 1L;
 	private int userId;
-	@Excel(name = "试卷标题", orderNum = "0", width = 15)
+	@Excel(name = "试卷标题", orderNum = "0", width = 30)
 	private String subject;
 	// 试卷总分
 	@Excel(name = "总分", orderNum = "2", width = 15)

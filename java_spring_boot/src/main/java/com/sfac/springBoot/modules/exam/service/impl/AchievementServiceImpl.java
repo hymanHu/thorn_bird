@@ -6,6 +6,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
@@ -136,6 +137,13 @@ public class AchievementServiceImpl implements AchievementService {
 		SearchBean searchBean = new SearchBean();
 		searchBean.setKeyWord(keyWord);
 		searchBean.initSearchBean();
-		return achievementDao.getAchievementsBySearchBean(searchBean);
+		return Optional.ofNullable(achievementDao.getAchievementsBySearchBean(searchBean))
+				.orElse(Collections.emptyList())
+				.stream()
+				.map(item -> {
+					String subject = item.getSubject();
+					item.setSubject(subject.substring(subject.indexOf("_") + 1, subject.lastIndexOf("_")));
+					return item;
+				}).collect(Collectors.toList());
 	}
 }
