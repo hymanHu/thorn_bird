@@ -98,23 +98,13 @@
 					<div class="form-group row">
 						<label class="control-label col-md-3">参考答案</label>
 						<div class="col-md-8">
-							<input
-								v-model="model.referenceAnswer"
-								class="form-control"
-								type="text"
-								placeholder="Enter reference Answer"
-							/>
+							<textarea v-model="model.referenceAnswer" class="form-control" rows="5"> </textarea>
 						</div>
 					</div>
 					<div class="form-group row">
 						<label class="control-label col-md-3">备注</label>
 						<div class="col-md-8">
-							<input
-								v-model="model.comment"
-								class="form-control"
-								type="text"
-								placeholder="Enter comment"
-							/>
+							<textarea v-model="model.comment" class="form-control" rows="5"> </textarea>
 						</div>
 					</div>
 				</form>
