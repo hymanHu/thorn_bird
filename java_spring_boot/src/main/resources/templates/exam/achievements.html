@@ -62,7 +62,7 @@
 						<div class="card">
 							<div class="row card-header">
 								<div class="col-md-6">
-									<span class="nav-link col-md-6">已生成试卷</span>
+									<span class="nav-link col-md-6"></span>
 								</div>
 								<div class="col-md-6">
 									<button
@@ -180,14 +180,22 @@
 						row.createDate = createDate;
 						row.userName = userName;
 						row.operate = function () {
-							return (
-								"<a href='/exam/achievement/" +
-								id +
-								"' class='btn_editcolor'>批改</a>&nbsp;&nbsp;" +
-								"<a href='javascript:void(0);' onclick='deleteModel(\"" +
-								id +
-								"\")' class='btn_editcolor'>删除</a>"
-							);
+							if (score > 0) {
+								return (
+									"<a href='javascript:void(0);' onclick='deleteModel(\"" +
+									id +
+									"\")' class='btn_editcolor'>删除</a>"
+								);
+							} else {
+								return (
+									"<a href='/exam/achievement/" +
+									id +
+									"' class='btn_editcolor'>批改</a>&nbsp;&nbsp;" +
+									"<a href='javascript:void(0);' onclick='deleteModel(\"" +
+									id +
+									"\")' class='btn_editcolor'>删除</a>"
+								);
+							}
 						};
 						return row;
 					},

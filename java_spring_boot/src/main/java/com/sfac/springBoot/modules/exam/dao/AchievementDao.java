@@ -32,7 +32,7 @@ public interface AchievementDao {
 	@Options(useGeneratedKeys = true, keyColumn = "id", keyProperty = "id")
 	void insertAchievement(Achievement achievement);
 	
-	@Update("update exam_achievement set score = #{score}, reference_score = #{reference_score}, "
+	@Update("update exam_achievement set score = #{score}, reference_score = #{referenceScore}, "
 			+ "percent_score = #{percentScore} where id = #{id}")
 	void updateAchievement(Achievement achievement);
 	

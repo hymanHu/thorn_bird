@@ -74,7 +74,7 @@ public class AchievementServiceImpl implements AchievementService {
 		if (subjectiveQuestionsScore == 0) {
 			achievement.setScore(objectiveQuestionsScore);
 			BigDecimal bg = new BigDecimal(objectiveQuestionsScore / achievement.getTotalScore());
-			achievement.setPercentScore(bg.setScale(2, RoundingMode.HALF_UP).doubleValue() * 100);
+			achievement.setPercentScore(bg.setScale(4, RoundingMode.HALF_UP).doubleValue() * 100);
 		} else {
 			achievement.setScore(0.0);
 			achievement.setPercentScore(0.0);

@@ -81,9 +81,10 @@
 								<div class="row">
 									<div class="col-md-4">
 										<div class="form-group">
-											<label>测试阶段</label>
+											<label>测试内容</label>
 											<!-- 该 select 通过插件初始化，使用 v-model 或 @change 等 vue 标签无效 -->
 											<select name="paperFlag" class="form-control select2" style="width: 100%">
+												<option value="">All</option>
 												<option
 													v-for="(questionFlag, index) in questionFlags"
 													:value="questionFlag.flag"
@@ -133,7 +134,7 @@
 													name="paperTypes"
 													class="select2bs4"
 													multiple="multiple"
-													data-placeholder="选择题型"
+													data-placeholder="选择所有题型"
 													style="width: 100%"
 												>
 													<option
@@ -369,7 +370,6 @@
 							type: "get",
 							success: function (data) {
 								self.questionFlags = data;
-								$("[name=titlePrefix]").html(data[0].flag + "_");
 							},
 							error: function (data) {
 								layer.msg(data.responseText, { icon: 0 });
@@ -397,9 +397,9 @@
 
 						// 需在初始化 select 之后绑定 change 时间，直接使用 @change 无效
 						$("[name=paperFlag]").bind("change", function () {
-							$("[name=titlePrefix]").html($(this).val() + "_");
+							$("[name=titlePrefix]").html($(this).find("option:selected").text() + "_");
 						});
-						$("[name=paperFlag]").change();
+						$("[name=titlePrefix]").html($("[name=paperFlag]").find("option:selected").text() + "_");
 					},
 					initPaperBuilder: function () {
 						this.paperBuilder = {
@@ -414,15 +414,6 @@
 						self.paperBuilder.paperFlage = $("[name=paperFlag]").val();
 						self.paperBuilder.paperTypes = $("[name=paperTypes]").val();
 						self.paperBuilder.paperTime = $("[name=paperTime]").val();
-
-						if (self.paperBuilder.paperTypes == null) {
-							layer.msg("请选择试题类型", { icon: 0 });
-							return;
-						}
-						if (self.paperBuilder.paperTitle == "") {
-							layer.msg("请输入试题标题", { icon: 0 });
-							return;
-						}
 						self.paperBuilder.paperTitle =
 							$("[name=titlePrefix]").html() + $("[name=title]").val() + $("[name=titleSuffix]").html();
 

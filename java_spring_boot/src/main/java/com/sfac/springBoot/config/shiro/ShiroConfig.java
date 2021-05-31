@@ -122,7 +122,8 @@ public class ShiroConfig {
         map.put("/exam/papers", "anon");
         map.put("/exam/papers", "anon");
         map.put("/exam/paper/**", "anon");
-        map.put("/exam/achievements", "anon");
+//        map.put("/exam/achievements", "anon");
+//        map.put("/exam/achievement/**", "anon");
         map.put("/api/**", "anon");
 
         // 登录访问规则

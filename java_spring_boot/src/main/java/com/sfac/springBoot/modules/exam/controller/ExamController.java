@@ -47,5 +47,14 @@ public class ExamController {
 	public String achievementsPage() {
 		return "exam/achievements";
 	}
+	
+	/**
+	 * 127.0.0.1/exam/achievement/1 ---- get
+	 */
+	@GetMapping("/achievement/{achievementId}")
+	public String achievementPage(@PathVariable int achievementId, ModelMap modelMap) {
+		modelMap.put("achievementId", achievementId);
+		return "exam/achievement";
+	}
 
 }
