@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : myConnection
-Source Server Version : 50525
+Source Server         : MyConnect
+Source Server Version : 80018
 Source Host           : localhost:3306
 Source Database       : test
 
 Target Server Type    : MYSQL
-Target Server Version : 50525
+Target Server Version : 80018
 File Encoding         : 65001
 
-Date: 2021-05-31 16:18:10
+Date: 2021-05-31 22:37:04
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -105,7 +105,7 @@ CREATE TABLE `exam_question` (
   `reference_answer` text,
   `comment` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of exam_question
@@ -147,7 +147,7 @@ INSERT INTO `exam_question` VALUES ('35', '2021-05-28 08:58:23', 'shortAnswer', 
 INSERT INTO `exam_question` VALUES ('36', '2021-05-28 08:58:23', 'shortAnswer', 'Java', '简述敏捷开发、Scrum 流程', null, '5', '', '', '', '', '敏捷开发：客户需求为核心，高效，迭代增量，大项目分成小项目，分别完成独立运行，控制时间周期和任务优先级，交付功能模块，根据客户反馈持续集成； \nScrum： \n一个大的需求，预估工作量和时间，比如 2 个月时间，形成一个 Sprint， 划分成任务列表；\n计划会议，将任务细化成 Issue，每个 Issue 的开发周期控制在 1~2 天，分派到个人头上； \n根据每个任务创建父类分支，细化的 Issue 提交到对应的分支上，每日做 Daily Merge，确保开发主分支（Dev）能正常集成编译，每日进行 Standing Meeting，讲工作进度以及遇到的问题； \n一个 Sprint 完成，进行演示和总结会议，回顾优缺点；', '');
 INSERT INTO `exam_question` VALUES ('37', '2021-05-28 08:58:23', 'shortAnswer', 'Java', '简述项目开发流程', null, '5', '', '', '', '', '需求分析；\n原型设计（数据库设计）；\n接口设计；\n前端设计；\n搭建框架；\n开发、测试、运行；\n文档总结；', '');
 INSERT INTO `exam_question` VALUES ('38', '2021-05-28 08:58:23', 'shortAnswer', 'JavaScript', '简述 Ajax，Json 和 Form 提交', null, '5', '', '', '', '', 'var user = {};\nuser.account = $(\"[name=\'account\']\").val();\nuser.password = $(\"[name=\'password\']\").val();\nuser.rememberMe = $(\"[name=\'rememberMe\']\").prop(\'checked\');\n$.ajax({\n	url : \"/doLogin\",\n	type : \"post\",\n	contentType: \"application/json\",\n	data : JSON.stringify(user),\n	success : function (data) {\n		if (data.status == 200) {\n			location.href = \"/index\";\n		} else {\n			layer.msg(data.message, {icon: 0});\n		}\n	},\n	error : function (data) {\n		layer.msg(data.responseText, {icon: 0});\n	}\n});\n$.ajax({\n	url :\"/organization/addDepartment\",\n	type : \"POST\",\n	data : $(\'#form1\').serialize(),\n	dataType : \"text\",\n	success : function(data) {\n		var result = eval(\"(\" + data + \")\");\n		if (result.status == 200) {\n			layer.msg(\"修改成功\",{\n				icon : 1,\n				time: 500,\n			},function () {\n				var index = parent.layer.getFrameIndex(window.name);\n				parent.location.reload();\n				parent.layer.close(index);\n			});\n		} else {\n			layer.msg(result.message, {icon: 0});\n		}\n	},\n		error : function() {\n			layer.msg(\'无法连接服务器\', {icon: 2});\n		}\n	});   \n	return false;\n});', '');
-INSERT INTO `exam_question` VALUES ('39', '2021-05-28 08:58:23', 'shortAnswer', 'Java', '简述 Shiro 两大功能实现流程', null, '5', '', '', '', '', '', '');
+INSERT INTO `exam_question` VALUES ('39', '2021-05-28 08:58:23', 'shortAnswer', 'Java', '简述 Shiro 两大功能实现流程', null, '5', '', '', '', '', '身份验证：用户登录后，获得 Subject 组件，包装令牌，调用 login 方法，传入令牌，进入 realm 组件，查询数据库用户，返回身份验证器，并与令牌做比对，成功则登录成功，反之报错；\n资源授权：用户登录时，调用 subject.checkRoles 方法，登录成功后，当页面遇到 shiro 标签或调用接口含有 shiro 注解时，进入 realm 获取当前用户的角色和资源，并返回身份验证器，与标签或注解比对，匹配则显示或调用，反之则不显示或抛出异常；', '');
 INSERT INTO `exam_question` VALUES ('40', '2021-05-28 08:58:23', 'shortAnswer', 'Java', '简述 Mybatis 和 Jpa 的区别？', null, '5', '', '', '', '', 'Mybatis：在 JdbcTemplate 的基础上，自动填充 JavaBean 参数，自动映射 JavaBean，但仍需要手动写 Sql，被称之为“半自动 ORM”；\nHibernate：自动填充 JavaBean 参数，自动映射 JavaBean，自动解析 JavaBean 为 Hql、Jpql 语句（使用代理技术，框架读取代理类，代理类继承 JavaBean，并对 get、set 方法做了重写，这样代理类可以跟踪到 JavaBean 属性的变化，并封装为 Hql 语句，再转换为 Sql 语句对数据库进行操作），提供缓存（一级缓存（Session 缓存）、二级缓存（跨 Session 缓存）），被称之为“全自动 ORM”；\nJpa：Sun 公司制定的 ORM 规范，自己并没实现，常用的实现框架为 Hibernate；', '');
 INSERT INTO `exam_question` VALUES ('41', '2021-05-28 08:58:24', 'shortAnswer', 'Java', '为什么我们需要 spring-boot-maven-plugin？', null, '5', '', '', '', '', 'spring-boot-maven-plugin 提供了一些像 jar 一样打包或者运行应用程序的命令；\nspring-boot:run：运行你的 SpringBoot 应用程序；\nspring-boot:repackage：重新打包你的 jar 包或者是 war 包使其可执行；\nspring-boot:start 和 spring-boot：stop 管理 Spring Boot 应用程序的生命周期（也可以说是为了集成测试）；\nspring-boot:build-info：生成执行器可以使用的构造信息；', '');
 INSERT INTO `exam_question` VALUES ('42', '2021-05-28 08:58:24', 'shortAnswer', 'Java', '什么是嵌入式服务器？我们为什么要使用嵌入式服务器?', null, '5', '', '', '', '', '在虚拟机上部署服务：java环境 ---- web服务器 ---- 部署应用程序 war 包；\n嵌入式：使服务器成为应用程序的一部分，你只需要一个安装了 Java 的虚拟机，就可以直接在上面部署应用程序了；', '');
@@ -193,3 +193,33 @@ INSERT INTO `exam_question` VALUES ('81', '2021-05-31 15:16:53', 'shortAnswer', 
 INSERT INTO `exam_question` VALUES ('82', '2021-05-31 15:17:43', 'programming', 'Python', '定义一个函数，接受 0 个或多个参数，返回累计乘积；', '', '15', '', '', '', '', 'def product(*numbers):\n    if len(numbers) == 0:\n        raise TypeError(\"Param is error.\");\n    count = 1;\n    for i in numbers:\n        count *= i;\n    return count;\nprint(product(*[1,2,4,6,7]));\nprint(product(1,2,4,6,7));', '');
 INSERT INTO `exam_question` VALUES ('83', '2021-05-31 15:19:31', 'programming', 'Python', '定义一个函数，去掉字符串前后的空格；', '', '15', '', '', '', '', 'def trim(s):\n    if len(s) == 0 or s.isspace():\n        return \'\';\n    while s[0] == \' \':\n        s = s[1:];\n    while s[-1] == \' \':\n        s = s[:-1];\n    return s;\nprint(trim(\"\"));\nprint(trim(\"  dsadad  \"));\n\nimport re;\ndef fun_2(s):\n    if s.startswith(\' \') or s.endswith(\' \'):\n        return re.sub(r\"^(\\s+)|(\\s+)$\", \"\", s);', '');
 INSERT INTO `exam_question` VALUES ('84', '2021-05-31 15:20:08', 'programming', 'Python', '查找 list 中的最大值和最小值', '', '15', '', '', '', '', 'def find_max_min(l):\n    if len(l) == 0:\n        return (None, None);\n    if len(l) == 1:\n        return (l[0], l[0]);\n    max = l[0];\n    min = l[0];\n    for item in l:\n        if item > max:\n            max = item;\n        if item < min:\n            min = item;\n    return (min, max);\nprint(find_max_min([]));\nprint(find_max_min([1]));\nprint(find_max_min(range(10)));', '');
+INSERT INTO `exam_question` VALUES ('85', '2021-05-31 21:40:37', 'shortAnswer', 'Java', '简述 JDK && JRE && JVM', '', '5', '', '', '', '', 'JDK：Java Development Kit，Java 开发包，Java 开发工具，包含 JRE、编译器、调试器、DOC 等；\nJRE：Java RunTime Envirment，Java 运行环境；\nJVM：java virtual machine，Java 虚拟机，类装载器、字节码校验器、解释器三个功能，是 Java 跨平台性的关键；', '');
+INSERT INTO `exam_question` VALUES ('86', '2021-05-31 21:41:46', 'shortAnswer', 'Java', '简述执行 Java 文件流程', '', '5', '', '', '', '', 'Java 源程序 *.java ---- java编译器 ---- 转换成字节码*.class 文件 ---- 交给 JVM；\nJVM 共做三个步骤：\n类装载器\n字节码校验器\n解释器\n交给操作系统平台进行显示；', '');
+INSERT INTO `exam_question` VALUES ('87', '2021-05-31 21:43:31', 'judge', 'Java', '能否在加载类的时候，对字节码进行修改？', '', '2.5', '', '', '', '', 'True', '使用 Java 探针技术（javaagent），运行在 main 方法之前的拦截器，它内定的方法名叫 premain，通过配置 -javaagent VM 参数实现；');
+INSERT INTO `exam_question` VALUES ('88', '2021-05-31 21:53:43', 'fillBlank', 'Java', 'JVM 垃圾收集算法', '', '2.5', '', '', '', '', '标记-清除算法；\n复制算法；\n标记-整理算法；\n分代算法；', '');
+INSERT INTO `exam_question` VALUES ('89', '2021-05-31 21:59:04', 'shortAnswer', 'Java', '简述 JVM 内存划分', '', '5', '', '', '', '', '类加载器（ClassLoader）；\n运行时数据区（Runtime Data Area） ---- 程序计数器、虚拟机栈、本地方法栈、堆、方法区；\n执行引擎（Execution Engine）；\n本地库接口（Native Interface）；', '');
+INSERT INTO `exam_question` VALUES ('90', '2021-05-31 22:01:21', 'multipleChoice', 'Java', '下面哪些是 Java 的特征？', '', '5', '面向对象', '封装', '继承', '多态', 'A,B,C,D', '');
+INSERT INTO `exam_question` VALUES ('91', '2021-05-31 22:02:53', 'shortAnswer', 'Java', '简述 System.out 和 System.in 的区别？', '', '5', '', '', '', '', 'System.in：标准输入流，此流已打开并准备提供输入数据，通常对应键盘输入；\nSystem.out：标准输出流，此流已打开并准备接受输出数据，通常，此流对应于显示器输出；', '');
+INSERT INTO `exam_question` VALUES ('92', '2021-05-31 22:04:13', 'fillBlank', 'Java', 'Java 的基本数据类型是？', '', '2.5', '', '', '', '', '整形：字节型 byte 占 8bit、短整形 short 占 2B、整形 int 占 4B、长整形 long 占 8B；\n浮点型：单精度 float 占 4B、双精度 double 占 8B；\n字符型：char，采用 Unicode 编码，每个字符占 2B；\n逻辑型：布尔型 boolean，占 1bit；', '');
+INSERT INTO `exam_question` VALUES ('93', '2021-05-31 22:07:43', 'judge', 'Java', 'long（8 byte）所占字节数大于 float（4 byte），所以数值范围 long 大。', '', '2.5', '', '', '', '', 'False', 'byte，short，int，long 它们在内存中都是直接换算成二进制存储的，所以我们可以直接计算出它们的最大值，二进制的第一位是符号位不计算入数值；\nfloat 类型，4 个字节，32 位，浮点数在内存中的二进制值不是直接转换为十进制数值的，而是按照公式计算而来，虽然只用到了 4 个字节，但是浮点数却比长整型的最大值要大；');
+INSERT INTO `exam_question` VALUES ('94', '2021-05-31 22:10:17', 'singleChoice', 'Java', 'char x = \'b\'; int i = 0; System.out.println(true ? x : 0); System.out.println(true ? x : 65536); System.out.println(true ? x : 111111111); System.out.println(false ? i: x);', '', '2.5', 'b、98、98、98', '98、98、98、98', 'b、b、b、b', 'b、b、98、98', 'A', '// boolean -- 1byte, char -- 2byte, 0(short:0-65535) -- 2byte, int -- 4byte\n// 三目运算中自动转换类型，都打印x，但转换类型后结果为b、98、98、98');
+INSERT INTO `exam_question` VALUES ('95', '2021-05-31 22:12:59', 'singleChoice', 'Java', 'Java 算术表达式优先级正确的是？', '', '2.5', '关系运算符 > 逻辑运算符! > 基本运算符 > 逻辑运算符 > 条件运算符 > 赋值运算符', '逻辑运算符! > 基本运算符 > 关系运算符 > 逻辑运算符 > 条件运算符 > 赋值运算符', '关系运算符 > 逻辑运算符! > 条件运算符 > 基本运算符 > 逻辑运算符 > 赋值运算符', '条件运算符 > 关系运算符 > 逻辑运算符! > 基本运算符 > 逻辑运算符 > 赋值运算符', 'B', '');
+INSERT INTO `exam_question` VALUES ('96', '2021-05-31 22:14:08', 'singleChoice', 'Java', '5%3、-5%3、5%-3、-5%-3', '', '2.5', '-2、-2、-2、-2', '2、2、2、2', '2、-2、2、-2', '2、-2、-2、2', 'C', '符号看前面；');
+INSERT INTO `exam_question` VALUES ('97', '2021-05-31 22:15:05', 'shortAnswer', 'Java', '简述 euqals 和 == 的区别', '', '5', '', '', '', '', 'euqals 和 == 的区别；\nequals：String比较值，引用型对象比较值和地址；', '');
+INSERT INTO `exam_question` VALUES ('98', '2021-05-31 22:16:03', 'judge', 'Java', '两个对象的 hashCode() 相同，则 equals() 也一定为 true？', '', '2.5', '', '', '', '', 'False', 'hashCode() 相等即两个键值对的哈希值相等，然而哈希值相等，并不一定能得出键值对相等；');
+INSERT INTO `exam_question` VALUES ('99', '2021-05-31 22:17:54', 'multipleChoice', 'Java', 'Java 访问修饰符有哪些？', '', '5', 'public', 'protected', '默认', 'private', 'A,B,C,D', '');
+INSERT INTO `exam_question` VALUES ('100', '2021-05-31 22:21:01', 'shortAnswer', 'Java', '阐述 Java 中 final 关键字的作用。', '', '5', '', '', '', '', '修饰变量叫常量，不能被修改；\n修饰类叫终态类或最终类，不能被继承；\n修饰方法的时候，该方法不能被重写；', '');
+INSERT INTO `exam_question` VALUES ('101', '2021-05-31 22:21:48', 'judge', 'Java', '抽象类必须要有抽象方法。', '', '2.5', '', '', '', '', 'False', '');
+INSERT INTO `exam_question` VALUES ('102', '2021-05-31 22:22:27', 'judge', 'Java', '抽象类能使用 final 修饰。', '', '2.5', '', '', '', '', 'False', '不能，定义抽象类就是让其他类继承的，如果定义为 final 该类就不能被继承，这样彼此就会产生矛盾，所以 final 不能修饰抽象类；');
+INSERT INTO `exam_question` VALUES ('103', '2021-05-31 22:23:18', 'fillBlank', 'Java', 'Math. round(-1. 5)', '', '2.5', '', '', '', '', '-1，在坐标轴上，向右取整；', '');
+INSERT INTO `exam_question` VALUES ('104', '2021-05-31 22:23:54', 'shortAnswer', 'Java', '阐述 JavaBean 规范。', '', '5', '', '', '', '', 'JavaBean 必须包含一个无参的 public 构造方法；\n对私有属性必须提供符合规范的 get 和 set 方法；\nJavaBean 应该尽可能的串行化（序列化，实现 Serializable 接口）；', '');
+INSERT INTO `exam_question` VALUES ('105', '2021-05-31 22:24:56', 'multipleChoice', 'Java', 'Java 中产生对象的方式有？', '', '5', 'new', '序列化和反序列化', '克隆', '反射', 'A,B,C,D', '');
+INSERT INTO `exam_question` VALUES ('106', '2021-05-31 22:26:27', 'shortAnswer', 'Java', '阐述 Java 中 final、finally、finalize 的区别。', '', '5', '', '', '', '', 'final ---- 关键字\n修饰变量叫常量，不能被修改；\n修饰类叫终态类或最终类，不能被继承，例如 String 类；\n修饰方法的时候，该方法不能被重写；\nfinally ---- 关键字\n在 try、catch 和 finally 语句中，无论前面是否有异常，都会执行 finally 代码段；\n一般用于资源的回收和流关闭；\nfinalize ---- 方法名\n属于 object 类中的方法，作用是销毁对象、回收内存；\n注意和 System.gc(); 的区别 ---- 垃圾回收器，通知提醒内存进行内存回收；', '');
+INSERT INTO `exam_question` VALUES ('107', '2021-05-31 22:28:51', 'fillBlank', 'Java', '填写五个 Java 异常；', '', '2.5', '', '', '', '', 'IOException、FileNotFoundException、NullPointerException、ArithmeticException、ArrayIndexOutOfBoundsException、ClassNotFoundException', '');
+INSERT INTO `exam_question` VALUES ('108', '2021-05-31 22:29:40', 'shortAnswer', 'Java', 'Java 中 throw 和 throws 的区别', '', '5', '', '', '', '', 'throw：是真实抛出一个异常；\nthrows：是声明可能会抛出一个异常；', '');
+INSERT INTO `exam_question` VALUES ('109', '2021-05-31 22:30:54', 'judge', 'Java', 'Java 中 try-catch-finally 语句都不可省略。', '', '2.5', '', '', '', '', 'False', '');
+INSERT INTO `exam_question` VALUES ('110', '2021-05-31 22:32:07', 'shortAnswer', 'Java', '并行和并发有什么区别？', '', '5', '', '', '', '', '并行：多个处理器或多核处理器同时处理多个任务；\n并发：多个任务在同一个 CPU 核上，按细分的时间片轮流(交替)执行，从逻辑上来看那些任务是同时执行；', '');
+INSERT INTO `exam_question` VALUES ('111', '2021-05-31 22:33:01', 'judge', 'Java', 'Java 中垃圾回收线程是特殊的守护线程。', '', '2.5', '', '', '', '', 'True', '');
+INSERT INTO `exam_question` VALUES ('112', '2021-05-31 22:34:00', 'shortAnswer', 'Java', '线程实现方式？', '', '5', '', '', '', '', '继承 Thread 类，覆盖该类的 run 方法；\n实现 Runnable 接口，实现 run 方法；\n利用匿名内部类产生：方法中添加：new Thread(){public void run() {super.run();}}.start();', '');
+INSERT INTO `exam_question` VALUES ('113', '2021-05-31 22:35:00', 'fillBlank', 'Java', '线程的几种状态？', '', '2.5', '', '', '', '', '创建、就绪、运行、阻塞、死亡', '');
+INSERT INTO `exam_question` VALUES ('114', '2021-05-31 22:36:23', 'shortAnswer', 'Java', '阐述 Synchronized 与 Lock 的区别。', '', '5', '', '', '', '', 'synchronized：关键字、获取锁的线程执行完或异常才释放锁、等待线程会一直等待，无法判断锁状态、可重入、非公平（释放锁后，所有线程去竞争）、等待线程不可中断、少量同步；\nLock：\n接口、lock 之后需要在 finally 中 unlock，可用 tryLock 判断锁状态，尝试获取锁，失败后，等待线程不用一直等待、可重入、可公平（等待线程先到先得）、大量同步；\nReentrantLock：是 Lock 的一个实现分类，独占锁，公平锁，一个线程已经有锁了，其内部还能申请锁；', '');
