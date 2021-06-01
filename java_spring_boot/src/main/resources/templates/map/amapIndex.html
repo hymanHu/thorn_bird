@@ -135,7 +135,7 @@
 		console.log(target + "----" + lnglat + "----" + pixel + "----" + type);
 	});
 
-	// 加载插件 https://lbs.amap.com/api/javascript-api/guide/abc/plugins
+	// 添加插件 https://lbs.amap.com/api/javascript-api/guide/abc/plugins
 	AMap.plugin(["AMap.ToolBar", "AMap.Scale", "AMap.Geolocation", "AMap.Driving"], function () {
 		var toolbar = new AMap.ToolBar(); // 缩放工具条，已有定位按钮
 		amapBase.addControl(toolbar);
@@ -148,8 +148,15 @@
 	});
 
 	/* ================ amapArea ================ */
+	var amapArea,
+		district,
+		polygons = [];
+	var citySelect = $("#city");
+	var districtSelect = $("#district");
+	var streetSelect = $("#street");
+
 	// 初始化地图
-	var amapArea = new AMap.Map("amapAreaContainer", {
+	amapArea = new AMap.Map("amapAreaContainer", {
 		resizeEnable: true,
 		zoom: 11,
 		viewMode: "3D",
@@ -157,57 +164,101 @@
 		mapStyle: "amap://styles/whitesmoke",
 	});
 
-	// 添加插件(方式一)
+	// 添加插件
 	AMap.plugin(["AMap.ToolBar", "AMap.Scale", "AMap.DistrictSearch"], function () {
 		var toolbar = new AMap.ToolBar();
 		amapArea.addControl(toolbar);
 		var scale = new AMap.Scale();
 		amapArea.addControl(scale);
-	});
-	// 行政区域搜索插件(直接 new 出插件)
-	var district = new AMap.DistrictSearch({
-		level: "country", // 关键字对应的行政区级别，country表示国家
-		subdistrict: 1, // 最后一级返回街道信息
-		showbiz: false, // 最后一级返回街道信息
-	});
-	district.search("中国", function (status, result) {
-		var provinces = result.districtList[0].districtList;
-		console.log(provinces);
-		var options = "";
-		$.each(provinces, function (index, province) {
-			options += "<option value='" + province.adcode + "'>" + province.name + "</option>";
+
+		district = new AMap.DistrictSearch({
+			level: "country", // 关键字对应的行政区级别，country表示国家
+			subdistrict: 1, // 最后一级返回街道信息
+			showbiz: false, // 最后一级返回街道信息
 		});
-		$("#province").append(options);
+		district.search("中国", function (status, result) {
+			if (status == "complete") {
+				loadMap(result.districtList[0]);
+			}
+		});
 	});
 
-	function changeProvince() {
-		var province = $("#province").val();
-		district.search(province, function (status, result) {
-			var cities = result.districtList[0].districtList;
-			console.log(cities);
-			var options = "<option value='0'>----请选择城市----</option>";
-			$.each(cities, function (index, city) {
-				options += "<option value='" + city.adcode + "'>" + city.name + "</option>";
+	// 加载地图
+	function loadMap(data, level) {
+		console.log(data);
+		var bounds = data.boundaries;
+		if (bounds) {
+			for (var i = 0, l = bounds.length; i < l; i++) {
+				var polygon = new AMap.Polygon({
+					map: amapArea,
+					strokeWeight: 1,
+					strokeColor: "#0091ea",
+					fillColor: "#80d8ff",
+					fillOpacity: 0.2,
+					path: bounds[i],
+				});
+				polygons.push(polygon);
+			}
+			amapArea.setFitView(); //地图自适应
+		}
+
+		//清空下一级别 select
+		if (level === "province") {
+			citySelect.html("<option value='0'>----请选择----</option>");
+			districtSelect.html("<option value='0'>----请选择----</option>");
+			streetSelect.html("<option value='0'>----请选择----</option>");
+		} else if (level === "city") {
+			districtSelect.html("<option value='0'>----请选择----</option>");
+			streetSelect.html("<option value='0'>----请选择----</option>");
+		} else if (level === "district") {
+			streetSelect.html("<option value='0'>----请选择----</option>");
+		}
+
+		// 渲染下一级 select
+		var list = data.districtList;
+		if (list) {
+			var curlevel = list[0].level;
+			var currentSelect = $("#" + curlevel);
+			currentSelect.html("<option value='0'>----请选择----</option>");
+			$.each(list, function (index, item) {
+				currentSelect.append(
+					"<option center='" +
+						item.center +
+						"' level='" +
+						item.level +
+						"' value='" +
+						item.adcode +
+						"'>" +
+						item.name +
+						"</option>"
+				);
 			});
-			$("#city").html(options);
-		});
-		$("#district").html("<option value='0'>----请选择区县----</option>");
+		}
 	}
 
-	function changeCity() {
-		var city = $("#city").val();
-		district.search(city, function (status, result) {
-			var districts = result.districtList[0].districtList;
-			console.log(districts);
-			var options = "<option value='0'>----请选择区县----</option>";
-			$.each(districts, function (index, district) {
-				options += "<option value='" + district.adcode + "'>" + district.name + "</option>";
-			});
-			$("#district").html(options);
+	function search(obj) {
+		//清除地图上所有覆盖物
+		for (var i = 0, l = polygons.length; i < l; i++) {
+			polygons[i].setMap(null);
+		}
+		var option = obj[obj.options.selectedIndex];
+		var name = option.text;
+		var adcode = option.value;
+		district.setLevel(option.getAttribute("level")); //行政区级别
+		district.setExtensions("all");
+		//行政区查询
+		//按照adcode进行查询可以保证数据返回的唯一性
+		district.search(adcode, function (status, result) {
+			if (status === "complete") {
+				loadMap(result.districtList[0], obj.id);
+			}
 		});
 	}
 
-	function changeDistrict() {}
-
-	function loadMap() {}
+	function setCenter(obj) {
+		var center = obj[obj.options.selectedIndex].getAttribute("center");
+		console.log(center);
+		// 设置中心错误
+		// amapArea.setCenter(113.976, 22.7665);
+	}
 </script>

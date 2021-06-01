@@ -4,20 +4,26 @@
 		<h4>下属行政区查询</h4>
 		<div class="input-item">
 			<div class="input-item-prepend"><span class="input-item-text">省市区</span></div>
-			<select id="province" style="width: 100px" onchange="changeProvince()">
-				<option value="0">----请选择省份----</option>
+			<select id="province" style="width: 100px" onchange="search(this)">
+				<option value="0">----请选择----</option>
 			</select>
 		</div>
 		<div class="input-item">
 			<div class="input-item-prepend"><span class="input-item-text">地级市</span></div>
-			<select id="city" style="width: 100px" onchange="changeCity()">
-				<option value="0">----请选择城市----</option>
+			<select id="city" style="width: 100px" onchange="search(this)">
+				<option value="0">----请选择----</option>
 			</select>
 		</div>
 		<div class="input-item">
 			<div class="input-item-prepend"><span class="input-item-text">区县</span></div>
-			<select id="district" style="width: 100px" onchange="changeDistrict()">
-				<option value="0">----请选择区县----</option>
+			<select id="district" style="width: 100px" onchange="search(this)">
+				<option value="0">----请选择----</option>
+			</select>
+		</div>
+		<div class="input-item">
+			<div class="input-item-prepend"><span class="input-item-text">街道</span></div>
+			<select id="street" style="width: 100px" onchange="setCenter(this)">
+				<option value="0">----请选择----</option>
 			</select>
 		</div>
 	</div>
