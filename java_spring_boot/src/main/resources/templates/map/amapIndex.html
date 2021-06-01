@@ -1,3 +1,27 @@
+<link rel="stylesheet" href="https://a.amap.com/jsapi_demos/static/demo-center/css/demo-center.css" />
+<style>
+	#amapBaseContainer {
+		max-width: 100%;
+		height: 400px;
+		border: solid gray 1px;
+	}
+	#amapAreaContainer {
+		max-width: 100%;
+		height: 400px;
+		border: solid gray 1px;
+	}
+	#amapWeatherForecastContainer {
+		max-width: 100%;
+		height: 400px;
+		border: solid gray 1px;
+	}
+	#amapDriveLineContainer {
+		max-width: 100%;
+		height: 400px;
+		border: solid gray 1px;
+	}
+</style>
+
 <!-- page content -->
 <div class="right_col" role="main">
 	<div class="">
@@ -13,11 +37,23 @@
 			<li class="nav-item">
 				<a
 					class="nav-link active"
-					id="home-tab"
+					id="amapBase-tab"
 					data-toggle="tab"
-					href="#home"
+					href="#amapBase"
 					role="tab"
-					aria-controls="home"
+					aria-controls="amapBase"
+					aria-selected="true"
+					>基础应用</a
+				>
+			</li>
+			<li class="nav-item">
+				<a
+					class="nav-link"
+					id="amapArea-tab"
+					data-toggle="tab"
+					href="#amapArea"
+					role="tab"
+					aria-controls="amapArea"
 					aria-selected="true"
 					>行政区查询</a
 				>
@@ -25,11 +61,11 @@
 			<li class="nav-item">
 				<a
 					class="nav-link"
-					id="profile-tab"
+					id="amapDriveLine-tab"
 					data-toggle="tab"
-					href="#profile"
+					href="#amapDriveLine"
 					role="tab"
-					aria-controls="profile"
+					aria-controls="amapDriveLine"
 					aria-selected="false"
 					>驾车线路查询</a
 				>
@@ -37,33 +73,141 @@
 			<li class="nav-item">
 				<a
 					class="nav-link"
-					id="contact-tab"
+					id="amapWeatherForecast-tab"
 					data-toggle="tab"
-					href="#contact"
+					href="#amapWeatherForecast"
 					role="tab"
-					aria-controls="contact"
+					aria-controls="amapWeatherForecast"
 					aria-selected="false"
 					>天气预报查询</a
 				>
 			</li>
 		</ul>
 		<div class="tab-content" id="myTabContent">
-			<div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
-				Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua, retro
-				synth master cleanse. Mustache cliche tempor, williamsburg carles vegan helvetica. Reprehenderit butcher
-				retro keffiyeh dreamcatcher synth. Cosby sweater eu banh mi, qui irure terr.
-			</div>
-			<div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-				Food truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1
-				labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft
-				beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk aliquip
-			</div>
-			<div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-				xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation
-				+1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table
-				craft beer twee. Qui photo booth letterpress, commodo enim craft beer mlkshk
-			</div>
+			<!-- 地图基础页面 -->
+			<div th:replace="map/amapBase"></div>
+			<!-- 行政区域查询页面 -->
+			<div th:replace="map/amapArea"></div>
+			<!-- 驾车线路查询页面 -->
+			<div th:replace="map/amapDriveLine"></div>
+			<!-- 天气预报查询页面 -->
+			<div th:replace="map/amapWeatherForecast"></div>
 		</div>
 	</div>
 </div>
 <!-- /page content -->
+
+<script
+	type="text/javascript"
+	src="https://webapi.amap.com/maps?v=1.4.15&key=849c47f640695b10081e12dd9739216e"
+></script>
+<script type="text/javascript">
+	/* ================ amapBase ================ */
+	// 初始化地图
+	var amapBase = new AMap.Map("amapBaseContainer", {
+		resizeEnable: true, // 是否监控地图容器尺寸变化
+		zoom: 11, // 初始化地图层级，对应地图标尺尺寸
+		viewMode: "3D", // 使用 2D、3D 视图
+		lang: "zh_cn", // 设置地图语言类型
+		mapStyle: "amap://styles/whitesmoke", // 设置地图的显示样式
+		// center: [116.397428, 39.90923], // 初始化地图中心点，不设置以当地作为中心
+		// layers: [new AMap.TileLayer.Satellite()], // 设置图层，可设置成包含一个或多个图层的数组
+	});
+
+	// 销毁地图，并清空地图容器
+	function destroyMap() {
+		amapBase.destroy();
+	}
+
+	// 事件处理 https://lbs.amap.com/api/javascript-api/guide/events/map_overlay
+	amapBase.on("complete", function () {
+		console.log("地图加载完毕");
+	});
+	amapBase.on("click", function (ev) {
+		// 触发事件的对象
+		var target = ev.target;
+		// 触发事件的地理坐标，AMap.LngLat 类型
+		var lnglat = ev.lnglat;
+		// 触发事件的像素坐标，AMap.Pixel 类型
+		var pixel = ev.pixel;
+		// 触发事件类型
+		var type = ev.type;
+		console.log(target + "----" + lnglat + "----" + pixel + "----" + type);
+	});
+
+	// 加载插件 https://lbs.amap.com/api/javascript-api/guide/abc/plugins
+	AMap.plugin(["AMap.ToolBar", "AMap.Scale", "AMap.Geolocation", "AMap.Driving"], function () {
+		var toolbar = new AMap.ToolBar(); // 缩放工具条，已有定位按钮
+		amapBase.addControl(toolbar);
+		var scale = new AMap.Scale(); // 比例尺
+		amapBase.addControl(scale);
+		// var geolocation = new AMap.Geolocation(); // 定位按钮
+		// amapBase.addControl(geolocation);
+		var driving = new AMap.Driving(); // 驾车路线规划
+		driving.search("");
+	});
+
+	/* ================ amapArea ================ */
+	// 初始化地图
+	var amapArea = new AMap.Map("amapAreaContainer", {
+		resizeEnable: true,
+		zoom: 11,
+		viewMode: "3D",
+		lang: "zh_cn",
+		mapStyle: "amap://styles/whitesmoke",
+	});
+
+	// 添加插件(方式一)
+	AMap.plugin(["AMap.ToolBar", "AMap.Scale", "AMap.DistrictSearch"], function () {
+		var toolbar = new AMap.ToolBar();
+		amapArea.addControl(toolbar);
+		var scale = new AMap.Scale();
+		amapArea.addControl(scale);
+	});
+	// 行政区域搜索插件(直接 new 出插件)
+	var district = new AMap.DistrictSearch({
+		level: "country", // 关键字对应的行政区级别，country表示国家
+		subdistrict: 1, // 最后一级返回街道信息
+		showbiz: false, // 最后一级返回街道信息
+	});
+	district.search("中国", function (status, result) {
+		var provinces = result.districtList[0].districtList;
+		console.log(provinces);
+		var options = "";
+		$.each(provinces, function (index, province) {
+			options += "<option value='" + province.adcode + "'>" + province.name + "</option>";
+		});
+		$("#province").append(options);
+	});
+
+	function changeProvince() {
+		var province = $("#province").val();
+		district.search(province, function (status, result) {
+			var cities = result.districtList[0].districtList;
+			console.log(cities);
+			var options = "<option value='0'>----请选择城市----</option>";
+			$.each(cities, function (index, city) {
+				options += "<option value='" + city.adcode + "'>" + city.name + "</option>";
+			});
+			$("#city").html(options);
+		});
+		$("#district").html("<option value='0'>----请选择区县----</option>");
+	}
+
+	function changeCity() {
+		var city = $("#city").val();
+		district.search(city, function (status, result) {
+			var districts = result.districtList[0].districtList;
+			console.log(districts);
+			var options = "<option value='0'>----请选择区县----</option>";
+			$.each(districts, function (index, district) {
+				options += "<option value='" + district.adcode + "'>" + district.name + "</option>";
+			});
+			$("#district").html(options);
+		});
+	}
+
+	function changeDistrict() {}
+
+	function loadMap() {}
+</script>
