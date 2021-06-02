@@ -153,6 +153,8 @@ print(d);
 d.pop("aaa");
 print(d);
 print(len(d));
+for key in d:
+    print(key, d[key]);
 s = set(["cds", True, None, 212, 22.3]);
 s2 = {"cds", 212, 22.22, "cdsacdasd"};
 s.add("hyman");
@@ -244,8 +246,5 @@ if __name__ == "__main__":
 #     function_5("hujiang", city="cd");
     # test_5(111, city="cd");
     print(fun("  cdascdasc cdascdas  "));
-    
-    
-
 
 
