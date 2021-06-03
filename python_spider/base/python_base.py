@@ -246,5 +246,3 @@ if __name__ == "__main__":
 #     function_5("hujiang", city="cd");
     # test_5(111, city="cd");
     print(fun("  cdascdasc cdascdas  "));
-
-
