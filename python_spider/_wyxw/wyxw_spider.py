@@ -10,8 +10,10 @@ https://news.163.com/domestic/
 import requests;
 from bs4 import BeautifulSoup;
 import json;
+from datetime import datetime;
+from _wyxw import wyxw_storage;
 
-page_count = 2;
+page_count = 1;
 
 def get_news_data():
     # 构建新闻分页 url 列表
@@ -26,7 +28,11 @@ def get_news_data():
     for url in news_page_url_list:
         r = requests.get(url);
         r.encoding = r.apparent_encoding;
+        index = 0;
         for news in json.loads(r.text[len("data_callback("):-1]):
+            index += 1;
+            if index > 4:
+                break;
             dict = {};
             dict["title"] = news.get("title");
             dict["digest"] = news.get("digest"); # 摘要
@@ -37,8 +43,8 @@ def get_news_data():
             for keyword in news.get("keywords"):
                 keywords.append(keyword.get("keyname"));
             dict["keywords"] = ",".join(keywords);
-            dict["news_date"] = news.get("time");
-            dict["news_type"] = news.get("newstype");
+            dict["news_date"] = datetime.strptime(news.get("time"), "%m/%d/%Y %H:%M:%S");
+            dict["news_type"] = news.get("news_type");
             dict["channel"] = news.get("channelname"); # 渠道
             dict["source"] = news.get("source"); # 来源
             dict["image_url"] = news.get("imgurl");
@@ -47,6 +53,7 @@ def get_news_data():
 
     print("爬取新闻总数：%d" % len(news_list));
     print(news_list);
+    return news_list;
 
 # 获取每个新闻详情
 def get_news_detail(url):
@@ -70,4 +77,4 @@ def get_news_detail(url):
 if __name__ == "__main__":
     # url = "https://www.163.com/news/article/G9KBEDLH00018AP1.html";
     # get_news_detail(url);
-    get_news_data();
+    wyxw_storage.wyxw_storage(get_news_data());
