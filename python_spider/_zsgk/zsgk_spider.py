@@ -1,14 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import requests
-from _zsgk import zsgk_storage
+__author__ = "HymanHu";
 
 '''
 掌上高考数据爬取
 https://gkcx.eol.cn/school/search
 '''
 
-__author__ = "HymanHu";
+import requests
+from _zsgk import zsgk_storage
 
 request_headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0',

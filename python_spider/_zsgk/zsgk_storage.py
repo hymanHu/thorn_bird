@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-from utils import mysql_util
+__author__ = "HymanHu"
 
 '''
 掌上高考，数据存储
 '''
-__author__ = "HymanHu"
+
+from utils import mysql_util;
+from datetime import datetime;
+
 
 def university_storage(universities):
     connection, cursor = None, None
@@ -14,10 +17,11 @@ def university_storage(universities):
         for university in universities:
             id = university.get("id")
             query_sql = "select * from spider_university where id = '%s'"%(id,)
-            insert_sql = "insert into spider_university (id, school_name, type, level, nature, belong, central, department, " \
+            insert_sql = "insert into spider_university (code, name, type, level, nature, belong, central, department, " \
                          "doublehigh, f211, f985, is_recruitment, dual_class, address, province_name, single_province, " \
-                         "city_name, county_name, view_total_number) values " \
-                         "('%s', '%s', '%s', '%s', '%s', '%s', %s, %s, %s, %s, %s, %s, '%s', '%s', '%s', '%s', '%s', '%s', %s)" \
+                         "city_name, county_name, view_total_number, create_date) values " \
+                         "('%s', '%s', '%s', '%s', '%s', '%s', %s, %s, %s, %s, %s, %s, '%s', " \
+                         "'%s', '%s', '%s', '%s', '%s', %s, '%s')" \
                          % (university.get("id", None), university.get("name", None),
                             university.get("type_name", None), university.get("level_name", None),
                             university.get("nature_name", None), university.get("belong", None),
@@ -27,7 +31,7 @@ def university_storage(universities):
                             university.get("dual_class_name", None), university.get("address", None),
                             university.get("province_name", None), university.get("single_province", None),
                             university.get("city_name", None), university.get("county_name", None),
-                            university.get("view_total_number", None))
+                            university.get("view_total_number", None), datetime.now().strftime("%Y-%m-%d %H:%M:%S"));
 
             country_temp = mysql_util.execute_query(cursor=cursor, sql=query_sql)
             if len(country_temp) == 0:

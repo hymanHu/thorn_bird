@@ -23,10 +23,10 @@ public class University extends AbstractEntity {
 	private String belong;
 	private int central;
 	private int department;
-	private boolean doublehigh;
-	private boolean f211;
-	private boolean f985;
-	private boolean isRecruitment;
+	private int doublehigh;
+	private int f211;
+	private int f985;
+	private int isRecruitment;
 	private String dualClass;
 	private String address;
 	private String provinceName;
@@ -99,35 +99,35 @@ public class University extends AbstractEntity {
 		this.department = department;
 	}
 
-	public boolean isDoublehigh() {
+	public int getDoublehigh() {
 		return doublehigh;
 	}
 
-	public void setDoublehigh(boolean doublehigh) {
+	public void setDoublehigh(int doublehigh) {
 		this.doublehigh = doublehigh;
 	}
 
-	public boolean isF211() {
+	public int getF211() {
 		return f211;
 	}
 
-	public void setF211(boolean f211) {
+	public void setF211(int f211) {
 		this.f211 = f211;
 	}
 
-	public boolean isF985() {
+	public int getF985() {
 		return f985;
 	}
 
-	public void setF985(boolean f985) {
+	public void setF985(int f985) {
 		this.f985 = f985;
 	}
 
-	public boolean isRecruitment() {
+	public int getIsRecruitment() {
 		return isRecruitment;
 	}
 
-	public void setRecruitment(boolean isRecruitment) {
+	public void setIsRecruitment(int isRecruitment) {
 		this.isRecruitment = isRecruitment;
 	}
 

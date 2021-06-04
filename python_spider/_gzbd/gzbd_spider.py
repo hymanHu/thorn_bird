@@ -189,10 +189,10 @@ def new_line_parse(new_line):
     return new_dict
 
 if __name__ == "__main__":
-    # url = "http://wsjkw.sc.gov.cn/scwsjkw/gzbd01/2020/9/16/bfc30e1e1947441ca65d79c60f4ea79b.shtml"
-    # print(new_page_data(url))
-    # url = "http://wsjkw.sc.gov.cn/scwsjkw/gzbd01/ztwzlmgl.shtml"
-    # print(news_page_data(url))
-    gzbd_data = gzbd_all_data()
-    gzbd_storage.storage_mysql(gzbd_data)
+    # url = "http://wsjkw.sc.gov.cn/scwsjkw/gzbd01/2020/9/16/bfc30e1e1947441ca65d79c60f4ea79b.shtml";
+    # print(new_page_data(url));
+    # url = "http://wsjkw.sc.gov.cn/scwsjkw/gzbd01/ztwzlmgl.shtml";
+    # print(news_page_data(url));
+    gzbd_data = gzbd_all_data();
+    gzbd_storage.storage_mysql(gzbd_data);
 

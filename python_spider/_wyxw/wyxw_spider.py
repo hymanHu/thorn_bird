@@ -13,7 +13,7 @@ import json;
 from datetime import datetime;
 from _wyxw import wyxw_storage;
 
-page_count = 1;
+page_count = 2;
 
 def get_news_data():
     # 构建新闻分页 url 列表
@@ -25,14 +25,11 @@ def get_news_data():
 
     # 从次新闻分页列表中获取新闻信息，装入新闻列表中
     news_list = [];
+    news_list_error = [];
     for url in news_page_url_list:
         r = requests.get(url);
         r.encoding = r.apparent_encoding;
-        index = 0;
         for news in json.loads(r.text[len("data_callback("):-1]):
-            index += 1;
-            if index > 4:
-                break;
             dict = {};
             dict["title"] = news.get("title");
             dict["digest"] = news.get("digest"); # 摘要
@@ -49,32 +46,46 @@ def get_news_data():
             dict["source"] = news.get("source"); # 来源
             dict["image_url"] = news.get("imgurl");
             dict["detail"] = get_news_detail(news.get("tlink"));
-            news_list.append(dict);
+            if not wyxw_storage.wyxw_storage(dict):
+                news_list_error.append(dict["url"]);
+            else:
+                news_list.append(dict);
 
     print("爬取新闻总数：%d" % len(news_list));
     print(news_list);
-    return news_list;
+    return news_list, news_list_error;
 
 # 获取每个新闻详情
 def get_news_detail(url):
     print("Vist %s" % url);
-    r = requests.get(url);
-    r.encoding = r.apparent_encoding;
+    try:
+        r = requests.get(url);
+        r.encoding = r.apparent_encoding;
 
-    bs = BeautifulSoup(r.text, "html.parser");
-    div = bs.find(name="div", attrs={"class":"post_body"});
-    lines = [];
-    if div:
-        for child in div.children:
-            if child.name == "p":
-                lines.append(child.get_text());
-        detail = "\r\n".join(lines);
-        print(detail);
-        return detail;
-    else:
+        bs = BeautifulSoup(r.text, "html.parser");
+        div = bs.find(name="div", attrs={"class": "post_body"});
+        lines = [];
+        if div:
+            for child in div.children:
+                if child.name == "p":
+                    # 新闻中有视频时，页面将样式放在 p 标签中，去掉样式内容
+                    style_list = child.findChildren("style", recursive=False);
+                    if len(style_list) > 0:
+                        continue;
+                    # 去掉特殊字符串 ^，！，$，#，&
+                    lines.append(child.get_text().replace("'", "").replace("^", "")
+                                 .replace("!", "").replace("$", "").replace("#", "").replace("&", ""));
+            detail = "\r\n".join(lines);
+            print(detail);
+            return detail;
+        else:
+            return "";
+    except Exception as e:
+        print(e);
         return "";
 
 if __name__ == "__main__":
-    # url = "https://www.163.com/news/article/G9KBEDLH00018AP1.html";
+    # url = "https://www.163.com/news/article/G9FMGA1100019K82.html";
     # get_news_detail(url);
-    wyxw_storage.wyxw_storage(get_news_data());
+    news_list, news_list_error = get_news_data();
+    print(news_list_error);
