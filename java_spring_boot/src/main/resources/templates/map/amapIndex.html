@@ -236,6 +236,7 @@
 		}
 	}
 
+	// 查找行政区域
 	function search(obj) {
 		//清除地图上所有覆盖物
 		for (var i = 0, l = polygons.length; i < l; i++) {
@@ -255,10 +256,13 @@
 		});
 	}
 
+	// 设置中心
 	function setCenter(obj) {
 		var center = obj[obj.options.selectedIndex].getAttribute("center");
 		console.log(center);
-		// 设置中心错误
-		// amapArea.setCenter(113.976, 22.7665);
+		// 构造 position 对象
+		// var position = new AMap.LngLat(116, 39);
+		var position = [Number(center.split(",")[0]), Number(center.split(",")[1])];
+		amapArea.setCenter(position);
 	}
 </script>
