@@ -91,7 +91,7 @@ def init_series_dataFrame():
     return series, dataFrame;
 
 # 索引
-def base_function_test():
+def base_index_test():
     series, dataFrame = init_series_dataFrame();
 
     # reindex，重新定义列索引列表，并为 NaN 数据指定默认值，还可绑定方法 method=
@@ -114,17 +114,22 @@ def base_function_test():
     print(series[0]); # 按照下标单条取值，返回对应的 value
     print(series[[0, 1]]); # 按照下标多条取值，返回 series
     print(series[0:3]); # 按照下标切片取值，返回 series
-    print("-------------");
+    print("==== 列索引操作 ====");
     print(dataFrame["第一产业"]); # 按照列索引取一列数据，返回 series
     print(dataFrame[["第一产业", "第二产业"]]); # 按照列索引取多列数据，返回 dataFrame
-    print(dataFrame[0:2]); # 按照行下标切片，前闭后开，返回 dataFrame
-    print(dataFrame[1:2]); # 按照行下标切片，前闭后开，返回 dataFrame
-    print(dataFrame["宇宙公司":"恒星系公司"]); # 按照行索引切片，前闭后闭, 返回 dataFrame
+    print("==== 行索引操作 ====");
     print(dataFrame.loc["宇宙公司"]); # 根据行索引取值，返回 series
     print(dataFrame.loc[["宇宙公司", "恒星系公司"]]); # 根据行索引取值，返回 dataFrame
+    print(dataFrame[0 : 2]); # 按照行下标切片，前闭后开，返回 dataFrame
+    print(dataFrame["宇宙公司" : "恒星系公司"]); # 按照行索引切片，前闭后闭, 返回 dataFrame
+    print("==== 组合索引、条件索引操作 ====")
     print(dataFrame.loc["宇宙公司", ["第一产业", "第二产业"]]); # 根据行/列索引取值，返回 series
     print(dataFrame.loc[["宇宙公司", "恒星系公司"], ["第一产业", "第二产业"]]); # 根据行/列索引取值，返回 dataFrame
     print(dataFrame[dataFrame["第一产业"] < 11]); # 条件索引，取某列值小于 11 的行
+
+    # 排序
+    print(dataFrame.sort_values(by="第四产业", ascending=False));
+    print(dataFrame.sort_index(axis=0, ascending=False));
 
 # 算术运算
 def arithmetic_test():
@@ -167,7 +172,7 @@ def file_test():
 if __name__ == "__main__":
     # series_test();
     # dataFrame_test();
-    # base_function_test();
+    base_index_test();
     # arithmetic_test();
     # data_analysis_test();
-    file_test();
+    # file_test();
