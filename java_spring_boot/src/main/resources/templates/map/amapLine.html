@@ -1,0 +1,48 @@
+<style>
+	#amapLineInputCard {
+		position: fixed;
+		right: 30px;
+		top: 180px;
+		height: 150px;
+		width: 300px;
+	}
+	#linePanel {
+		position: fixed;
+		background-color: white;
+		max-height: 90%;
+		overflow-y: auto;
+		top: 350px;
+		right: 30px;
+		width: 300px;
+	}
+	#linePanel .amap-call {
+		background-color: #009cf9;
+		border-top-left-radius: 4px;
+		border-top-right-radius: 4px;
+	}
+	#linePanel .amap-lib-driving {
+		border-bottom-left-radius: 4px;
+		border-bottom-right-radius: 4px;
+		overflow: hidden;
+	}
+</style>
+<div class="tab-pane fade" id="amapDriveLine" role="tabpanel" aria-labelledby="amapDriveLine-tab">
+	<!-- 地图框 -->
+	<div id="amapLineContainer"></div>
+	<!-- 线路提示面板 -->
+	<div id="linePanel"></div>
+	<!-- 输入框 -->
+	<div class="input-card" id="amapLineInputCard">
+		<h4>驾车路线查询</h4>
+		<div class="input-item">
+			<div class="input-item-prepend"><span class="input-item-text">起始站</span></div>
+			<input id="start" style="width: 150px; margin-left: 5px" />
+		</div>
+		<br />
+		<div class="input-item">
+			<div class="input-item-prepend"><span class="input-item-text">截止站</span></div>
+			<input id="end" style="width: 150px; margin-left: 5px" />
+		</div>
+		<button type="button" style="width: 50px" onclick="select()">查询</button>
+	</div>
+</div>

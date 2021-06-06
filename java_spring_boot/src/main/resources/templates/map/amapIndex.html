@@ -15,7 +15,7 @@
 		height: 400px;
 		border: solid gray 1px;
 	}
-	#amapDriveLineContainer {
+	#amapLineContainer {
 		max-width: 100%;
 		height: 400px;
 		border: solid gray 1px;
@@ -89,7 +89,7 @@
 			<!-- 行政区域查询页面 -->
 			<div th:replace="map/amapArea"></div>
 			<!-- 驾车线路查询页面 -->
-			<div th:replace="map/amapDriveLine"></div>
+			<div th:replace="map/amapLine"></div>
 			<!-- 天气预报查询页面 -->
 			<div th:replace="map/amapWeatherForecast"></div>
 		</div>
@@ -151,9 +151,9 @@
 	var amapArea,
 		district,
 		polygons = [];
-	var citySelect = $("#city");
-	var districtSelect = $("#district");
-	var streetSelect = $("#street");
+	var citySelect = $(".city");
+	var districtSelect = $(".district");
+	var streetSelect = $(".street");
 
 	// 初始化地图
 	amapArea = new AMap.Map("amapAreaContainer", {
@@ -171,8 +171,9 @@
 		var scale = new AMap.Scale();
 		amapArea.addControl(scale);
 
+		// 初始化 district 对象
 		district = new AMap.DistrictSearch({
-			level: "country", // 关键字对应的行政区级别，country表示国家
+			level: "country", // 关键字对应的行政区级别，country 表示国家
 			subdistrict: 1, // 最后一级返回街道信息
 			showbiz: false, // 最后一级返回街道信息
 		});
@@ -183,7 +184,7 @@
 		});
 	});
 
-	// 加载地图
+	// 加载地图选定区域，并渲染 select
 	function loadMap(data, level) {
 		console.log(data);
 		var bounds = data.boundaries;
@@ -218,7 +219,7 @@
 		var list = data.districtList;
 		if (list) {
 			var curlevel = list[0].level;
-			var currentSelect = $("#" + curlevel);
+			var currentSelect = $("." + curlevel);
 			currentSelect.html("<option value='0'>----请选择----</option>");
 			$.each(list, function (index, item) {
 				currentSelect.append(
@@ -238,20 +239,20 @@
 
 	// 查找行政区域
 	function search(obj) {
-		//清除地图上所有覆盖物
+		// 清除地图上所有覆盖物
 		for (var i = 0, l = polygons.length; i < l; i++) {
 			polygons[i].setMap(null);
 		}
 		var option = obj[obj.options.selectedIndex];
 		var name = option.text;
 		var adcode = option.value;
-		district.setLevel(option.getAttribute("level")); //行政区级别
+		district.setLevel(option.getAttribute("level")); // 行政区级别
 		district.setExtensions("all");
-		//行政区查询
-		//按照adcode进行查询可以保证数据返回的唯一性
+		// 行政区查询
+		// 按照 adcode 进行查询可以保证数据返回的唯一性
 		district.search(adcode, function (status, result) {
 			if (status === "complete") {
-				loadMap(result.districtList[0], obj.id);
+				loadMap(result.districtList[0], obj.getAttribute("class"));
 			}
 		});
 	}
@@ -264,5 +265,253 @@
 		// var position = new AMap.LngLat(116, 39);
 		var position = [Number(center.split(",")[0]), Number(center.split(",")[1])];
 		amapArea.setCenter(position);
+	}
+
+	/* ================ amapLine ================ */
+	// 地图对象、驾车插件对象、起点坐标对象、终点坐标对象
+	var amapLine, driving, startLat, endLat;
+
+	// 初始化地图
+	amapLine = new AMap.Map("amapLineContainer", {
+		resizeEnable: true,
+		zoom: 11,
+		viewMode: "3D",
+		lang: "zh_cn",
+		mapStyle: "amap://styles/whitesmoke",
+	});
+
+	// 添加插件
+	AMap.plugin(["AMap.ToolBar", "AMap.Scale", "AMap.Driving", "AMap.Autocomplete", "AMap.PlaceSearch"], function () {
+		var toolbar = new AMap.ToolBar();
+		amapLine.addControl(toolbar);
+		var scale = new AMap.Scale();
+		amapLine.addControl(scale);
+
+		// 初始化 driving 对象
+		driving = new AMap.Driving({
+			map: amapLine,
+			panel: "linePanel",
+		});
+
+		// ---- 起点搜索定位 ----
+		var startOptions = {
+			input: "start", // 绑定起点文本框 id
+		};
+		// 创建 Autocomplete、PlaceSearch 插件
+		var startAuto = new AMap.Autocomplete(startOptions);
+		var startPlaceSearch = new AMap.PlaceSearch({
+			map: amapLine,
+		});
+		// 绑定选择事件
+		AMap.event.addListener(startAuto, "select", function (e) {
+			console.log(e);
+			startLat = new AMap.LngLat(e.poi.location.lng, e.poi.location.lat);
+		});
+		// ---- 终点搜索定位 ----
+		var endOptions = {
+			input: "end", // 绑定终点文本框 id
+		};
+		// 创建 Autocomplete、PlaceSearch 插件
+		var endAuto = new AMap.Autocomplete(endOptions);
+		var endPlaceSearch = new AMap.PlaceSearch({
+			map: amapLine,
+		});
+		// 绑定选择事件
+		AMap.event.addListener(endAuto, "select", function (e) {
+			console.log(e);
+			endLat = new AMap.LngLat(e.poi.location.lng, e.poi.location.lat);
+		});
+	});
+
+	// 驾车路线查询
+	function select() {
+		amapLine.clearMap();
+		$("#linePanel").html("");
+
+		driving.search(startLat, endLat, function (status, result) {
+			//result结果有导航的具体
+			console.log(result);
+			if (status === "complete") {
+				console.log("绘制驾车路线完成");
+			} else {
+				console.log("获取驾车数据失败：" + result);
+			}
+		});
+	}
+
+	/* ================ amapWeather ================ */
+	// 地图对象、地区对象、天气对象
+	var amapWeather, district_2, weather;
+
+	// 初始化地图
+	amapWeather = new AMap.Map("amapWeatherForecastContainer", {
+		resizeEnable: true,
+		zoom: 11,
+		viewMode: "3D",
+		lang: "zh_cn",
+		mapStyle: "amap://styles/whitesmoke",
+	});
+
+	// 添加插件
+	AMap.plugin(["AMap.ToolBar", "AMap.Scale", "AMap.DistrictSearch", "AMap.Weather"], function () {
+		var toolbar = new AMap.ToolBar();
+		amapLine.addControl(toolbar);
+		var scale = new AMap.Scale();
+		amapLine.addControl(scale);
+
+		// 初始化 district 对象
+		district_2 = new AMap.DistrictSearch({
+			level: "country", // 关键字对应的行政区级别，country 表示国家
+			subdistrict: 1, // 最后一级返回街道信息
+			showbiz: false, // 最后一级返回街道信息
+		});
+		district_2.search("中国", function (status, result) {
+			if (status == "complete") {
+				loadMap_2(result.districtList[0]);
+			}
+		});
+
+		// 初始化 weather 对象
+		weather = new AMap.Weather();
+	});
+
+	// 加载地图选定区域，并渲染 select
+	function loadMap_2(data, level) {
+		console.log(data);
+		var bounds = data.boundaries;
+		if (bounds) {
+			for (var i = 0, l = bounds.length; i < l; i++) {
+				var polygon = new AMap.Polygon({
+					map: amapWeather,
+					strokeWeight: 1,
+					strokeColor: "#0091ea",
+					fillColor: "#80d8ff",
+					fillOpacity: 0.2,
+					path: bounds[i],
+				});
+				polygons.push(polygon);
+			}
+			amapWeather.setFitView(); //地图自适应
+		}
+
+		//清空下一级别 select
+		if (level === "province") {
+			citySelect.html("<option value='0'>----请选择----</option>");
+			districtSelect.html("<option value='0'>----请选择----</option>");
+			streetSelect.html("<option value='0'>----请选择----</option>");
+		} else if (level === "city") {
+			districtSelect.html("<option value='0'>----请选择----</option>");
+			streetSelect.html("<option value='0'>----请选择----</option>");
+		} else if (level === "district") {
+			streetSelect.html("<option value='0'>----请选择----</option>");
+		}
+
+		// 渲染下一级 select
+		var list = data.districtList;
+		if (list) {
+			var curlevel = list[0].level;
+			var currentSelect = $("." + curlevel);
+			currentSelect.html("<option value='0'>----请选择----</option>");
+			$.each(list, function (index, item) {
+				currentSelect.append(
+					"<option center='" +
+						item.center +
+						"' level='" +
+						item.level +
+						"' value='" +
+						item.adcode +
+						"'>" +
+						item.name +
+						"</option>"
+				);
+			});
+		}
+	}
+
+	// 查找行政区域
+	function search_2(obj) {
+		// 清除地图上所有覆盖物
+		for (var i = 0, l = polygons.length; i < l; i++) {
+			polygons[i].setMap(null);
+		}
+		var option = obj[obj.options.selectedIndex];
+		var address = option.text;
+		var adcode = option.value;
+		district.setLevel(option.getAttribute("level")); // 行政区级别
+		district.setExtensions("all");
+		// 行政区查询
+		// 按照 adcode 进行查询可以保证数据返回的唯一性
+		district.search(adcode, function (status, result) {
+			if (status === "complete") {
+				loadMap_2(result.districtList[0], obj.getAttribute("class"));
+			}
+		});
+
+		if (option.getAttribute("level") == "city") {
+			weatherInfo(obj);
+		}
+	}
+
+	// 加载天气信息
+	function weatherInfo(obj) {
+		var option = obj[obj.options.selectedIndex];
+		var center = option.getAttribute("center");
+		// var position = new AMap.LngLat(116, 39);
+		var position = [Number(center.split(",")[0]), Number(center.split(",")[1])];
+		var address = option.text;
+
+		// 实时天气信息
+		weather.getLive(address, function (err, data) {
+			if (!err) {
+				var str = [];
+				str.push("<h4 >实时天气" + "</h4><hr>");
+				str.push("<p>城市/区：" + data.city + "</p>");
+				str.push("<p>天气：" + data.weather + "</p>");
+				str.push("<p>温度：" + data.temperature + "℃</p>");
+				str.push("<p>风向：" + data.windDirection + "</p>");
+				str.push("<p>风力：" + data.windPower + " 级</p>");
+				str.push("<p>空气湿度：" + data.humidity + "</p>");
+				str.push("<p>发布时间：" + data.reportTime + "</p>");
+
+				// 创建地图标记
+				var marker = new AMap.Marker({
+					map: amapWeather,
+					position: position,
+				});
+				var infoWin = new AMap.InfoWindow({
+					content:
+						'<div class="info" style="position:inherit;margin-bottom:0;">' +
+						str.join("") +
+						'</div><div class="sharp"></div>',
+					isCustom: true,
+					offset: new AMap.Pixel(0, -37),
+				});
+				infoWin.open(amapWeather, marker.getPosition());
+				marker.on("mouseover", function () {
+					infoWin.open(amapWeather, marker.getPosition());
+				});
+			}
+		});
+
+		// 预报天气信息
+		weather.getForecast(address, function (err, data) {
+			if (err) {
+				return;
+			}
+			var str = [];
+			$.each(data.forecasts, function (index, dayWeather) {
+				str.push(
+					dayWeather.date +
+						' <span class="weather">' +
+						dayWeather.dayWeather +
+						"</span> " +
+						dayWeather.nightTemp +
+						"~" +
+						dayWeather.dayTemp +
+						"℃"
+				);
+			});
+			$("#forecast").html(str.join("<br>"));
+		});
 	}
 </script>

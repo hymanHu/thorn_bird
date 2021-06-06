@@ -1,4 +1,44 @@
+<style>
+	#weatherInputCard {
+		position: fixed;
+		right: 30px;
+		top: 180px;
+		height: 150px;
+		width: 300px;
+	}
+	.info {
+		position: fixed;
+		background-color: white;
+		max-height: 90%;
+		overflow-y: auto;
+		top: 350px;
+		right: 30px;
+		width: 300px;
+	}
+</style>
 <div class="tab-pane fade" id="amapWeatherForecast" role="tabpanel" aria-labelledby="amapWeatherForecast-tab">
-	天气预报
+	<!-- 地图框 -->
 	<div id="amapWeatherForecastContainer"></div>
+	<!-- 天气预报结果框 -->
+	<div class="info">
+		<h4>未来四天预报天气</h4>
+		<hr />
+		<p id="forecast"></p>
+	</div>
+	<!-- 输入框 -->
+	<div class="input-card" id="weatherInputCard">
+		<h4>下属行政区查询</h4>
+		<div class="input-item">
+			<div class="input-item-prepend"><span class="input-item-text">省市区</span></div>
+			<select class="province" style="width: 100px" onchange="search_2(this)">
+				<option value="0">----请选择----</option>
+			</select>
+		</div>
+		<div class="input-item">
+			<div class="input-item-prepend"><span class="input-item-text">地级市</span></div>
+			<select class="city" style="width: 100px" onchange="search_2(this)">
+				<option value="0">----请选择----</option>
+			</select>
+		</div>
+	</div>
 </div>
