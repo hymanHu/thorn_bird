@@ -12,7 +12,8 @@ spider util
 
 def get_cookies(url):
     # webdriver 模拟 FireFox 浏览器，成功后会弹出浏览器访问该网页
-    driver = webdriver.Firefox(executable_path=r'D:\Program Files\Mozilla Firefox\geckodriver.exe');
+    # driver = webdriver.Firefox(executable_path=r'D:\Program Files\Mozilla Firefox\geckodriver.exe');
+    driver = webdriver.Firefox(executable_path=r'C:\Program Files\Mozilla Firefox\geckodriver.exe');
     driver.get(url);
     time.sleep(3);
     cookies = driver.get_cookies();
