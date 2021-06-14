@@ -15,9 +15,11 @@ def init_svg_class_map():
     svg_class_map = {};
     with open(file="../_dzdp/css_file.css", mode="r", encoding="utf-8") as f:
         content = f.read();
+        # 在此只做了一套 css 文件解密，若网站更换了 css，则需要添加不同的规则
         for item in re.findall("\.(qx\w+)\{background\:-(\d+)\.0px -(\d+)\.0px\;\}", content):
             clazz, x, y = item;
             svg_class_map[clazz] = [int(x), int(y)];
+
     print(svg_class_map);
     return svg_class_map;
 
@@ -51,4 +53,4 @@ def decode_svg(clazz, svg_class_map, svg_list):
 if __name__ == "__main__":
     svg_class_map = init_svg_class_map();
     svg_list = init_svg_list();
-    decode_svg("qxpb9", svg_class_map, svg_list);
+    decode_svg("vltvo3", svg_class_map, svg_list);

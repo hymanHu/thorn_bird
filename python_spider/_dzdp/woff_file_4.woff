@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Error>
+  <Code>NoSuchKey</Code>
+  <Message>The specified key does not exist. Object [a05ff6f8.eot&#34;);src:url(&#34;//s3plus.meituan.net/v1/mss_73a511b8f91f43d0bdae92584ea6330b/font/a05ff6f8.eot] not exist</Message>
+  <Resource>Bucket:font,Object:a05ff6f8.eot&#34;);src:url(&#34;//s3plus.meituan.net/v1/mss_73a511b8f91f43d0bdae92584ea6330b/font/a05ff6f8.eot</Resource>
+  <RequestId>1623672915602463</RequestId>
+  <HostId>1d362748959b0006404617e7894f190b</HostId>
+  <Key></Key>
+  <StatusMessage></StatusMessage>
+</Error>
