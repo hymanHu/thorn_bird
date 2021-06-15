@@ -29,7 +29,7 @@ def init_svg_list():
     with open(file="../_dzdp/svg_file.svg", mode="r", encoding="utf-8") as f:
         content = f.read();
         for item in re.findall("\<textPath xlink\:href=\"#(\d+)\" textLength=\"(\d+)\"\>(\w+)\<\/textPath\>", content):
-            index, text_lenfth, words = item;
+            index, text_length, words = item;
             y = re.findall("\<path id=\"" + index + "\" d=\"M0 (\d+) H600\"\/\>", content)[0];
             l = [int(y), words];
             svg_list.append(l);
