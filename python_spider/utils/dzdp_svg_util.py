@@ -44,7 +44,7 @@ def decode_svg(clazz, svg_class_map, svg_list):
     # print(x, y);
     for svg in svg_list:
         y_svg, words = svg;
-        if y_svg > y:
+        if y_svg >= y:
             word = words[int(x / 14)];
             break;
     # print(word);
