@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Repository;
@@ -73,4 +74,15 @@ public interface CityDao {
 		+ "</choose>"
 		+ "</script>")
 	List<City> getCitiesBySearchBean(SearchBean searchBean);
+	
+	@Insert("<script>"
+			+ "insert into test_city (city_id, city_name, local_city_name, country_id, district, "
+			+ "population, date_modified, date_created) values "
+			+ "<foreach collection='cities' item='city' index='index' separator=','>"
+			+ "(#{city.cityId}, #{city.cityName}, #{city.localCityName}, #{city.countryId}, "
+			+ "#{city.district}, #{city.population}, #{city.dateModified}, #{city.dateCreated})"
+			+ "</foreach>"
+			+ "</script>")
+	@Options(useGeneratedKeys = true, keyColumn = "city_id", keyProperty = "cityId")
+	void batchInsertCities(@Param("cities") List<City> cities);
 }

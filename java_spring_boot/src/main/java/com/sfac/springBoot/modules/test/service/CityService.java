@@ -25,4 +25,6 @@ public interface CityService {
 	PageInfo<City> getCitiesBySearchBean(SearchBean searchBean);
 	
 	List<City> getCitiesByCountryId(int countryId);
+	
+	ResultEntity<List<City>> batchInsertCities(List<City> cities);
 }

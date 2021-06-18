@@ -1,5 +1,7 @@
 package com.sfac.springBoot.modules.test.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -73,5 +75,16 @@ public class CityController {
 	@PostMapping(value = "/cities", consumes = "application/json")
 	public PageInfo<City> getCitiesBySearchBean(@RequestBody SearchBean searchBean) {
 		return cityService.getCitiesBySearchBean(searchBean);
+	}
+	
+	/**
+	 * 127.0.0.1/api/cities/v2 ---- post
+	 * [{"cityName":"dreamCity1", "localCityName":"梦想城市1", "countryId":522, "district":"sichuan", 
+	 * "population":1780000},{"cityName":"dreamCity2", "localCityName":"梦想城市2", "countryId":522, 
+	 * "district":"sichuan", "population":1780000}]
+	 */
+	@PostMapping(value = "/cities/v2", consumes = "application/json")
+	public ResultEntity<List<City>> batchInsertCities(@RequestBody List<City> cities) {
+		return cityService.batchInsertCities(cities);
 	}
 }

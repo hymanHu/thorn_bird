@@ -71,4 +71,14 @@ public class CityServiceImpl implements CityService {
 		return Optional.ofNullable(cityDao.getCitiesByCountryId2(countryId)).orElse(Collections.emptyList());
 	}
 
+	@Override
+	@Transactional
+	public ResultEntity<List<City>> batchInsertCities(List<City> cities) {
+		cities.forEach(item -> {
+			item.setDateCreated(new Date());
+		});
+		cityDao.batchInsertCities(cities);
+		return new ResultEntity<List<City>>(ResultStatus.SUCCESS.status, "Insert city success.", cities);
+	}
+
 }
