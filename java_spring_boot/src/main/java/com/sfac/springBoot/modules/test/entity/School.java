@@ -20,6 +20,8 @@ import com.sfac.springBoot.modules.common.entity.AbstractEntity;
 @Entity
 @Table(name = "test_school")
 public class School extends AbstractEntity {
+	private static final long serialVersionUID = 1L;
+	
 	private String schoolName;
 	@Transient
 	private String region;

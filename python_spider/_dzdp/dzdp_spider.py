@@ -13,15 +13,14 @@ from bs4 import BeautifulSoup;
 from utils import dzdp_svg_util;
 
 headers = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:89.0) Gecko/20100101 Firefox/89.0",
-           'Cookie': "fspop=test; cy=8; cye=chengdu; _lxsdk_cuid=179ec0476dec8-00501394ccf7af8-4c3f2d73-fa000-179ec0476dec8; _lxsdk=179ec0476dec8-00501394ccf7af8-4c3f2d73-fa000-179ec0476dec8; _hc.v=36a3593c-0b53-00ea-d85e-c967ffe1b400.1623162386; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1623162387,1623162769,1623479111; cityInfo=%7B%22cityId%22%3A8%2C%22cityName%22%3A%22%E6%88%90%E9%83%BD%22%2C%22provinceId%22%3A0%2C%22parentCityId%22%3A0%2C%22cityOrderId%22%3A0%2C%22isActiveCity%22%3Afalse%2C%22cityEnName%22%3A%22chengdu%22%2C%22cityPyName%22%3Anull%2C%22cityAreaCode%22%3Anull%2C%22cityAbbrCode%22%3Anull%2C%22isOverseasCity%22%3Afalse%2C%22isScenery%22%3Afalse%2C%22TuanGouFlag%22%3A0%2C%22cityLevel%22%3A0%2C%22appHotLevel%22%3A0%2C%22gLat%22%3A0%2C%22gLng%22%3A0%2C%22directURL%22%3Anull%2C%22standardEnName%22%3Anull%7D; s_ViewType=10; _lx_utm=utm_source%3DBaidu%26utm_medium%3Dorganic; _lxsdk_s=179fee547c4-5af-8eb-f90%7C%7C392; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1623480060; _dp.ac.v=7559e8d9-0c01-443e-b28b-ba794866df66; dplet=6ee076214656055856f7b98853667f2f; dper=2fce3b21058cfe52cd18573ec91b6d2b5a30567996969c0f831b76250e4b478708a162d54a17e28929c9f53069b1e4315041a3e6f2ed36c07fa60aa009fde9dc20b57e3b842583980fec01d7d9ca8aee803e25bf5d82cb1e54547d20a5061959; ll=7fd06e815b796be3df069dec7836c3df; ua=dpuser_69796934290; ctu=fdd460a043c8b52b1251553197af12aeb57ad5fe3c74f58b05053a9f668130e2"};
-reviews_page_count = 1;
+           'Cookie': "_lxsdk_cuid=17a137cb6331a-0db516b1fcf3f9-1a397840-100200-17a137cb634c8; _lxsdk=17a137cb6331a-0db516b1fcf3f9-1a397840-100200-17a137cb634c8; _hc.v=d84b7dd1-bb7f-8419-821d-4b52bca9fde0.1623824578; Hm_lvt_602b80cf8079ae6591966cc70a3940e7=1623824886,1623920514,1624010046,1624021003; dplet=405d6db9e3fc442b8bd12132ab13b2b7; dper=f029adad1290a1a85527aaed96c5624979fd591c0b9fb9e0c47d45a931028faa20e40ff7566a27e7b37cb6cb6e96894251038f7b47ec20b5d9d9a38efaf39f3358a0999a3230c4d562c940b499ac478932c501e04d830220d674ac8edf3ec257; ua=dpuser_69796934290; ctu=fdd460a043c8b52b1251553197af12ae44e1dd6b5050ac0215e157dc1577a862; fspop=test; cy=8; cye=chengdu; s_ViewType=10; ll=7fd06e815b796be3df069dec7836c3df; _lx_utm=utm_source%3DBaidu%26utm_medium%3Dorganic; _lxsdk_s=17a1f31eac5-3-b1c-96%7C%7C171; Hm_lpvt_602b80cf8079ae6591966cc70a3940e7=1624021265"};
 
 # 下载 css、svg、woff 文件
 def download_file(url):
+    reviews_page_count = 1;
+
     r = requests.get(url=url, headers=headers);
     if r.status_code == 200:
-        print(r.text);
-
         # 获取 svg 样式文件（包含 svg 或者 woff），并将之保存到本地
         css_response = None;
         css_url = re.findall('<link rel="stylesheet" type="text/css" href="(//s3plus.meituan.*?)">', r.text);
@@ -47,17 +46,18 @@ def download_file(url):
 
         # 获取 css 中的 svg 文件，并将之保存到本地
         if css_response:
-            l = ["ut", "cr"];
-            for item in l:
+            clazz_prefix = ["ut", "cr", "lf", "lpt"];
+            for item in clazz_prefix:
                 svg_url = re.findall('svgmtsi\[class\^=\"' + item + '\"\].*?background-image: url\((.*?)\);', css_response.text);
                 if len(svg_url) > 0:
                     break;
 
-            svg_url = "http:" + svg_url[0];
-            print(svg_url);
-            svg_response = requests.get(svg_url);
-            with open(file='svg_file.svg', mode='w', encoding='utf-8') as f:
-                f.write(svg_response.text);
+            if len(svg_url) > 0:
+                svg_url = "http:" + svg_url[0];
+                print(svg_url);
+                svg_response = requests.get(svg_url);
+                with open(file='svg_file.svg', mode='w', encoding='utf-8') as f:
+                    f.write(svg_response.text);
 
         # 获取每个商家评论总页数
         bs = BeautifulSoup(r.text, "html.parser");
@@ -68,19 +68,21 @@ def download_file(url):
     else:
         print("连接服务器失败.");
 
+    return reviews_page_count;
+
 '''
 获取商家所有评论数据
 http://www.dianping.com/shop/l5r6wdVV3NuyOsGu
 http://www.dianping.com/shop/l5r6wdVV3NuyOsGu/review_all
 http://www.dianping.com/shop/l5r6wdVV3NuyOsGu/review_all/p2
 '''
-def get_all_reviews(url):
+def get_all_reviews(url, reviews_page_count):
     l = [];
-    url_list = list("http://www.dianping.com/shop/l5r6wdVV3NuyOsGu/review_all/p%d" % page for page in range(2, reviews_page_count + 1));
-    url_list.insert(0, "http://www.dianping.com/shop/l5r6wdVV3NuyOsGu/review_all");
-    for url in url_list:
-        l += get_reviews(url);
-        time.sleep(10);
+    url_list = list(url + "/p%d" % page for page in range(2, reviews_page_count + 1));
+    url_list.insert(0, url);
+    for item in url_list:
+        l += get_reviews(item);
+        time.sleep(20);
     return l;
 
 # 获取商家评论分页数据
@@ -93,20 +95,25 @@ def get_reviews(url):
     if r.status_code == 200:
         # r.encoding = r.apparent_encoding;
 
-        if url.endswith("review_all"):
-            bs = BeautifulSoup(r.text, "html.parser");
-            div_list = bs.find_all(name="div", attrs={"class":"main-review"});
-            for div in div_list:
-                name = div.findChildren(name="a", attrs={"class":"name"})[0].get_text().strip();
-                content = str(div.findChildren(name="div", attrs={"class":"review-words Hide"})[0]).strip().replace("\n", "");
+        bs = BeautifulSoup(r.text, "html.parser");
+        div_list = bs.find_all(name="div", attrs={"class": "main-review"});
+        for div in div_list:
+            name = div.findChildren(name="a", attrs={"class": "name"})[0].get_text().strip();
+            div_list = div.findChildren(name="div", attrs={"class": "review-words Hide"});
+            if len(div_list) > 0:
+                content = str(div_list[0]).strip().replace("\n", "");
                 for svg in re.findall('(\<svgmtsi class=\".*?\"\>\<\/svgmtsi\>)', content):
                     clazz = re.findall('\<svgmtsi class=\"(.*?)\"\>\<\/svgmtsi\>', svg)[0];
                     content = content.replace(svg, dzdp_svg_util.decode_svg(clazz, svg_class_map, svg_list));
-                content = "".join(re.findall('Hide">(.*?)<div', content));
+                content = "".join(re.findall('Hide">(.*?)<div', content)).replace(" ", "");
+
+                # 将评论写入文本
+                with open(file="content.txt", mode='a', encoding="utf-8") as f:
+                    f.write(content);
+                    f.write("\n");
+
                 # 此处不能用 dict 临时变量，同一个变量会覆盖掉之前的内容
-                l.append({"name": name, "content":content});
-        else:
-            print(r.text);
+                l.append({"name": name, "content": content});
     else:
         print("链接服务器失败");
 
@@ -114,8 +121,8 @@ def get_reviews(url):
     return l;
 
 if __name__ == "__main__":
-    url = "http://www.dianping.com/shop/l5r6wdVV3NuyOsGu";
-    # url = "http://www.dianping.com/shop/l5r6wdVV3NuyOsGu/review_all";
-    download_file(url);
+    # url = "http://www.dianping.com/shop/l5r6wdVV3NuyOsGu";
+    url = "http://www.dianping.com/shop/l4twNneJonrrRkFe/review_all";
+    reviews_page_count = download_file(url);
     # get_reviews(url);
-    # get_all_reviews(url);
+    get_all_reviews(url, reviews_page_count);

@@ -22,6 +22,8 @@ import com.sfac.springBoot.modules.common.entity.AbstractEntity;
 @Entity
 @Table(name = "test_clazz")
 public class Clazz extends AbstractEntity {
+	private static final long serialVersionUID = 1L;
+
 	private String schoolName;
     
 	/**

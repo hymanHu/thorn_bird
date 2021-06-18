@@ -18,6 +18,8 @@ import com.sfac.springBoot.modules.common.entity.AbstractEntity;
 @Entity
 @Table(name = "test_card")
 public class Card extends AbstractEntity {
+	private static final long serialVersionUID = 1L;
+
 	@Column(name = "card_no", length = 33, unique = true)
 	private String cardNo;
 	
