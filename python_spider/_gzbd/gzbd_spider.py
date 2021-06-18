@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import requests
-import re
-from bs4 import BeautifulSoup
-from lxml import etree
-from _gzbd import gzbd_storage
-from utils import spider_util
+__author__ = "HymanHu";
 
 '''
 爬取四川卫健委疫情数据
 http://wsjkw.sc.gov.cn/scwsjkw/gzbd01/ztwzlmgl.shtml
 '''
 
-__author__ = "HymanHu";
+import requests
+import re
+from bs4 import BeautifulSoup
+from lxml import etree
+from _gzbd import gzbd_storage
+from utils import spider_util
 
 wjw_regin = "四川"
 wjw_domain = "http://wsjkw.sc.gov.cn"

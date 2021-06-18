@@ -4,9 +4,6 @@ __author__ = "HymanHu";
 
 '''
 大众点评 svg 文件解密工具
-针对以下格式的映射表
-<defs><path id="1" d="M0 33 H600"/></defs>
-<textPath xlink:href="#1" textLength="364">率怨练鼓介祝躁桌凤断就李尤手剑钳篮远服疼冬职飞隶兔词</textPath>
 '''
 import re;
 
@@ -25,17 +22,21 @@ def init_svg_class_map():
 
 # 初始化 svg 列表
 def init_svg_list():
-    svg_list = [];
-    with open(file="../_dzdp/svg_file.svg", mode="r", encoding="utf-8") as f:
-        content = f.read();
-        for item in re.findall("\<textPath xlink\:href=\"#(\d+)\" textLength=\"(\d+)\"\>(\w+)\<\/textPath\>", content):
-            index, text_lenfth, words = item;
-            y = re.findall("\<path id=\"" + index + "\" d=\"M0 (\d+) H600\"\/\>", content)[0];
-            l = [int(y), words];
-            svg_list.append(l);
+    l = [];
+    with open(file='../_dzdp/svg_file.svg', mode='r', encoding='utf-8') as f:
+        svg_result = f.read();
+        items = re.findall('<text x="(\d+)" y="(\d+)">(.*?)</text>', svg_result);
+        for item in items:
+            x, y, words = item;
+            l.append([int(x), int(y), words]);
 
-    print(svg_list);
-    return svg_list;
+        items = re.findall('<textPath xlink:href="#(\d+)" textLength="(\d+)">(.*?)</textPath>', svg_result);
+        for item in items:
+            index, length, words = item;
+            y = re.findall('<path id="' + index + '" d="M0 (\d+) H600"/>', svg_result)[0];
+            l.append([0, int(y), words]);
+    print(l);
+    return l;
 
 # svg 解密
 def decode_svg(clazz, svg_class_map, svg_list):

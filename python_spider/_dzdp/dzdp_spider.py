@@ -23,6 +23,7 @@ def download_file(url):
         print(r.text);
 
         # 获取 svg 样式文件（包含 svg 或者 woff），并将之保存到本地
+        css_response = None;
         css_url = re.findall('<link rel="stylesheet" type="text/css" href="(//s3plus.meituan.*?)">', r.text);
         if len(css_url) > 0:
             css_url = "http:" + css_url[0];
@@ -32,24 +33,30 @@ def download_file(url):
                 f.write(css_response.text);
 
         # 获取 css 中的 woff 文件，并将之保存在本地
-        woff_url = re.findall(',url\("(//s3plus.meituan.*?)"\)', css_response.text);
-        if len(woff_url) > 0:
-            woff_url = list(set(woff_url));
-            for item in woff_url:
-                woff = "http:" + item;
-                file_name = "woff_file_%s.woff" % woff_url.index(item);
-                print("woff: %s" % woff);
-                woff_response = requests.get(woff);
-                with open(file=file_name, mode="w", encoding="utf-8") as f:
-                    f.write(woff_response.text);
+        if css_response:
+            woff_url = re.findall(',url\("(//s3plus.meituan.*?)"\)', css_response.text);
+            if len(woff_url) > 0:
+                woff_url = list(set(woff_url));
+                for item in woff_url:
+                    woff = "http:" + item;
+                    file_name = "woff_file_%s.woff" % woff_url.index(item);
+                    print("woff: %s" % woff);
+                    woff_response = requests.get(woff);
+                    with open(file=file_name, mode="w", encoding="utf-8") as f:
+                        f.write(woff_response.text);
 
         # 获取 css 中的 svg 文件，并将之保存到本地
-        svg_url = re.findall("svgmtsi\[class\^=\"ins\"\].*?background-image: url\((.*?)\);", css_response.text);
-        if len(svg_url) > 0:
+        if css_response:
+            l = ["ut", "cr"];
+            for item in l:
+                svg_url = re.findall('svgmtsi\[class\^=\"' + item + '\"\].*?background-image: url\((.*?)\);', css_response.text);
+                if len(svg_url) > 0:
+                    break;
+
             svg_url = "http:" + svg_url[0];
-            print("svg: %s", svg_url);
+            print(svg_url);
             svg_response = requests.get(svg_url);
-            with open(file="svg_file.svg", mode="w", encoding="utf-8") as f:
+            with open(file='svg_file.svg', mode='w', encoding='utf-8') as f:
                 f.write(svg_response.text);
 
         # 获取每个商家评论总页数
