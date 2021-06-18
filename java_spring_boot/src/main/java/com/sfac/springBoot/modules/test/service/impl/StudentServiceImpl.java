@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
@@ -39,6 +41,8 @@ public class StudentServiceImpl implements StudentService {
 	
 	@Autowired
 	private StudentRepository studentRepository;
+	@PersistenceContext
+	private EntityManager entityManager;
 
 	@Override
 	@Transactional
@@ -165,5 +169,21 @@ public class StudentServiceImpl implements StudentService {
 	public ResultEntity<Student> updateStudentNameForJpa(Student student) {
 		studentRepository.updateStudentName(student.getStudentName(), student.getId());
 		return new ResultEntity<Student>(ResultStatus.SUCCESS.status, "Update success.", student);
+	}
+
+	@Override
+	@Transactional
+	public ResultEntity<List<Student>> batchInsertStudentsForJpa(List<Student> students) {
+		// 方式一，调用父接口完成批量操作
+//		studentRepository.saveAll(students);
+//		studentRepository.flush();
+		
+		// 方式二，引入 entityManager 进行批量操作，效率高于第一种方式
+		students.stream().forEach(item -> {
+			entityManager.persist(item);
+		});
+		entityManager.flush();
+		entityManager.clear();
+		return new ResultEntity<List<Student>>(ResultStatus.SUCCESS.status, "Update success.", students);
 	}
 }

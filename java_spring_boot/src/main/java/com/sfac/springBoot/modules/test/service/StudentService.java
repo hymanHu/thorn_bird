@@ -32,4 +32,6 @@ public interface StudentService {
 	Student getStudentByIdV2ForJpa(Integer id);
 	
 	ResultEntity<Student> updateStudentNameForJpa(Student student);
+	
+	ResultEntity<List<Student>> batchInsertStudentsForJpa(List<Student> students);
 }

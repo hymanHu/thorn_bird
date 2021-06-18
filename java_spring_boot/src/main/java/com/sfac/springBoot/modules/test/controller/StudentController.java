@@ -109,4 +109,13 @@ public class StudentController {
 	public ResultEntity<Student> updateStudentNameForJpa(@RequestBody Student student) {
 		return studentService.updateStudentNameForJpa(student);
 	}
+	
+	/**
+	 * 127.0.0.1/api/jpa/students/v2 ---- post
+	 * [{"studentName":"aa1"},{"studentName":"aa2"}]
+	 */
+	@PostMapping(value = "/jpa/students/v2", consumes = "application/json")
+	public ResultEntity<List<Student>> batchInsertStudentsForJpa(@RequestBody List<Student> students) {
+		return studentService.batchInsertStudentsForJpa(students);
+	}
 }
