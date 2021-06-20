@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-import requests
-from _bdtp import bdtp_storage
+__author__ = "HymanHu";
 
 '''
 百度图片爬取，保存到本地文件夹
 https://image.baidu.com/search/acjson
 '''
 
-__author__ = "HymanHu";
+import sys, os;
+import requests;
+from _bdtp import bdtp_storage;
 
 request_headers = {
     'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; Win64; x64; rv:80.0) Gecko/20100101 Firefox/80.0',
-}
-import requests;
-from _bdtp import bdtp_storage;
+};
 
 PAGE_COUNT = 3;
 PAGE_SIZE = 30;
@@ -38,6 +37,25 @@ def bdtp_data(keyword):
     return images;
 
 if __name__ == "__main__":
-    keyword = "美女"
-    images = bdtp_data(keyword)
-    bdtp_storage.bdtu_storage(keyword, images)
+    keyword = "美女";
+    images = bdtp_data(keyword);
+    bdtp_storage.bdtu_storage(keyword, images);
+
+    # curPath = os.path.abspath(os.path.dirname(__file__));
+    # rootPath = os.path.split(curPath)[0];
+    # print(os.path);
+    # print(curPath);
+    # print(rootPath);
+
+    # print(os.path.split("D:/projectCode/thorn_bird/python_spider/spider.py"));
+    # print(os.path.split("D:/projectCode/thorn_bird/python_spider"));
+    # print(curPath[:curPath.find("puthon_spider\\") + len("puthon_spider\\")]);
+    # separator = "\\" if os.name == "nt" else "/";
+    # projectName = "python_spider" + separator;
+    # curPath = os.path.abspath(os.path.dirname(__file__));  # 获取当前文夹路径
+    # rootPath = curPath[:curPath.find(projectName) + len(projectName)];  # 获取项目根目录
+    # print(rootPath);
+    # print(os.path.split("D:\\projectCode\\hqyj\\python_demo\\com\\thornBird\\base"));
+    # curPath = os.path.abspath(os.path.dirname(__file__))
+    # rootPath = os.path.split(curPath)[0]
+    # sys.path.append(rootPath)
