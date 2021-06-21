@@ -7,6 +7,14 @@ __author__ = "HymanHu";
 https://news.163.com/domestic/
 '''
 
+# 将项目根目录添加到 sys.path，解决 cmd 下执行该模块找不到包的问题
+import sys, os;
+current_path = os.path.abspath(os.path.dirname(__file__));
+separator = "\\" if os.name == "nt" else "/";
+project_name = "python_spider" + separator;
+root_path = current_path[:current_path.find(project_name) + len(project_name)];  # 获取项目根目录
+sys.path.append(root_path);
+
 import requests;
 from bs4 import BeautifulSoup;
 import json;
@@ -17,7 +25,7 @@ page_count = 2;
 
 def get_news_data():
     # 构建新闻分页 url 列表
-    url_pattern = "https://temp.163.com/special/00804KVA/cm_guonei_%02d.js?callback=data_callback"
+    url_pattern = "https://temp.163.com/special/00804KVA/cm_guonei_%02d.js?callback=data_callback";
     news_page_url_list = list(url_pattern % page for page in range(2, page_count + 1));
     news_page_url_list.insert(0, "https://temp.163.com/special/00804KVA/cm_guonei.js?callback=data_callback");
     print("爬取新闻分页页数：%d" % len(news_page_url_list));

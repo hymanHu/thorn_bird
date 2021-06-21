@@ -6,12 +6,20 @@ __author__ = "HymanHu"
 _gzbd 数据存储
 '''
 
+# 将项目根目录添加到 sys.path，解决 cmd 下执行该模块找不到包的问题
+import sys, os;
+current_path = os.path.abspath(os.path.dirname(__file__));
+separator = "\\" if os.name == "nt" else "/";
+project_name = "python_spider" + separator;
+root_path = current_path[:current_path.find(project_name) + len(project_name)];  # 获取项目根目录
+sys.path.append(root_path);
+
 from utils import mysql_util, excel_util;
 from datetime import datetime;
 
 def storage_excel(gzbd_data):
-    header = ["地区", "日期", "确诊数", "境外输入数", "治愈数", "死亡数", "隔离数", "观察数"]
-    body = list()
+    header = ["地区", "日期", "确诊数", "境外输入数", "治愈数", "死亡数", "隔离数", "观察数"];
+    body = list();
     for item in gzbd_data:
         line = [];
         line.append(item["日期"]);
@@ -32,7 +40,7 @@ def storage_mysql(gzbd_data):
         connection, cursor = mysql_util.get_connect_cursor();
         for item in gzbd_data:
             coronavirus_date = item["时间"];
-            query_sql = "select * from spider_coronavirus where date = '%s' and diagnosis is null" % (coronavirus_date,)
+            query_sql = "select * from spider_coronavirus where date = '%s' and diagnosis is null" % (coronavirus_date,);
             insert_sql = "insert into spider_coronavirus (date, region, diagnosis, overseas_import, cure, " \
                          "death, therapy, observation, create_date) values ('%s', '%s', %s, %s, %s, %s, %s, %s, '%s')" % \
                          (item["时间"], item["地区"], item.get("确诊数", None), item.get("境外输入数", None),

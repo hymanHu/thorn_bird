@@ -7,7 +7,14 @@ __author__ = "HymanHu";
 https://image.baidu.com/search/acjson
 '''
 
+# 将项目根目录添加到 sys.path，解决 cmd 下执行该模块找不到包的问题
 import sys, os;
+current_path = os.path.abspath(os.path.dirname(__file__));
+separator = "\\" if os.name == "nt" else "/";
+project_name = "python_spider" + separator;
+root_path = current_path[:current_path.find(project_name) + len(project_name)];  # 获取项目根目录
+sys.path.append(root_path);
+
 import requests;
 from _bdtp import bdtp_storage;
 
@@ -37,25 +44,8 @@ def bdtp_data(keyword):
     return images;
 
 if __name__ == "__main__":
-    keyword = "美女";
-    images = bdtp_data(keyword);
-    bdtp_storage.bdtu_storage(keyword, images);
+    # keyword = "美女";
+    # images = bdtp_data(keyword);
+    # bdtp_storage.bdtu_storage(keyword, images);
 
-    # curPath = os.path.abspath(os.path.dirname(__file__));
-    # rootPath = os.path.split(curPath)[0];
-    # print(os.path);
-    # print(curPath);
-    # print(rootPath);
-
-    # print(os.path.split("D:/projectCode/thorn_bird/python_spider/spider.py"));
-    # print(os.path.split("D:/projectCode/thorn_bird/python_spider"));
-    # print(curPath[:curPath.find("puthon_spider\\") + len("puthon_spider\\")]);
-    # separator = "\\" if os.name == "nt" else "/";
-    # projectName = "python_spider" + separator;
-    # curPath = os.path.abspath(os.path.dirname(__file__));  # 获取当前文夹路径
-    # rootPath = curPath[:curPath.find(projectName) + len(projectName)];  # 获取项目根目录
-    # print(rootPath);
-    # print(os.path.split("D:\\projectCode\\hqyj\\python_demo\\com\\thornBird\\base"));
-    # curPath = os.path.abspath(os.path.dirname(__file__))
-    # rootPath = os.path.split(curPath)[0]
-    # sys.path.append(rootPath)
+    print("cdsacdsacdas");

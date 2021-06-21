@@ -7,6 +7,14 @@ __author__ = "HymanHu";
 http://www.nhc.gov.cn/xcs/yqtb/list_gzbd.shtml
 '''
 
+# 将项目根目录添加到 sys.path，解决 cmd 下执行该模块找不到包的问题
+import sys, os;
+current_path = os.path.abspath(os.path.dirname(__file__));
+separator = "\\" if os.name == "nt" else "/";
+project_name = "python_spider" + separator;
+root_path = current_path[:current_path.find(project_name) + len(project_name)];  # 获取项目根目录
+sys.path.append(root_path);
+
 import requests;
 
 headers = {"Cookie":"sVoELocvxVW0S=5iHXPWniyS09wosC1SeezJZaulXWJ4oxx6qvFFvaYps2L0Zs0VYvk7oKm454m9GK2UxJQOkbw8AT4C_p_bc6Jyq; insert_cookie=96816998; sVoELocvxVW0T=53WB7vbkh4sAqqqm_ox8dlGaVJo1kdY70zF1BEnSc.3MnT.qkpoR9dYCNsJVu0bdhXWqNvdDSTcA2Kw2fcEZnR.Rv0HIQt8vqFVy9TL7dFKxJ.DPKBB8MKGMpyverMSz9jtIzbUfel5XDyMGJM3ExUEGEaMQAvNzqwPmkVrEBfUhEFcd_ks_LDJzZyqEdnF7dQCOgRykzP9aafWslEuH7vKYiSTrLy89B24ziHfPCjDz3vyWQoO7pcHx6kzeIxHE1wC0U8bpdSxE_IgcFAMh8MHNOCK6dWGaOcnvGmV8OkLGCjFvL.Cah7USeaA0fTeQwj2HyrauvdNp27dBBaxOTcr; security_session_verify=752880dc4997c72b6cf921e6f2dc7c07; yfx_c_g_u_id_10006654=_ck21061808471810833931083333857; yfx_f_l_v_t_10006654=f_t_1623977238082__r_t_1623977238082__v_t_1623977238082__r_c_0",
