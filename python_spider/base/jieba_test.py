@@ -21,7 +21,7 @@ from collections import Counter;
 def cut_test():
     print("==== 获取目标字符串 ====");
     content = "";
-    with open(file="../_dzdp/content.txt", mode="r", encoding="utf-8") as f:
+    with open(file="jieba_content.txt", mode="r", encoding="utf-8") as f:
         content = f.read();
 
     print("==== 获取停用词列表 ====");
@@ -62,11 +62,17 @@ def cut_test():
 
     print("==== 提取关键字 ====");
     jieba.analyse.set_stop_words("jieba_stop_words.txt");
-    # 基于 TF/IDF 算法，返回权重最大的关键词，默认值为20，withWeight 是否返回权重值
-    tags = jieba.analyse.extract_tags(content, topK=20, withWeight=False);
-    print(tags);
-    tags = jieba.analyse.textrank(content, topK=20, withWeight=False);
-    print(tags);
+    # 基于 TF/IDF 算法，返回权重最大的关键词，默认值为 100，withWeight 是否返回权重值
+    keywords = jieba.analyse.extract_tags(content, topK=100, withWeight=False);
+    print(keywords);
+    # 基于 TextRank 算法，返回权重最大的关键词，默认值为 100，withWeight 是否返回权重值
+    # keywords = jieba.analyse.textrank(content, topK=100, withWeight=False);
+    # print(keywords);
+
+    print("==== 返回含有关键字的词频统计数据 ====")
+    l = list(item for item in l if keywords.__contains__(item[0]));
+    print(l);
+    return l;
 
 if __name__ == "__main__":
     cut_test();
