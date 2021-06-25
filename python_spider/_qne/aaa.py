@@ -15,6 +15,9 @@ def ssss():
     print(xx);
     print(df[(df["第四季度"] <= xx) & (df["第三季度"] >= 6)]);
 
+    print(df.count(axis=0))
+
 
 if __name__ == "__main__":
-    ssss();
+    # ssss();
+    print("2016-05-14"[0:7]);
