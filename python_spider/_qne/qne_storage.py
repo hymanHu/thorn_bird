@@ -34,21 +34,21 @@ def save_comment_in_db(comment):
             mysql_util.execute_(insert_sql);
 
 # 将数据库数据转储为 csv 文件
-def save_comment_in_file():
+def save_comment_in_file(target_csv_file, target_txt_file):
     query_sql = "select * from spider_comment order by trip_start_date";
     data = mysql_util.execute_(query_sql);
 
     # 将数据库数据写入 csv 文件
     column_list = ["id", "create_date", "product_id", "content", "trip_start_date", "user_name"];
     dataFrame = DataFrame(data=data, columns=column_list);
-    dataFrame.to_csv(path_or_buf="target.csv", encoding="utf-8-sig", index=False);
+    dataFrame.to_csv(path_or_buf=target_csv_file, encoding="utf-8-sig", index=False);
 
     # 将评论信息写入 txt 文件
-    with open(file="target.txt", mode="a", encoding="utf-8") as f:
+    with open(file=target_txt_file, mode="a", encoding="utf-8") as f:
         for item in data:
             f.write(item[3] + "\n");
 
 if __name__ == "__main__":
     # comment = {'productId': '4219314304', 'content': '非常满意的一次旅行，景色确实美   九寨沟值得一去，没有强制消费 ', 'tripStartDate': '2019-12-19', 'userName': 'l***g'};
     # save_comment_in_db(comment);
-    save_comment_in_file();
+    save_comment_in_file("/temp/target.csv", "/temp/target.txt");

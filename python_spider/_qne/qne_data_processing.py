@@ -148,14 +148,14 @@ def sentiments_analysis(target_csv_file, target_column_name):
 
     ordinary_dataFrame = dataFrame[(dataFrame[target_column_name] > min_max) & (dataFrame[target_column_name] < higher_value)];
     print(ordinary_dataFrame.head(2));
-    ordinary_dataFrame.to_csv(path_or_buf="target_sentiments_ordinary_file.csv", encoding="utf-8-sig", index=False);
+    ordinary_dataFrame.to_csv(path_or_buf="target_sentiments_ordinary.csv", encoding="utf-8-sig", index=False);
     with open(file="target_sentiments_ordinary.txt", mode="a", encoding="utf-8") as f:
         for item in ordinary_dataFrame.values:
             f.write(item[3] + "\n");
 
     negative_dataFrame = dataFrame[dataFrame[target_column_name] >= higher_value];
     print(negative_dataFrame.head(2));
-    negative_dataFrame.to_csv(path_or_buf="target_sentiments_negative_file.csv", encoding="utf-8-sig", index=False);
+    negative_dataFrame.to_csv(path_or_buf="target_sentiments_negative.csv", encoding="utf-8-sig", index=False);
     with open(file="target_sentiments_negative.txt", mode="a", encoding="utf-8") as f:
         for item in negative_dataFrame.values:
             f.write(item[3] + "\n");
