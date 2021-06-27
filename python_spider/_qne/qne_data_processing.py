@@ -110,7 +110,7 @@ def sentiments_analysis(target_csv_file, target_column_name):
     print("==== 将三种情绪统计信息写入文件 ====");
     print(sentiments);
     with open(file=common_file_name + "_summary.txt", mode="w", encoding="utf-8") as f:
-        f.write(json.dumps(sentiments));
+        f.write(json.dumps(sentiments, ensure_ascii=False));
     return sentiments;
 
 '''
@@ -228,22 +228,15 @@ def draw_sentiments_pie(target_sentiments_summary):
 # 绘制每月出游评论人数折线图
 def draw_commonts_line(target_csv_file):
     dataFrame = pd.read_csv(target_csv_file);
-    # dataFrame = dataFrame[["trip_start_date"]];
-    # dataFrame["trip_start_date"] = dataFrame["trip_start_date"].apply(lambda item:item[0:7]);
-    # 它不再是一个dataframe，而是一个GroupBy对象，我们后面函数的任何操作都是基于这个对象的。
+    # 它不再是一个 dataframe，而是一个 GroupBy 对象，我们后面函数的任何操作都是基于这个对象
     group = dataFrame.groupby(by=[dataFrame["trip_start_date"].apply(lambda item: item[0:7])], as_index=True);
-    # 对每列都进行 count 操作
-    print(group.count());
-    # 选择一列进行聚合操作，也可按不同的列选不同的聚合函数，例如：g.agg({'B':'mean', 'C':'sum'})
-    print(group["trip_start_date"].count());
-    # size 计数时包含 NaN 值，而 count 不包含 NaN 值
-    print(group["trip_start_date"].size());
     # 重命名统计列，并将 group 对象转化为 dataFrame 对象
     df = group["trip_start_date"].size().reset_index(name='count');
     print(df);
-    # 遍历 https://www.cnblogs.com/math98/p/9769496.html
+
     x_list = [];
     y_list = [];
+    # for + zip，效率最高，无 Index
     for trip_start_date, count in zip(df["trip_start_date"], df["count"]):
         x_list.append(trip_start_date);
         y_list.append(count);
@@ -281,7 +274,7 @@ if __name__ == "__main__":
     # make_wordcloud(negative_word_frequency_list, "/temp/target_negative.png");
 
     # 绘制情绪占比饼图
-    # draw_sentiments_pie("/temp/target_sentiments_summary.txt");
+    draw_sentiments_pie("/temp/target_sentiments_summary.txt");
 
     # 绘制每月出游评论人数折线图
     draw_commonts_line("/temp/target.csv");
