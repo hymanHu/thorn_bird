@@ -105,13 +105,48 @@ public class RegionServiceImpl implements RegionService {
 
 	@Override
 	public Region getRegionByKeyWord(String keyWord, int subdistric) {
-		Region currentRegion = regionDao.getRegionByKeyWord(keyWord);
-		String adCode = currentRegion.getAdCode();
-		RegionLevel regionLevel = RegionLevel.getRegionLevel(currentRegion.getLevel());
 		
-		// 查询区县，下面还有 2 级，我们最多迭代 2 级，无需按 subdistric 迭代
-		int maxRange = subdistric > (4 - regionLevel.code) ? 4 - regionLevel.code : subdistric;
-		return regionDao.getRegionByKeyWord(keyWord);
+		Region currentRegion = regionDao.getRegionByKeyWord(keyWord);
+		RegionLevel currentRegionLevel = RegionLevel.getRegionLevel(currentRegion.getLevel());
+		// 最多查询级数，比如查询区县，下面还有 2 级，我们最多迭代 2 级，无需按 subdistric 迭代
+		int maxRange = subdistric > (4 - currentRegionLevel.code) ? 4 - currentRegionLevel.code : subdistric;
+		
+		
+		buildSubDistric(currentRegion);
+		
+		return currentRegion;
+	}
+	
+	public void buildSubDistric(Region region) {
+		if (region == null) {
+			return;
+		}
+		String adCode = region.getAdCode();
+		RegionLevel currentRegionLevel = RegionLevel.getRegionLevel(region.getLevel());
+		RegionLevel subRegionLevel = RegionLevel.getSubRegionLevel(currentRegionLevel.code);
+		if (subRegionLevel == null) {
+			return;
+		}
+		
+		String parentCode = "";
+		if (currentRegionLevel == RegionLevel.COUNTRY) {
+			parentCode = "";
+		} else if (currentRegionLevel == RegionLevel.PROVINCE) {
+			parentCode = adCode.substring(0, 2);
+		} else if (currentRegionLevel == RegionLevel.CITY) {
+			parentCode = adCode.substring(0, 4);
+		} else {
+			parentCode = adCode;
+		}
+		region.setDistricts(regionDao.getRegionsByParentCodeAndLevel(parentCode, subRegionLevel.level));
+	}
+	
+	public static void main(String[] args) {
+		String adCode = "510000";
+		String proviceCode = adCode.substring(0, 2);
+		String cityCode = adCode.substring(2, 4);
+		String districCode = adCode.substring(4, 6);
+		System.out.println(proviceCode + "-" + cityCode + "-" + districCode);
 	}
 
 }

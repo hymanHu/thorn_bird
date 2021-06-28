@@ -31,14 +31,13 @@ public class RegionController {
 	}
 	
 	/**
-	 * http://127.0.0.1/api/region?keyWord=440000&subdistric=4 ---- get
+	 * http://127.0.0.1/api/region?keyWord=510000&subdistric=4 ---- get
 	 * @param keyWord		搜索关键词：行政区名称、cityCode、adcode
 	 * @param subdistric	设置显示下级行政区级数: 0 ~ 4
 	 * @return Region
 	 */
 	@GetMapping("/region")
 	public Region getRegionByKeyWord(String keyWord, int subdistric) {
-		Region currentRegion = regionService.getRegionByKeyWord(keyWord, subdistric);
-		return currentRegion;
+		return regionService.getRegionByKeyWord(keyWord, subdistric);
 	}
 }

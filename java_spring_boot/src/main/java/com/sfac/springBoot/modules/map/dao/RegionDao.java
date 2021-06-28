@@ -40,6 +40,29 @@ public interface RegionDao {
 	@Delete("delete from map_Region")
 	void deleteAllRegion();
 	
-	@Select("select * from map_Region where city_code = #{keyWord} or ad_code = #{adCode} or name = #{name}")
+	@Select("<script>"
+			+ "select * from map_Region "
+			+ "<where> "
+			+ "<if test='keyWord != \"\" and keyWord != null'>"
+			+ " and (city_code = #{keyWord} or ad_code = #{adCode} or name = #{name}) "
+			+ "</if>"
+			+ "<if test='keyWord == \"\"'>"
+			+ " and (ad_code = '100000') "
+			+ "</if>"
+			+ "</where>"
+			+ " limit 1"
+			+ "</script>")
 	Region getRegionByKeyWord(String keyWord);
+	
+	@Select("<script>"
+			+ "select * from map_Region "
+			+ "<where> "
+			+ "<if test='parentCode != \"\" and parentCode != null'>"
+			+ " and (ad_code like '${parentCode}%') "
+			+ "</if>"
+			+ " and level = #{level} "
+			+ "</where>"
+			+ " order by ad_code asc"
+			+ "</script>")
+	List<Region> getRegionsByParentCodeAndLevel(String parentCode, String level);
 }

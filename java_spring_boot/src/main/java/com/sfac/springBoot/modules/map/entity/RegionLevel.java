@@ -27,6 +27,7 @@ public enum RegionLevel {
 		this.level = level;
 	}
 	
+	// 根据 level 查询对应 RegionLevel
 	public static RegionLevel getRegionLevel(String level) {
 		return Arrays.stream(RegionLevel.values())
 				.filter(item -> level.equals(item.level))
@@ -34,8 +35,17 @@ public enum RegionLevel {
 				.orElse(null);
 	}
 	
+	// 根据 code 查询下一级 RegionLevel
+	public static RegionLevel getSubRegionLevel(int code) {
+		return Arrays.stream(RegionLevel.values())
+				.filter(item -> item.code == code + 1)
+				.findFirst()
+				.orElse(null);
+	}
+	
 	public static void main(String[] args) {
 		System.out.println(RegionLevel.getRegionLevel("street"));
+		System.out.println(RegionLevel.getSubRegionLevel(1));
 	}
 
 }
