@@ -9,7 +9,9 @@ import org.springframework.boot.web.embedded.tomcat.TomcatServletWebServerFactor
 import org.springframework.boot.web.servlet.server.ServletWebServerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.client.SimpleClientHttpRequestFactory;
 import org.springframework.util.ResourceUtils;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -75,4 +77,12 @@ public class WebMvcConfig implements WebMvcConfigurer {
 		WebMvcConfigurer.super.addInterceptors(registry);
 	}
 
+	// 注册 restTemplate
+	@Bean
+	public RestTemplate restTemplate() {
+		SimpleClientHttpRequestFactory requestFactory = new SimpleClientHttpRequestFactory();
+		requestFactory.setReadTimeout(20000); // ms
+		requestFactory.setConnectTimeout(20000); // ms
+		return new RestTemplate(requestFactory);
+	}
 }
