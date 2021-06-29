@@ -109,16 +109,19 @@ public class RegionServiceImpl implements RegionService {
 		Region currentRegion = regionDao.getRegionByKeyWord(keyWord);
 		RegionLevel currentRegionLevel = RegionLevel.getRegionLevel(currentRegion.getLevel());
 		// 最多查询级数，比如查询区县，下面还有 2 级，我们最多迭代 2 级，无需按 subdistric 迭代
-		int maxRange = subdistric > (4 - currentRegionLevel.code) ? 4 - currentRegionLevel.code : subdistric;
+		int maxSeries = subdistric > (4 - currentRegionLevel.code) ? 4 - currentRegionLevel.code : subdistric;
 		
-		
-		buildSubDistric(currentRegion);
-		
+		buildSubDistric(currentRegion, maxSeries);
 		return currentRegion;
 	}
 	
-	public void buildSubDistric(Region region) {
-		if (region == null) {
+	/**
+	 * - 设置某行政区域子节点
+	 * @param region		行政区域
+	 * @param maxSeries		加载子节点最大级数
+	 */
+	public void buildSubDistric(Region region, int maxSeries) {
+		if (region == null || maxSeries == 0) {
 			return;
 		}
 		String adCode = region.getAdCode();
@@ -138,15 +141,14 @@ public class RegionServiceImpl implements RegionService {
 		} else {
 			parentCode = adCode;
 		}
-		region.setDistricts(regionDao.getRegionsByParentCodeAndLevel(parentCode, subRegionLevel.level));
+		// 设置当前 region 子节点
+		List<Region> districts = regionDao.getRegionsByParentCodeAndLevel(parentCode, subRegionLevel.level);
+		region.setDistricts(districts);
+		
+		// 循环子节点，递归调用
+		districts.stream().forEach(item -> {
+			buildSubDistric(item, maxSeries - 1);
+		});
 	}
 	
-	public static void main(String[] args) {
-		String adCode = "510000";
-		String proviceCode = adCode.substring(0, 2);
-		String cityCode = adCode.substring(2, 4);
-		String districCode = adCode.substring(4, 6);
-		System.out.println(proviceCode + "-" + cityCode + "-" + districCode);
-	}
-
 }

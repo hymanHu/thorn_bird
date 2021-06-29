@@ -1,16 +1,16 @@
 /*
 Navicat MySQL Data Transfer
 
-Source Server         : MyConnect
-Source Server Version : 80018
+Source Server         : myConnection
+Source Server Version : 50525
 Source Host           : localhost:3306
 Source Database       : test
 
 Target Server Type    : MYSQL
-Target Server Version : 80018
+Target Server Version : 50525
 File Encoding         : 65001
 
-Date: 2021-05-31 22:37:04
+Date: 2021-06-29 11:19:31
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -31,11 +31,13 @@ CREATE TABLE `exam_achievement` (
   `spend_time` int(11) DEFAULT NULL,
   `exam_date` datetime DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of exam_achievement
 -- ----------------------------
+INSERT INTO `exam_achievement` VALUES ('1', '2021-06-18 12:37:51', '1', '\n													Java\n												_aaaaa_admin', '100', '0.0 ~ 50.0', '0', '0', '45', '45', '2021-06-18 12:37:51');
+INSERT INTO `exam_achievement` VALUES ('2', '2021-06-18 12:37:51', '1', '\n													Java\n												_aaaaa_admin', '100', '0.0 ~ 50.0', '0', '0', '45', '45', '2021-06-18 12:37:51');
 
 -- ----------------------------
 -- Table structure for `exam_answer`
@@ -48,11 +50,59 @@ CREATE TABLE `exam_answer` (
   `question_id` int(11) NOT NULL,
   `user_answer` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=49 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of exam_answer
 -- ----------------------------
+INSERT INTO `exam_answer` VALUES ('1', null, '1', '15', '');
+INSERT INTO `exam_answer` VALUES ('2', null, '1', '9', '');
+INSERT INTO `exam_answer` VALUES ('3', null, '1', '54', '');
+INSERT INTO `exam_answer` VALUES ('4', null, '1', '7', '');
+INSERT INTO `exam_answer` VALUES ('5', null, '1', '52', '');
+INSERT INTO `exam_answer` VALUES ('6', null, '1', '51', '');
+INSERT INTO `exam_answer` VALUES ('7', null, '1', '8', '');
+INSERT INTO `exam_answer` VALUES ('8', null, '1', '57', '');
+INSERT INTO `exam_answer` VALUES ('9', null, '1', '99', '');
+INSERT INTO `exam_answer` VALUES ('10', null, '1', '90', '');
+INSERT INTO `exam_answer` VALUES ('11', null, '1', '14', '');
+INSERT INTO `exam_answer` VALUES ('12', null, '1', '105', '');
+INSERT INTO `exam_answer` VALUES ('13', null, '1', '93', '');
+INSERT INTO `exam_answer` VALUES ('14', null, '1', '47', '');
+INSERT INTO `exam_answer` VALUES ('15', null, '1', '109', '');
+INSERT INTO `exam_answer` VALUES ('16', null, '2', '15', '');
+INSERT INTO `exam_answer` VALUES ('17', null, '2', '9', '');
+INSERT INTO `exam_answer` VALUES ('18', null, '2', '54', '');
+INSERT INTO `exam_answer` VALUES ('19', null, '1', '87', '');
+INSERT INTO `exam_answer` VALUES ('20', null, '2', '7', '');
+INSERT INTO `exam_answer` VALUES ('21', null, '2', '52', '');
+INSERT INTO `exam_answer` VALUES ('22', null, '2', '51', '');
+INSERT INTO `exam_answer` VALUES ('23', null, '2', '8', '');
+INSERT INTO `exam_answer` VALUES ('24', null, '2', '57', '');
+INSERT INTO `exam_answer` VALUES ('25', null, '2', '99', '');
+INSERT INTO `exam_answer` VALUES ('26', null, '1', '23', '');
+INSERT INTO `exam_answer` VALUES ('27', null, '2', '90', '');
+INSERT INTO `exam_answer` VALUES ('28', null, '1', '107', '');
+INSERT INTO `exam_answer` VALUES ('29', null, '1', '88', '');
+INSERT INTO `exam_answer` VALUES ('30', null, '2', '14', '');
+INSERT INTO `exam_answer` VALUES ('31', null, '2', '105', '');
+INSERT INTO `exam_answer` VALUES ('32', null, '2', '93', '');
+INSERT INTO `exam_answer` VALUES ('33', null, '2', '47', '');
+INSERT INTO `exam_answer` VALUES ('34', null, '2', '109', '');
+INSERT INTO `exam_answer` VALUES ('35', null, '2', '87', '');
+INSERT INTO `exam_answer` VALUES ('36', null, '2', '23', '');
+INSERT INTO `exam_answer` VALUES ('37', null, '1', '20', '');
+INSERT INTO `exam_answer` VALUES ('38', null, '1', '104', '');
+INSERT INTO `exam_answer` VALUES ('39', null, '2', '107', '');
+INSERT INTO `exam_answer` VALUES ('40', null, '1', '25', '');
+INSERT INTO `exam_answer` VALUES ('41', null, '1', '45', '');
+INSERT INTO `exam_answer` VALUES ('42', null, '1', '43', '');
+INSERT INTO `exam_answer` VALUES ('43', null, '2', '88', '');
+INSERT INTO `exam_answer` VALUES ('44', null, '2', '20', '');
+INSERT INTO `exam_answer` VALUES ('45', null, '2', '104', '');
+INSERT INTO `exam_answer` VALUES ('46', null, '2', '25', '');
+INSERT INTO `exam_answer` VALUES ('47', null, '2', '45', '');
+INSERT INTO `exam_answer` VALUES ('48', null, '2', '43', '');
 
 -- ----------------------------
 -- Table structure for `exam_paper`
@@ -65,11 +115,12 @@ CREATE TABLE `exam_paper` (
   `total_time` int(11) DEFAULT NULL,
   `total_score` double DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of exam_paper
 -- ----------------------------
+INSERT INTO `exam_paper` VALUES ('1', '2021-06-18 11:51:22', '\n													Java\n												_aaaaa_admin', '45', '100');
 
 -- ----------------------------
 -- Table structure for `exam_paper_question`
@@ -80,11 +131,35 @@ CREATE TABLE `exam_paper_question` (
   `paper_id` int(11) NOT NULL,
   `question_id` int(11) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of exam_paper_question
 -- ----------------------------
+INSERT INTO `exam_paper_question` VALUES ('1', '1', '15');
+INSERT INTO `exam_paper_question` VALUES ('2', '1', '9');
+INSERT INTO `exam_paper_question` VALUES ('3', '1', '54');
+INSERT INTO `exam_paper_question` VALUES ('4', '1', '7');
+INSERT INTO `exam_paper_question` VALUES ('5', '1', '52');
+INSERT INTO `exam_paper_question` VALUES ('6', '1', '51');
+INSERT INTO `exam_paper_question` VALUES ('7', '1', '8');
+INSERT INTO `exam_paper_question` VALUES ('8', '1', '57');
+INSERT INTO `exam_paper_question` VALUES ('9', '1', '23');
+INSERT INTO `exam_paper_question` VALUES ('10', '1', '107');
+INSERT INTO `exam_paper_question` VALUES ('11', '1', '88');
+INSERT INTO `exam_paper_question` VALUES ('12', '1', '20');
+INSERT INTO `exam_paper_question` VALUES ('13', '1', '99');
+INSERT INTO `exam_paper_question` VALUES ('14', '1', '90');
+INSERT INTO `exam_paper_question` VALUES ('15', '1', '14');
+INSERT INTO `exam_paper_question` VALUES ('16', '1', '105');
+INSERT INTO `exam_paper_question` VALUES ('17', '1', '93');
+INSERT INTO `exam_paper_question` VALUES ('18', '1', '47');
+INSERT INTO `exam_paper_question` VALUES ('19', '1', '109');
+INSERT INTO `exam_paper_question` VALUES ('20', '1', '87');
+INSERT INTO `exam_paper_question` VALUES ('21', '1', '104');
+INSERT INTO `exam_paper_question` VALUES ('22', '1', '25');
+INSERT INTO `exam_paper_question` VALUES ('23', '1', '45');
+INSERT INTO `exam_paper_question` VALUES ('24', '1', '43');
 
 -- ----------------------------
 -- Table structure for `exam_question`
@@ -105,7 +180,7 @@ CREATE TABLE `exam_question` (
   `reference_answer` text,
   `comment` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=115 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=117 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Records of exam_question
@@ -151,7 +226,7 @@ INSERT INTO `exam_question` VALUES ('39', '2021-05-28 08:58:23', 'shortAnswer', 
 INSERT INTO `exam_question` VALUES ('40', '2021-05-28 08:58:23', 'shortAnswer', 'Java', '简述 Mybatis 和 Jpa 的区别？', null, '5', '', '', '', '', 'Mybatis：在 JdbcTemplate 的基础上，自动填充 JavaBean 参数，自动映射 JavaBean，但仍需要手动写 Sql，被称之为“半自动 ORM”；\nHibernate：自动填充 JavaBean 参数，自动映射 JavaBean，自动解析 JavaBean 为 Hql、Jpql 语句（使用代理技术，框架读取代理类，代理类继承 JavaBean，并对 get、set 方法做了重写，这样代理类可以跟踪到 JavaBean 属性的变化，并封装为 Hql 语句，再转换为 Sql 语句对数据库进行操作），提供缓存（一级缓存（Session 缓存）、二级缓存（跨 Session 缓存）），被称之为“全自动 ORM”；\nJpa：Sun 公司制定的 ORM 规范，自己并没实现，常用的实现框架为 Hibernate；', '');
 INSERT INTO `exam_question` VALUES ('41', '2021-05-28 08:58:24', 'shortAnswer', 'Java', '为什么我们需要 spring-boot-maven-plugin？', null, '5', '', '', '', '', 'spring-boot-maven-plugin 提供了一些像 jar 一样打包或者运行应用程序的命令；\nspring-boot:run：运行你的 SpringBoot 应用程序；\nspring-boot:repackage：重新打包你的 jar 包或者是 war 包使其可执行；\nspring-boot:start 和 spring-boot：stop 管理 Spring Boot 应用程序的生命周期（也可以说是为了集成测试）；\nspring-boot:build-info：生成执行器可以使用的构造信息；', '');
 INSERT INTO `exam_question` VALUES ('42', '2021-05-28 08:58:24', 'shortAnswer', 'Java', '什么是嵌入式服务器？我们为什么要使用嵌入式服务器?', null, '5', '', '', '', '', '在虚拟机上部署服务：java环境 ---- web服务器 ---- 部署应用程序 war 包；\n嵌入式：使服务器成为应用程序的一部分，你只需要一个安装了 Java 的虚拟机，就可以直接在上面部署应用程序了；', '');
-INSERT INTO `exam_question` VALUES ('43', '2021-05-28 08:58:24', 'programming', 'Java', '提供一个控制层接口或页面控制器，返回 user list 或包装 user list 数据；页面以表格形式展示 user list 数据。格的形式显示出来', null, '15', '', '', '', '', '@GetMapping(\"/thymeleafIndex\")\npublic String thymeleafIndexPage(ModelMap modelMap) {\n	int countryId = 522;\n	List<City> cities = cityService.getCitiesByCountryId(countryId);\n	\n	modelMap.addAttribute(\"cities\", cities);\n	\n	return \"index\";\n}\n<table>\n	<tr><td>ID</td><td>City Name</td></tr>\n	<tr th:each=\"city : ${cities}\">\n		<td th:text=\"${city.cityId}\"></td>\n		<td th:text=\"${city.cityName}\"></td>\n	</tr>\n</table>', '');
+INSERT INTO `exam_question` VALUES ('43', '2021-05-28 08:58:24', 'programming', 'Java', '提供一个控制层接口或页面控制器，返回 user list 或包装 user list 数据；页面以表格形式展示 user list 数据。', null, '15', '', '', '', '', '@GetMapping(\"/thymeleafIndex\")\npublic String thymeleafIndexPage(ModelMap modelMap) {\n	int countryId = 522;\n	List<City> cities = cityService.getCitiesByCountryId(countryId);\n	\n	modelMap.addAttribute(\"cities\", cities);\n	\n	return \"index\";\n}\n<table>\n	<tr><td>ID</td><td>City Name</td></tr>\n	<tr th:each=\"city : ${cities}\">\n		<td th:text=\"${city.cityId}\"></td>\n		<td th:text=\"${city.cityName}\"></td>\n	</tr>\n</table>', '');
 INSERT INTO `exam_question` VALUES ('44', '2021-05-28 08:58:24', 'programming', 'Java', '提供退出登录控制器，重定向到登录页面；', null, '15', '', '', '', '', '@GetMapping(\"/logout\")\npublic String logout() {\n	userService.logout();\n	return \"redirect:/login\";\n}', '');
 INSERT INTO `exam_question` VALUES ('45', '2021-05-28 08:58:24', 'programming', 'Java', '设计一套购物车接口；', null, '15', '', '', '', '', '/api/redis/cart ---- get\n/api/redis/cartItem ---- post\n/api/redis/cartItem ---- put\n/api/redis/cartItem ---- delete\n/api/redis/cartItems ---- put\n/api/redis/cartItems ---- delete\n/api/redis/cart/checked ---- get', '');
 INSERT INTO `exam_question` VALUES ('46', '2021-05-28 08:58:24', 'judge', 'Java', 'MyBatis 不支持延迟加载？', null, '2.5', '', '', '', '', 'False', '');
@@ -223,3 +298,5 @@ INSERT INTO `exam_question` VALUES ('111', '2021-05-31 22:33:01', 'judge', 'Java
 INSERT INTO `exam_question` VALUES ('112', '2021-05-31 22:34:00', 'shortAnswer', 'Java', '线程实现方式？', '', '5', '', '', '', '', '继承 Thread 类，覆盖该类的 run 方法；\n实现 Runnable 接口，实现 run 方法；\n利用匿名内部类产生：方法中添加：new Thread(){public void run() {super.run();}}.start();', '');
 INSERT INTO `exam_question` VALUES ('113', '2021-05-31 22:35:00', 'fillBlank', 'Java', '线程的几种状态？', '', '2.5', '', '', '', '', '创建、就绪、运行、阻塞、死亡', '');
 INSERT INTO `exam_question` VALUES ('114', '2021-05-31 22:36:23', 'shortAnswer', 'Java', '阐述 Synchronized 与 Lock 的区别。', '', '5', '', '', '', '', 'synchronized：关键字、获取锁的线程执行完或异常才释放锁、等待线程会一直等待，无法判断锁状态、可重入、非公平（释放锁后，所有线程去竞争）、等待线程不可中断、少量同步；\nLock：\n接口、lock 之后需要在 finally 中 unlock，可用 tryLock 判断锁状态，尝试获取锁，失败后，等待线程不用一直等待、可重入、可公平（等待线程先到先得）、大量同步；\nReentrantLock：是 Lock 的一个实现分类，独占锁，公平锁，一个线程已经有锁了，其内部还能申请锁；', '');
+INSERT INTO `exam_question` VALUES ('115', '2021-06-29 09:31:48', 'programming', 'Java', '设计行政区域表和接口，实现根据行政区域名字查询当前区域以及其子节点的功能。', '', '15', '', '', '', '', 'public class Region {\n	private String cityCode;\n	private String adCode;\n	private String name;\n	private String center;\n	private String level;\n	private String area;\n	private String perimeter;\n	private List<Region> districts;\n}\n\n/**\n * - 设置某行政区域子节点\n * @param region		行政区域\n * @param maxSeries		加载子节点最大级数\n */\npublic void buildSubDistric(Region region, int maxSeries) {\n	if (region == null || maxSeries == 0) {\n		return;\n	}\n	String adCode = region.getAdCode();\n	RegionLevel currentRegionLevel = RegionLevel.getRegionLevel(region.getLevel());\n	RegionLevel subRegionLevel = RegionLevel.getSubRegionLevel(currentRegionLevel.code);\n	if (subRegionLevel == null) {\n		return;\n	}\n	\n	String parentCode = \"\";\n	if (currentRegionLevel == RegionLevel.COUNTRY) {\n		parentCode = \"\";\n	} else if (currentRegionLevel == RegionLevel.PROVINCE) {\n		parentCode = adCode.substring(0, 2);\n	} else if (currentRegionLevel == RegionLevel.CITY) {\n		parentCode = adCode.substring(0, 4);\n	} else {\n		parentCode = adCode;\n	}\n	// 设置当前 region 子节点\n	List<Region> districts = regionDao.getRegionsByParentCodeAndLevel(parentCode, subRegionLevel.level);\n	region.setDistricts(districts);\n	\n	// 循环子节点，递归调用\n	districts.stream().forEach(item -> {\n		buildSubDistric(item, maxSeries - 1);\n	});\n}', '');
+INSERT INTO `exam_question` VALUES ('116', '2021-06-29 11:17:21', 'shortAnswer', 'DB_Sql', 'Mysql 中查询十分钟之内的数据，表 A 有时间字段 report_time；', '', '5', '', '', '', '', 'select * from A where TIMESTAMPDIFF(MINUTE, report_time, now()) < 10', '');

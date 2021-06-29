@@ -31,7 +31,11 @@ public class RegionController {
 	}
 	
 	/**
-	 * http://127.0.0.1/api/region?keyWord=510000&subdistric=4 ---- get
+	 * http://127.0.0.1/api/region?keyWord=&subdistric=4
+	 * http://127.0.0.1/api/region?keyWord=510000&subdistric=4
+	 * http://127.0.0.1/api/region?keyWord=510500&subdistric=4
+	 * http://127.0.0.1/api/region?keyWord=510502&subdistric=4
+	 * http://127.0.0.1/api/region?keyWord=泰安街道&subdistric=4
 	 * @param keyWord		搜索关键词：行政区名称、cityCode、adcode
 	 * @param subdistric	设置显示下级行政区级数: 0 ~ 4
 	 * @return Region
