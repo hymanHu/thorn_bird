@@ -47,18 +47,43 @@ def pyplot_line():
 # 柱状图
 def pyplot_bar():
     # 指定字体，可解决中文乱码问题
-    plt.rcParams['font.sans-serif'] = ['SimHei'];
+    # plt.rcParams['font.sans-serif'] = ['SimHei'];
+    plt.rcParams["font.family"] = "STSong";
 
-    x = Faker.choose();
-    plt.bar(x, Faker.values(1, 100), color='r', label="label_1", width=0.5);
-    plt.bar(x, Faker.values(1, 100), color='g', label="label_2", width=0.5);
+    x_labels = Faker.choose();
+    x = np.arange(len(x_labels));  # x轴刻度标签位置
+    width = 0.25; # 柱子的宽度
+    # 计算每个柱子在x轴上的位置，保证 x 轴刻度标签居中
+    # 三组数据 x - width，x， x + width
+    # 四组数据 x - 1.5*width，x - 0.5*width， x + 0.5*width， x + 1.5*width
+    plt.bar(x - width/2, Faker.values(1, 100), color='r', label="label_1", width=width);
+    plt.bar(x + width/2, Faker.values(1, 100), color='g', label="label_2", width=width);
+    # x 轴数据为数字，须和 labels 标签绑定
+    plt.xticks(x, labels=x_labels);
     # 指定标题以及 x、y 轴标签
     plt.title("我是标题");
     plt.xlabel("X Label");
     plt.ylabel("Y Label");
-    plt.legend();
+    # 指定图例显示位置，label_1、label_2
+    # ['upper left' , 'upper center', 'upper right', 'center left', 'center', 'center right', 'lower left', 'lower center', 'lower right']
+    plt.legend(loc='upper left');
+    plt.show();
+
+# 饼图
+def pyplot_pie():
+    # 指定字体，可解决中文乱码问题
+    # plt.rcParams['font.sans-serif'] = ['SimHei'];
+    plt.rcParams["font.family"] = "STSong";
+
+    labels = Faker.choose();
+    x = Faker.values();
+    explode = (0, 0.1, 0, 0, 0, 0, 0); # 0.1表示对应的部分凸显出来
+    plt.pie(x, explode=explode, labels=labels, autopct="%1.1f%%");
+    # 指定标题
+    plt.title("我是标题");
     plt.show();
 
 if __name__ == "__main__":
-    # pyplot_line();
+    pyplot_line();
     pyplot_bar();
+    pyplot_pie();
