@@ -16,7 +16,7 @@ sys.path.append(root_path);
 
 import numpy as np;
 import pandas as pd;
-from pandas import Series, DataFrame;
+from pandas import Series, DataFrame, DatetimeIndex;
 
 # series 数据结构
 def series_test():
@@ -106,6 +106,7 @@ def dataFrame_test():
     print(dataFrame);
 
     print("==== 查询 ====");
+    print(dataFrame.shape); # 多少行、多少列数据，返回 tuple
     print("---- 列索引 ----");
     print(dataFrame["第四季度"]); # 按列取值，返回 series
     print(dataFrame[["第一季度", "第二季度"]]); # 按列取多列，返回 dataFrame
@@ -114,6 +115,7 @@ def dataFrame_test():
     print(dataFrame.loc[["宇宙公司", "行星系公司"]]); # 按行取多行，返回 dataFrame
     print(dataFrame["宇宙公司":"行星系公司"]); # 按行切片，返回 dataFrame
     print(dataFrame[0:2]); # 按行下标切片，返回 dataFrame
+    print(dataFrame.loc[len(dataFrame) - 1]); # 取最后一行数据
     print("---- 组合索引、条件索引 ----");
     print(dataFrame.loc["宇宙公司", ["第一季度", "第二季度"]]);  # 根据行/列索引取值，返回 series
     print(dataFrame.loc[["宇宙公司", "恒星系公司"], ["第一季度", "第二季度"]]);  # 根据行/列索引取值，返回 dataFrame
@@ -130,6 +132,28 @@ def dataFrame_test():
     # zip 方式，效率最高，无 index
     for x, y in zip(dataFrame["第一季度"], dataFrame["第二季度"]):
         print(x, y);
+
+# datetimeIndex 数据结构
+def datetimeIndex_test():
+    '''
+    start ---- 开始时间
+    end ---- 结束时间
+    periods ---- 时间周期内显示数据条目数
+    freq ---- 时间序列频率，D、H、T、S （天、时、分、秒）等
+    前三者是互斥的，不能同时存在
+    '''
+    # 创建时间序列，默认以天为单位
+    datetimeIndex = pd.date_range(start="20210530", end="20210630");
+    print(datetimeIndex.values);
+    print(datetimeIndex.to_list());
+    print(datetimeIndex.to_series().values);
+    print(datetimeIndex.to_frame());
+    # 创建时间序列，没四小时间隔
+    datetimeIndex = pd.date_range(start="20210530", end="20210630", freq="4H");
+    print(datetimeIndex);
+    # 从 20210530 开始创建时间序列，每 4 小时间隔，显示 20 条数据
+    datetimeIndex = pd.date_range(start="20210530", periods=20, freq="4H");
+    print(datetimeIndex);
 
 # 初始化 series and dataFrame
 def init_series_dataFrame():
@@ -223,7 +247,8 @@ def file_test():
 
 if __name__ == "__main__":
     # series_test();
-    # dataFrame_test();
+    dataFrame_test();
+    # datetimeIndex_test();
     # advanced_function();
     # arithmetic_test();
-    data_analysis_test();
+    # data_analysis_test();

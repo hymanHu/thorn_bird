@@ -32,7 +32,11 @@ def pyplot_line():
     我们可以传入多组数据，这样在绘图区会绘制多组图像
     linewidth ---- 线宽
     '''
-    plt.plot(x, y, "r-.", x, y ** 2, "bs", x, y ** 3, "g^", linewidth=2.0);
+    # plt.plot(x, y, "r-.", x, y ** 2, "bs", x, y ** 3, "g^", linewidth=2.0);
+    # 也可以分开写
+    plt.plot(x, y, "r-.", label="label_1", linewidth=2);
+    plt.plot(x, y * 2, label="label_2", linewidth=2);
+    plt.plot(x, y * 3, label="label_3", linewidth=2);
     # 指定标题以及 x、y 轴标签
     plt.title("我是标题");
     plt.xlabel("X Label");
@@ -41,6 +45,8 @@ def pyplot_line():
     plt.text(2, 600, "图片中间的文字");
     # 显示背景方格
     plt.grid();
+    # 指定图例显示位置，label_1、label_2
+    plt.legend(loc='upper left');
     # 显示图画
     plt.show();
 
@@ -85,5 +91,5 @@ def pyplot_pie():
 
 if __name__ == "__main__":
     pyplot_line();
-    pyplot_bar();
-    pyplot_pie();
+    # pyplot_bar();
+    # pyplot_pie();
