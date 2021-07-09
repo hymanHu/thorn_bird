@@ -62,6 +62,7 @@ def series_test():
     print(series["index_1":"index_3"]); # 索引切片
     print(series[[1,3]]); # 索引下标取值
     print(series[0:4]); # 索引下标切片
+    print(np.asarray(series)); # Series 转 list
 
 # dataFrame 数据结构
 def dataFrame_test():
@@ -148,7 +149,7 @@ def datetimeIndex_test():
     print(datetimeIndex.to_list());
     print(datetimeIndex.to_series().values);
     print(datetimeIndex.to_frame());
-    # 创建时间序列，没四小时间隔
+    # 创建时间序列，每四小时间隔
     datetimeIndex = pd.date_range(start="20210530", end="20210630", freq="4H");
     print(datetimeIndex);
     # 从 20210530 开始创建时间序列，每 4 小时间隔，显示 20 条数据
@@ -246,8 +247,8 @@ def file_test():
     print(gzbd_dataFrame);
 
 if __name__ == "__main__":
-    # series_test();
-    dataFrame_test();
+    series_test();
+    # dataFrame_test();
     # datetimeIndex_test();
     # advanced_function();
     # arithmetic_test();

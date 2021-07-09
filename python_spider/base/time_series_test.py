@@ -26,8 +26,8 @@ def init_data(start, end):
     # 生成 start - end，每两小时间隔的时间序列
     datetimeIndex = pd.date_range(start=start, end=end, freq="2H");
     # 为时间序列每一个时间随机一个数值，代表两小时内订票数量
-    data = np.random.randint(low=1, high=1000, size=len(datetimeIndex));
-    # 构造 dataFrame，时间序列为 columns
+    data = np.random.randint(low=500, high=1000, size=len(datetimeIndex));
+    # 构造 dataFrame，时间序列为 columns，data=[(246,), (559,)...]
     df = DataFrame(data=list(zip(data)), index=datetimeIndex, columns=["count"]);
     # 构造 dataFrame，时间序列作为数据列
     df = DataFrame(data=list(zip(datetimeIndex.values, data)), columns=["date", "count"]);
@@ -58,8 +58,14 @@ def time_series_fun_1():
     plt.show();
 
 # 朴素法预测
+'''
+朴素预测法：并不适合变化很大的数据集，最适合稳定性很高的数据集
+方式一：在原有的基础上，增加多行数据（未来时间段），以原始数据最后一条为依据
+方式二：在原有的基础上，增加一列，每行数据以原始的 count 数据为依据
+'''
 def time_series_fun_2():
     df = pd.read_csv("/temp/time_series_data.csv");
+
     # 取出最后一条数据
     last_data = df.loc[len(df) - 1];
     time = datetime.strptime(last_data["date"], "%Y-%m-%d %H:%M:%S");
@@ -72,10 +78,12 @@ def time_series_fun_2():
     data = np.random.randint(low=count-20, high=count + 20, size=len(datetimeIndex));
     naive_forecast_df = DataFrame(data=list(zip(datetimeIndex.values, data)), columns=["date", "count"]);
     naive_forecast_df = df.append(naive_forecast_df);
+    print(naive_forecast_df);
 
     # 重新按月平均值采样数据
     df.index = pd.to_datetime(df["date"], format="%Y-%m-%d %H:%M:%S");
     df = df.resample(rule="M").mean();
+    # 从时间列创建时间序列
     naive_forecast_df.index = pd.to_datetime(naive_forecast_df["date"], format="%Y-%m-%d %H:%M:%S");
     naive_forecast_df = naive_forecast_df.resample(rule="M").mean();
 
