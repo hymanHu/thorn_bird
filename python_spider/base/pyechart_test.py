@@ -9,7 +9,7 @@ pyecharts test
 import random;
 from pyecharts.faker import Faker;
 from pyecharts import options as opts;
-from pyecharts.charts import Bar, Bar3D, Line, Line3D, Pie, Grid;
+from pyecharts.charts import Bar, Bar3D, Line, Line3D, Pie, Map, Geo, Funnel, Grid, Tab, Page;
 
 # 测试数据接口
 def faker_fun():
@@ -47,7 +47,7 @@ def bar_fun():
          legend_opts = opts.LegendOpts(pos_left="40%"),
     ).render(
         # 设置输出路径
-        path="D:/temp/bar.html"
+        path="D:/temp/pyecharts_bar.html"
     );
 
 # 柱状 3D 图
@@ -73,7 +73,7 @@ def bar_3d_fun():
         title_opts=opts.TitleOpts(title="主标题", subtitle="副标题")
     ).render(
         # 设置输出路径
-        path="D:/temp/bar3d.html"
+        path="D:/temp/pyecharts_bar3d.html"
     );
 
 # 折线图
@@ -93,7 +93,7 @@ def line_fun():
         legend_opts=opts.LegendOpts(pos_left="40%"),
     ).render(
         # 设置输出路径
-        path="D:/temp/line.html"
+        path="D:/temp/pyecharts_line.html"
     );
 
 # 折线 3D 图
@@ -119,19 +119,24 @@ def line_3d_fun():
         title_opts=opts.TitleOpts(title="主标题", subtitle="副标题")
     ).render(
         # 设置输出路径
-        path="D:/temp/line3d.html"
+        path="D:/temp/pyecharts_line3d.html"
     );
 
 # 饼图
 def pie_fun():
     Pie().add(
         series_name="饼图名称",
-        # 数据格式[(key, value), (key, value), ...], 用 zip 函数将两个 list 进行组合
+        # 数据格式[[key, value], [key, value], ...], 用 zip 函数将两个 list 进行组合
         data_pair=[list(z) for z in zip(Faker.choose(), Faker.values())],
-        # 饼图半径
-        radius="40%",
+        # 饼图半径，一个值表示圆半径，两个值表示内外圆半径
+        # radius="40%",
+        # radius=["40%", "55%"],
         # 中心点的 x、y 位置
         center=["50%", "50%"],
+        # 是否展示成南丁格尔图（玫瑰图），通过半径区分数据大小，有 radius 和 area 两种模式
+        # radius：扇区圆心角展现数据的百分比，半径展现数据的大小
+        # area：所有扇区圆心角相同，仅通过半径展现数据大小
+        rosetype="area",
     ).set_series_opts(
         label_opts=opts.LabelOpts(
             formatter="{b}: {c}",
@@ -143,10 +148,98 @@ def pie_fun():
         legend_opts=opts.LegendOpts(pos_left="30%", pos_top="10%"),
     ).render(
         # 设置输出路径
-        path="D:/temp/pie.html"
+        path="D:/temp/pyecharts_pie.html"
     );
 
-# 组合图表网格
+# 地图
+def map_fun():
+    Map().add(
+        series_name="全国疫情数据",
+        data_pair=[list(z) for z in zip(Faker.provinces, Faker.values())],
+        maptype="china"
+    ).set_series_opts(
+        label_opts=opts.LabelOpts(
+            #formatter="{b}: {c}",
+            color=Faker.rand_color(),
+        )
+    ).set_global_opts(
+        title_opts=opts.TitleOpts(title="主标题", subtitle="副标题", pos_left="10%", pos_top="10%"),
+        # 设置 series_name 位置
+        legend_opts=opts.LegendOpts(pos_left="30%", pos_top="10%"),
+        # Map 视觉效果
+        visualmap_opts=opts.VisualMapOpts(),
+    ).render(
+        # 设置输出路径
+        path="D:/temp/pyecharts_map.html"
+    );
+    Geo().add_schema(maptype="china").add(
+        series_name="全国疫情数据",
+        data_pair=[list(z) for z in zip(Faker.provinces, Faker.values())],
+    ).set_series_opts(
+        label_opts=opts.LabelOpts(
+            formatter="{b}: {c}",
+            color=Faker.rand_color(),
+        )
+    ).set_global_opts(
+        title_opts=opts.TitleOpts(title="主标题", subtitle="副标题", pos_left="10%", pos_top="10%"),
+        # 设置 series_name 位置
+        # legend_opts=opts.LegendOpts(pos_left="30%", pos_top="10%"),
+        # Geo 视觉效果
+        visualmap_opts=opts.VisualMapOpts(),
+    ).render(
+        # 设置输出路径
+        path="D:/temp/pyecharts_geo.html"
+    );
+
+# 漏斗图
+def funnel_fun():
+    Funnel().add(
+        series_name="漏斗图",
+        data_pair=[list(z) for z in zip(Faker.choose(), Faker.values())],
+        # 数据排序，可以取 'ascending'，'descending'，'none'（表示按 data 顺序）
+        sort_="ascending",
+        label_opts=opts.LabelOpts(position="inside"),
+    ).set_global_opts(
+        title_opts=opts.TitleOpts(title="主标题", subtitle="副标题", pos_left="10%", pos_top="10%"),
+        # 设置 series_name 位置
+        # legend_opts=opts.LegendOpts(pos_left="30%", pos_top="10%"),
+        # 工具栏
+        toolbox_opts=opts.ToolboxOpts(),
+    ).render(
+        # 设置输出路径
+        path="D:/temp/pyecharts_funnel.html"
+    );
+
+# 选项卡
+def tab_fun():
+    line = Line().add_xaxis(
+        Faker.choose()
+    ).add_yaxis(
+        series_name="xx1", y_axis=Faker.values(1, 100), itemstyle_opts=opts.ItemStyleOpts(color=Faker.rand_color())
+    ).add_yaxis(
+        series_name="xx2", y_axis=Faker.values(1, 100), itemstyle_opts=opts.ItemStyleOpts(color=Faker.rand_color())
+    ).set_global_opts(
+        title_opts=opts.TitleOpts(title="主标题", subtitle="副标题", pos_left="10%"),
+        legend_opts=opts.LegendOpts(pos_left="40%"),
+    );
+    bar = Bar().add_xaxis(
+        Faker.choose()
+    ).add_yaxis(
+        series_name="柱1", y_axis=Faker.values(1, 100), itemstyle_opts=opts.ItemStyleOpts(color=Faker.rand_color())
+    ).add_yaxis(
+        series_name="柱2", y_axis=Faker.values(1, 100), itemstyle_opts=opts.ItemStyleOpts(color=Faker.rand_color())
+    ).set_global_opts(
+        title_opts=opts.TitleOpts(title="主标题", subtitle="副标题", pos_left="10%"),
+        legend_opts=opts.LegendOpts(pos_left="40%"),
+    );
+
+    Tab().add(
+        chart=line, tab_name="选项卡一"
+    ).add(
+        chart=bar, tab_name="选项卡二"
+    ).render(path="D:/temp/pyecharts_tab.html");
+
+# 组合图表
 def grid_fun():
     line1 = Line().add_xaxis(
         Faker.choose()
@@ -208,10 +301,74 @@ def grid_fun():
     ).add(
         pie,
         grid_opts=opts.GridOpts(),
-    ).render(path="D:/temp/grid.html")
+    ).render(path="D:/temp/pyecharts_grid.html");
+
+# 组合图表（可拖动）
+def page_fun():
+    line = Line().add_xaxis(
+        Faker.choose()
+    ).add_yaxis(
+        series_name="xx1", y_axis=Faker.values(1, 100), itemstyle_opts=opts.ItemStyleOpts(color=Faker.rand_color())
+    ).add_yaxis(
+        series_name="xx2", y_axis=Faker.values(1, 100), itemstyle_opts=opts.ItemStyleOpts(color=Faker.rand_color())
+    ).set_global_opts(
+        title_opts=opts.TitleOpts(title="主标题", subtitle="副标题", pos_left="10%"),
+        legend_opts=opts.LegendOpts(pos_left="40%"),
+    );
+    bar = Bar().add_xaxis(
+        Faker.choose()
+    ).add_yaxis(
+        series_name="柱1", y_axis=Faker.values(1, 100), itemstyle_opts=opts.ItemStyleOpts(color=Faker.rand_color())
+    ).add_yaxis(
+        series_name="柱2", y_axis=Faker.values(1, 100), itemstyle_opts=opts.ItemStyleOpts(color=Faker.rand_color())
+    ).set_global_opts(
+        title_opts=opts.TitleOpts(title="主标题", subtitle="副标题", pos_left="10%"),
+        legend_opts=opts.LegendOpts(pos_left="40%"),
+    );
+    pie = Pie().add(
+        series_name="饼图名称",
+        data_pair=[list(z) for z in zip(Faker.choose(), Faker.values())],
+    ).set_series_opts(
+        label_opts=opts.LabelOpts(
+            formatter="{b}: {c}",
+            color=Faker.rand_color(),
+        )
+    ).set_global_opts(
+        title_opts=opts.TitleOpts(title="主标题", subtitle="副标题", pos_left="10%", pos_top="10%"),
+        legend_opts=opts.LegendOpts(pos_left="30%", pos_top="10%"),
+    );
+    map = Map().add(
+        series_name="全国疫情数据",
+        data_pair=[list(z) for z in zip(Faker.provinces, Faker.values())],
+        maptype="china"
+    ).set_series_opts(
+        label_opts=opts.LabelOpts(
+            color=Faker.rand_color(),
+        )
+    ).set_global_opts(
+        title_opts=opts.TitleOpts(title="主标题", subtitle="副标题", pos_left="10%", pos_top="10%"),
+        legend_opts=opts.LegendOpts(pos_left="30%", pos_top="10%"),
+        visualmap_opts=opts.VisualMapOpts(),
+    );
+
+    # 首先用 Page 生成可拖动的多图表页面
+    # Page(layout=Page.DraggablePageLayout).add(
+    #     line, bar, pie, map
+    # ).render(path="D:/temp/pyecharts_page.html");
+    # 打开多图表页面，拖动图表到合适的位置，保存设置为 json 文件
+    # 指定原始文件、配置文件和输出文件，生成拖动后的多图表文件
+    Page.save_resize_html(
+        source="D:/temp/pyecharts_page.html",
+        cfg_file="D:/temp/chart_config.json",
+        dest="D:/temp/pyecharts_page_resize.html"
+    );
 
 if __name__ == "__main__":
     line_fun();
     bar_fun();
     pie_fun();
+    map_fun();
+    funnel_fun();
+    tab_fun();
     grid_fun();
+    page_fun();
