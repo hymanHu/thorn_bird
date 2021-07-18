@@ -16,6 +16,8 @@ sys.path.append(root_path);
 
 from utils import mysql_util;
 from datetime import datetime;
+import pandas as pd;
+from pandas import DataFrame;
 
 def save_twocolorball_into_db(d, update=False):
     query_sql = "select * from lottery_twocolorball where issue = '%s'" % d["issue"];
@@ -52,6 +54,21 @@ def save_twocolorball_into_db(d, update=False):
     elif len(result) > 0 and update:
         mysql_util.execute_(update_sql);
 
+def save_twocolorball_into_csv():
+    sql = "select open_time, issue, front_winning_num, back_winning_num from lottery_twocolorball order by issue desc";
+    data = mysql_util.execute_(sql);
+    column_list = ["开奖日期", "期号", "红球", "蓝球"];
+    df = DataFrame(data=data, columns=column_list);
+    # 将红球按空格拆分为多列
+    df = pd.concat([
+        df[["开奖日期", "期号"]],
+        df["红球"].str.split(" ", expand=True).rename(columns={0:'红球1', 1:'红球2', 2:'红球3', 3:'红球4', 4:'红球5', 5:'红球6'}),
+        df["蓝球"],
+    ], axis=1);
+    print(df.head());
+    df.to_csv(path_or_buf="/temp/twocolorball.csv", encoding="gbk");
+
 if __name__ == "__main__":
-    d = {'issue': '2021079', 'open_time': '2021-07-15', 'front_winning_num': '01 03 10 24 28 29', 'back_winning_num': '13', 'sale_money': '345574370', 'first_award_num': '8', 'second_award_num': '95'};
-    save_twocolorball_into_db(d);
+    # d = {'issue': '2021079', 'open_time': '2021-07-15', 'front_winning_num': '01 03 10 24 28 29', 'back_winning_num': '13', 'sale_money': '345574370', 'first_award_num': '8', 'second_award_num': '95'};
+    # save_twocolorball_into_db(d);
+    save_twocolorball_into_csv();

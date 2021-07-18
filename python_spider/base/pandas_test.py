@@ -206,6 +206,14 @@ def advanced_function():
     # 重命名统计列，并将 group 对象转化为 dataFrame 对象
     print(group["trip_start_date"].size().reset_index(name='count'));
 
+    print("==== 列拆分合并 ====");
+    # df = pd.concat([
+    #     df[["开奖日期", "期号"]],
+    #     df["红球"].str.split(" ", expand=True).rename(
+    #         columns={0: '红球1', 1: '红球2', 2: '红球3', 3: '红球4', 4: '红球5', 5: '红球6'}),
+    #     df["蓝球"],
+    # ], axis=1);
+
 # 算术运算
 def arithmetic_test():
     print("==== 算术运算 ====");
