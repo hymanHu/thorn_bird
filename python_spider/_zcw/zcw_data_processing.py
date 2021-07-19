@@ -25,7 +25,7 @@ def init_twocolorball_data():
     print(df);
     return df;
 
-def holt_forecast(df):
+def twocolorball_holt_forecast(df):
     l = [];
     for i in range(1, 8):
         column = "红球%d" % i if i < 7 else "蓝球";
@@ -39,7 +39,7 @@ def holt_forecast(df):
     print(l);
     return l;
 
-def ses_forecast(df):
+def twocolorball_ses_forecast(df):
     l = [];
     for i in range(1, 8):
         column = "红球%d" % i if i < 7 else "蓝球";
@@ -54,7 +54,7 @@ def ses_forecast(df):
 
 if __name__ == "__main__":
     df = init_twocolorball_data();
-    result_1 = holt_forecast(df);
-    result_2 = ses_forecast(df);
+    result_1 = twocolorball_holt_forecast(df);
+    result_2 = twocolorball_ses_forecast(df);
 
 
