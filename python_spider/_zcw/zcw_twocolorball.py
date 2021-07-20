@@ -249,6 +249,7 @@ def add_number_pool(l, num, is_blue=False):
         return l;
     if not is_blue and num <= max and not l.__contains__(num):
         l.append(num);
+        l.sort();
         return l;
     return add_number_pool(l, random.randint(1, max));
 
@@ -287,44 +288,6 @@ def holt_forecast(df):
     print(l);
     return l;
 
-# 模型训练数据集，通过几次数据来预测下一次，x1、x2、x3 为三次训练数据，y 为验证数据
-def init_lstm_train_data(data, train_length=3):
-    data_x, data_y = [], [];
-    for i in range(len(data) - train_length):
-        data_x.append(data[i : i + train_length]);
-        data_y.append(data[i + train_length]);
-    return np.asarray(data_x), np.asarray(data_y);
-
-# from tensorflow.keras.layers import Dense;
-# from keras import Sequential
-from tensorflow import keras
-def lstm_forecast(df):
-    data_x, data_y = init_lstm_train_data(data=np.asarray(df["红球1"]));
-    print(data_x);
-    print(data_y);
-
-    model = keras.models.Sequential()
-    # 使用add方法添加隐层
-    model.add(keras.models.Dense(512, activation='sigmoid', input_dim=2, use_bias=True))
-    model.add(keras.models.Dense(1, activation='sigmoid', use_bias=True))
-    # 编译模型
-    # model.compile(loss=keras.losses.mean_squared_error,
-    #               optimizer=keras.optimizers.Adam(0.01),
-    #               metrics=['accuracy'])
-    model.compile(optimizer='adam', loss='mse')
-    # 训练模型
-    model.fit(data_x, data_y, batch_size=10);
-
-    # model = Sequential()
-    # model.add(LSTM(50, activation='relu', input_shape=(1, 1)))
-    # model.add(Dense(1))
-    # model.compile(optimizer='adam', loss='mse')
-    # print(model.summary())
-    # x_train = np.random.rand(10000, 2)
-    # y_train = 3 * x_train[:, 0] + 2 * x_train[:, 1] + 1
-
-    pass
-
 # ==== 应用主入口 ====
 def application():
     init_db();
@@ -341,9 +304,6 @@ if __name__ == '__main__':
     # parse_winning_page_2();
     # save_twocolorball_into_csv();
     df = init_data();
-    # holt_forecast(df);
-    # ses_forecast(df);
-    lstm_forecast();
-
+    holt_forecast(df);
+    ses_forecast(df);
     # application();
-    pass
