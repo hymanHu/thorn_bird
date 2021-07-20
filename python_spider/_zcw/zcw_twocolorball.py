@@ -228,7 +228,7 @@ def parse_winning_page_2(issue_count=3000, page_size=100):
 
 # ==== Storage ====
 def save_twocolorball_into_csv():
-    sql = "select open_time, issue, front_winning_num, back_winning_num from lottery_twocolorball order by issue desc";
+    sql = "select open_time, issue, front_winning_num, back_winning_num from lottery_twocolorball order by issue";
     data = TwoColorBall.execute_(sql);
     column_list = ["开奖日期", "期号", "红球", "蓝球"];
     df = DataFrame(data=data, columns=column_list);
@@ -302,8 +302,8 @@ if __name__ == '__main__':
     # init_db();
     # parse_winning_page_1();
     # parse_winning_page_2();
-    # save_twocolorball_into_csv();
-    df = init_data();
-    holt_forecast(df);
-    ses_forecast(df);
+    save_twocolorball_into_csv();
+    # df = init_data();
+    # holt_forecast(df);
+    # ses_forecast(df);
     # application();
