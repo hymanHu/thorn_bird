@@ -306,4 +306,4 @@ if __name__ == '__main__':
     # df = init_data();
     # holt_forecast(df);
     # ses_forecast(df);
-    # application();
+    application();

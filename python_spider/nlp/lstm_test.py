@@ -60,14 +60,15 @@ def get_train_data(data, step_length=1):
 
 def time_model(data_x, data_y):
     # 重构输入数据格式 [samples, time steps, features] = [93,1,1]
-    data_x = np.reshape(data_x, (data_x.shape[0], 1, data_x.shape[1]))
+    # data_x = np.reshape(data_x, (data_x.shape[0], 1, data_x.shape[1]));
+    print(data_y, data_y);
     #使用时间步长的LSTM回归模型
     model=Sequential();
     model.add(LSTM(units=4, input_shape=(1, data_x.shape[1])));
     model.add(Dense(units=1));
     model.compile(loss='mean_squared_error',optimizer='adam');
-    model.fit(data_x, data_y, epochs=100, batch_size=1, verbose=2);
-    # 对训练数据的进行预测
+    model.fit(data_x, data_y, epochs=10, batch_size=1, verbose=2);
+    # 对训练数据进行预测
     train_predict = model.predict(data_x);
     # 对数据进行逆缩放
     train_predict = scaler.inverse_transform(train_predict);
@@ -78,13 +79,14 @@ def time_model(data_x, data_y):
     print('Score: %.2f RMSE' % (score));
 
 if __name__ == '__main__':
-    step_length = 3;
+    step_length = 1;
     df = pd.read_csv(filepath_or_buffer="/temp/twocolorball.csv", encoding="gbk");
     train,test = init_train_test_data(np.asarray(df["红球1"]));
     train_x, train_y = get_train_data(train, step_length=step_length);
-    test_x, test_y = get_train_data(test, step_length=1);
-    time_model(train_x, train_y);
-    time_model(test_x, test_y);
+    test_x, test_y = get_train_data(test, step_length=step_length);
+    # print(train_x.reshape(-1, 1, 1))
+    # time_model(train_x, train_y);
+    time_model(test_x.reshape(-1, 1, 1), test_y);
 
     # data_x,data_y = get_train_data(data=np.asarray(df["红球1"]), step_length=3);
     # print(data_x);
