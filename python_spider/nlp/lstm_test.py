@@ -61,9 +61,19 @@ def get_train_data(data, step_length=1):
 def time_model(data_x, data_y):
     # 重构输入数据格式 [samples, time steps, features] = [93,1,1]
     # data_x = np.reshape(data_x, (data_x.shape[0], 1, data_x.shape[1]));
-    print(data_y, data_y);
+    print(data_x.shape);
+    print(data_x, data_y);
     #使用时间步长的LSTM回归模型
     model=Sequential();
+    '''
+    units：LSTM 单元内的隐藏层尺寸，理论上这个 units 的值越大, 网络越复杂, 精度更高,计算量更大；
+    input_shape：三维尺寸，模型需要知道它所期望的输入的尺寸，顺序模型中的第一层且只有第一层
+            需要接收关于其输入尺寸的信息，下面的层可以自动地推断尺寸；
+        (batch_dim, time_dim, feat_dim) input_shape=(time_dim, feat_dim)
+        Batch_size：比较好的方法是将 Batch_size 设置为 None
+        Time_step：时间序列的长度
+        Input_Sizes：每个时间点输入 x 的维度
+    '''
     model.add(LSTM(units=4, input_shape=(1, data_x.shape[1])));
     model.add(Dense(units=1));
     model.compile(loss='mean_squared_error',optimizer='adam');

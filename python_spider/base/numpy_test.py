@@ -79,8 +79,8 @@ def desc_fun():
     print(np.average(array, axis=1)); # 按行计算平均数,可加权重
 
 if __name__ == "__main__":
-    # ndarray_fun();
+    ndarray_fun();
     # index_fun();
     # broadcast_fun();
-    order_fun();
+    # order_fun();
     # desc_fun();
