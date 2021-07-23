@@ -8,6 +8,8 @@ from sklearn.metrics import mean_squared_error
 if __name__ == '__main__':
     X = np.random.rand(1000)
     y = 2 * X
+    print(X)
+    print(y)
 
     poi = int(len(X) * .8)
     X_train = X[:poi]
