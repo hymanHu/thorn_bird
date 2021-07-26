@@ -18,7 +18,7 @@ import math;
 import numpy as np;
 import pandas as pd;
 from keras.models import Sequential;
-from keras.layers import LSTM, Dense;
+from keras.layers import LSTM, Dense, Activation;
 from sklearn.preprocessing import MinMaxScaler;
 from sklearn.metrics import mean_squared_error;
 
@@ -64,16 +64,61 @@ class LSTM_Model(object):
             data_x.append(data[i: i + self.step_length]);
             data_y.append(data[i + self.step_length]);
         x, y = np.asarray(data_x), np.asarray(data_y);
-        print(x);
-        print(y);
+        # x 重构 shape (nb_samples, timesteps, input_dim)
+        x = x.reshape(len(x), self.step_length, 1);
+        # y 重构 shape
+        y = y.reshape(len(y), 1);
         return x, y;
+
+    '''
+    时间步长 LSTM 回归模型
+    '''
+    def time_step_model(self, train_x, train_y, test_x, test_y):
+        # 隐藏神经元
+        hidden_neurons = 300;
+        # 输入输出神经元
+        in_out_neurons = 1;
+        model = Sequential();
+        '''
+        units：LSTM 单元内的隐藏层尺寸，理论上这个 units 的值越大, 网络越复杂, 精度更高，计算量更大；
+        input_shape：三维尺寸，模型需要知道它所期望的输入的尺寸，顺序模型中的第一层且只有第一层
+                需要接收关于其输入尺寸的信息，下面的层可以自动地推断尺寸；
+                input_shape=(batch_dim, time_dim, feat_dim) 
+                input_shape=(time_dim, feat_dim)
+            Batch_size：比较好的方法是将 Batch_size 设置为 None
+            Time_step：时间序列的长度
+            Input_Sizes：每个时间点输入 x 的维度
+        activation：激活函数 relu、linear 等，也可以单独添加激活层实现 model.add(Activation("linear"));
+        '''
+        # model.add(LSTM(hidden_neurons, return_sequences=False, input_shape=(train_x.shape[1], train_x.shape[2])));
+        model.add(LSTM(hidden_neurons, activation='relu', input_shape=(train_x.shape[1], train_x.shape[2])));
+        # 添加全连接层
+        model.add(Dense(in_out_neurons));
+        # 编译模型
+        model.compile(loss="mean_squared_error", optimizer="rmsprop");
+        # 输出摘要
+        model.summary();
+        # 使用训练数据训练模型
+        model.fit(train_x, train_y, epochs=10, validation_split=0.05);
+
+        # 对测试数据进行预测
+        predict = model.predict(test_x).reshape(len(test_y));
+        print(predict)
+        # 对预测数据进行放缩 ValueError: Expected 2D array, got 1D array instead:
+        # predict = self.scaler.inverse_transform(predict);
+        # test_y = self.scaler.inverse_transform([test_y]);
+
+        # 计算 RMSE 误差
+        # score = math.sqrt(mean_squared_error(test_y[0], predict[:, 0]));
+        # print('Score: %.2f RMSE' % (score));
 
     def application(self):
         train_data, test_data = self.init_train_test_data();
         train_x, train_y = self.build_fit_data(train_data);
         test_x, test_y = self.build_fit_data(train_data);
+        self.time_step_model(train_x, train_y, test_x, test_y);
 
 if __name__ == '__main__':
     data = np.array(list(range(1, 101)));
-    lstm = LSTM_Model(data=data);
+    lstm = LSTM_Model(data=data, step_length=1);
     lstm.application();

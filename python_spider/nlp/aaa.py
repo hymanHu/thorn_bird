@@ -18,11 +18,16 @@ if __name__ == '__main__':
     X_test = X[poi:]
     y_test = y[poi:]
 
+    print(X_train)
+    print(y_train)
+
     # you have to change your input shape (nb_samples, timesteps, input_dim)
     X_train = X_train.reshape(len(X_train), 1, 1)
     # and also the output shape (note that the output *shape* is 2 dimensional)
     y_train = y_train.reshape(len(y_train), 1)
 
+    print(X_train)
+    print(y_train)
     print(X_train.shape)
     print(y_train.shape)
 
