@@ -255,9 +255,14 @@ def file_test():
     print(gzbd_dataFrame);
 
 if __name__ == "__main__":
-    series_test();
+    # series_test();
     # dataFrame_test();
     # datetimeIndex_test();
     # advanced_function();
     # arithmetic_test();
     # data_analysis_test();
+    pass
+    a = np.arange(1, 1000);
+    np.set_printoptions(threshold=4);
+    print(a);
+    print(type(a));

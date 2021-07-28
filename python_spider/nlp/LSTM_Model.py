@@ -33,21 +33,34 @@ class LSTM_Model(object):
         self.data = data;
         self.step_length = step_length;
         self.scaler = MinMaxScaler(feature_range=(0, 1));
+        # 设置 numpy 数组打印格式化
+        np.set_printoptions(linewidth=400, threshold=6);
 
     # 初始化训练数据和测试数据
     def init_train_test_data(self):
         print("==== 初始化训练数据和测试数据 ====");
+        print("原始数据：%s" % self.data);
+
         # 将值转化为 float 类型
-        data = self.data.astype(float);
+        self.data = self.data.astype(float);
+
         # 使用 MinMaxScaler 进行数据归一化，参数需要二维结构 [[5][1][4]...[4][1][4]]
-        data = self.scaler.fit_transform(data.reshape(-1, 1));
+        # 归一化完成后，将二维结构变回一维结构
+        self.data = self.scaler.fit_transform(self.data.reshape(-1, 1)).flatten();
+        print("归一化数据：%s" % self.data);
+
         # 数据 4/5 作为训练数据，1/5 作为测试数据
-        train_length = int(len(data) * 0.8);
-        train_data, test_data = data[0:train_length, :], data[train_length:len(data), :];
-        print("train_data: %s" % train_data);
-        print("test_data: %s" % test_data);
-        # 返回一维数组结构
-        return train_data.flatten(), test_data.flatten();
+        print("---- 数据拆分 ----");
+        train_length = int(len(self.data) * 0.8);
+        # 二维结构拆分，并返回一维结构
+        # train_data, test_data = self.data[0:train_length, :].flatten(), \
+        #                         self.data[train_length:len(data), :].flatten();
+        # 一维结构拆分
+        train_data, test_data = self.data[0:train_length], self.data[train_length:len(self.data)];
+        print("训练数据: %s" % train_data);
+        print("测试数据: %s" % test_data);
+
+        return train_data, test_data;
 
     '''
     构造模型适应数据
@@ -57,8 +70,8 @@ class LSTM_Model(object):
         2 -> 1：[[5 1][1 4][4 8]...[4 4][4 1][1 4]] ---- [ 4  8  3 ...  1  4 10]
         3 -> 1：[[5 1 4][1 4 8][4 8 3]...[1 4 4][4 4 1][4 1 4]] ---- [ 8  3 12 ...  1  4 10]
     '''
-    def build_fit_data(self, data):
-        print("==== 构造模型适应数据 ====");
+    def build_fit_data(self, data, data_name=""):
+        print("==== 构造%s模型适应数据 ====" % data_name);
         data_x, data_y = [], [];
         for i in range(len(data) - self.step_length):
             data_x.append(data[i: i + self.step_length]);
@@ -68,6 +81,8 @@ class LSTM_Model(object):
         x = x.reshape(len(x), self.step_length, 1);
         # y 重构 shape
         y = y.reshape(len(y), 1);
+        print("%s_x 数据：%s" % (data_name, x));
+        print("%s_y 数据：%s" % (data_name, y));
         return x, y;
 
     '''
@@ -75,9 +90,11 @@ class LSTM_Model(object):
     '''
     def time_step_model(self, train_x, train_y, test_x, test_y):
         # 隐藏神经元
-        hidden_neurons = 300;
+        hidden_neurons = 50;
         # 输入输出神经元
         in_out_neurons = 1;
+
+        print("==== 构造 Sequential 模型 ====");
         model = Sequential();
         '''
         units：LSTM 单元内的隐藏层尺寸，理论上这个 units 的值越大, 网络越复杂, 精度更高，计算量更大；
@@ -90,35 +107,47 @@ class LSTM_Model(object):
             Input_Sizes：每个时间点输入 x 的维度
         activation：激活函数 relu、linear 等，也可以单独添加激活层实现 model.add(Activation("linear"));
         '''
+        print("---- 添加 LSTM 层，该层有 %d 个隐藏神经元，relu 激活函数， 输入样本形状为 %s ----" %
+              (hidden_neurons, train_x.shape));
         # model.add(LSTM(hidden_neurons, return_sequences=False, input_shape=(train_x.shape[1], train_x.shape[2])));
         model.add(LSTM(hidden_neurons, activation='relu', input_shape=(train_x.shape[1], train_x.shape[2])));
-        # 添加全连接层
+        print("---- 添加 Dense 层，该层有 %d 个输入输出神经元 ----" % (in_out_neurons,));
+        # 全连接层
         model.add(Dense(in_out_neurons));
-        # 编译模型
+        print("---- 编译模型 ----");
         model.compile(loss="mean_squared_error", optimizer="rmsprop");
-        # 输出摘要
+        print("---- 输出摘要 ----");
         model.summary();
-        # 使用训练数据训练模型
+
+        print("---- 使用训练数据训练模型 ----");
         model.fit(train_x, train_y, epochs=10, validation_split=0.05);
-
-        # 对测试数据进行预测
+        print("---- 用模型对测试数据进行预测 ----");
         predict = model.predict(test_x).reshape(len(test_y));
-        print(predict)
-        # 对预测数据进行放缩 ValueError: Expected 2D array, got 1D array instead:
-        # predict = self.scaler.inverse_transform(predict);
-        # test_y = self.scaler.inverse_transform([test_y]);
+        print("预测数据：%s" % (predict,));
 
-        # 计算 RMSE 误差
-        # score = math.sqrt(mean_squared_error(test_y[0], predict[:, 0]));
-        # print('Score: %.2f RMSE' % (score));
+        print("---- 数据反归一化 ----");
+        # 使用 MinMaxScaler 进行数据反归一化，参数需要二维结构 [[5][1][4]...[4][1][4]]
+        # 归一化完成后，将二维结构变回一维结构
+        predict = self.scaler.inverse_transform(predict.reshape(-1, 1)).flatten();
+        test_y = self.scaler.inverse_transform(test_y).flatten();
+        print("test_y 反归一化：%s" % (test_y, ));
+        print("预测数据反归一化：%s" % (predict, ));
+
+        print("---- 计算测试数据与预测数据 RMSE 误差 ----");
+        # 计算均方误差回归损失
+        MSE = np.mean((predict - test_y) ** 2);
+        MSE = mean_squared_error(test_y, predict);
+        print('MSE：%.2f' % MSE);
+        score = math.sqrt(MSE);
+        print('Score：%.2f' % score);
 
     def application(self):
         train_data, test_data = self.init_train_test_data();
-        train_x, train_y = self.build_fit_data(train_data);
-        test_x, test_y = self.build_fit_data(train_data);
+        train_x, train_y = self.build_fit_data(train_data, "训练");
+        test_x, test_y = self.build_fit_data(train_data, "测试");
         self.time_step_model(train_x, train_y, test_x, test_y);
 
 if __name__ == '__main__':
     data = np.array(list(range(1, 101)));
-    lstm = LSTM_Model(data=data, step_length=1);
+    lstm = LSTM_Model(data=data, step_length=2);
     lstm.application();

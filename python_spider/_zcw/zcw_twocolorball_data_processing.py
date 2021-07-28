@@ -47,7 +47,7 @@ def add_number_pool(l, num, is_blue=False):
         l.append(num);
         l.sort();
         return l;
-    return add_number_pool(l, random.randint(1, max));
+    return add_number_pool(l, random.randint(1, max), is_blue);
 
 def init_data():
     df = pd.read_csv("/temp/twocolorball.csv", encoding="gbk").drop(labels="Unnamed: 0", axis=1);
