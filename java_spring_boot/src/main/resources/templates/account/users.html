@@ -124,7 +124,7 @@
 				data: [],
 			},
 			// 表格对象
-			dataTable:"",
+			dataTable: "",
 		},
 		methods: {
 			// 行数据结构定义函数
@@ -230,16 +230,25 @@
 			},
 			initRoles: function () {
 				var self = this;
-				$.ajax({
-					url: "/api/roles",
-					type: "get",
-					success: function (rs) {
-						self.roles = rs;
-					},
-					error: function (data) {
-						layer.alert(data.responseText, { icon: 0 });
-					},
-				});
+				axios
+					.get("/api/roles")
+					.then(function (response) {
+						self.roles = response.data;
+					})
+					.catch(function (error) {
+						layer.alert(error, { icon: 0 });
+					});
+
+				// $.ajax({
+				// 	url: "/api/roles",
+				// 	type: "get",
+				// 	success: function (rs) {
+				// 		self.roles = rs;
+				// 	},
+				// 	error: function (data) {
+				// 		layer.alert(data.responseText, { icon: 0 });
+				// 	},
+				// });
 			},
 			initAddModal: function () {
 				this.model = {
@@ -258,22 +267,42 @@
 					role.id = item;
 					return role;
 				});
-				$.ajax({
+				axios({
+					headers: {
+						// 默认 application/x-www-form-urlencoded
+						"Content-Type": "application/json",
+					},
 					url: "/api/user",
-					type: "post",
-					contentType: "application/json",
+					method: "post",
 					data: JSON.stringify(self.model),
-					success: function (rs) {
+				})
+					.then(function (response) {
+						rs = response.data;
 						if (rs.status == 200) {
 							self.initTable(self.defaultPageSize);
 						} else {
 							layer.alert(rs.message, { icon: 0 });
 						}
-					},
-					error: function (data) {
-						layer.alert(data.responseText, { icon: 0 });
-					},
-				});
+					})
+					.catch(function (error) {
+						layer.alert(error, { icon: 0 });
+					});
+				// $.ajax({
+				// 	url: "/api/user",
+				// 	type: "post",
+				// 	contentType: "application/json",
+				// 	data: JSON.stringify(self.model),
+				// 	success: function (rs) {
+				// 		if (rs.status == 200) {
+				// 			self.initTable(self.defaultPageSize);
+				// 		} else {
+				// 			layer.alert(rs.message, { icon: 0 });
+				// 		}
+				// 	},
+				// 	error: function (data) {
+				// 		layer.alert(data.responseText, { icon: 0 });
+				// 	},
+				// });
 			},
 			// 初始化编辑模态框
 			initEditModal: function (id) {

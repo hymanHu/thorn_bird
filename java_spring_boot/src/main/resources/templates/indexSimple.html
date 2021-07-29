@@ -1,17 +1,20 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-	  xmlns:v-bind="http://www.w3.org/1999/xhtml"
-      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"  
-      xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">  
+<html
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:th="http://www.thymeleaf.org"
+	xmlns:v-bind="http://www.w3.org/1999/xhtml"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	xmlns:shiro="http://www.pollix.at/thymeleaf/shiro"
+>
 	<head>
-		<TITLE>Spring_Boot</TITLE>
-		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-		<META name="description" content="HHHHH.COM"/>
-		
+		<title>Spring_Boot</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+		<meta name="description" content="HHHHH.COM" />
+
 		<!-- Thymeleaf 写法 -->
-        <!-- <link th:href="@{http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css}" rel="stylesheet" > -->
+		<!-- <link th:href="@{http://cdn.bootcss.com/bootstrap/3.3.0/css/bootstrap.min.css}" rel="stylesheet" > -->
 		<!-- <link th:href="${'/css/sbDemo.css'}" rel="stylesheet" /> -->
-		
+
 		<!-- 引入 css -->
 		<!-- Bootstrap -->
 		<link href="/vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
@@ -19,20 +22,22 @@
 		<link href="/vendors/font-awesome/css/font-awesome.min.css" rel="stylesheet" />
 		<!-- Custom Theme Style -->
 		<link href="/css/custom.css" rel="stylesheet" />
-		
+
 		<!-- 引入 js -->
-	    <!-- jQuery -->
-	    <script src="/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
-	    <!-- Bootstrap -->
-	    <script src="/vendors/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
-	    <!-- Vue -->
-	    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" type="text/javascript"></script>
+		<!-- jQuery -->
+		<script src="/vendors/jquery/dist/jquery.min.js" type="text/javascript"></script>
+		<!-- Bootstrap -->
+		<script src="/vendors/bootstrap/dist/js/bootstrap.bundle.min.js" type="text/javascript"></script>
+		<!-- axios -->
+		<script src="https://unpkg.com/axios/dist/axios.min.js" type="text/javascript"></script>
+		<!-- Vue -->
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js" type="text/javascript"></script>
 		<!-- layer -->
 		<script src="https://cdn.bootcss.com/layer/2.1/layer.js" type="text/javascript"></script>
 		<!-- 删除确认框-->
-    	<script src="/vendors/bootbox/js/bootbox.js" type="text/javascript"></script>
+		<script src="/vendors/bootbox/js/bootbox.js" type="text/javascript"></script>
 	</head>
-	
+
 	<body class="login">
 		<div th:if="${template}">
 			<div th:replace="${template}"></div>
