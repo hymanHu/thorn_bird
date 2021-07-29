@@ -21,9 +21,11 @@ import pandas as pd;
 from pandas import DataFrame;
 from statsmodels.tsa.api import Holt;
 from statsmodels.tsa.api import SimpleExpSmoothing;
+from nlp.LSTM_Model import *;
 
 # ==== Storage ====
 def save_twocolorball_into_csv():
+    print("==== 将最新的中奖数据写入 csv 文件 ====");
     sql = "select open_time, issue, front_winning_num, back_winning_num from lottery_twocolorball order by issue";
     data = execute_(sql);
     column_list = ["开奖日期", "期号", "红球", "蓝球"];
@@ -50,12 +52,14 @@ def add_number_pool(l, num, is_blue=False):
     return add_number_pool(l, random.randint(1, max), is_blue);
 
 def init_data():
+    print("==== 读取 csv 数据，存入 DataFrame 中 ===");
     df = pd.read_csv("/temp/twocolorball.csv", encoding="gbk").drop(labels="Unnamed: 0", axis=1);
     df = df.sort_values(by="期号", ascending=True);
     print(df.head());
     return df;
 
 def ses_forecast(df):
+    print("==== 逐一对每位数字进行 SES 预测 ====");
     l = [];
     for i in range(1, 8):
         column = "红球%d" % i if i < 7 else "蓝球";
@@ -66,10 +70,11 @@ def ses_forecast(df):
         predict = fit_model.predict();
         is_blue = False if i < 7 else True;
         l = add_number_pool(l, int(round(predict[0], 0)), is_blue);
-    print(l);
+    # print("SEC 预测结果：%s" % l);
     return l;
 
 def holt_forecast(df):
+    print("==== 逐一对每位数字进行霍尔特预测 ====");
     l = [];
     for i in range(1, 8):
         column = "红球%d" % i if i < 7 else "蓝球";
@@ -81,8 +86,23 @@ def holt_forecast(df):
         predict = fit_model.predict();
         is_blue = False if i < 7 else True;
         l = add_number_pool(l, int(round(predict[0], 0)), is_blue);
-    print(l);
+    # print("霍尔特预测结果：%s" % l);
+    return l;
+
+def lstm_forecast(df):
+    print("==== 逐一对每位数字进行神经网络 LSTM 模型预测 ====");
+    l = [];
+    for i in range(1, 8):
+        column = "红球%d" % i if i < 7 else "蓝球";
+        data = np.asarray(df[column]);
+        lstm = LSTM_Model(data=data, step_length=3);
+        lstm.application();
+        is_blue = False if i < 7 else True;
+        l = add_number_pool(l, int(round(lstm.predict[0], 0)), is_blue);
+    # print("LSTM 预测结果：%s" % l);
     return l;
 
 if __name__ == '__main__':
+    df = init_data();
+    lstm_forecast(df);
     pass;

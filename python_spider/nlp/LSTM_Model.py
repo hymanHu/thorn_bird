@@ -17,10 +17,12 @@ sys.path.append(root_path);
 import math;
 import numpy as np;
 import pandas as pd;
+from pandas import DataFrame;
 from keras.models import Sequential;
 from keras.layers import LSTM, Dense, Activation;
 from sklearn.preprocessing import MinMaxScaler;
 from sklearn.metrics import mean_squared_error;
+import matplotlib.pyplot as plt;
 
 class LSTM_Model(object):
 
@@ -33,6 +35,15 @@ class LSTM_Model(object):
         self.data = data;
         self.step_length = step_length;
         self.scaler = MinMaxScaler(feature_range=(0, 1));
+
+        self.train_data = None;
+        self.train_x = None;
+        self.train_y = None;
+        self.test_data = None;
+        self.test_x = None;
+        self.test_y = None;
+        self.predict = None;
+
         # 设置 numpy 数组打印格式化
         np.set_printoptions(linewidth=400, threshold=6);
 
@@ -42,25 +53,23 @@ class LSTM_Model(object):
         print("原始数据：%s" % self.data);
 
         # 将值转化为 float 类型
-        self.data = self.data.astype(float);
+        data = self.data.astype(float);
 
         # 使用 MinMaxScaler 进行数据归一化，参数需要二维结构 [[5][1][4]...[4][1][4]]
         # 归一化完成后，将二维结构变回一维结构
-        self.data = self.scaler.fit_transform(self.data.reshape(-1, 1)).flatten();
-        print("归一化数据：%s" % self.data);
+        data = self.scaler.fit_transform(data.reshape(-1, 1)).flatten();
+        print("归一化数据：%s" % data);
 
         # 数据 4/5 作为训练数据，1/5 作为测试数据
         print("---- 数据拆分 ----");
-        train_length = int(len(self.data) * 0.8);
+        train_length = int(len(data) * 0.8);
         # 二维结构拆分，并返回一维结构
-        # train_data, test_data = self.data[0:train_length, :].flatten(), \
-        #                         self.data[train_length:len(data), :].flatten();
+        # train_data, test_data = data[0:train_length, :].flatten(), \
+        #                         data[train_length:len(data), :].flatten();
         # 一维结构拆分
-        train_data, test_data = self.data[0:train_length], self.data[train_length:len(self.data)];
-        print("训练数据: %s" % train_data);
-        print("测试数据: %s" % test_data);
-
-        return train_data, test_data;
+        self.train_data, self.test_data = data[0:train_length], data[train_length:len(data)];
+        print("训练数据: %s" % self.train_data);
+        print("测试数据: %s" % self.test_data);
 
     '''
     构造模型适应数据
@@ -88,7 +97,7 @@ class LSTM_Model(object):
     '''
     时间步长 LSTM 回归模型
     '''
-    def time_step_model(self, train_x, train_y, test_x, test_y):
+    def time_step_model(self):
         # 隐藏神经元
         hidden_neurons = 50;
         # 输入输出神经元
@@ -108,9 +117,10 @@ class LSTM_Model(object):
         activation：激活函数 relu、linear 等，也可以单独添加激活层实现 model.add(Activation("linear"));
         '''
         print("---- 添加 LSTM 层，该层有 %d 个隐藏神经元，relu 激活函数， 输入样本形状为 %s ----" %
-              (hidden_neurons, train_x.shape));
-        # model.add(LSTM(hidden_neurons, return_sequences=False, input_shape=(train_x.shape[1], train_x.shape[2])));
-        model.add(LSTM(hidden_neurons, activation='relu', input_shape=(train_x.shape[1], train_x.shape[2])));
+              (hidden_neurons, self.train_x.shape));
+        # model.add(LSTM(hidden_neurons, return_sequences=False,
+        # input_shape=(self.train_x.shape[1], self.train_x.shape[2])));
+        model.add(LSTM(hidden_neurons, activation='relu', input_shape=(self.train_x.shape[1], self.train_x.shape[2])));
         print("---- 添加 Dense 层，该层有 %d 个输入输出神经元 ----" % (in_out_neurons,));
         # 全连接层
         model.add(Dense(in_out_neurons));
@@ -120,34 +130,61 @@ class LSTM_Model(object):
         model.summary();
 
         print("---- 使用训练数据训练模型 ----");
-        model.fit(train_x, train_y, epochs=10, validation_split=0.05);
+        model.fit(self.train_x, self.train_y, epochs=10, validation_split=0.05);
         print("---- 用模型对测试数据进行预测 ----");
-        predict = model.predict(test_x).reshape(len(test_y));
+        predict = model.predict(self.test_x).reshape(len(self.test_y));
         print("预测数据：%s" % (predict,));
 
         print("---- 数据反归一化 ----");
         # 使用 MinMaxScaler 进行数据反归一化，参数需要二维结构 [[5][1][4]...[4][1][4]]
         # 归一化完成后，将二维结构变回一维结构
-        predict = self.scaler.inverse_transform(predict.reshape(-1, 1)).flatten();
-        test_y = self.scaler.inverse_transform(test_y).flatten();
-        print("test_y 反归一化：%s" % (test_y, ));
-        print("预测数据反归一化：%s" % (predict, ));
+        self.predict = self.scaler.inverse_transform(predict.reshape(-1, 1)).flatten();
+        self.test_y = self.scaler.inverse_transform(self.test_y).flatten();
+        print("test_y 反归一化：%s" % (self.test_y, ));
+        print("预测数据反归一化：%s" % (self.predict, ));
 
         print("---- 计算测试数据与预测数据 RMSE 误差 ----");
         # 计算均方误差回归损失
-        MSE = np.mean((predict - test_y) ** 2);
-        MSE = mean_squared_error(test_y, predict);
+        MSE = np.mean((self.predict - self.test_y) ** 2);
+        MSE = mean_squared_error(self.test_y, self.predict);
         print('MSE：%.2f' % MSE);
         score = math.sqrt(MSE);
         print('Score：%.2f' % score);
 
+    # 输出图表
+    def data_graph(self):
+        # 指定字体，可解决中文乱码问题
+        plt.rcParams['font.sans-serif'] = ['SimHei'];
+
+        # '行','列','编号' ----  2 行， 第一行列数 1， 图表编号 1
+        plt.subplot(2, 1, 1);
+        plt.plot(self.data, label="原始数据", color="black", linewidth=1);
+        plt.title("所有数据");
+        plt.xlabel("日期");
+        plt.ylabel("数值");
+
+        plt.subplot(2, 1, 2);
+        plt.plot(self.test_y, label="原始数据", color="black", linewidth=1);
+        plt.plot(self.predict, label="原始数据", color="red", linewidth=1);
+        plt.title("测试数据 & 预测数据");
+        plt.xlabel("日期");
+        plt.ylabel("数值");
+
+        plt.show();
+
+    # 应用入口
     def application(self):
-        train_data, test_data = self.init_train_test_data();
-        train_x, train_y = self.build_fit_data(train_data, "训练");
-        test_x, test_y = self.build_fit_data(train_data, "测试");
-        self.time_step_model(train_x, train_y, test_x, test_y);
+        self.init_train_test_data();
+        self.train_x, self.train_y = self.build_fit_data(self.train_data, "训练");
+        self.test_x, self.test_y = self.build_fit_data(self.test_data, "测试");
+        self.time_step_model();
+        self.data_graph();
 
 if __name__ == '__main__':
-    data = np.array(list(range(1, 101)));
-    lstm = LSTM_Model(data=data, step_length=2);
+    df = pd.read_csv("/temp/twocolorball.csv", encoding="gbk").drop(labels="Unnamed: 0", axis=1);
+    df = df.sort_values(by="期号", ascending=True);
+    data = np.asarray(df["红球1"]);
+    # data = np.array(list(range(1, 101)));
+    lstm = LSTM_Model(data=data, step_length=3);
     lstm.application();
+    print(int(round(lstm.predict[-1])));

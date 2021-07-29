@@ -25,8 +25,12 @@ def application():
     parse_winning_page_2(issue_count=10, page_size=10);
     save_twocolorball_into_csv();
     df = init_data();
-    holt_forecast(df);
-    ses_forecast(df);
+    ses_result = ses_forecast(df);
+    holt_result = holt_forecast(df);
+    lstm_result = lstm_forecast(df);
+    print("SES 预测结果：%s" % ses_result);
+    print("HOLT 预测结果：%s" % holt_result);
+    print("LSTM 预测结果：%s" % lstm_result);
 
 if __name__ == '__main__':
     pass

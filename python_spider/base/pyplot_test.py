@@ -32,11 +32,13 @@ def pyplot_line():
     我们可以传入多组数据，这样在绘图区会绘制多组图像
     linewidth ---- 线宽
     '''
+    # 多个图表布局，参数代表：'行','列','编号' ----  共 2 行， 第一行列数 1， 图表编号 1
+    # plt.subplot(2, 1, 1);
     # plt.plot(x, y, "r-.", x, y ** 2, "bs", x, y ** 3, "g^", linewidth=2.0);
     # 也可以分开写
-    plt.plot(x, y, "r-.", label="label_1", linewidth=2);
-    plt.plot(x, y * 2, label="label_2", linewidth=2);
-    plt.plot(x, y * 3, label="label_3", linewidth=2);
+    plt.plot(x, y, "r-.", label="label_1", color="black", linewidth=2);
+    plt.plot(x, y * 2, label="label_2", color="red", linewidth=2);
+    plt.plot(x, y * 3, label="label_3", color="blue", linewidth=2);
     # 指定标题以及 x、y 轴标签
     plt.title("我是标题");
     plt.xlabel("X Label");

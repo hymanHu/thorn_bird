@@ -70,6 +70,7 @@ def parse_winning_page_1():
 
 # 解析 https://www.zhcw.com/kjxx/ssq/
 def parse_winning_page_2(issue_count=3000, page_size=100):
+    print("==== 爬取最近 %d 天中奖数据，并存入数据库 ====" % issue_count);
     page_count = (issue_count // page_size) if (issue_count % page_size == 0) else (issue_count // page_size + 1);
     url_list = list("https://jc.zhcw.com/port/client_json.php?callback=jQuery112204220254081055794_1626504921530"
                     "&transactionType=10001001&lotteryId=1&issueCount=%d&startIssue=&endIssue=&startDate=&endDate="
